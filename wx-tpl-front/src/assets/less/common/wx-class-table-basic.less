@@ -1,0 +1,80 @@
+.kiybl5ay_table {
+
+	// 有 hover 效果
+	&.trHoverStyle {
+		>table>tr {
+			&:hover {
+				background: #F5F7FA;
+			}
+		}
+	}
+
+	// 没有边框
+	&.noBorder {
+
+		>table {
+			>tr {
+
+				>th,
+				>td {
+					border-color: transparent;
+				}
+			}
+		}
+	}
+
+	>table {
+		.w;
+		table-layout: fixed;
+		border-collapse: collapse;
+
+		>tr {
+			&:not(:last-child) {
+
+				th,
+				td {
+					&:nth-child(odd) {
+						border-bottom-color: #fff;
+					}
+				}
+			}
+
+			>th,
+			>td {
+				border: 1px solid #f5f5f5;
+
+				&:nth-child(odd) {
+					.tc;
+					.fwb;
+					.c_theme;
+					.fs14;
+					.bsbb;
+					height: 32px;
+					background: #f8f8f8;
+					border-color: #f5f5f5;
+					padding: 10px 15px;
+				}
+
+				&:nth-child(even) {
+					.fs14;
+					color: #000;
+					line-height: 1.6em;
+				}
+			}
+		}
+
+	}
+
+	img {
+		max-width: 100%;
+	}
+}
+// 第一行的 tr，为了控制宽度
+#app .kp6eayfb_forwidth {
+	.vh;
+	td {
+		padding: 0!important;
+		height: 0;
+		border: 0;
+	}
+}

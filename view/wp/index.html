@@ -1,0 +1,24 @@
+{extend name="wp/base"}
+
+{block name="inject_start"}
+    {include file="wp/index_inject_start"}
+{/block}
+
+
+{block name="data"}
+    <!-- 根据路由不同，后端返回不同的数据[html] -->
+    {$data|raw}
+
+    <!-- 所有页面公用的数据 -->
+    <template class="data dn">
+        <div id="klbwesjw_config" data-mime="json5">
+            {
+                test: '我是所有页面公用的数据'
+            }
+        </div>
+    </template>
+{/block}
+
+{block name="inject_end"}
+    {include file="wp/index_inject_end"}
+{/block}

@@ -1,0 +1,78 @@
+// 页面中有统一的写入数据的变量
+// 每次打开页面，有统一的请求一个接口
+
+{
+	// 前端 code------------------------------------------------------
+	// 需要开通 VIP 的弹窗提示
+	klrolk91_dialog_vip: "kj84qk6k",
+	// 全局统一的 message 提示
+	klrolc8j_message: "kj84s7ga",
+	// 跳转
+	klrol9vc_jump: "kjtoir5w",
+	//   code 延迟操作，比如-》先 toast，3秒之后 jump
+	klrol744_delay: "kkddnwsn",
+
+	// 内容推荐
+	klrpvc3g_hobbypush: 'klrpvgr4',
+
+	// VIP 到期前一个月，提示续费
+	km5mv70o_vip_renew: 'km5n00t7',
+
+	// 开元新药 dialog
+	kngx6re2_kydialog: 'kngx79dw',
+
+	// 后端 response------------------------------------------------------
+	// resFormat: {
+	// 	code: [
+	// 		{
+	// 			value: "klrolk91_dialog_vip"
+	// 		},
+	// 		{
+	// 			value: "klrolc8j_message",
+	// 			// 毫秒
+	// 			duration: 3000,
+	// 			// 'success' || 'warning' || 'error' || 'info'
+	// 			type: 'success',
+	// 			message: "请登录123"
+	// 		},
+	// 		{
+	// 			value: "klrol744_delay",
+	// 			ms: 3000
+	// 		},
+	// 		{
+	// 			value: "klrol9vc_jump",
+	// 			url: "http://baidu.com"
+	// 		},
+	// 		// 加载订阅内容推荐组件
+	// 		{
+	// 			value: 'klrpvc3g_hobbypush',
+	// 			data: [
+	// 				{
+	// 					b: "b5d968c6-23ac-11eb-933c-00163e0eafb3",
+	// 					p: "6",
+	// 					qymc: "山东鑫齐药业有限公司",
+	// 					slh: "CYHB2050691",
+	// 					t: "yaopinzc",
+	// 					ypmc: "苯磺酸氨氯地平片",
+	// 				}
+	// 			]
+	// 		},
+	// 		{
+	// 			value: 'this.km5mv70o_vip_renew',
+	// 			data: {
+	// 				vipendtime: '2021年3月12日'
+	// 			}
+	// 		},
+	// 		{
+	// 			value: 'this.kngx6re2_kydialog',
+	// 			data: {
+	// 				imgUrl: '',
+	// 				jumpUrl: ''
+	// 			}
+	// 		}
+	// 	],
+	// 	state: 0,
+	// 	msg: "",
+	// 	data: {}
+	// }
+}

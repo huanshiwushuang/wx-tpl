@@ -1,0 +1,67 @@
+// 药典标准对比
+// http://dd.wuxuwang.com/api/3b3f36e8-b786-11eb-8ee7-b8599fb47a0c/8_1
+
+.kq0ihs1c_table_style {
+	table {
+		.tlf;
+		.w;
+		.fs14;
+		word-break: break-all;
+		border-spacing: 0;
+		line-height: 1.4em;
+
+		p {
+			text-indent: 2em;
+		}
+	}
+
+	thead {
+		th {
+			.tc;
+			background: @c_theme;
+			color: #fff;
+
+			&:nth-child(1) {
+				width: 160px;
+			}
+
+			+th {
+				border-left: 1px solid #fff;
+			}
+		}
+	}
+
+	th,
+	td {
+		padding: 13px 15px;
+	}
+
+	td {
+		&:nth-child(1) {
+			.c_theme;
+			.tc;
+		}
+
+		&:nth-child(odd) {
+			background: #f8f8f8;
+		}
+
+		+td {
+			color: #666;
+		}
+	}
+
+	tr {
+		+tr {
+			td {
+				&:nth-child(odd) {
+					border-top: 1px solid #fff;
+				}
+
+				&:nth-child(even) {
+					border-top: 1px solid #eee;
+				}
+			}
+		}
+	}
+}
