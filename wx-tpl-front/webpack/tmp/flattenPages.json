@@ -1,0 +1,26 @@
+{
+	"wp-index-index": {
+		"isPage": true,
+		"inject": false,
+		"minify": {
+			"minimize": true,
+			"removeAttrbuteQuotes": true,
+			"removeComments": true,
+			"collapseWhitespace": true,
+			"minifyCss": true,
+			"removeEmptyElements": false
+		},
+		"chunks": [
+			"chunk-vendors",
+			"chunk-common",
+			"wp-index-index"
+		],
+		"pageDir": [
+			"wp",
+			"index",
+			"index"
+		],
+		"entry": "c:\\code\\wx-tpl\\wx-tpl-front\\src\\view\\wp\\index\\index\\entry.js",
+		"filename": "view\\wp\\index\\index.html"
+	}
+}

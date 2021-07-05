@@ -45,9 +45,13 @@ const flatten = function (obj) {
 	recurse(obj, '');
 	return result;
 }
+
+
 // ************************************************************************************************
 // 扁平化后的 pages
 var flattenPages = flatten(pages);
+// console.log(flattenPages);
+
 // ************************************************************************************************
 // 解析 page 配置对象嵌套路径层次
 Object.keys(flattenPages).forEach(item => {
@@ -223,7 +227,7 @@ fse.outputFileSync(
 	path.resolve(`${myWebpackConfig.frontEndProject}/webpack/tmp/flattenPages.json`),
 	JSON.stringify(flattenPages, null, '\t')
 );
-
+// process.exit();
 
 // console.log();
 // process.exit();
