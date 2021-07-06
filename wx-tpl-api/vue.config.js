@@ -2,12 +2,16 @@ const path = require('path');
 const config = require('./webpack/config.js');
 
 const webpackOptions = {
+	// 适当的配置 outputDir 与 assetsDir, 可以保持前后端 http-server 访问资源的路径一致性
 	outputDir: path.resolve(config.back.path.root, config.back.path.public),
-	
+	assetsDir: 'static/assets',
+
 	// index.html 文件输出位置
 	indexPath: path.resolve(config.back.path.root, config.back.path.baseHtml),
 
 	devServer: {
+		// 禁止 host 检查, 否则访问 后端 http-server 的时候, socket 无法连接上
+		disableHostCheck: true,
 		// 输出内存中的文件到本地，serve 模式下有效
 		writeToDisk(filepath) {
 

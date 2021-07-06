@@ -30,7 +30,7 @@ const back = {
 		// 相对于 项目根目录的 base.html 文件输出位置，
 		baseHtml: 'view/main/base.html',
 		// 相对于 项目根目录 的可以公开访问的静态资源的路径
-		public: 'public/static'
+		public: 'public'
 	}
 }
 
@@ -47,6 +47,4 @@ const res = {
 	front,
 	back
 }
-console.log(res);
-console.log(process.env);
 module.exports = res;
