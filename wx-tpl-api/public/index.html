@@ -1,0 +1,26 @@
+<!-- 此文件禁止手动修改，需由前端生成，后端只能 extend 此页面 -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<!-- <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title> -->
+	{block name="head"}
+	{/block}
+</head>
+
+<body>
+	<!-- 后端渲染数据 -->
+	<div class="data dn">{block name="data"} {/block}</div>
+
+	<noscript>
+		<strong>请启用浏览器的 Javascript</strong>
+	</noscript>
+	<div id="app"></div>
+	<!-- built files will be auto injected -->
+</body>
+
+</html>
