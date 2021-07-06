@@ -8,7 +8,7 @@ const front = {
 	tpl_parameters: {
 		// 访问前端的 http-server: front
 		// [此种方式,不会输出 模板中的 block, 主要考虑到 serve 开发中, 可以不 writeToDisk, 数据获取可以通过直接 get 页面拿到],
-		
+
 		// 访问后端的 http-server: back,
 
 		// 默认: back
@@ -30,7 +30,9 @@ const back = {
 		// 相对于 项目根目录的 base.html 文件输出位置，
 		baseHtmlDir: 'view/main',
 		// 相对于 项目根目录 的可以公开访问的静态资源的路径
-		public: 'public/static'
+		// 默认此路径在 build 时 会被清空
+		// 应该考虑, 禁止在生产环境访问 development 的资源
+		public: 'public'
 	}
 }
 

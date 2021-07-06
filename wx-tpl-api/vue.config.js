@@ -2,9 +2,13 @@ const path = require('path');
 const config = require('./webpack/config.js');
 
 const webpackOptions = {
-	// 适当的配置 outputDir 与 assetsDir, 可以保持前后端 http-server 访问资源的路径一致性
-	outputDir: path.resolve(config.back.path.root, config.back.path.public),
-	assetsDir: `${config.front.env}/assets`,
+	outputDir: path.resolve(config.back.path.root, config.back.path.public, config.front.env),
+	assetsDir: {
+		// 前后端模式 的 路径有区别, 是为了 在 webpack 自动清空时, 不清空 后端的 public 文件夹
+		front: `${config.front.env}/assets`,
+		back: `${config.front.env}/assets`,
+
+	}[config.front.tpl_parameters.visit_mode],
 	// publicPath: '/static',
 
 	// index.html 文件输出位置
