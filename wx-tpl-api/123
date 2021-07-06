@@ -1,13 +1,13 @@
 {
   front: {
     env: 'development',
-    writeToDisk: false,
+    tpl_parameters: { asd: 123 },
     path: { root: 'c:\\code\\wx-tpl\\wx-tpl-api' }
   },
   back: {
     path: {
       root: 'c:\\code\\wx-tpl',
-      main_html: 'c:\\code\\wx-tpl\\view\\main\\main.html',
+      baseHtml: 'c:\\code\\wx-tpl\\view\\main\\base.html',
       public: 'c:\\code\\wx-tpl\\public\\static'
     }
   }
@@ -25,7 +25,7 @@
     child_process: 'empty'
   },
   output: {
-    path: 'c:\\code\\wx-tpl\\wx-tpl-api\\dist',
+    path: 'c:\\code\\wx-tpl\\public\\static',
     filename: 'js/[name].js',
     publicPath: '/',
     chunkFilename: 'js/[name].js'
@@ -77,7 +77,7 @@
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '532de2c2'
+              cacheIdentifier: '0e8b9014'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -88,7 +88,7 @@
                 whitespace: 'condense'
               },
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '532de2c2'
+              cacheIdentifier: '0e8b9014'
             }
           }
         ]
@@ -1166,7 +1166,7 @@
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '5fbec606'
+              cacheIdentifier: '65bab67c'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
@@ -1194,7 +1194,7 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '9e2d09de',
+              cacheIdentifier: '05eea952',
               emitWarning: false,
               emitError: false,
               eslintPath: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\eslint',
@@ -1290,6 +1290,11 @@
         ]
       }
     ),
+    /* config.plugin('move-index') */
+    new MovePlugin(
+      'c:\\code\\wx-tpl\\public\\static\\index.html',
+      'c:\\code\\wx-tpl\\view\\main\\base.html'
+    ),
     /* config.plugin('html') */
     new HtmlWebpackPlugin(
       {
@@ -1321,7 +1326,7 @@
       [
         {
           from: 'c:\\code\\wx-tpl\\wx-tpl-api\\public',
-          to: 'c:\\code\\wx-tpl\\wx-tpl-api\\dist',
+          to: 'c:\\code\\wx-tpl\\public\\static',
           toType: 'dir',
           ignore: [
             '.DS_Store',

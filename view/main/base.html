@@ -1,28 +1,26 @@
+<!-- 此文件禁止手动修改，需由前端生成，后端只能 extend 此页面 -->
 <!DOCTYPE html>
 <html lang="zh-cn">
-  <head>
-    
 
-    <!-- 旧版 IE 升级提示跳转代码 -->
-    <!-- https://support.dmeng.net/ie-update-warning.html -->
-    <!-- <script class="node_remove">
-		/*@cc_on window.location.href="https://support.dmeng.net/upgrade-your-browser.html?referrer="+encodeURIComponent(window.location.href); @*/
-	</script> -->
+<head>
+	
+		<!-- 默认后端访问项目 -->
+		{block name="head"}
+		{/block}
+	
+<link href="/js/app.js" rel="preload" as="script"><link href="/js/chunk-vendors.js" rel="preload" as="script"></head>
 
-    
+<body>
+	
+		<!-- 后端渲染数据 -->
+		<div class="data" style="display: none;">{block name="data"} {/block}</div>
+	
 
-    <!-- 头部插入 -->
-    {block name="inject_start"}{/block}
-  </head>
+	<noscript>
+		<strong>请启用浏览器的 Javascript</strong>
+	</noscript>
+	<div id="app"></div>
+	<!-- built files will be auto injected -->
+<script type="text/javascript" src="/js/chunk-vendors.js"></script><script type="text/javascript" src="/js/app.js"></script></body>
 
-  <body id="body">
-    <!-- 后端渲染数据 -->
-    <div class="data dn">{block name="data"} {/block}</div>
-
-    <!-- 前端渲染视图 -->
-    <div id="app"></div>
-
-    <!-- 尾部插入 -->
-    {block name="inject_end"}{/block}
-  </body>
 </html>

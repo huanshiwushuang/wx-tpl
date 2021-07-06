@@ -3,18 +3,18 @@
 <html lang="zh-cn">
 
 <head>
-	<!-- <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title> -->
-	{block name="head"}
-	{/block}
+	<% if (htmlWebpackPlugin.options.wx.visit_mode != 'front') { %>
+		<!-- 默认后端访问项目 -->
+		{block name="head"}
+		{/block}
+	<% } %>
 </head>
 
 <body>
-	<!-- 后端渲染数据 -->
-	<div class="data dn">{block name="data"} {/block}</div>
+	<% if (htmlWebpackPlugin.options.wx.visit_mode != 'front') { %>
+		<!-- 后端渲染数据 -->
+		<div class="data" style="display: none;">{block name="data"} {/block}</div>
+	<% } %>
 
 	<noscript>
 		<strong>请启用浏览器的 Javascript</strong>
