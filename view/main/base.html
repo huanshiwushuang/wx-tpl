@@ -4,9 +4,16 @@
 
 <head>
 	
+		<!-- 默认后端访问项目 -->
+		{block name="head"}
+		{/block}
+	
 <link href="/static/assets/js/app.js" rel="preload" as="script"><link href="/static/assets/js/chunk-vendors.js" rel="preload" as="script"></head>
 
 <body>
+	
+		<!-- 后端渲染数据 -->
+		<div class="data" style="display: none;">{block name="data"} {/block}</div>
 	
 
 	<noscript>

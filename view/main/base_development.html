@@ -3,24 +3,24 @@
 <html lang="zh-cn">
 
 <head>
-	<% if (htmlWebpackPlugin.options.wx.visit_mode != 'front') { %>
+	
 		<!-- 后端渲染 head -->
 		{block name="head"}
 		{/block}
-	<% } %>
-</head>
+	
+<link href="/development/assets/js/app.js" rel="preload" as="script"><link href="/development/assets/js/chunk-vendors.js" rel="preload" as="script"></head>
 
 <body>
-	<% if (htmlWebpackPlugin.options.wx.visit_mode != 'front') { %>
+	
 		<!-- 后端渲染 data -->
 		<div class="data" style="display: none;">{block name="data"} {/block}</div>
-	<% } %>
+	
 
 	<noscript>
 		<strong>请启用浏览器的 Javascript</strong>
 	</noscript>
 	<div id="app"></div>
 	<!-- built files will be auto injected -->
-</body>
+<script type="text/javascript" src="/development/assets/js/chunk-vendors.js"></script><script type="text/javascript" src="/development/assets/js/app.js"></script></body>
 
 </html>

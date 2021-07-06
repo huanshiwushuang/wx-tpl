@@ -8,7 +8,7 @@ class Index extends Base
 {
     public function index()
     {
-        // fetch 数据
+        // fetch html 数据 作为 data
         $tpl_var = [
             'data' => View::instance()->fetch('index/index'),
         ];

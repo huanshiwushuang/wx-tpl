@@ -28,9 +28,9 @@ const back = {
 		// 此文件 由前端的 public 下的 index.html 模板生成
 		// 此文件用于被后端其他模板 extend
 		// 相对于 项目根目录的 base.html 文件输出位置，
-		baseHtml: 'view/main/base.html',
+		baseHtmlDir: 'view/main',
 		// 相对于 项目根目录 的可以公开访问的静态资源的路径
-		public: 'public'
+		public: 'public/static'
 	}
 }
 

@@ -4,10 +4,16 @@ const config = require('./webpack/config.js');
 const webpackOptions = {
 	// 适当的配置 outputDir 与 assetsDir, 可以保持前后端 http-server 访问资源的路径一致性
 	outputDir: path.resolve(config.back.path.root, config.back.path.public),
-	assetsDir: 'static/assets',
+	assetsDir: `${config.front.env}/assets`,
+	// publicPath: '/static',
 
 	// index.html 文件输出位置
-	indexPath: path.resolve(config.back.path.root, config.back.path.baseHtml),
+	// 入口 html 区分了 生产 和 开发环境
+	indexPath: path.resolve(
+		config.back.path.root,
+		config.back.path.baseHtmlDir,
+		`base_${config.front.env}.html`
+	),
 
 	devServer: {
 		// 禁止 host 检查, 否则访问 后端 http-server 的时候, socket 无法连接上
@@ -16,12 +22,17 @@ const webpackOptions = {
 		writeToDisk(filepath) {
 
 			// 如果是访问前端的 http-server, 则不需要输出文件到后端
-			if (config.front.tpl_parameters.visit_mode === 'visit_by_front') {
+			if (config.front.tpl_parameters.visit_mode === 'front') {
 				return false;
 			}
 
 			// 热更新文件不输出
 			if (/hot-update/.test(filepath)) {
+				return false;
+			}
+
+			// js map 文件不输出
+			if (/js\.map/.test(filepath)) {
 				return false;
 			}
 
