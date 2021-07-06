@@ -47,4 +47,7 @@ const res = {
 	front,
 	back
 }
+console.log(`config.js:`);
+console.log(res);
+
 module.exports = res;
