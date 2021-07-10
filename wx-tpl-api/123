@@ -1,14 +1,15 @@
+config.js:
 {
   front: {
     env: 'development',
-    tpl_parameters: { asd: 123 },
+    tpl_parameters: { visit_mode: 'back' },
     path: { root: 'c:\\code\\wx-tpl\\wx-tpl-api' }
   },
   back: {
     path: {
       root: 'c:\\code\\wx-tpl',
-      baseHtml: 'c:\\code\\wx-tpl\\view\\main\\base.html',
-      public: 'c:\\code\\wx-tpl\\public\\static'
+      baseHtmlDir: 'c:\\code\\wx-tpl\\view\\main',
+      public: 'c:\\code\\wx-tpl\\public'
     }
   }
 }
@@ -25,10 +26,10 @@
     child_process: 'empty'
   },
   output: {
-    path: 'c:\\code\\wx-tpl\\public\\static',
-    filename: 'js/[name].js',
+    path: 'c:\\code\\wx-tpl\\public\\development',
+    filename: 'development/assets/js/[name].js',
     publicPath: '/',
-    chunkFilename: 'js/[name].js'
+    chunkFilename: 'development/assets/js/[name].js'
   },
   resolve: {
     alias: {
@@ -77,7 +78,7 @@
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '0e8b9014'
+              cacheIdentifier: '281b12d8'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -88,7 +89,7 @@
                 whitespace: 'condense'
               },
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '0e8b9014'
+              cacheIdentifier: '281b12d8'
             }
           }
         ]
@@ -105,7 +106,7 @@
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'img/[name].[hash:8].[ext]'
+                  name: 'development/assets/img/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -120,7 +121,7 @@
           {
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
             options: {
-              name: 'img/[name].[hash:8].[ext]'
+              name: 'development/assets/img/[name].[hash:8].[ext]'
             }
           }
         ]
@@ -137,7 +138,7 @@
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'media/[name].[hash:8].[ext]'
+                  name: 'development/assets/media/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -156,7 +157,7 @@
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'fonts/[name].[hash:8].[ext]'
+                  name: 'development/assets/fonts/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -1166,7 +1167,7 @@
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '65bab67c'
+              cacheIdentifier: '6f4fda5a'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
@@ -1194,7 +1195,7 @@
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '05eea952',
+              cacheIdentifier: '241c6396',
               emitWarning: false,
               emitError: false,
               eslintPath: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\eslint',
@@ -1292,15 +1293,18 @@
     ),
     /* config.plugin('move-index') */
     new MovePlugin(
-      'c:\\code\\wx-tpl\\public\\static\\index.html',
-      'c:\\code\\wx-tpl\\view\\main\\base.html'
+      'c:\\code\\wx-tpl\\public\\development\\index.html',
+      'c:\\code\\wx-tpl\\view\\main\\base_development.html'
     ),
     /* config.plugin('html') */
     new HtmlWebpackPlugin(
       {
         title: 'wx-tpl-api',
         templateParameters: function () { /* omitted long function */ },
-        template: 'c:\\code\\wx-tpl\\wx-tpl-api\\public\\index.html'
+        template: 'c:\\code\\wx-tpl\\wx-tpl-api\\public\\index.html',
+        wx: {
+          visit_mode: 'back'
+        }
       }
     ),
     /* config.plugin('preload') */
@@ -1326,7 +1330,7 @@
       [
         {
           from: 'c:\\code\\wx-tpl\\wx-tpl-api\\public',
-          to: 'c:\\code\\wx-tpl\\public\\static',
+          to: 'c:\\code\\wx-tpl\\public\\development',
           toType: 'dir',
           ignore: [
             '.DS_Store',
