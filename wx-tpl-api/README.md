@@ -22,3 +22,14 @@ yarn lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+# 前端项目说明 from [戊戌数据](https://www.wuxuwang.com)
+1. 项目不推荐使用 scoped   
+   推荐以当前毫秒时间戳的 36 进制字符串作为 class（的前缀），以保证全局不重复，方便搜索查找, 还可以减少选择器的嵌套。比如：  
+
+   .krk156cn_header
+   ```
+   Date.now().toString(36)
+   ```
+   我个人有写个小工具，输入 sjc，再按空格键，即可自动输入当前时间戳。
+2. 

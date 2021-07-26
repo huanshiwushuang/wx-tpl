@@ -54,3 +54,11 @@ All rights reserved。
 ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
 
 更多细节参阅 [LICENSE.txt](LICENSE.txt)
+
+
+## 后端项目说明 from [戊戌数据](https://www.wuxuwang.com)
+
+1. 项目默认移除了 think-trace
+	安装请使用：composer require topthink/think-trace --dev
+	移除请使用：composer remove topthink/think-trace --dev
+2. 

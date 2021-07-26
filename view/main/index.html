@@ -4,7 +4,7 @@
 	<!-- tkd -->
 	{include file="main/tkd"}
 	
-	<!-- css -->
+	<!-- 导入 link 模板 -->
 	{if $Think.ENV == 'development'}
 		{include file="main/include_head_development"}
 	{else/}
@@ -30,7 +30,7 @@
 
 
 {block name="block_body"}
-	<!-- js -->
+	<!-- 导入 script 模板 -->
 	{if $Think.ENV == 'development'}
 		{include file="main/include_body_development"}
 	{else/}
