@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app" :class="appClass">
+		<router-view>
+		</router-view>
+        <!-- 异步组件，比如弹窗 -->
+        <div>
+            <component
+                v-for="(item, index) in coms"
+                :key="index"
+                :is="item"
+                v-on="item.listeners"
+                v-bind="item.attrs"
+            >
+                <component
+                    v-for="(ite, inde) in item.slots"
+                    :is="ite"
+                    :key="`${index}_${inde}`"
+                    v-on="ite.listeners"
+                    v-bind="ite.attrs"
+                ></component>
+            </component>
+        </div>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    name: "App",
+    mounted() {
+		window.krk8vbta = this;
+	},
+};
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="less">
 </style>

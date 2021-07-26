@@ -32,4 +32,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
    Date.now().toString(36)
    ```
    我个人有写个小工具，输入 sjc，再按空格键，即可自动输入当前时间戳。
-2. 
+2. 已在 package.json rules 中允许了 console 和 debugger
+3. 已在 babel.config.js 中移除了部分 console
