@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "set visit_mode=back&& vue-cli-service serve",
-    "serve:front": "set visit_mode=front&& vue-cli-service serve",
-    "serve:back": "set visit_mode=back&& vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

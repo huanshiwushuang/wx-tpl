@@ -2,7 +2,7 @@ config.js:
 {
   front: {
     env: 'development',
-    tpl_parameters: { visit_mode: 'back' },
+    tpl_parameters: { env: 'development' },
     path: { root: 'c:\\code\\wx-tpl\\wx-tpl-api' }
   },
   back: {
@@ -27,9 +27,9 @@ config.js:
   },
   output: {
     path: 'c:\\code\\wx-tpl\\public\\development',
-    filename: 'development/assets/js/[name].js',
+    filename: 'js/[name].js',
     publicPath: '/',
-    chunkFilename: 'development/assets/js/[name].js'
+    chunkFilename: 'js/[name].js'
   },
   resolve: {
     alias: {
@@ -78,7 +78,7 @@ config.js:
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '281b12d8'
+              cacheIdentifier: '532de2c2'
             }
           },
           /* config.module.rule('vue').use('vue-loader') */
@@ -89,7 +89,7 @@ config.js:
                 whitespace: 'condense'
               },
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\vue-loader',
-              cacheIdentifier: '281b12d8'
+              cacheIdentifier: '532de2c2'
             }
           }
         ]
@@ -106,7 +106,7 @@ config.js:
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'development/assets/img/[name].[hash:8].[ext]'
+                  name: 'img/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -121,7 +121,7 @@ config.js:
           {
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
             options: {
-              name: 'development/assets/img/[name].[hash:8].[ext]'
+              name: 'img/[name].[hash:8].[ext]'
             }
           }
         ]
@@ -138,7 +138,7 @@ config.js:
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'development/assets/media/[name].[hash:8].[ext]'
+                  name: 'media/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -157,7 +157,7 @@ config.js:
               fallback: {
                 loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\file-loader\\dist\\cjs.js',
                 options: {
-                  name: 'development/assets/fonts/[name].[hash:8].[ext]'
+                  name: 'fonts/[name].[hash:8].[ext]'
                 }
               }
             }
@@ -1167,7 +1167,7 @@ config.js:
             loader: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\cache-loader\\dist\\cjs.js',
             options: {
               cacheDirectory: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\.cache\\babel-loader',
-              cacheIdentifier: '6f4fda5a'
+              cacheIdentifier: '5fbec606'
             }
           },
           /* config.module.rule('js').use('babel-loader') */
@@ -1195,7 +1195,7 @@ config.js:
                 '.vue'
               ],
               cache: true,
-              cacheIdentifier: '241c6396',
+              cacheIdentifier: '9e2d09de',
               emitWarning: false,
               emitError: false,
               eslintPath: 'c:\\code\\wx-tpl\\wx-tpl-api\\node_modules\\eslint',
@@ -1291,38 +1291,196 @@ config.js:
         ]
       }
     ),
-    /* config.plugin('move-index') */
-    new MovePlugin(
-      'c:\\code\\wx-tpl\\public\\development\\index.html',
-      'c:\\code\\wx-tpl\\view\\main\\base_development.html'
-    ),
-    /* config.plugin('html') */
+    /* config.plugin('html-base_development_head') */
     new HtmlWebpackPlugin(
       {
         title: 'wx-tpl-api',
         templateParameters: function () { /* omitted long function */ },
-        template: 'c:\\code\\wx-tpl\\wx-tpl-api\\public\\index.html',
-        wx: {
-          visit_mode: 'back'
-        }
+        chunks: [
+          'chunk-vendors',
+          'chunk-common',
+          'base_development_head'
+        ],
+        template: 'public/base_development_head.html',
+        filename: 'base_development_head.html'
       }
     ),
-    /* config.plugin('preload') */
+    /* config.plugin('html-base_development_body') */
+    new HtmlWebpackPlugin(
+      {
+        title: 'wx-tpl-api',
+        templateParameters: function () { /* omitted long function */ },
+        chunks: [
+          'chunk-vendors',
+          'chunk-common',
+          'base_development_body'
+        ],
+        template: 'public/base_development_body.html',
+        filename: 'base_development_body.html'
+      }
+    ),
+    /* config.plugin('html-base_production_head') */
+    new HtmlWebpackPlugin(
+      {
+        title: 'wx-tpl-api',
+        templateParameters: function () { /* omitted long function */ },
+        chunks: [
+          'chunk-vendors',
+          'chunk-common',
+          'base_production_head'
+        ],
+        template: 'public/base_production_head.html',
+        filename: 'base_production_head.html'
+      }
+    ),
+    /* config.plugin('html-base_production_body') */
+    new HtmlWebpackPlugin(
+      {
+        title: 'wx-tpl-api',
+        templateParameters: function () { /* omitted long function */ },
+        chunks: [
+          'chunk-vendors',
+          'chunk-common',
+          'base_production_body'
+        ],
+        template: 'public/base_production_body.html',
+        filename: '../view/main/base_production_body.html'
+      }
+    ),
+    /* config.plugin('preload-base_development_head') */
     new PreloadPlugin(
       {
         rel: 'preload',
-        include: 'initial',
+        includeHtmlNames: [
+          'base_development_head.html'
+        ],
+        include: {
+          type: 'initial',
+          entries: [
+            'base_development_head'
+          ]
+        },
         fileBlacklist: [
           /\.map$/,
           /hot-update\.js$/
         ]
       }
     ),
-    /* config.plugin('prefetch') */
+    /* config.plugin('prefetch-base_development_head') */
     new PreloadPlugin(
       {
         rel: 'prefetch',
-        include: 'asyncChunks'
+        includeHtmlNames: [
+          'base_development_head.html'
+        ],
+        include: {
+          type: 'asyncChunks',
+          entries: [
+            'base_development_head'
+          ]
+        }
+      }
+    ),
+    /* config.plugin('preload-base_development_body') */
+    new PreloadPlugin(
+      {
+        rel: 'preload',
+        includeHtmlNames: [
+          'base_development_body.html'
+        ],
+        include: {
+          type: 'initial',
+          entries: [
+            'base_development_body'
+          ]
+        },
+        fileBlacklist: [
+          /\.map$/,
+          /hot-update\.js$/
+        ]
+      }
+    ),
+    /* config.plugin('prefetch-base_development_body') */
+    new PreloadPlugin(
+      {
+        rel: 'prefetch',
+        includeHtmlNames: [
+          'base_development_body.html'
+        ],
+        include: {
+          type: 'asyncChunks',
+          entries: [
+            'base_development_body'
+          ]
+        }
+      }
+    ),
+    /* config.plugin('preload-base_production_head') */
+    new PreloadPlugin(
+      {
+        rel: 'preload',
+        includeHtmlNames: [
+          'base_production_head.html'
+        ],
+        include: {
+          type: 'initial',
+          entries: [
+            'base_production_head'
+          ]
+        },
+        fileBlacklist: [
+          /\.map$/,
+          /hot-update\.js$/
+        ]
+      }
+    ),
+    /* config.plugin('prefetch-base_production_head') */
+    new PreloadPlugin(
+      {
+        rel: 'prefetch',
+        includeHtmlNames: [
+          'base_production_head.html'
+        ],
+        include: {
+          type: 'asyncChunks',
+          entries: [
+            'base_production_head'
+          ]
+        }
+      }
+    ),
+    /* config.plugin('preload-base_production_body') */
+    new PreloadPlugin(
+      {
+        rel: 'preload',
+        includeHtmlNames: [
+          '../view/main/base_production_body.html'
+        ],
+        include: {
+          type: 'initial',
+          entries: [
+            'base_production_body'
+          ]
+        },
+        fileBlacklist: [
+          /\.map$/,
+          /hot-update\.js$/
+        ]
+      }
+    ),
+    /* config.plugin('prefetch-base_production_body') */
+    new PreloadPlugin(
+      {
+        rel: 'prefetch',
+        includeHtmlNames: [
+          '../view/main/base_production_body.html'
+        ],
+        include: {
+          type: 'asyncChunks',
+          entries: [
+            'base_production_body'
+          ]
+        }
       }
     ),
     /* config.plugin('copy') */
@@ -1335,7 +1493,19 @@ config.js:
           ignore: [
             '.DS_Store',
             {
-              glob: 'index.html',
+              glob: 'base_development_head.html',
+              matchBase: false
+            },
+            {
+              glob: 'base_development_body.html',
+              matchBase: false
+            },
+            {
+              glob: 'base_production_head.html',
+              matchBase: false
+            },
+            {
+              glob: 'base_production_body.html',
               matchBase: false
             }
           ]
@@ -1344,8 +1514,17 @@ config.js:
     )
   ],
   entry: {
-    app: [
-      './src/main.js'
+    base_development_head: [
+      'c:\\code\\wx-tpl\\wx-tpl-api\\src\\main.js'
+    ],
+    base_development_body: [
+      'c:\\code\\wx-tpl\\wx-tpl-api\\src\\main.js'
+    ],
+    base_production_head: [
+      'c:\\code\\wx-tpl\\wx-tpl-api\\src\\main.js'
+    ],
+    base_production_body: [
+      'c:\\code\\wx-tpl\\wx-tpl-api\\src\\main.js'
     ]
   }
 }

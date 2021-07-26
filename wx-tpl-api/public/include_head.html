@@ -1,0 +1,9 @@
+<!-- css -->
+<% for (let item of htmlWebpackPlugin.files.css) { %>
+	<link rel="stylesheet" href="<%= item %>" />
+<% } %>
+
+<!-- preload -->
+<% for (let item of htmlWebpackPlugin.files.js) { %>
+	<link rel="preload" href="<%= item %>" as="script" />
+<% } %>

@@ -6,13 +6,7 @@ const front = {
 	// html 模板参数注入
 	// 在模板中，通过 htmlWebpackPlugin.options.wx 访问此对象
 	tpl_parameters: {
-		// 访问前端的 http-server: front
-		// [此种方式,不会输出 模板中的 block, 主要考虑到 serve 开发中, 可以不 writeToDisk, 数据获取可以通过直接 get 页面拿到],
-
-		// 访问后端的 http-server: back,
-
-		// 默认: back
-		visit_mode: process.env.visit_mode || 'back'
+		env: process.env.NODE_ENV,
 	},
 	path: {
 		// 项目根目录
@@ -25,14 +19,15 @@ const back = {
 	path: {
 		// 项目根目录
 		root: path.resolve(__dirname, '../..'),
-		// 此文件 由前端的 public 下的 index.html 模板生成
-		// 此文件用于被后端其他模板 extend
-		// 相对于 项目根目录的 base.html 文件输出位置，
+
+		// 文件 由前端的 public 下的 html 模板生成
+		// 文件用于被后端其他模板-导入
+		// 相对于 项目根目录的 html 文件输出位置，
 		baseHtmlDir: 'view/main',
+
 		// 相对于 项目根目录 的可以公开访问的静态资源的路径
-		// 默认此路径在 build 时 会被清空
-		// 应该考虑, 禁止在生产环境访问 development 的资源
-		public: 'public'
+		// 默认此路径在 build 时 会【被清空】
+		staticDir: 'public/static',
 	}
 }
 
@@ -49,7 +44,7 @@ const res = {
 	front,
 	back
 }
-console.log(`config.js:`);
+
 console.log(res);
 
 module.exports = res;
