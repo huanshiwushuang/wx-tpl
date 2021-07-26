@@ -15,4 +15,13 @@ class Index extends Base
         // 将数据 塞入 唯一固定的页面输出
         return View::fetch('main/index', $tpl_var);
     }
+    public function about()
+    {
+        // fetch html 数据 作为 data
+        $tpl_var = [
+            'data' => View::instance()->fetch('index/about'),
+        ];
+        // 将数据 塞入 唯一固定的页面输出
+        return View::fetch('main/index', $tpl_var);
+    }
 }

@@ -26,9 +26,6 @@
 <script>
 export default {
     name: "App",
-    mounted() {
-		window.krk8vbta = this;
-	},
 };
 </script>
 

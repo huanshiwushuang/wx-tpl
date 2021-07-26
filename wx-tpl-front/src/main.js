@@ -14,6 +14,10 @@ Vue.mixin({
 // 附加其他数据
 Object.assign(Vue.prototype, Init.protoData);
 
+// 批量注册基础组件
+// ??????
+
+
 
 const app = new Vue({
 	router,
