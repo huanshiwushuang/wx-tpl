@@ -1,9 +1,0 @@
-<!-- css -->
-{{each htmlWebpackPlugin.files.css}}
-<link rel="stylesheet" href="{{$value}}" />
-{{/each}}
-
-<!-- preload -->
-{{each htmlWebpackPlugin.files.js}}
-<link rel="preload" href="{{$value}}" as="script" />
-{{/each}}

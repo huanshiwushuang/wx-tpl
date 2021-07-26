@@ -1,10 +1,16 @@
-{extend name="main/base_development"}
+{extend name="main/base"}
 
-{block name="head"}
-	<!-- meta -->
-	{include file="main/meta"}
+{block name="block_head"}
 	<!-- tkd -->
 	{include file="main/tkd"}
+	
+	<!-- css -->
+	{if $Think.ENV == 'development'}
+		{include file="main/include_head_development"}
+	{else/}
+		{include file="main/include_head_production"}
+	{/if}
+
 {/block}
 
 
@@ -14,10 +20,20 @@
 
 <!-- 所有页面公用的数据 -->
 <template class="data dn">
-	<div id="klbwesjw_config" data-mime="json5">
+	<div id="krjzmlbj_config" data-mime="json5">
 		{
-		test: '我是所有页面公用的数据'
+			test: '我是所有页面公用的数据'
 		}
 	</div>
 </template>
+{/block}
+
+
+{block name="block_body"}
+	<!-- js -->
+	{if $Think.ENV == 'development'}
+		{include file="main/include_body_development"}
+	{else/}
+		{include file="main/include_body_production"}
+	{/if}
 {/block}
