@@ -1,19 +1,34 @@
 # 总说明
 
-1. 此项目，包含了前后端两个项目   
-后端项目：wx-tpl 就是   
-前端项目：wx-tpl/wx-tpl-front 就是。[点击前往前端项目说明](./wx-tpl-front/README.md)
-2. 本项目采用的思路为前后端各渲染一次模板。
+1. 本项目适用范围：   
+   1. 必须要考虑 SEO 的
+   2. 后端不是 nodejs 或者不能、不想使用 nodejs的
+   3. 不想采用 “传统” 前端页面，后端渲染，强耦合一大堆逻辑的
+   
+2. 本项目，包含了前后端两个项目   
+后端项目：wx-tpl   
+前端项目：wx-tpl/wx-tpl-front 。[点击前往前端项目说明](./wx-tpl-front/README.md)
+3. 本项目采用的思路为前后端各渲染一次模板，编码流程为：   
+   1. 前端根据 SEO 需要，编写 html 模板 A 作为数据源
+   2. 后端渲染模板 A，并输出
+   3. 前端 css 隐藏 A，利用第三方库 [html5parser](https://github.com/acrazing/html5parser)，将 A 解析成 JSON，再次用 Vue 渲染
+   4. 图片参考![数据隐藏，Vue渲染](./other/krt3dk1d.jpg)
+4. 
 
 
 ## 后端项目说明
 
 1. 后端基于 tp6.0，说明在下方
-2. 后端默认移除了 think-trace
-	安装请使用：composer require topthink/think-trace --dev
+2. 后端默认移除了 think-trace   
+	安装请使用：composer require topthink/think-trace --dev   
 	移除请使用：composer remove topthink/think-trace --dev
+3. 后端在 config/app.php 中配置了 ENV 常量，   
+   在 entry 入口页面中根据不同的 ENV，   
+   include 了不同的由前端生成的资源模板。
 
 
+## 其他说明
+1. 暂不知此种方法对谷歌 SEO 是否友好，目前默认在渲染完成后，会删除 数据源 A
 =============================================
 
 ThinkPHP 6.0
