@@ -1,7 +1,7 @@
 import Init from './init';
 import Vue from 'vue'
 import App from './App.vue'
-// 路由模式 frontend || backend
+// 路由模式
 import RouterMode from './router/mode'
 import router from './router'
 
@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 // 配置路由模式
 RouterMode.config({
-	// 前端路由
+	// frontend || backend
 	mode: 'frontend',
 });
 

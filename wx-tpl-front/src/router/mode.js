@@ -63,9 +63,16 @@ function init() {
 	})
 
 	router.afterEach(() => {
-		// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据，剔除无用数据
+		// 不是第一次进入页面
 		if (!initPage) {
-			Init.mixinData.ast = newAst;
+
+			Init.mixinData.ast = Init.protoData.$u.html.to_ast(
+				// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据
+				// 所以需要 to_html 再 to_ast
+				Init.protoData.$u.ast.to_html(newAst.data)
+			);
+
+			newAst = null;
 		}
 
 		NProgress.done();

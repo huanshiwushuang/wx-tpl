@@ -17,8 +17,6 @@ class Index extends Base
     }
     public function about()
     {
-        // var_dump($_GET);
-        // exit;
         // fetch html 数据 作为 data
         $tpl_var = [
             'data' => View::instance()->fetch('index/about'),
