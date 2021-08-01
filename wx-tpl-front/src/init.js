@@ -66,7 +66,8 @@ const u = {
 									let obj = {
 										key: item.name.value,
 										// 对所有 value 进行解码，统一处理 & 被转义的情况
-										val: u.html.get_text(item.value.value),
+										// 此处三元运算，是为了防止，value 无值
+										val: item.value ? u.html.get_text(item.value.value) : item.value,
 									};
 
 									Object.defineProperty(node.attrMap, obj.key, {

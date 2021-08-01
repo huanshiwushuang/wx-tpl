@@ -21,20 +21,4 @@ const router = new VueRouter({
 	routes
 })
 
-let isFirst = true;
-router.beforeEach(function (to, from, next) {
-	if (isFirst) {
-		isFirst = false;
-		next();
-	} else {
-		// 如果只是改变了 hash ，则前端路由
-		if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
-			next();
-		} else {
-			location = to.fullPath;
-		}
-	}
-})
-
-
 export default router

@@ -1,9 +1,17 @@
 import Init from './init';
 import Vue from 'vue'
 import App from './App.vue'
+// 路由模式 frontend || backend
+import RouterMode from './router/mode'
 import router from './router'
 
 Vue.config.productionTip = false
+
+// 配置路由模式
+RouterMode.config({
+	// 前端路由
+	mode: 'frontend',
+});
 
 // 混入可观测的数据
 Vue.mixin({
@@ -16,7 +24,6 @@ Object.assign(Vue.prototype, Init.protoData);
 
 // 批量注册基础组件
 // ??????
-
 
 
 const app = new Vue({
