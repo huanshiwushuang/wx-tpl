@@ -208,6 +208,7 @@ const u = {
 		}
 	},
 	json: {
+		// 针对一些可能 单双引号 混用的不合法的json，处理，使用场景很少
 		normalize(str) {
 			return str
 				.replace(/'/g, '"').replace(/[\s\r\n]*([\][{},"])[\s\r\n]*/g, '$1').replace(/,([}\]])/g, '$1').replace(/([{,])([^:{"]+?):/g, '$1"$2":');
@@ -228,6 +229,7 @@ const local = {
 		let obj;
 		let store;
 
+		// 防止无写存储权限，导致 app 崩溃
 		try {
 			store = localStorage.getItem("wuxuwang.com");
 		} catch (e) {
@@ -264,7 +266,7 @@ const local = {
 		if (obj) {
 			Object.assign(this.value, obj)
 		}
-		// 防止写存储权限，导致 app 崩溃
+		// 防止无写存储权限，导致 app 崩溃
 		try {
 			localStorage.setItem("wuxuwang.com", JSON.stringify(this.value));
 		} catch (e) {
@@ -302,7 +304,9 @@ const protoData = {
 };
 
 export default {
+	// 全局混入 data 中的数据
 	mixinData,
+	// 挂载在 Vue 原型上的数据
 	protoData
 }
 

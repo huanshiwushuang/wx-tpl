@@ -9,6 +9,7 @@
    我个人有写个小工具，输入 sjc，再按空格键，即可自动输入当前时间戳。【windows 平台可用，保存在 other 文件夹中】
 2. 已在 package.json rules 中配置允许了 console 和 debugger
 3. 已在 babel.config.js 中配置移除了部分 console
+4. 针对考虑 谷歌SEO的，由于谷歌能执行JS，所以目测需要在 src/init.js 中的 walk 函数 解析 a 标签的时候判断是否需要添加 nofollow 等
 
 # wx-tpl-api
 
