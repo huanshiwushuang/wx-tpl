@@ -8,20 +8,24 @@ class Index extends Base
 {
     public function index()
     {
-        // fetch html 数据 作为 data
         $tpl_var = [
-            'data' => View::instance()->fetch('index/index'),
+            'T' => '首页-戊戌数据',
+            'K' => '首页-我是keywords',
+            'D' => '首页-我是description',
         ];
-        // 将数据 塞入 唯一固定的页面输出
-        return View::fetch('main/entry', $tpl_var);
+
+        // fetch 数据页面
+        return View::fetch('index/index', $tpl_var);
     }
     public function about()
     {
-        // fetch html 数据 作为 data
         $tpl_var = [
-            'data' => View::instance()->fetch('index/about'),
+            'T' => '关于我们-戊戌数据',
+            'K' => '关于我们-我是keywords',
+            'D' => '关于我们-我是description',
         ];
-        // 将数据 塞入 唯一固定的页面输出
-        return View::fetch('main/entry', $tpl_var);
+
+        // fetch 数据页面
+        return View::fetch('index/about', $tpl_var);
     }
 }

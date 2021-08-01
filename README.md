@@ -1,3 +1,21 @@
+# 总说明
+
+1. 此项目，包含了前后端两个项目   
+后端项目：wx-tpl 就是   
+前端项目：wx-tpl/wx-tpl-front 就是。[点击前往前端项目说明](./wx-tpl-front/README.md)
+2. 本项目采用的思路为前后端各渲染一次模板。
+
+
+## 后端项目说明
+
+1. 后端基于 tp6.0，说明在下方
+2. 后端默认移除了 think-trace
+	安装请使用：composer require topthink/think-trace --dev
+	移除请使用：composer remove topthink/think-trace --dev
+
+
+=============================================
+
 ThinkPHP 6.0
 ===============
 
@@ -56,9 +74,4 @@ ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
 更多细节参阅 [LICENSE.txt](LICENSE.txt)
 
 
-## 后端项目说明 from [戊戌数据](https://www.wuxuwang.com)
 
-1. 项目默认移除了 think-trace
-	安装请使用：composer require topthink/think-trace --dev
-	移除请使用：composer remove topthink/think-trace --dev
-2. 
