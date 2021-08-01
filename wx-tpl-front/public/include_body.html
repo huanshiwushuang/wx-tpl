@@ -1,3 +1,9 @@
+<%
+	htmlWebpackPlugin.options.wx.include_body = {
+		js: htmlWebpackPlugin.files.js,
+	};
+%>
+
 <% for (let item of htmlWebpackPlugin.files.js) { %>
 	<script src="<%= item %>"></script>
 <% } %>

@@ -18,9 +18,12 @@ const u = {
 
 			const waitRemove = [];
 
-			let ast = parse(html_str, {
-				setAttributeMap: true,
-			})
+			let ast = parse(html_str);
+
+			// 不再被动构建 attributeMap，改为自己 walk 时，主动构建
+			// let ast = parse(html_str, {
+			// 	setAttributeMap: true,
+			// })
 			walk(ast, {
 				enter(node, parent) {
 					// 记录 parent，方便删除无用的子节点
@@ -37,9 +40,11 @@ const u = {
 							// 非空文本节点
 							else {
 								node.value = trimVal;
-								node.rawHtml = node.value;
+								node.html = function () {
+									return node.value;
+								};
 								node.toString = function () {
-									return this.value.trim();
+									return node.value;
 								}
 							}
 							break;
@@ -51,42 +56,57 @@ const u = {
 							}
 							else {
 								// 修改 node 属性名
-								node.attrMap = node.attributeMap;
-								delete node.attributeMap;
-
 								node.attr = node.attributes;
 								delete node.attributes;
 
-								// 附加 rawHtml 属性
+								// 重写所有 attrMap
+								node.attrMap = {};
+								// 重写所有 attr
+								node.attr = node.attr.reduce((sum, item) => {
+									let obj = {
+										key: item.name.value,
+										// 对所有 value 进行解码，统一处理 & 被转义的情况
+										val: u.html.get_text(item.value.value),
+									};
+
+									Object.defineProperty(node.attrMap, obj.key, {
+										get() {
+											return obj.val;
+										},
+										set(val) {
+											obj.val = val;
+										}
+									})
+
+									sum.push(obj);
+									return sum;
+								}, [])
+
+								// 附加 html 属性
 								if (node.close) {
-									node.rawHtml = html_str.slice(node.open.start, node.close.end);
+									node.html = function () {
+										return html_str.slice(node.open.start, node.close.end);
+									};
 								} else {
-									node.rawHtml = html_str.slice(node.open.start, node.open.end);
+									node.html = function () {
+										return html_str.slice(node.open.start, node.open.end);
+									};
 								}
 
 								// 重写 node 的 toString
 								node.toString = function () {
-									return u.html.get_text(this.rawHtml);
+									return u.html.get_text(this.html());
 								}
-
-								// 重写所有 attributes 的 toString
-								node.attr.forEach(item => {
-									// 对所有 attributes 的 value 进行解码，统一处理 & 被转义的情况
-									item.value.value = u.html.get_text(item.value.value);
-
-									item.toString = function () {
-										return this.value.value.trim();
-									}
-								})
 
 								// 有 id 属性的 node，提到根节点来
 								let id = node.attrMap.id;
+
 								if (id) {
-									ast[id + ''] = node;
+									ast[id] = node;
 								}
 								// 有 class 属性的 node，提到根节点来
 								if (node.attrMap.class) {
-									let arr = node.attrMap.class.toString().replace(/[\s\t\r\n]+/, ' ')
+									let arr = node.attrMap.class.trim().replace(/[\s\t\r\n]+/, ' ')
 										.split(' ');
 
 									arr.forEach(item => {
@@ -100,16 +120,16 @@ const u = {
 								// 有cid，则设置属性到父对象的body上
 								let cid = node.attrMap.cid
 								if (cid) {
-									parent.body[cid + ''] = node;
+									parent.body[cid] = node;
 								}
 
-								// 根据 data-mime 确定是否需要格式化为 JSON5
-								switch (node.attrMap['data-mime'] + '') {
+								// 根据 mime 确定是否需要格式化为 JSON5
+								switch (node.attrMap['mime']) {
 									case 'json5':
 										try {
 											node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');
 										} catch (e) {
-											console.error(`json5 parse error: ${node.rawHtml}`)
+											console.error(`json5 parse error: ${node.html()}`)
 										}
 										break;
 								}
@@ -142,6 +162,25 @@ const u = {
 			div.innerHTML = str;
 			return div.innerText.trim();
 		},
+	},
+	ast: {
+		to_html(ast) {
+			let res = '';
+			walk(ast, {
+				enter(node) {
+					switch (node.type) {
+						case SyntaxKind.Text:
+							res += node.value.trim();
+							break;
+						case SyntaxKind.Tag:
+							// res +=
+							break;
+					}
+				}
+			})
+
+			return res;
+		}
 	},
 	json: {
 		normalize(str) {

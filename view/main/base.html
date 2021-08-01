@@ -1,5 +1,6 @@
+<!-- 严格禁止后端在此文件写任何变量，以防止其他页面 extend 此页面，出现 未定义变量的问题，扩展都用 block 完成 -->
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang='{block name="lang"}zh-cn{/block}'>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
@@ -13,6 +14,9 @@
 	<!-- 确保：ios 或者 mac 不会自动添加脏数据 -->
 	<meta name="format-detection" content="telephone=no, email=no, address=no" />
 
+	{block name="block_head"}
+	{/block}
+
 	<!-- 旧版 IE 升级提示跳转代码 -->
 	<!-- https://support.dmeng.net/ie-update-warning.html -->
 	<script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href = "https://support.dmeng.net/upgrade-your-browser.html?referrer=" + encodeURIComponent(window.location.href); </script>
@@ -21,7 +25,12 @@
 		.dn {display: none;}
 	</style>
 
-	{block name="block_head"}{/block}
+	<!-- 导入 link 模板 -->
+	{if $Think.ENV == 'development'}
+		{include file="main/include_head_development"}
+	{else/}
+		{include file="main/include_head_production"}
+	{/if}
 </head>
 
 <!-- data-krjz5tk6 是为了 php 过滤的时候，只过滤最后的 fetch 的页面 -->
@@ -32,7 +41,12 @@
 	<!-- 前端渲染视图 -->
 	<div id="app"></div>
 	
-	{block name="block_body"}{/block}
+	<!-- 导入 script 模板 -->
+	{if $Think.ENV == 'development'}
+		{include file="main/include_body_development"}
+	{else/}
+		{include file="main/include_body_production"}
+	{/if}
 </body>
 
 </html>

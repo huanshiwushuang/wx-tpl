@@ -1,0 +1,19 @@
+{extend name="main/base"}
+
+{block name="block_head"}
+	<!-- tkd -->
+	{include file="main/tkd"}
+{/block}
+
+
+{block name="data"}
+<!-- 根据路由不同，后端返回不同的数据[html] -->
+{$data|raw}
+
+<!-- 所有页面公用的数据 -->
+<template id="krjzmlbj_config" mime="json5">
+	{
+		test: '我是所有页面公用的数据'
+	}
+</template>
+{/block}

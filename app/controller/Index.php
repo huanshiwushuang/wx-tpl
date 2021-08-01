@@ -13,7 +13,7 @@ class Index extends Base
             'data' => View::instance()->fetch('index/index'),
         ];
         // 将数据 塞入 唯一固定的页面输出
-        return View::fetch('main/index', $tpl_var);
+        return View::fetch('main/entry', $tpl_var);
     }
     public function about()
     {
@@ -22,6 +22,6 @@ class Index extends Base
             'data' => View::instance()->fetch('index/about'),
         ];
         // 将数据 塞入 唯一固定的页面输出
-        return View::fetch('main/index', $tpl_var);
+        return View::fetch('main/entry', $tpl_var);
     }
 }

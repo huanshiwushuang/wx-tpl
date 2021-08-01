@@ -3,8 +3,11 @@ const config = require('./webpack/config.js');
 
 // 页面 文件名
 let pages = [
-	`include_head`,
+	// page 顺序，必须 先解析 body 模板，
+	// 因为 head 模板中的 link preload 需要预加载 body 中的 js
+	// 所以，在 body 模板中将将参数赋值给 config.front.tpl_parameters，
 	`include_body`,
+	`include_head`,
 ]
 
 pages = pages.reduce((sum, item) => {
@@ -13,6 +16,8 @@ pages = pages.reduce((sum, item) => {
 		entry: 'src/main.js',
 		// 不自动注入资源
 		inject: false,
+		// 所有模板共享的变量
+		wx: config.front.tpl_parameters,
 		// 文件名，保存在后端项目方便导入的地方
 		// 根据不同的 env 生成不同的文件
 		filename: path.resolve(config.back.path.baseHtmlDir, `${item}_${config.front.env}.html`),

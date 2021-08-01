@@ -4,6 +4,8 @@
 <% } %>
 
 <!-- preload -->
-<% for (let item of htmlWebpackPlugin.files.js) { %>
+<!-- 默认多个模板，相当于多个入口，vue-cli 就会生成多个 入口.js  -->
+<!-- 此处 proload include_body 模板中的 js -->
+<% for (let item of htmlWebpackPlugin.options.wx.include_body.js) { %>
 	<link rel="preload" href="<%= item %>" as="script" />
 <% } %>
