@@ -66,17 +66,17 @@ function init() {
 		// 不是第一次进入页面
 		if (!initPage) {
 
+			// 更新-TKD
+			document.title = newAst.krjziyjz_title.toString();
+			document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap.content)
+			document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap.content)
+
 			// 更新-AST
 			Init.mixinData.ast = Init.protoData.$u.html.to_ast(
 				// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据
 				// 所以需要 to_html 再 to_ast
 				Init.protoData.$u.ast.to_html(newAst.data)
 			);
-
-			// 更新-TKD
-			document.title = newAst.krjziyjz_title.toString();
-			document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap.content)
-			document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap.content)
 
 			newAst = null;
 		}
