@@ -245,8 +245,6 @@ const mixinData = {
 	coms: [],
 	// app 的 class
 	appClass: [],
-	// url 将在 router.afterEach 中被更新
-	url: {},
 }
 const protoData = {
 	$win: window,

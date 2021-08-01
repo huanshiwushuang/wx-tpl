@@ -1,4 +1,3 @@
-import Init from '@/init.js';
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -28,7 +27,7 @@ router.beforeEach(function (to, from, next) {
 		isFirst = false;
 		next();
 	} else {
-		// 如果只是改变了 hash ，则前端路由【防止 hash 改变导致的无限重定向】
+		// 如果只是改变了 hash ，则前端路由
 		if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
 			next();
 		} else {
@@ -37,18 +36,5 @@ router.beforeEach(function (to, from, next) {
 	}
 })
 
-
-router.afterEach(function (to) {
-	// 更新 url 对象
-	Init.mixinData.url = {
-		...to,
-		query: Object.keys(to.query).reduce((sum, key) => {
-			sum[key] = Array.isArray(to.query[key]) ? to.query[key] : [to.query[key]];
-			return sum;
-		}, {})
-	};
-})
-
-console.log(Init);
 
 export default router
