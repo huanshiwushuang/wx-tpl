@@ -1,6 +1,8 @@
 <template>
     <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
+        <a href="https://www.wuxuwang.com" target="_blank">
+			<img alt="Vue logo" src="@/assets/img/krt3th48.jpg" />
+		</a>
 		<router-link to="/index/about">
 			关于我们
 		</router-link>

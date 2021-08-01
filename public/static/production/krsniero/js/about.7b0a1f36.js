@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["about"],{"754b":function(t,a,n){"use strict";n.r(a);var e=function(){var t=this,a=t.$createElement,n=t._self._c||a;return n("div",{staticClass:"about"},[n("h1",[t._v(" "+t._s(t.ast.krkhqpa2_about)+" ")]),n("router-link",{attrs:{to:"/"}},[t._v(" 回到首页 ")])],1)},s=[],u={name:"About"},o=u,r=n("2877"),l=Object(r["a"])(o,e,s,!1,null,null,null);a["default"]=l.exports}}]);
-//# sourceMappingURL=about.7b0a1f36.js.map

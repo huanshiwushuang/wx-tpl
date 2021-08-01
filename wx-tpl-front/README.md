@@ -13,6 +13,7 @@
 2. 已在 package.json rules 中配置允许了 console 和 debugger
 3. 已在 babel.config.js 中配置移除了部分 console
 4. 针对考虑 谷歌SEO的，由于谷歌能执行JS，所以目测需要在 src/init.js 中的 walk 函数 解析 a 标签的时候判断是否需要添加 nofollow 等
+5. 前端是直接在 vue-cli 基础上配置，直接生成输出了资源模板到后端项目中。
 
 
 # wx-tpl-api

@@ -25,6 +25,7 @@
 3. 后端在 config/app.php 中配置了 ENV 常量，   
    在 entry 入口页面中根据不同的 ENV，   
    include 了不同的由前端生成的资源模板。
+4. 在 Base.php 中 filterAllView 方法针对模板的最终输出，进行了注释去除、源码压缩 和 针对 a 标签的 网址 添加、删除 nofollow 等
 
 
 ## 其他说明
