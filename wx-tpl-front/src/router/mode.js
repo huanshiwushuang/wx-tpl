@@ -48,7 +48,12 @@ function init() {
 				// 不是初次进入页面
 				if (!initPage) {
 					// 请求数据
-					let res = await Init.protoData.$get(to.fullPath);
+					let res = await Init.protoData.$get(to.fullPath, null, {
+						headers: {
+							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html，改为接收所有
+							Accept: '*/*',
+						}
+					});
 
 					// 解析数据为新的 AST
 					newAst = Init.protoData.$u.html.to_ast(
