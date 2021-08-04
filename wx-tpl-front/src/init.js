@@ -128,9 +128,9 @@ const u = {
 									parent.body[cid] = node;
 								}
 
-								// 根据 mime 确定是否需要格式化为 JSON5
-								switch (node.attrMap['mime']) {
-									case 'json5':
+								// 根据 type 确定是否需要格式化为 JSON5
+								switch (node.attrMap['type']?.replace(/[\s\t]/g,'')) {
+									case 'text/json5':
 										try {
 											node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');
 										} catch (e) {
