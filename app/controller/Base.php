@@ -19,11 +19,17 @@ class Base extends BaseController
 	protected function filterAllView()
 	{
 		View::filter(function ($content) {
-			// krjz5tk6 关键字在 body 上
-			// 没有关键字，则再 fetch 页面, $content作为 krt18uif_data ，塞进去。
-			if (!preg_match('/krjz5tk6/', $content)) {
-				$tpl_var = View::instance()->get();
+			// 获取模板变量
+			$tpl_var = View::instance()->get();
+
+			// 不是 entry 页面，则再 fetch entry 页面, $content作为 krt18uif_data ，塞进去。
+			if (!array_key_exists('krxg93vb_is_entry', $tpl_var) || !$tpl_var['krxg93vb_is_entry']) {
+				
+				// 数据源
 				$tpl_var['krt18uif_data'] = $content;
+
+				// 入口页面标识变量
+				$tpl_var['krxg93vb_is_entry'] = true;
 
 				// 变量检查
 				$tpl_var = $this->tpl_var_check($tpl_var);
