@@ -6,9 +6,9 @@ use Masterminds\HTML5\Parser\DOMTreeBuilder;
 
 class WxDOMTreeBuilder extends DOMTreeBuilder
 {
-	protected $current_tag_options;
+	protected $current_tag_options = null;
 	// 是否处于暂停压缩代码的关键字标签内
-	protected $pause_minify_tag_options;
+	protected $pause_minify_tag_options = null;
 
 
 	// 文本节点，包括换行符在内
@@ -17,7 +17,7 @@ class WxDOMTreeBuilder extends DOMTreeBuilder
 		// 如果删除注释
 		if ($this->options['remove_comment']) {
 			// 如果是在 script 标签内，尝试替换移除 单行注释
-			if (preg_match('/script/i', $this->current_tag_options[0])) {
+			if ($this->current_tag_options !== null && preg_match('/script/i', $this->current_tag_options[0])) {
 				$data = $this->minify_js($data);
 			}
 		}
@@ -83,7 +83,7 @@ class WxDOMTreeBuilder extends DOMTreeBuilder
 		$this->current_tag_options = null;
 
 		// 结束暂停压缩代码
-		if ($this->pause_minify_tag_options[0] === $name) {
+		if ($this->pause_minify_tag_options !== null && $this->pause_minify_tag_options[0] === $name) {
 			$this->pause_minify_tag_options = null;
 		}
 
