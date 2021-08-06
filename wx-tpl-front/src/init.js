@@ -264,7 +264,7 @@ const local = {
 	// 无参数-直接保存 value
 	set(obj) {
 		if (obj) {
-			Object.assign(this.value, obj)
+			this.value = Object.assign({}, this.value, obj)
 		}
 		// 防止无写存储权限，导致 app 崩溃
 		try {
