@@ -26,11 +26,11 @@ pages = pages.reduce((sum, item) => {
 }, {});
 
 const webpackOptions = {
-	outputDir: path.resolve(config.back.path.root, config.back.path.staticDir, config.front.env),
+	outputDir: path.resolve(config.back.path.root, config.back.path.staticDir, 'defaultApp', config.front.env),
 	// 每次编译都会是不同的文件夹
 	assetsDir: `${Date.now().toString(36)}`,
 	// 编译输出的资源模板文件中资源的路径前缀
-	publicPath: `/static/${config.front.env}`,
+	publicPath: `/static/defaultApp/${config.front.env}`,
 	pages,
 	// https://cli.vuejs.org/zh/config/#css-extract
 	css: {

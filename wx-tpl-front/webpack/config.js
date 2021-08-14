@@ -23,7 +23,7 @@ const back = {
 		// 文件 由前端的 public 下的 html 模板生成
 		// 文件用于被后端其他模板-导入
 		// 相对于 项目根目录的 html 文件输出位置，
-		baseHtmlDir: 'view/main',
+		baseHtmlDir: 'app/defaultApp/view/main',
 
 		// 相对于 项目根目录 的可以公开访问的静态资源的路径
 		// 默认此路径在 build 时 会【被清空】
