@@ -15,7 +15,7 @@ class SetDefaultApp
     public function handle($request, \Closure $next)
     {
         // 默认应用文件夹名
-        $default_app = 'defaultApp';
+        $default_app = config('app.default_app');
 
         // 其他子应用文件夹名字
         $child_app = [
