@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <a href="https://www.wuxuwang.com" target="_blank">
-			<img alt="Vue logo" src="@/assets/img/krt3th48.jpg" />
+			<img alt="Vue logo" src="/static/admin/assets/img/krt3th48.jpg" />
 		</a>
 		<router-link to="/index/about">
 			关于我们
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-export default {
+module.exports =  {
     name: "Home",
 };
 </script>

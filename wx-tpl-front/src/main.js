@@ -9,8 +9,7 @@ Vue.config.productionTip = false
 
 // 配置路由模式
 RouterMode.config({
-	// frontend || backend
-	mode: 'frontend',
+	mode: 'ast',
 });
 
 // 混入可观测的数据

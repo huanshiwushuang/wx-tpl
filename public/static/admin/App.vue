@@ -24,10 +24,13 @@
 </template>
 
 <script>
-export default {
+module.exports = {
     name: "App",
-};
+}
 </script>
 
 <style lang="less">
+#app {
+	color: #f00;
+}
 </style>

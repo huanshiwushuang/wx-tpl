@@ -11,7 +11,7 @@
 </template>
 
 <script>
-export default {
+module.exports = {
     name: "About",
 };
 </script>
