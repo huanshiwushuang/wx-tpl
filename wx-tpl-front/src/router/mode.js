@@ -25,7 +25,7 @@ function init() {
 
 	router.beforeEach(async (to, from, next) => {
 		// 加上 base
-		toURL = `${router.options.base ?? ''}/${to.fullPath}`
+		toURL = `${router.options.base ?? ''}${to.fullPath}`
 
 		switch (options.mode) {
 			// 后端路由-refresh
