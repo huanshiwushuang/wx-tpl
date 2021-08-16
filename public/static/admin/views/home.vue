@@ -15,6 +15,11 @@
 				</a>
 			</li>
 			<li>
+				<a href="https://github.com/huanshiwushuang/wx-tpl" target="_blank">
+					github 地址
+				</a>
+			</li>
+			<li>
 				<router-link to="/index/about">
 					关于我们
 					<b>【点击查看效果】</b>
