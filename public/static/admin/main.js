@@ -1,5 +1,4 @@
 require.config({
-	baseUrl: '/static/admin/',
 	paths: {
 		vue: 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min',
 		html5parser: 'https://cdn.jsdelivr.net/npm/html5parser@2.0.2/dist/html5parser.umd',
