@@ -10,6 +10,18 @@ require.config({
 		vue_loader: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min',
 		less: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min',
 		nprogress: 'https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min',
+	},
+	map: {
+		'*': {
+			'css': 'https://cdn.jsdelivr.net/npm/require-css@0.1.10/css.min.js'
+		}
+	},
+	shim: {
+		nprogress: {
+			deps: [
+				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css'
+			]
+		}
 	}
 });
 
