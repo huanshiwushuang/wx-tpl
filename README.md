@@ -16,8 +16,8 @@
 
 
 在线效果 demo：
-> webpack 打包版本：[首页](https://wx.513902.xyz/)\
-> 浏览器端加载版本【请使用最新 chrome查看】：[admin](https://wx.513902.xyz/)
+> webpack 打包版本：[首页](https://wx-tpl.513902.xyz/)\
+> 浏览器端加载版本【请使用最新 chrome查看】：[admin](https://wx-tpl.513902.xyz/)
 
 
 ## 后端项目说明
