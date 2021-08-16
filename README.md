@@ -1,11 +1,12 @@
 # 项目 From [戊戌数据](https://www.wuxuwang.com)
 
-1. 本项目适用范围：   
+1. 请查看 admin 分支   
+2. 本项目适用范围：   
    1. 必须要考虑 SEO 的
    2. 后端不是 nodejs 或者不能、不想使用 nodejs的
    3. 不想采用 “传统” 前端页面，后端渲染，强耦合一大堆逻辑的
    
-2. 本项目，包含了前后端两个项目   
+3. 本项目，包含了前后端两个项目   
 后端项目：wx-tpl   
 前端项目：wx-tpl/wx-tpl-front 。[点击前往前端项目说明](./wx-tpl-front/README.md)
 3. 本项目采用的思路为前后端各渲染一次模板，编码流程为：   
@@ -13,7 +14,11 @@
    2. 后端渲染模板 A，并输出
    3. 前端 css 隐藏 A，利用第三方库 [html5parser](https://github.com/acrazing/html5parser)，将 A 解析成 JSON，再次用 Vue 渲染
    4. 图片参考![数据隐藏，Vue渲染](./other/krt3dk1d.jpg)
-4. 
+
+
+在线效果 demo：
+> webpack 打包版本：[首页](https://wx-tpl.513902.xyz/)\
+> 浏览器端加载版本【请使用最新 chrome查看】：[admin](https://wx-tpl.513902.xyz/)
 
 
 ## 后端项目说明
@@ -26,6 +31,8 @@
    在 entry 入口页面中根据不同的 ENV，   
    include 了不同的由前端生成的资源模板。
 4. 在 Base.php 中 filterAllView 方法针对模板的最终输出，进行了注释去除、源码压缩 和 针对 a 标签的 网址 添加、删除 nofollow 等
+5. admin 分支支持 TP6.0 多应用模式，支持设置 / 根路径对应的默认应用
+6. admin 分支访问 /admin 可以查看 http-vue-loader 配置支持的 浏览器端加载 .vue 单页面效果
 
 
 ## 其他说明
