@@ -43,7 +43,7 @@ require(['init'], Init => {
 			Object.assign(Vue.prototype, Init.protoData);
 
 			// VueLoader 执行返回的是一个函数，该函数执行后返回 Promise
-			const App = await VueLoader('@/App.vue');
+			const App = await vueLoader('@/App.vue');
 
 			const app = new Vue({
 				router,

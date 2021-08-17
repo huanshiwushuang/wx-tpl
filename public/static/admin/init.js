@@ -1,6 +1,6 @@
 // https://blog.csdn.net/sanxian_li/article/details/39394097
 
-define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less'], (Vue, Cookie, Axios, { parse, walk, SyntaxKind }, JSON5, VueLoader, Less) => {
+define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less'], (Vue, Cookie, Axios, { parse, walk, SyntaxKind }, JSON5, vueLoader, Less) => {
 	// 源码根路径
 	const src = '/static/admin';
 
@@ -315,8 +315,8 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 		$vue: Vue,
 	};
 
-	// 初始化-VueLoader
-	VueLoader.httpRequest = url => {
+	// 初始化-vueLoader
+	vueLoader.httpRequest = url => {
 		// 替换 @
 		if (url.startsWith('@')) {
 			url = url.replace(/^@/, src);
@@ -331,14 +331,14 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 		});
 	}
 
-	VueLoader.langProcessor.less = function (lessText) {
+	vueLoader.langProcessor.less = function (lessText) {
         return new Promise(async function(resolve, reject) {
 			let rst = await Less.render(lessText);
 			resolve(rst.css);
         });
     }
 
-	window.VueLoader = VueLoader;
+	window.vueLoader = vueLoader;
 
 	return {
 		// 全局混入 data 中的数据
