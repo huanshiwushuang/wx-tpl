@@ -1,6 +1,7 @@
 import Init from './init';
 import Vue from 'vue'
 import App from './App.vue'
+import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
@@ -27,6 +28,7 @@ Object.assign(Vue.prototype, Init.protoData);
 
 const app = new Vue({
 	router,
+	store,
 	render: h => h(App)
 }).$mount('#app');
 

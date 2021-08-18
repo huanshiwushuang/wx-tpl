@@ -1,7 +1,6 @@
 <template>
-    <div id="app" :class="appClass">
-		<router-view>
-		</router-view>
+    <div id="app">
+        <router-view> </router-view>
         <!-- 异步组件，比如弹窗 -->
         <div>
             <component
@@ -20,12 +19,24 @@
                 ></component>
             </component>
         </div>
+        <!-- 临时 div，用于生成并获取 class，应用到 body 上 -->
+        <div id="ksh34m2s" :class="bodyClass"></div>
     </div>
 </template>
 
 <script>
 export default {
     name: "App",
+    watch: {
+        // 绑定 bodyClass 到 body 上
+        bodyClass() {
+            this.$nextTick(() => {
+                document.body.classList = document.querySelector(
+                    "#ksh34m2s"
+                ).classList;
+            });
+        },
+    },
 };
 </script>
 

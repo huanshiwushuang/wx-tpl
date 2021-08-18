@@ -9,6 +9,7 @@ require.config({
 		vue_loader: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min',
 		less: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min',
 		nprogress: 'https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min',
+		vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min',
 	},
 	map: {
 		'*': {
@@ -26,7 +27,7 @@ require.config({
 
 require(['init'], Init => {
 
-	require(['vue', 'router/mode', 'router/index'], function (Vue, RouterMode, router) {
+	require(['vue', 'router/mode', 'router/index', 'store/index'], function (Vue, RouterMode, router, store) {
 		(async () => {
 			// 配置路由模式
 			RouterMode.config({
@@ -47,6 +48,7 @@ require(['init'], Init => {
 
 			const app = new Vue({
 				router,
+				store,
 				render: h => h(App)
 
 			}).$mount('#app');

@@ -283,8 +283,8 @@ const mixinData = {
 	local,
 	// 异步加载的组件
 	coms: [],
-	// app 的 class
-	appClass: [],
+	// body 的 class
+	bodyClass: [],
 }
 const protoData = {
 	$win: window,

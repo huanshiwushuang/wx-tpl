@@ -53,6 +53,16 @@ const webpackOptions = {
 			}
 
 			return true;
+		},
+		proxy: {
+			'/api': {
+				target: 'http://wx-tpl.wuxuwang.com',
+				ws: true,
+				changeOrigin: true
+				// pathRewrite: function(path, req) {
+				//   return path.replace('/api', '')
+				// }
+			}
 		}
 	},
 }
