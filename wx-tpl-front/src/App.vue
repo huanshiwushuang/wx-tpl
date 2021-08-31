@@ -25,17 +25,25 @@
 </template>
 
 <script>
+import { record } from "rrweb";
+
 export default {
     name: "App",
     watch: {
         // 绑定 bodyClass 到 body 上
         bodyClass() {
             this.$nextTick(() => {
-                document.body.classList = document.querySelector(
-                    "#ksh34m2s"
-                ).classList;
+                document.body.classList =
+                    document.querySelector("#ksh34m2s").classList;
             });
         },
+    },
+    mounted() {
+        record({
+            emit: (event) => {
+                this.$socket.send(JSON.stringify(event));
+            },
+        });
     },
 };
 </script>

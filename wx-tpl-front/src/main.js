@@ -5,6 +5,14 @@ import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
+// websocket
+// https://github.com/nathantsoi/vue-native-websocket
+import VueNativeSock from 'vue-native-websocket'
+
+Vue.use(VueNativeSock, 'ws://localhost:2348', {
+	reconnection: true,
+	reconnectionDelay: 3000,
+})
 
 Vue.config.productionTip = false
 
