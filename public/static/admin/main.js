@@ -37,7 +37,10 @@ require(['init'], Init => {
 			// 混入可观测的数据
 			Vue.mixin({
 				data() {
-					return Init.mixinData
+					return {
+						// [kszjdyuu]-fix-bug: 如果直接返回 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
+						...Init.mixinData,
+					}
 				}
 			})
 			// 附加其他数据

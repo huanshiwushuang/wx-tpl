@@ -1,6 +1,6 @@
-import Init from '@/init'
+// import Init from '@/init'
 
-const { $post: Post, $get: Get } = Init.protoData;
+// const { $post: Post, $get: Get } = Init.protoData;
 
 const state = {
 }
