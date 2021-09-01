@@ -65,6 +65,16 @@ const webpackOptions = {
 			}
 		}
 	},
+	configureWebpack: () => {
+		return {
+			output: {
+				// 每次编译，都生成不同的文件夹名 和 文件名，防止 git 版本冲突
+				// 覆写 filename 或者 chunkFilename 会导致 assetsDir 失效，所以需要手动添加
+				filename: `${webpackOptions.assetsDir}/js/${Date.now().toString(36)}.[name].js`,
+				chunkFilename: `${webpackOptions.assetsDir}/js/${Date.now().toString(36)}.[name].js`,
+			}
+		}
+	}
 }
 
 module.exports = webpackOptions;
