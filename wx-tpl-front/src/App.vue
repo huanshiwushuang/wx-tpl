@@ -47,6 +47,7 @@ export default {
             emit: (event) => {
 				console.log(`normal: ${JSON.stringify(event).length}`);
 				console.log(`pack: ${pack(event).length}`);
+				console.log(pako.deflate(JSON.stringify(event)));
                 this.$socket.send(JSON.stringify(event));
             },
         });
