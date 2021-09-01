@@ -25,7 +25,9 @@
 </template>
 
 <script>
-import { record } from "rrweb";
+import { record, pack } from "rrweb";
+import * as asd from "rrweb";
+import pako from 'pako';
 
 export default {
     name: "App",
@@ -39,8 +41,12 @@ export default {
         },
     },
     mounted() {
+		window.asd = asd;
+		window.pako = pako;
         record({
             emit: (event) => {
+				console.log(`normal: ${JSON.stringify(event).length}`);
+				console.log(`pack: ${pack(event).length}`);
                 this.$socket.send(JSON.stringify(event));
             },
         });

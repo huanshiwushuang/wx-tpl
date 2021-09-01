@@ -5,8 +5,7 @@ import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
-// websocket
-// https://github.com/nathantsoi/vue-native-websocket
+// [websocket]-https://github.com/nathantsoi/vue-native-websocket
 import VueNativeSock from 'vue-native-websocket'
 
 Vue.use(VueNativeSock, 'ws://localhost:2348', {
