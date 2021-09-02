@@ -11,6 +11,8 @@ require.config({
 		nprogress: 'https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min',
 		vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min',
 		chemdraw: 'lib/chemdrawweb/chemdrawweb',
+		fileSaver: 'https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min',
+		ELEMENT: 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/index.min',
 	},
 	map: {
 		'*': {
@@ -20,19 +22,30 @@ require.config({
 	shim: {
 		nprogress: {
 			deps: [
-				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css'
+				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css',
 			]
 		},
 		chemdraw: {
 			exports: 'perkinelmer',
+		},
+		fileSaver: {
+			exports: 'saveAs',
+		},
+		ELEMENT: {
+			deps: [
+				'css!https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/theme-chalk/index.min.css',
+			],
 		}
 	}
 });
 
 require(['init'], Init => {
 
-	require(['vue', 'router/mode', 'router/index', 'store/index'], function (Vue, RouterMode, router, store) {
+	require(['vue', 'router/mode', 'router/index', 'store/index', 'ELEMENT'], function (Vue, RouterMode, router, store, ELEMENT) {
 		(async () => {
+			// 安装 ELEMENT
+			Vue.use(ELEMENT);
+
 			// 配置路由模式
 			RouterMode.config({
 				mode: 'ast',
