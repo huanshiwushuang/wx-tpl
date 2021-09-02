@@ -18,7 +18,7 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 				_require.call(this, ...args, function () {
 					resolve(...arguments);
 				});
-			}) 
+			})
 		}
 	}
 
@@ -323,20 +323,24 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 		}
 
 		return Axios.get(url)
-		.then(function(res) {
-			return res.data;
-		})
-		.catch(function(err) {
-			return Promise.reject(err.status);
-		});
+			.then(function (res) {
+				return res.data;
+			})
+			.catch(function (err) {
+				return Promise.reject(err.status);
+			});
 	}
 
 	vueLoader.langProcessor.less = function (lessText) {
-        return new Promise(async function(resolve, reject) {
-			let rst = await Less.render(lessText);
+		return new Promise(async function (resolve, reject) {
+			let rst = await Less.render(lessText, {
+				globalVars: {
+					baseUrl: '/static/admin',
+				}
+			});
 			resolve(rst.css);
-        });
-    }
+		});
+	}
 
 	window.vueLoader = vueLoader;
 
