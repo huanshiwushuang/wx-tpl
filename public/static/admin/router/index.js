@@ -11,6 +11,11 @@ define(['vue', 'vue_router', 'vue_loader'], (Vue, VueRouter, VueLoader) => {
 			path: '/index/about',
 			name: 'about',
 			component: VueLoader('@/views/about.vue'),
+		},
+		{
+			path: '/index/chemdraw',
+			name: 'about',
+			component: VueLoader('@/views/Chemdraw.vue'),
 		}
 	]
 

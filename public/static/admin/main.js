@@ -10,6 +10,7 @@ require.config({
 		less: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min',
 		nprogress: 'https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min',
 		vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min',
+		chemdraw: 'lib/chemdrawweb/chemdrawweb',
 	},
 	map: {
 		'*': {
@@ -21,6 +22,9 @@ require.config({
 			deps: [
 				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css'
 			]
+		},
+		chemdraw: {
+			exports: 'perkinelmer',
 		}
 	}
 });
@@ -59,5 +63,5 @@ require(['init'], Init => {
 			window.app = app;
 		})()
 	})
-	
+
 })
