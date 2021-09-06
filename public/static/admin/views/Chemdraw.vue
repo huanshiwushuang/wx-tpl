@@ -195,9 +195,9 @@ module.exports = {
 @import "@{baseUrl}/assets/less/base.less";
 
 .kt2iafva_container {
-    position: relative;
+    // position: relative;
+    // z-index: -1;
     height: 800px;
-    z-index: -1;
     margin-top: 10px;
 }
 .kt2gdymi_com {
