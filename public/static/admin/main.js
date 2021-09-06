@@ -13,6 +13,9 @@ require.config({
 		chemdraw: 'lib/chemdrawweb/chemdrawweb',
 		fileSaver: 'https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min',
 		ELEMENT: 'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/index.min',
+		uploader: 'https://cdn.jsdelivr.net/npm/vue-simple-uploader@0.7.6/dist/vue-uploader.min',
+		JSZip: 'https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min',
+		CryptoJS: 'https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/index.min',
 	},
 	map: {
 		'*': {
@@ -29,22 +32,24 @@ require.config({
 			exports: 'perkinelmer',
 		},
 		fileSaver: {
+			// 无用, 直接访问 window.saveAs 即可
 			exports: 'saveAs',
 		},
 		ELEMENT: {
 			deps: [
 				'css!https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.3/theme-chalk/index.min.css',
 			],
-		}
+		},
 	}
 });
 
 require(['init'], Init => {
 
-	require(['vue', 'router/mode', 'router/index', 'store/index', 'ELEMENT'], function (Vue, RouterMode, router, store, ELEMENT) {
+	require(['vue', 'router/mode', 'router/index', 'store/index', 'ELEMENT', 'uploader'], function (Vue, RouterMode, router, store, ELEMENT, uploader) {
 		(async () => {
-			// 安装 ELEMENT
 			Vue.use(ELEMENT);
+
+			Vue.use(uploader);
 
 			// 配置路由模式
 			RouterMode.config({
