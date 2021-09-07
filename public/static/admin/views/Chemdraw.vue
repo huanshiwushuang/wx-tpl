@@ -167,7 +167,7 @@ module.exports = {
                         console.error(error);
                         alert("zipPng 保存错误");
                     });
-            }, 1000);
+            }, 3000);
         },
     },
     mounted() {
