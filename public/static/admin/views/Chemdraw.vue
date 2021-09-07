@@ -161,11 +161,9 @@ module.exports = {
                     .then((content) => {
                         saveAs(content, `${Date.now()}.png.zip`);
 
-                        alert("zipPng 转换完毕");
                     })
                     .catch((error) => {
                         console.error(error);
-                        alert("zipPng 保存错误");
                     });
             }, 3000);
         },
