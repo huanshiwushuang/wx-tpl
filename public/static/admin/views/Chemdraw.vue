@@ -146,12 +146,9 @@ module.exports = {
                 })
                 .then((content) => {
                     saveAs(content, `${Date.now()}.svg.zip`);
-
-                    alert("zipSVG 转换完毕");
                 })
                 .catch((error) => {
                     console.error(error);
-                    alert("zipSVG 保存错误");
                 });
             setTimeout(() => {
                 this.zipPng
@@ -160,7 +157,6 @@ module.exports = {
                     })
                     .then((content) => {
                         saveAs(content, `${Date.now()}.png.zip`);
-
                     })
                     .catch((error) => {
                         console.error(error);
