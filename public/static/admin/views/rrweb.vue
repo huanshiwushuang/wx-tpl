@@ -45,7 +45,7 @@ module.exports = {
         async init_created() {
             // 连接 socket
             requirejs(["vueNativeSocket"], (vueNativeSocket) => {
-                Vue.use(vueNativeSocket.default, "ws://localhost:2348", {
+                Vue.use(vueNativeSocket.default, "ws://192.168.100.5:2348", {
                     reconnection: true,
                     reconnectionDelay: 3000,
                 });

@@ -4,6 +4,7 @@ namespace app\defaultApp\controller;
 
 use app\BaseController;
 use think\facade\View;
+use think\facade\Cookie;
 use kqufcgta_html5\WxHTML5;
 
 class Base extends BaseController
@@ -13,6 +14,10 @@ class Base extends BaseController
 	{
 		// 过滤所有最终输出的页面
 		$this->filterAllView();
+
+		if (empty(cookie('PHPSESSID'))) {
+			Cookie::forever('PHPSESSID', time());
+		}
 	}
 
 	// 模板输出统一过滤器

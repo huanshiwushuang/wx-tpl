@@ -1,5 +1,5 @@
 const protocol = location.href.startsWith('https') ? 'wss' : 'ws';
-const url = `${protocol}://localhost:2348`;
+const url = `${protocol}://192.168.100.5:2348`;
 
 const options = {
 	reconnection: true,
