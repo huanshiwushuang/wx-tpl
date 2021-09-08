@@ -25,12 +25,13 @@
 </template>
 
 <script>
-import { record, pack } from "rrweb";
-import * as asd from "rrweb";
-import pako from 'pako';
-
 export default {
     name: "App",
+    data() {
+        return {
+            stopFn: null,
+        };
+    },
     watch: {
         // 绑定 bodyClass 到 body 上
         bodyClass() {
@@ -39,18 +40,6 @@ export default {
                     document.querySelector("#ksh34m2s").classList;
             });
         },
-    },
-    mounted() {
-		window.asd = asd;
-		window.pako = pako;
-        record({
-            emit: (event) => {
-				console.log(`normal: ${JSON.stringify(event).length}`);
-				console.log(`pack: ${pack(event).length}`);
-				console.log(pako.deflate(JSON.stringify(event)));
-                this.$socket.send(JSON.stringify(event));
-            },
-        });
     },
 };
 </script>

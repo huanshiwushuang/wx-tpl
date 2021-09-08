@@ -1,17 +1,11 @@
 import Init from './init';
+import '@/assets/js/record';
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
-// [websocket]-https://github.com/nathantsoi/vue-native-websocket
-import VueNativeSock from 'vue-native-websocket'
-
-Vue.use(VueNativeSock, 'ws://localhost:2348', {
-	reconnection: true,
-	reconnectionDelay: 3000,
-})
 
 Vue.config.productionTip = false
 
@@ -35,12 +29,12 @@ Object.assign(Vue.prototype, Init.protoData);
 // 批量注册基础组件
 // ??????
 
-
 const app = new Vue({
 	router,
 	store,
 	render: h => h(App)
 }).$mount('#app');
+Vue.prototype.$app = app;
 
 // 生产环境，删除一些DOM
 if (process.env.NODE_ENV === 'production') {

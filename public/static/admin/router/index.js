@@ -1,4 +1,4 @@
-define(['vue', 'vue_router', 'vue_loader'], (Vue, VueRouter, VueLoader) => {
+define(['vue_router', 'vue_loader'], (VueRouter, VueLoader) => {
 	Vue.use(VueRouter)
 
 	const routes = [
@@ -11,7 +11,22 @@ define(['vue', 'vue_router', 'vue_loader'], (Vue, VueRouter, VueLoader) => {
 			path: '/index/about',
 			name: 'about',
 			component: VueLoader('@/views/about.vue'),
-		}
+		},
+		{
+			path: '/index/rrweb',
+			name: 'about',
+			component: () => {
+				return new Promise(resolve => {
+					requirejs(['ELEMENT'], ELEMENT => {
+						Vue.use(ELEMENT);
+
+						VueLoader('@/views/rrweb.vue')().then(com => {
+							resolve(com);
+						})
+					})
+				})
+			},
+		},
 	]
 
 	const router = new VueRouter({

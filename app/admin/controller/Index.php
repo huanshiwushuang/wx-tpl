@@ -28,4 +28,15 @@ class Index extends Base
         // fetch 数据页面
         return View::fetch('index/about', $tpl_var);
     }
+    public function rrweb()
+    {
+        $tpl_var = [
+            'T' => '后台-rrweb-戊戌数据',
+            'K' => '后台-rrweb-我是keywords',
+            'D' => '后台-rrweb-我是description',
+        ];
+
+        // fetch 数据页面
+        return View::display('', $tpl_var);
+    }
 }

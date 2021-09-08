@@ -8262,11 +8262,6 @@ vue-loader@^15.9.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-native-websocket@^2.0.15:
-  version "2.0.15"
-  resolved "https://registry.nlark.com/vue-native-websocket/download/vue-native-websocket-2.0.15.tgz#e94af2bb7f54beeaac5281d953751d2858b76964"
-  integrity sha1-6Uryu39UvuqsUoHZU3UdKFi3aWQ=
-
 vue-router@^3.2.0:
   version "3.5.2"
   resolved "https://registry.nlark.com/vue-router/download/vue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"

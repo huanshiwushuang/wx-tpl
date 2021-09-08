@@ -26,6 +26,11 @@
 				</router-link>
 			</li>
 			<li>
+				<router-link to="/index/rrweb">
+					rrweb 交互效果播放
+				</router-link>
+			</li>
+			<li>
 				<a href="/">
 					前往网站根路径，查看 webpack 打包加载的页面
 				</a>

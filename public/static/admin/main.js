@@ -1,6 +1,8 @@
+define('vue', [], () => {
+	return Vue;
+})
 require.config({
 	paths: {
-		vue: 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min',
 		html5parser: 'https://cdn.jsdelivr.net/npm/html5parser@2.0.2/dist/html5parser.umd',
 		js_cookie: 'https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min',
 		axios: 'https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min',
@@ -10,6 +12,9 @@ require.config({
 		less: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min',
 		nprogress: 'https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min',
 		vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min',
+		vueNativeSocket: 'https://cdn.jsdelivr.net/npm/vue-native-websocket@2.0.15/dist/build.min',
+		rrweb: 'https://cdn.jsdelivr.net/npm/rrweb@1.0.4/dist/rrweb-all',
+		ELEMENT: 'https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/index',
 	},
 	map: {
 		'*': {
@@ -21,13 +26,24 @@ require.config({
 			deps: [
 				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css'
 			]
+		},
+		rrweb: {
+			exports: 'rrweb',
+			deps: [
+				'css!https://cdn.jsdelivr.net/npm/rrweb@1.0.4/dist/rrweb-all.min.css'
+			]
+		},
+		ELEMENT: {
+			deps: [
+				'css!https://cdn.jsdelivr.net/npm/element-ui@2.15.6/lib/theme-chalk/index.css'
+			]
 		}
 	}
 });
 
 require(['init'], Init => {
 
-	require(['vue', 'router/mode', 'router/index', 'store/index'], function (Vue, RouterMode, router, store) {
+	require(['router/mode', 'router/index', 'store/index'], function (RouterMode, router, store) {
 		(async () => {
 			// 配置路由模式
 			RouterMode.config({
@@ -59,5 +75,5 @@ require(['init'], Init => {
 			window.app = app;
 		})()
 	})
-	
+
 })

@@ -39,7 +39,7 @@ return [
     'businessWorker'        => [
         'name'         => 'BusinessWorker',
         'count'        => 1,
-        'eventHandler' => '\app\defaultApp\socket\Events',
+        'eventHandler' => '\app\defaultApp\websocket\Events',
     ],
 
 ];

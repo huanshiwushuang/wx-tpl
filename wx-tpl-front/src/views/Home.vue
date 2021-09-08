@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+		<h1>您的UID是： {{ uid }}</h1>
         <a href="https://www.wuxuwang.com" target="_blank">
 			<img alt="Vue logo" src="@/assets/img/krt3th48.jpg" />
 		</a>
@@ -27,12 +28,20 @@
 				</a>
 			</li>
 		</ul>
+		<textarea>
+			哈哈
+		</textarea>
     </div>
 </template>
 
 <script>
 export default {
     name: "Home",
+	computed: {
+		uid() {
+			return this.$cookie.get('PHPSESSID');
+		}
+	}
 };
 </script>
 

@@ -1,5 +1,4 @@
 // 初始化各种数据
-
 import Vue from 'vue';
 // cookie
 import Cookie from "js-cookie";
@@ -129,7 +128,7 @@ const u = {
 								}
 
 								// 根据 type 确定是否需要格式化为 JSON5
-								switch (node.attrMap['type']?.replace(/[\s\t]/g,'')) {
+								switch (node.attrMap['type']?.replace(/[\s\t]/g, '')) {
 									case 'text/json5':
 										try {
 											node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');
