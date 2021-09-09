@@ -4,24 +4,6 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 	// 源码根路径
 	const src = '/static/admin';
 
-	// requirejs promise 包装
-	const _require = window.requirejs;
-	require = requirejs = function () {
-		const args = arguments;
-		// 如果最后的是函数，则回调调用
-		if (typeof [...arguments].slice(-1)[0] === 'function') {
-			_require.apply(this, args);
-		}
-		// 返回 Promise
-		else {
-			return new Promise((resolve) => {
-				_require.call(this, ...args, function () {
-					resolve(...arguments);
-				});
-			})
-		}
-	}
-
 	// 工具对象
 	const u = {
 		html: {
