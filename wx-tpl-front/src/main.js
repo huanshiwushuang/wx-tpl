@@ -1,11 +1,13 @@
 import Init from './init';
-import '@/assets/js/record';
+import Record from '@/assets/js/record';
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
+
+Record.start();
 
 Vue.config.productionTip = false
 

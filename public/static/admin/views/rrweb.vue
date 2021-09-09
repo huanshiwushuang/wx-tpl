@@ -2,7 +2,7 @@
     <div>
         <div class="ktaubpgq_box">
             <div class="ktatvjjh_box">
-                <!-- rr-player container -->
+                <!-- replayer container -->
                 <div ref="ktavnoi7_ref"></div>
             </div>
 
@@ -22,18 +22,8 @@
 </template>
 
 <script>
-// https://github.com/Preflight-HQ/rrweb-player-vue
 module.exports = {
     name: "rrweb-play",
-    components: {
-        "rrweb-player"() {
-            return new Promise((resolve) => {
-                requirejs(["rrweb_player_vue"], (rrweb_player_vue) => {
-                    resolve(rrweb_player_vue);
-                });
-            });
-        },
-    },
     data() {
         return {
             watch_group: null,
@@ -45,13 +35,14 @@ module.exports = {
         async init_created() {
             // 连接 socket
             requirejs(["vueNativeSocket"], (vueNativeSocket) => {
-                Vue.use(vueNativeSocket.default, "ws://192.168.100.5:2348", {
+                Vue.use(vueNativeSocket.default, "ws://localhost:2348", {
                     reconnection: true,
                     reconnectionDelay: 3000,
                 });
-                //
+                // 是否是 第一个 event
                 let isFirstEvent = true;
 
+                // 监听 message
                 this.$socket.addEventListener("message", (event) => {
                     let data_json = {};
 
@@ -65,14 +56,22 @@ module.exports = {
                             this.client_id = data_json.client_id;
                             break;
                         case "event":
-                            if (isFirstEvent) {
-                                isFirstEvent = false;
+                            {
+                                requirejs(["rrweb"], (rrweb) => {
+                                    // 解包
+                                    let event = rrweb.unpack(data_json.event);
 
-                                this.replayer.startLive(
-                                    data_json.event.timestamp - 1000
-                                );
+                                    if (isFirstEvent) {
+                                        isFirstEvent = false;
+                                        // 直播模式
+                                        this.replayer.startLive(
+                                            event.timestamp - 1000
+                                        );
+                                    }
+
+                                    this.replayer.addEvent(event);
+                                });
                             }
-                            this.replayer.addEvent(data_json.event);
                             break;
                     }
                 });
@@ -85,7 +84,6 @@ module.exports = {
                     root: this.$refs.ktavnoi7_ref,
                     liveMode: true,
                 });
-                // this.replayer.startLive(FIRST_EVENT.timestamp - BUFFER);
             });
         },
         playByClientId() {
@@ -100,7 +98,7 @@ module.exports = {
     },
     mounted() {
         this.init_mounted();
-        window.zxc = this;
+        window.rrweb = this;
     },
 };
 </script>

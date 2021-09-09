@@ -1,21 +1,31 @@
-import websocket from './websocket';
+import WS from './ws';
 import Init from '@/init';
-import { record } from 'rrweb';
+import { record, pack } from 'rrweb';
 
 const { $post: Post } = Init.protoData;
 
-const startRecord = () => {
-	if (startRecord.LOCK) {
-		return;
-	}
-	startRecord.lock = true;
+let stop = () => {
+	// 停止记录
+	stopRecord();
+	// 断开 socket
+	ws.disconnect();
+}
+let stopRecord = () => { }
 
-	let stopFn = () => { };
-	let lockBindUid = false;
-	const ws = websocket.get();
+const ws = new WS({
+	url: '192.168.100.5:2348',
+});
+
+const start = () => {
+	if (start.isStarted) {
+		return console.error('record is started');
+	}
+	start.isStarted = true;
+
+	let isBindUIDing = false;
 
 	if (ws) {
-		ws.addEventListener('message', (e) => {
+		ws.socket.addEventListener('message', (e) => {
 			// record
 			let data_json = {};
 
@@ -27,45 +37,50 @@ const startRecord = () => {
 			switch (data_json.type) {
 				// 初始化，绑定 client_id 和 uid
 				case 'init':
-					// 请求🔒
-					if (lockBindUid) {
+					// 如果正在绑定-UID
+					if (isBindUIDing) {
 						return;
 					}
-					lockBindUid = true;
+					isBindUIDing = true;
 
 					Post('/websocket/bindUid', {
 						client_id: data_json.client_id,
 					}).then(() => {
-						stopFn();
+						stopRecord();
 						// 开启新的记录
-						stopFn = record({
+						stopRecord = record({
 							emit(event) {
 								// 发送数据
 								ws.sendObj({
 									type: 'event',
-									event
+									event: pack(event),
 								})
 							}
 						})
 					}).catch(e => {
 						console.error(e);
+						// 绑定失败，发送消息，触发重新 bindUid
+						setTimeout(() => {
+							ws.sendObj({
+								type: 'ping',
+							})
+						}, 1000)
 					}).finally(() => {
-						lockBindUid = false;
+						isBindUIDing = false;
 					})
 					break;
+				default:
 			}
 		})
-		ws.addEventListener('close', () => {
-			stopFn();
-			startRecord();
-		});
-		ws.addEventListener('error', () => {
-			stopFn();
-			startRecord();
-		});
 
+		ws.socket.addEventListener('close', stopRecord);
+		ws.socket.addEventListener('error', stopRecord);
 	}
-	startRecord.lock = false;
 }
 
-startRecord();
+export default {
+	start,
+	stop,
+};
+
+
