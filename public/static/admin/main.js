@@ -43,12 +43,14 @@ require.config({
 
 require(['init'], Init => {
 
-	require(['router/mode', 'router/index', 'store/index'], function (RouterMode, router, store) {
+	require(['router/mode', 'router/index', 'store/index', 'ELEMENT'], function (RouterMode, router, store, ELEMENT) {
 		(async () => {
 			// 配置路由模式
 			RouterMode.config({
 				mode: 'ast',
 			});
+
+			Vue.use(ELEMENT);
 
 			// 混入可观测的数据
 			Vue.mixin({

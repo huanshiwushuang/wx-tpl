@@ -12,50 +12,106 @@ namespace app\defaultApp\websocket;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
-use GatewayWorker\Lib\Context;
 use GatewayWorker\Lib\Gateway;
-use Workerman\Worker;
-use think\worker\Events as ThinkEvents;
+use think\worker\Events as ThinkWorkerEvents;
+use app\defaultApp\websocket\source\Record;
+use Throwable;
+use Workerman\Lib\Timer;
 
 /**
  * Worker 命令行服务类
  */
-class Events extends ThinkEvents
+class Events extends ThinkWorkerEvents
 {
+	public static $session = [
+		// 是否完成了初始化，绑定 uid
+		'inited' => false,
+		// 关闭连接: 定时器
+		'init_timer_id' => null,
+		'uid' => null,
+	];
 	public static function onConnect($client_id)
 	{
-		Events::execInit();
+		Send::sendInit();
+
+		// 初始化 session
+		$_SESSION = array_merge([], Events::$session);
+
+		// ktf960sc: 定时，** 秒后关闭连接
+		$_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
+			Send::sendClose();
+		}, [
+			$client_id
+		], false);
+	}
+	public static function onWebSocketConnect($client_id, $data)
+	{
 	}
 	public static function onMessage($client_id, $data)
 	{
-		// 没有绑定 uid，则初始化绑定
-		$uid = Gateway::getUidByClientId($client_id);
-
-		if (empty($uid)) {
-			return Events::execInit();
+		try {
+			$data_json = json_decode($data);
+		} catch (Throwable $e) {
+			return Send::sendError('data format error, require json');
 		}
 
-		// 每个用户对应一个组，组名是 uid
-		Gateway::joinGroup($client_id, $uid);
-		// 向所有此组的用户发送数据，不包括自己
-		Gateway::sendToGroup($uid, $data, [
-			$client_id
-		]);
+		switch ($data_json->type) {
+			case 'inited':
+				// 如果已经初始化了
+				if ($_SESSION['inited']) {
+					return Send::sendError('inited already');
+				}
+				// 检查是否初始化完成
+				$uid = $_SESSION['uid'];
+
+				if (empty($uid)) {
+					$uid = Gateway::getUidByClientId($client_id);
+				}
+				if (empty($uid)) {
+					return Send::sendError('inited check did not pass');
+				}
+				// ************************************************************
+				// 修改状态
+				$_SESSION['inited'] = true;
+				$_SESSION['uid'] = $uid;
+				Send::sendSuccess('inited check passed');
+				// ************************************************************
+				// 删除定时器
+				Timer::del($_SESSION['init_timer_id']);
+				// ************************************************************
+				// 保持一个用户只有一个 socket 在线
+				// 用户组
+				$group_user = Group::user($uid);
+				// 保持一个用户只有一个 socket 在线
+				$array_client_id = Gateway::getClientIdListByGroup($group_user);
+
+				foreach ($array_client_id as $item_client_id) {
+					// 除了当前 client, 其他都断开
+					if ($item_client_id !== $client_id) {
+						Send::sendClose($item_client_id);
+					}
+				}
+				// ************************************************************
+				// 加入当前用户组
+				Gateway::joinGroup($client_id, $group_user);
+				return;
+		}
+
+		// 尚未初始化
+		if (!$_SESSION['inited']) {
+			return Send::sendInit();
+		}
+		// ************************************************************
+		// 根据 source 分流
+		switch ($data_json->source) {
+			case 'record':
+				Record::onMessage($client_id, $data_json, $data);
+				break;
+			default:
+				Send::sendError('have not source field');
+		}
 	}
 	public static function onClose($client_id)
 	{
-		GateWay::sendToAll(json_encode([
-			'type' => 'logout',
-			'client_id' => $client_id,
-		]));
-	}
-
-	// 执行初始化命令
-	public static function execInit()
-	{
-		Gateway::sendToCurrentClient(json_encode([
-			'type' => 'init',
-			'client_id' => Context::$client_id,
-		]));
 	}
 }

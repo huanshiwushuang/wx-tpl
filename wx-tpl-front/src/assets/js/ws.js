@@ -1,4 +1,5 @@
-export default class WS {
+export default class WS extends EventTarget {
+	// 默认选项
 	#options_default = {
 		reconnection: true,
 		reconnectionDelay: 3000,
@@ -6,8 +7,11 @@ export default class WS {
 		protocol: location.href.startsWith('https') ? 'wss' : 'ws',
 		url: null,
 	};
+	// 参数选项
 	#options_params = {};
+	// 使用选项
 	#options_use = {};
+	// websocket 实例
 	#socket = null;
 
 	constructor(options_params = {}) {
@@ -15,17 +19,16 @@ export default class WS {
 			console.error('not support websocket');
 			return null;
 		}
+		super();
 
 		// 保存参数
 		this.#options_params = options_params;
 		// 合并参数
-		Object.assign(this.#options_use, this.#options_default, this.#options_params);
+		this.#reset_options();
 
 		if (!this.#options_use.url) {
 			throw new Error('url required');
 		}
-
-		this.#create();
 	}
 	// 重置参数
 	// eslint-disable-next-line no-dupe-class-members
@@ -38,8 +41,22 @@ export default class WS {
 	// eslint-disable-next-line no-dupe-class-members
 	#create() {
 		this.#socket = new WebSocket(`${this.#options_use.protocol}://${this.#options_use.url}`);
+
+		// 如果连接成功重置重连次数
+		this.#socket.addEventListener('open', function () {
+			this.#options_use.reconnectionAttempts = Object.assign(this.#options_default, this.#options_params).reconnectionAttempts;
+		}.bind(this));
 		this.#socket.addEventListener('close', this.#reconnect.bind(this));
 		this.#socket.addEventListener('error', this.#reconnect.bind(this));
+
+		// 代理派发事件
+		['open', 'close', 'error', 'message'].forEach(item => {
+			this.#socket.addEventListener(item, (e) => {
+				// 触发同名事件
+				// 不能直接派发，必须重新构造
+				this.dispatchEvent(new e.constructor(e.type, e));
+			})
+		})
 	}
 	// 重连
 	// eslint-disable-next-line no-dupe-class-members
@@ -58,15 +75,17 @@ export default class WS {
 				} else {
 					return this;
 				}
-				this.connect({
+				this.#connect({
+					// 不是手动重连
 					isManual: false
 				});
 		}
 
 	}
-	connect({ isManual } = { isManual: true }) {
+	// eslint-disable-next-line no-dupe-class-members
+	#connect({ isManual }) {
 		// 如果已经连接上了
-		switch (this.#socket.readyState) {
+		switch (this.#socket?.readyState) {
 			case WebSocket.OPEN:
 				return this;
 		}
@@ -85,50 +104,56 @@ export default class WS {
 		this.#options_use.reconnectionAttempts--;
 
 		this.connect.isConnecting = true;
+
 		if (isManual) {
 			this.#create();
 			this.connect.isConnecting = false;
 		} else {
 			setTimeout(() => {
 				this.#create();
-
-				// 如果连接成功重置重连次数
-				this.#socket.addEventListener('open', function () {
-					this.#options_use.reconnectionAttempts = Object.assign(this.#options_default, this.#options_params).reconnectionAttempts;
-				}.bind(this))
-
 				this.connect.isConnecting = false;
 			}, this.#options_use.reconnectionDelay);
 		}
 
 		return this;
 	}
+	connect() {
+		if ([WebSocket.OPEN].includes(this.#socket?.readyState)) {
+			return this;
+		}
+		this.#connect({
+			isManual: true
+		});
+	}
 	disconnect() {
+		if ([WebSocket.CLOSED, WebSocket.CLOSING].includes(this.#socket?.readyState)) {
+			return this;
+		}
 		this.#socket.close();
 
 		return this;
 	}
 	send(data) {
+		if (![WebSocket.OPEN].includes(this.#socket?.readyState)) {
+			return this;
+		}
 		switch (this.#socket.readyState) {
 			case WebSocket.OPEN:
-				return this.#socket.send(data);
-			default:
-				console.error(`socket is closed`);
+				this.#socket.send(data);
+				break;
 		}
 
 		return this;
 	}
 	sendObj(obj) {
-		this.send(JSON.stringify(obj))
-
-		return this;
+		return this.send(JSON.stringify(obj))
 	}
 	set options_use(options_params = {}) {
 		this.#options_params = options_params;
 
 		this.#reset_options();
 	}
-	get socket() {
-		return this.#socket;
+	get readyState() {
+		return this.#socket.readyState;
 	}
 }

@@ -9,12 +9,16 @@
             <div class="ktatxgj8_box">
                 <div class="ktaudtgs_box">
                     <el-input
-                        v-model="watch_group"
-                        placeholder="请输入 watch_group"
+                        v-model="password"
+                        placeholder="请输入密码"
+                    ></el-input>
+                    <el-input
+                        v-model="uid"
+                        placeholder="请输入 uid"
                     ></el-input>
                 </div>
                 <div class="ktauf2dw_box">
-                    <el-button @click="playByClientId"> 播放 </el-button>
+                    <el-button @click="joinGroup"> 查看用户 </el-button>
                 </div>
             </div>
         </div>
@@ -26,7 +30,8 @@ module.exports = {
     name: "rrweb-play",
     data() {
         return {
-            watch_group: null,
+            password: "",
+            uid: "",
             replayer: null,
             client_id: null,
         };
@@ -49,11 +54,15 @@ module.exports = {
                     try {
                         data_json = JSON.parse(event.data);
                     } catch (error) {
-                        console.error(error);
+                        return console.error(error);
                     }
                     switch (data_json.type) {
                         case "init":
                             this.client_id = data_json.client_id;
+
+                            this.$post("/websocket/bindUid", {
+                                client_id: this.client_id,
+                            });
                             break;
                         case "event":
                             {
@@ -73,6 +82,12 @@ module.exports = {
                                 });
                             }
                             break;
+                        case "success":
+                            this.$message.success(data_json.success);
+                            break;
+                        case "error":
+                            this.$message.error(data_json.error);
+                            break;
                     }
                 });
             });
@@ -86,11 +101,19 @@ module.exports = {
                 });
             });
         },
-        playByClientId() {
-            this.$post("/websocket/getEventByUid", {
+        async joinGroup() {
+            let params = {
+                password: this.password,
                 client_id: this.client_id,
-                group: this.watch_group,
-            });
+                uid: this.uid,
+            };
+            // 加入组
+            let res = await this.$post("/websocket/joinGroup", params);
+            if (res.data.type !== "success") {
+                return;
+            }
+            // 全新请求记录一次
+            await this.$post("/websocket/record_checkout", params);
         },
     },
     created() {
@@ -98,6 +121,7 @@ module.exports = {
     },
     mounted() {
         this.init_mounted();
+
         window.rrweb = this;
     },
 };
