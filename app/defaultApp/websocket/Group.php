@@ -13,7 +13,7 @@ namespace app\defaultApp\websocket;
 // 组名由 json 字符串组成
 class Group
 {
-	// 返回-用户组名
+	// 返回-用户组
 	public static function user($uid, $return_json = false)
 	{
 		$res = [

@@ -17,6 +17,11 @@ const data_default = {
 }
 
 class Record {
+	#STATE = {
+		init: 'init',
+		// ?????
+	}
+
 	#options_default = {
 		// 是否正在开启或已开启
 		isStarting: false,

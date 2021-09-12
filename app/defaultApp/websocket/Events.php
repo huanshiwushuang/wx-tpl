@@ -17,7 +17,7 @@ use app\defaultApp\websocket\data\Data;
 use app\defaultApp\websocket\send\Send;
 use GatewayWorker\Lib\Gateway;
 use think\worker\Events as ThinkWorkerEvents;
-use app\defaultApp\websocket\source\Record;
+use app\defaultApp\websocket\controller\Record;
 use Throwable;
 use Workerman\Lib\Timer;
 
@@ -40,7 +40,7 @@ class Events extends ThinkWorkerEvents
 		// 初始化 session
 		$_SESSION = array_merge([], Events::$session);
 
-		// ktf960sc: 定时，** 秒后关闭连接
+		// 定时，** 秒后关闭连接
 		$_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
 			Send::sendClose($client_id, Code::close_init_timeout());
 		}, [

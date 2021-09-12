@@ -1,9 +1,11 @@
 export default class WS extends EventTarget {
+	// 是否手动触发了修改状态的逻辑
+	#is_manual = false
 	// 默认选项
 	#options_default = {
 		reconnection: true,
 		reconnectionDelay: 3000,
-		reconnectionAttempts: 5,
+		reconnectionTryCount: 5,
 		protocol: location.href.startsWith('https') ? 'wss' : 'ws',
 		url: null,
 	};
@@ -42,12 +44,9 @@ export default class WS extends EventTarget {
 	#create() {
 		this.#socket = new WebSocket(`${this.#options_use.protocol}://${this.#options_use.url}`);
 
-		// 如果连接成功重置重连次数
-		this.#socket.addEventListener('open', function () {
-			this.#options_use.reconnectionAttempts = Object.assign(this.#options_default, this.#options_params).reconnectionAttempts;
-		}.bind(this));
-		this.#socket.addEventListener('close', this.#reconnect.bind(this));
-		this.#socket.addEventListener('error', this.#reconnect.bind(this));
+		this.#socket.addEventListener('open', this.#handleOpen.bind(this));
+		this.#socket.addEventListener('close', this.#handleDisconnect.bind(this));
+		this.#socket.addEventListener('error', this.#handleDisconnect.bind(this));
 
 		// 代理派发事件
 		['open', 'close', 'error', 'message'].forEach(item => {
@@ -58,9 +57,18 @@ export default class WS extends EventTarget {
 			})
 		})
 	}
-	// 重连
+	// 处理-打开了连接
 	// eslint-disable-next-line no-dupe-class-members
-	#reconnect(e) {
+	#handleOpen() {
+		// 重置-选项
+		this.#reset_options();
+	}
+	// 处理-断开
+	// eslint-disable-next-line no-dupe-class-members
+	#handleDisconnect(e) {
+		// 防止 close 和 error 连续出发两次????????
+		clearTimeout(this.#handleDisconnect.timeout);
+
 		switch (e.code) {
 			// 1000 是收到了关闭信号，正常关闭不重连
 			case 1000:
@@ -69,67 +77,55 @@ export default class WS extends EventTarget {
 				// 如果允许自动连接
 				if (this.#options_use.reconnection) {
 					// 重连次数已用完
-					if (this.#options_use.reconnectionAttempts <= 0) {
+					if (this.#options_use.reconnectionTryCount <= 0) {
 						return this;
 					}
 				} else {
 					return this;
 				}
-				this.#connect({
-					// 不是手动重连
-					isManual: false
-				});
-		}
 
+				// 非手动重连
+				this.#is_manual = false;
+				this.#handleDisconnect.timeout = setTimeout(() => {
+					this.#connect();
+				}, 100);
+		}
 	}
 	// eslint-disable-next-line no-dupe-class-members
-	#connect({ isManual }) {
+	#connect() {
 		// 如果已经连接上了
-		switch (this.#socket?.readyState) {
-			case WebSocket.OPEN:
-				return this;
+		if ([WebSocket.OPEN, WebSocket.CONNECTING].includes(this.#socket?.readyState)) {
+			return;
 		}
 
-		// 手动连接
-		if (isManual) {
-			// 重置参数
-			this.#reset_options();
+		// 自动重连，次数 -1
+		if (!this.#is_manual) {
+			this.#options_use.reconnectionTryCount--;
 		}
 
-		// 如果已经正在重连
-		if (this.connect.isConnecting) {
-			return this;
-		}
-
-		this.#options_use.reconnectionAttempts--;
-
-		this.connect.isConnecting = true;
-
-		if (isManual) {
+		if (this.#is_manual) {
 			this.#create();
-			this.connect.isConnecting = false;
-		} else {
+		}
+		// 自动重连，要有延迟
+		else {
 			setTimeout(() => {
 				this.#create();
-				this.connect.isConnecting = false;
 			}, this.#options_use.reconnectionDelay);
 		}
 
 		return this;
 	}
 	connect() {
-		if ([WebSocket.OPEN].includes(this.#socket?.readyState)) {
-			return this;
-		}
-		this.#connect({
-			isManual: true
-		});
+		this.#is_manual = true;
+
+		this.#connect();
+
+		return this;
 	}
 	disconnect() {
-		if ([WebSocket.CLOSED, WebSocket.CLOSING].includes(this.#socket?.readyState)) {
-			return this;
-		}
-		this.#socket.close();
+		this.#is_manual = true;
+
+		this.#socket?.close();
 
 		return this;
 	}
@@ -137,15 +133,13 @@ export default class WS extends EventTarget {
 		if (![WebSocket.OPEN].includes(this.#socket?.readyState)) {
 			return this;
 		}
-		switch (this.#socket.readyState) {
-			case WebSocket.OPEN:
-				this.#socket.send(data);
-				break;
-		}
+
+		this.#socket.send(data);
 
 		return this;
 	}
 	sendObj(obj) {
+
 		return this.send(JSON.stringify(obj))
 	}
 	set options_use(options_params = {}) {

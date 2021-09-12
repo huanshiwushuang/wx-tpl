@@ -37,7 +37,7 @@ class Send
     // 所以通知客户端主动关闭
     public static function sendClose($client_id = null, $code = null)
     {
-        $res = Data::close($client_id, $code);
+        $res = Data::close($code);
 
         if (!$client_id) {
             $client_id = Context::$client_id;
