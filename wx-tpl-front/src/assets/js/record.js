@@ -6,7 +6,7 @@ import Vue from 'vue';
 const { $post: Post } = Init.protoData;
 
 const ws = new WS({
-	url: `localhost:2348`,
+	url: `192.168.5.2:2348`,
 });
 
 Vue.prototype.$ws = ws;
