@@ -12,6 +12,9 @@ namespace app\defaultApp\websocket;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
+use app\defaultApp\websocket\code\Code;
+use app\defaultApp\websocket\data\Data;
+use app\defaultApp\websocket\send\Send;
 use GatewayWorker\Lib\Gateway;
 use think\worker\Events as ThinkWorkerEvents;
 use app\defaultApp\websocket\source\Record;
@@ -39,7 +42,7 @@ class Events extends ThinkWorkerEvents
 
 		// ktf960sc: 定时，** 秒后关闭连接
 		$_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
-			Send::sendClose();
+			Send::sendClose($client_id, Code::close_init_timeout());
 		}, [
 			$client_id
 		], false);
@@ -52,14 +55,14 @@ class Events extends ThinkWorkerEvents
 		try {
 			$data_json = json_decode($data);
 		} catch (Throwable $e) {
-			return Send::sendError('data format error, require json');
+			return Gateway::sendToCurrentClient(Data::error('data format error, require json'));
 		}
 
 		switch ($data_json->type) {
 			case 'inited':
 				// 如果已经初始化了
 				if ($_SESSION['inited']) {
-					return Send::sendError('inited already');
+					return Gateway::sendToCurrentClient(Data::error('inited already'));
 				}
 				// 检查是否初始化完成
 				$uid = $_SESSION['uid'];
@@ -68,13 +71,14 @@ class Events extends ThinkWorkerEvents
 					$uid = Gateway::getUidByClientId($client_id);
 				}
 				if (empty($uid)) {
-					return Send::sendError('inited check did not pass');
+					return Gateway::sendToCurrentClient(Data::error('inited check did not pass'));
 				}
 				// ************************************************************
 				// 修改状态
 				$_SESSION['inited'] = true;
 				$_SESSION['uid'] = $uid;
-				Send::sendSuccess('inited check passed');
+
+				Gateway::sendToCurrentClient(Data::success('inited check passed'));
 				// ************************************************************
 				// 删除定时器
 				Timer::del($_SESSION['init_timer_id']);
@@ -88,7 +92,7 @@ class Events extends ThinkWorkerEvents
 				foreach ($array_client_id as $item_client_id) {
 					// 除了当前 client, 其他都断开
 					if ($item_client_id !== $client_id) {
-						Send::sendClose($item_client_id);
+						Send::sendClose($item_client_id, Code::close_only_one_online());
 					}
 				}
 				// ************************************************************
@@ -108,7 +112,7 @@ class Events extends ThinkWorkerEvents
 				Record::onMessage($client_id, $data_json, $data);
 				break;
 			default:
-				Send::sendError('have not source field');
+				return Gateway::sendToCurrentClient(Data::error('have not source field'));
 		}
 	}
 	public static function onClose($client_id)

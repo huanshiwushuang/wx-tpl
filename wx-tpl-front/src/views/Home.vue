@@ -1,6 +1,9 @@
 <template>
     <div class="home">
 		<h1>您的UID是： {{ uid }}</h1>
+		<textarea>
+			home
+		</textarea>
         <a href="https://www.wuxuwang.com" target="_blank">
 			<img alt="Vue logo" src="@/assets/img/krt3th48.jpg" />
 		</a>

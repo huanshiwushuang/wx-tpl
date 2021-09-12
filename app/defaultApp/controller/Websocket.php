@@ -2,8 +2,11 @@
 
 namespace app\defaultApp\controller;
 
+use app\defaultApp\websocket\data\Data;
+use app\defaultApp\websocket\data\DataRecord;
 use app\defaultApp\websocket\Group;
 use app\defaultApp\websocket\Send;
+use app\defaultApp\websocket\SendRecord;
 use think\facade\Request;
 use GatewayClient\Gateway;
 
@@ -22,7 +25,7 @@ class Websocket extends Base
 		if (!empty($client_id) && !empty($uid)) {
 			Gateway::bindUid($client_id, $uid);
 		} else {
-			return Send::sendError('params error');
+			return Gateway::sendToClient($client_id, Data::error('params error'));
 		}
 	}
 	// 将用户加入 Group
@@ -34,7 +37,7 @@ class Websocket extends Base
 		$uid = Request::param('uid');
 
 		if ($password !== 'kte43xy2kte43yokkte43ze8kte4402pkte4410r') {
-			return Send::sendError('password error', $client_id);
+			return Gateway::sendToClient($client_id, Data::error('password error'));
 		}
 
 		if (!empty($client_id) && !empty($uid)) {
@@ -55,9 +58,27 @@ class Websocket extends Base
 
 			Gateway::joinGroup($client_id, $group_user_watch);
 
-			Send::sendSuccess('join success', $client_id);
+			return Gateway::sendToClient($client_id, Data::success('join success'));
 		} else {
-			return Send::sendError('params error', $client_id);
+			return Gateway::sendToClient($client_id, Data::error('params error'));
+		}
+	}
+	// record_checkout
+	public function record_checkout()
+	{
+		// 暂时如此做，理当有自己的业务判断逻辑
+		$password = Request::param('password');
+		$client_id = Request::param('client_id');
+		$uid = Request::param('uid');
+
+		if ($password !== 'kte43xy2kte43yokkte43ze8kte4402pkte4410r') {
+			return Gateway::sendToClient($client_id, Data::error('password error'));
+		}
+
+		if (!empty($client_id) && !empty($uid)) {
+			Gateway::sendToUid($uid, DataRecord::checkout());
+		} else {
+			return Gateway::sendToClient($client_id, Data::error('params error'));
 		}
 	}
 }
