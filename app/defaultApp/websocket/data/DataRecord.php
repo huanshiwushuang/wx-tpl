@@ -15,12 +15,12 @@ namespace app\defaultApp\websocket\data;
 class DataRecord
 {
     // checkout 数据
-    public static function checkout($is_json = false)
+    public static function checkout($is_json = true)
     {
         $res = [
             'type' => 'checkout',
         ];
 
-        return $is_json ? $res : json_encode($res);
+        return $is_json ? json_encode($res) : $res;
     }
 }

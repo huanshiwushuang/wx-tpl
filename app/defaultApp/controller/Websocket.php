@@ -5,8 +5,6 @@ namespace app\defaultApp\controller;
 use app\defaultApp\websocket\data\Data;
 use app\defaultApp\websocket\data\DataRecord;
 use app\defaultApp\websocket\Group;
-use app\defaultApp\websocket\Send;
-use app\defaultApp\websocket\SendRecord;
 use think\facade\Request;
 use GatewayClient\Gateway;
 

@@ -17,7 +17,7 @@ use GatewayWorker\Lib\Context;
 class Data
 {
     // 初始化数据
-    public static function init($client_id = null, $is_json = false)
+    public static function init($client_id = null, $is_json = true)
     {
         if (!$client_id) {
             $client_id = Context::$client_id;
@@ -27,36 +27,36 @@ class Data
             'type' => 'init',
             'client_id' => $client_id,
         ];
-        return $is_json ? $res : json_encode($res);
+        return $is_json ? json_encode($res) : $res;
     }
     // 成功数据
-    public static function success($success, $is_json = false)
+    public static function success($success, $is_json = true)
     {
         $res = [
             'type' => 'success',
             'success' => $success
         ];
 
-        return $is_json ? $res : json_encode($res);
+        return $is_json ? json_encode($res) : $res;
     }
     // 错误数据
-    public static function error($error, $is_json = false)
+    public static function error($error, $is_json = true)
     {
         $res = [
             'type' => 'error',
             'error' => $error
         ];
 
-        return $is_json ? $res : json_encode($res);
+        return $is_json ? json_encode($res) : $res;
     }
     // 关闭数据
-    public static function close($code = null, $is_json = false)
+    public static function close($code = null, $is_json = true)
     {
         $res = [
             'type' => 'close',
             'code' => $code,
         ];
 
-        return $is_json ? $res : json_encode($res);
+        return $is_json ? json_encode($res) : $res;
     }
 }
