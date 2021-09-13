@@ -76,7 +76,7 @@ ws.addEventListener('message', async e => {
                         state_init.state = state_init.initing;
 
                         try {
-                            await Post(config.bindUrl, {
+                            await Post(config.bind_url, {
                                 client_id: data_json.client_id,
                                 uid: config.uid,
                             });
