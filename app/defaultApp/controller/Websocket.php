@@ -18,7 +18,7 @@ class Websocket extends Base
 	public function bindUid()
 	{
 		$client_id = Request::param('client_id');
-		$uid = Request::cookie('PHPSESSID');
+		$uid = Request::param('uid');
 
 		if (!empty($client_id) && !empty($uid)) {
 			Gateway::bindUid($client_id, $uid);

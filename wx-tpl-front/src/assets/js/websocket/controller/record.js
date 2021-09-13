@@ -8,7 +8,6 @@ export default class Record {
 	// 已连接
 	static onconnect() {
 		console.log('开始录制');
-		stop_record();
 
 		Record.start_record();
 	}
@@ -21,14 +20,15 @@ export default class Record {
 	static onmessage(data_json) {
 		switch (data_json.type) {
 			case 'checkout':
-				console.log('重新记录');
-				stop_record();
+				console.log('重新录制');
 				Record.start_record();
 				break;
 		}
 	}
 	// 开始记录
 	static start_record() {
+		stop_record();
+
 		stop_record = record({
 			emit(event) {
 				// 发送数据

@@ -6,9 +6,22 @@ import Data from './data/data'
 
 const { $post: Post } = Init.protoData;
 
+// 配置
+const config = {
+    // websocket 协议
+    protocol: 'wss',
+    // websocket 网址
+    url: 'remote.513902.xyz:443/wss',
+    // 绑定地址
+    bind_url: 'https://remote.513902.xyz/websocket/bindUid',
+    // 用户 uid
+    uid: Init.protoData.$cookie.get('PHPSESSID'),
+}
+
 // 创建 websocket
 const ws = new WS({
-    url: `192.168.100.5:2348`,
+    protocol: config.protocol,
+    url: config.url,
 });
 ws.connect();
 
@@ -44,7 +57,6 @@ ws.addEventListener('message', async e => {
         case 'record':
             Record.onmessage(data_json);
             break;
-        // 没有 dist，查看 type
         default:
             // type 数据类型
             switch (data_json.type) {
@@ -64,8 +76,9 @@ ws.addEventListener('message', async e => {
                         state_init.state = state_init.initing;
 
                         try {
-                            await Post('/websocket/bindUid', {
+                            await Post(config.bindUrl, {
                                 client_id: data_json.client_id,
+                                uid: config.uid,
                             });
                         } catch (e) {
                             console.error(e);
@@ -88,6 +101,7 @@ ws.addEventListener('message', async e => {
                 // 初始化完成
                 case 'inited':
                     state_init.state = state_init.inited;
+
                     // 初始化完成，通知其他控制器
                     all_controller.forEach(item => {
                         item.onconnect();
