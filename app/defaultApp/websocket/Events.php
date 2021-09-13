@@ -98,6 +98,9 @@ class Events extends ThinkWorkerEvents
 				// ************************************************************
 				// 加入当前用户组
 				Gateway::joinGroup($client_id, $group_user);
+				// ************************************************************
+				// 通知，client 可以发送数据了
+				Send::sendInited();
 				return;
 		}
 
@@ -107,7 +110,7 @@ class Events extends ThinkWorkerEvents
 		}
 		// ************************************************************
 		// 根据 source 分流
-		switch ($data_json->source) {
+		switch (Data::node_receive($data_json)->source) {
 			case 'record':
 				Record::onMessage($client_id, $data_json, $data);
 				break;

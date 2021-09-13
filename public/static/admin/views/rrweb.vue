@@ -89,7 +89,7 @@ module.exports = {
                 if (isFirstEvent) {
                   isFirstEvent = false;
                   // 直播模式
-                  this.replayer.startLive(event.timestamp - 300);
+                  this.replayer.startLive(event.timestamp - 500);
                 }
 
                 this.replayer.addEvent(event);

@@ -5,8 +5,9 @@ import Vue from 'vue';
 
 const { $post: Post } = Init.protoData;
 
+// 创建 websocket
 const ws = new WS({
-	url: `192.168.5.2:2348`,
+	url: `192.168.100.5:2348`,
 });
 
 Vue.prototype.$ws = ws;
@@ -16,28 +17,27 @@ const data_default = {
 	type: 'ping',
 }
 
+// 状态由：websocket 状态 和 record 状态 组成
 class Record {
-	#STATE = {
-		init: 'init',
-		// ?????
-	}
+	// 是否正在记录
+	#is_recording = false
+	// 是否正在初始化
+	#is_initing = false
+	// record 停止函数
+	#record_stop_func = () => { }
+	// record 停止函数 timout id
+	#record_stop_func_timeout = () => { }
 
 	#options_default = {
-		// 是否正在开启或已开启
-		isStarting: false,
 		// 初始化尝试次数
-		initTryCount: 3,
-		// 是否正在初始化
-		isIniting: false,
-		// record 停止函数
-		stopRecord: () => { },
-		// 停止函数-timeout
-		stop_timeout: null,
+		init_try_count: 3,
 	}
 	#options_params = {}
 	#options_use = {}
+
 	constructor(options_params) {
 		this.#options_params = options_params;
+
 		this.#reset_options_use();
 
 		if (!ws) {
@@ -46,9 +46,11 @@ class Record {
 
 		// 事件绑定
 		const handleCloseError = () => {
-			this.#options_use.isStarting = false;
-			this.#options_use.stopRecord();
+			this.#options_use.is_recording = false;
+			this.#options_use.record_stop_func();
 		}
+		ws.addEventListener('message', this.#handleMessage.bind(this));
+
 		ws.addEventListener('message', async (e) => {
 			let data_json = {};
 
@@ -126,11 +128,25 @@ class Record {
 			...this.#options_params
 		}
 	}
+	// 处理-message
+	#handleMessage(e) {
+		let data_json = {};
+
+		try {
+			data_json = JSON.parse(e.data);
+		} catch (e) {
+			return console.error(e);
+		}
+
+		switch (data_json.) {
+
+		}
+	}
 	// 重新激活
 	// eslint-disable-next-line no-dupe-class-members
 	#re_active() {
 		// 如果正在记录，则推迟 stop
-		if (this.#options_use.isStarting) {
+		if (this.#options_use.is_recording) {
 			clearTimeout(this.#options_use.stop_timeout);
 
 			this.#options_use.stop_timeout = setTimeout(() => {
@@ -145,8 +161,8 @@ class Record {
 	// 开始记录
 	// eslint-disable-next-line no-dupe-class-members
 	#startRecord() {
-		this.#options_use.stopRecord();
-		this.#options_use.stopRecord = record({
+		this.#options_use.record_stop_func();
+		this.#options_use.record_stop_func = record({
 			emit(event) {
 				// 发送数据
 				ws.sendObj(
@@ -160,27 +176,27 @@ class Record {
 		})
 	}
 	start() {
-		if (this.#options_use.isStarting) {
+		if (this.#options_use.is_recording) {
 			return;
 		}
 		// 重置参数
 		this.#reset_options_use();
 
 		// 正在开启
-		this.#options_use.isStarting = true;
+		this.#options_use.is_recording = true;
 		ws.connect();
 	}
 	stop(reason) {
 		console.log(`call stop: ${reason}`);
 
-		if (!this.#options_use.isStarting) {
+		if (!this.#options_use.is_recording) {
 			return;
 		}
 
 		// 尚未开启
-		this.#options_use.isStarting = false;
+		this.#options_use.is_recording = false;
 		// 停止记录
-		this.#options_use.stopRecord();
+		this.#options_use.record_stop_func();
 		// 断开 socket
 		ws.disconnect();
 		// 取消 timeout call stop

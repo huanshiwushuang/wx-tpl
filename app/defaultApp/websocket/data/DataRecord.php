@@ -17,9 +17,10 @@ class DataRecord
     // checkout 数据
     public static function checkout($is_json = true)
     {
-        $res = [
+        $res = Data::node_send([
+            'dist' => 'record',
             'type' => 'checkout',
-        ];
+        ]);
 
         return $is_json ? json_encode($res) : $res;
     }

@@ -26,7 +26,7 @@ export default class WS extends EventTarget {
 		// 保存参数
 		this.#options_params = options_params;
 		// 合并参数
-		this.#reset_options();
+		this.#reset_options_use();
 
 		if (!this.#options_use.url) {
 			throw new Error('url required');
@@ -34,9 +34,11 @@ export default class WS extends EventTarget {
 	}
 	// 重置参数
 	// eslint-disable-next-line no-dupe-class-members
-	#reset_options() {
-		// 合并参数
-		Object.assign(this.#options_use, this.#options_default, this.#options_params);
+	#reset_options_use() {
+		this.#options_use = {
+			...this.#options_default,
+			...this.#options_params
+		}
 		return this;
 	}
 	// 创建 WebSocket
@@ -61,7 +63,7 @@ export default class WS extends EventTarget {
 	// eslint-disable-next-line no-dupe-class-members
 	#handleOpen() {
 		// 重置-选项
-		this.#reset_options();
+		this.#reset_options_use();
 	}
 	// 处理-断开
 	// eslint-disable-next-line no-dupe-class-members
@@ -145,7 +147,7 @@ export default class WS extends EventTarget {
 	set options_use(options_params = {}) {
 		this.#options_params = options_params;
 
-		this.#reset_options();
+		this.#reset_options_use();
 	}
 	get readyState() {
 		return this.#socket.readyState;
