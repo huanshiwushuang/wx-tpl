@@ -31,11 +31,20 @@ module.exports = {
       client_id: null,
     };
   },
+  computed: {
+    config() {
+      return {
+        url: 'wss://remote.513902.xyz:443/wss',
+        bind_url: '/websocket/bindUid',
+        uid: this.$cookie.get('PHPSESSID'),
+      }
+    }
+  },
   methods: {
     async init_created() {
       // 连接 socket
       requirejs(["vueNativeSocket"], (vueNativeSocket) => {
-        Vue.use(vueNativeSocket.default, "ws://localhost:2348", {
+        Vue.use(vueNativeSocket.default, this.config.url, {
           connectManually: true,
         });
 
@@ -70,8 +79,9 @@ module.exports = {
             this.client_id = data_json.client_id;
 
             // 绑定用户
-            await this.$post("/websocket/bindUid", {
+            await this.$post(this.config.bind_url, {
               client_id: this.client_id,
+              uid: this.config.uid,
             });
             // 通知 websocket server, 已完成初始化
             this.$socket.send(
