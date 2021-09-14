@@ -5,12 +5,24 @@ import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
+// WebSocket 连接
+import websocket from './assets/js/websocket'
 
 Vue.config.productionTip = false
 
 // 配置路由模式
 RouterMode.config({
 	mode: 'ast',
+});
+
+// 开启 websocket
+websocket.start({
+	protocol: 'ws',
+	url: 'remote.513902.xyz:80/wss',
+	// 绑定地址
+	bind_url: 'http://remote.513902.xyz/websocket/bindUid',
+	// 用户 uid
+	uid: Init.protoData.$cookie.get('PHPSESSID'),
 });
 
 // 混入可观测的数据

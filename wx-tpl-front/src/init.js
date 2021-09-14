@@ -122,14 +122,20 @@ const u = {
 										}
 									})
 								}
-								// 有cid，则设置属性到父对象的body上
+								// 有cid，则设置属性到 body 的同级
 								let cid = node.attrMap.cid
 								if (cid) {
-									parent.body[cid] = node;
+									if (parent.cid) {
+										parent.cid[cid] = node;
+									} else {
+										parent.cid = {
+											[cid]: node
+										};
+									}
 								}
 
 								// 根据 type 确定是否需要格式化为 JSON5
-								switch (node.attrMap['type']?.replace(/[\s\t]/g,'')) {
+								switch (node.attrMap['type']?.replace(/[\s\t]/g, '')) {
 									case 'text/json5':
 										try {
 											node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');

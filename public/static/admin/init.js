@@ -116,10 +116,16 @@ define(['vue', 'js_cookie', 'axios', 'html5parser', 'json5', 'vue_loader', 'less
 											}
 										})
 									}
-									// 有cid，则设置属性到父对象的body上
+									// 有cid，则设置属性到 body 的同级
 									let cid = node.attrMap.cid
 									if (cid) {
-										parent.body[cid] = node;
+										if (parent.cid) {
+											parent.cid[cid] = node;
+										} else {
+											parent.cid = {
+												[cid]: node
+											};
+										}
 									}
 
 									// 根据 type 确定是否需要格式化为 JSON5
