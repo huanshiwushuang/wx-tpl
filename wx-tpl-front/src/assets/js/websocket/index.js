@@ -86,7 +86,9 @@ function start(options_params) {
                             try {
                                 await fetch(options_use.bind_url, {
                                     method: 'POST',
-                                    mode: 'cors',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
                                     body: JSON.stringify({
                                         client_id: data_json.client_id,
                                         uid: options_use.uid,
@@ -128,8 +130,9 @@ function start(options_params) {
 
     // 处理-连接断开
     const handleCloseError = function (...args) {
-        // 如果处于已初始化完成状态断开，才算是断开连接
-        if (state_init.state === state_init.inited) {
+        // 如果处于已初始化完成状态 || 正在初始化
+        // 断开，才算是断开连接
+        if ([state_init.inited, state_init.initing].includes(state_init.state)) {
 
             clearTimeout(handleCloseError.timeout);
 
