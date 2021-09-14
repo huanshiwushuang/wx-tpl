@@ -149,6 +149,11 @@ export default class WS extends EventTarget {
 
 		this.#reset_options_use();
 	}
+	get options_use() {
+		return {
+			...this.#options_use
+		}
+	}
 	get readyState() {
 		return this.#socket.readyState;
 	}

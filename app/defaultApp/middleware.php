@@ -1,5 +1,5 @@
 <?php
 
 return [
-    \think\middleware\AllowCrossDomain::class
+    // \think\middleware\AllowCrossDomain::class
 ];

@@ -6,7 +6,7 @@ import store from './store'
 import RouterMode from './router/mode'
 import router from './router'
 // WebSocket 连接
-import websocket from './assets/js/websocket'
+import { start, ws } from './assets/js/websocket'
 
 Vue.config.productionTip = false
 
@@ -16,7 +16,7 @@ RouterMode.config({
 });
 
 // 开启 websocket
-websocket.start({
+start({
 	protocol: 'ws',
 	url: 'remote.513902.xyz:80/wss',
 	// 绑定地址
@@ -24,6 +24,7 @@ websocket.start({
 	// 用户 uid
 	uid: Init.protoData.$cookie.get('PHPSESSID'),
 });
+Vue.prototype.$ws = ws;
 
 // 混入可观测的数据
 Vue.mixin({

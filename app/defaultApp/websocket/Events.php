@@ -52,12 +52,17 @@ class Events extends ThinkWorkerEvents
 	}
 	public static function onMessage($client_id, $data)
 	{
-		try {
-			$data_json = json_decode($data);
-		} catch (Throwable $e) {
+		$data_json = json_decode($data);
+
+		// json 校验
+		// 因为 json_code 格式化错误根本不抛出异常
+		if (
+			is_string($data_json) ||
+			is_integer($data_json) ||
+			empty($data_json)
+		) {
 			return Gateway::sendToCurrentClient(Data::error('data format error, require json'));
 		}
-		
 
 		switch ($data_json->type) {
 			case 'inited':

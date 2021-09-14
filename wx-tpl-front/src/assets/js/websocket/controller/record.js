@@ -1,6 +1,7 @@
-import { record, pack } from 'rrweb';
-import ws from '../index';
+import { record } from 'rrweb';
+import { ws } from '../index';
 import Data from '../data/data';
+import pako from 'pako';
 
 let stop_record = () => { };
 
@@ -32,12 +33,16 @@ export default class Record {
 		stop_record = record({
 			emit(event) {
 				// 发送数据
-				ws.sendObj(
-					Data.node_send({
-						source: 'record',
-						type: 'event',
-						event: pack(event),
-					})
+				ws.send(
+					pako.deflate(
+						JSON.stringify(
+							Data.node_send({
+								source: 'record',
+								type: 'event',
+								event: (event),
+							})
+						)
+					).buffer
 				)
 			}
 		})

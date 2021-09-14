@@ -3,7 +3,6 @@
 namespace app\defaultApp\controller;
 
 use think\facade\View;
-use think\Request;
 
 class Index extends Base
 {

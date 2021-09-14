@@ -17,9 +17,6 @@ class Websocket extends Base
 	// 绑定 websocket 的 client_id 和 uid
 	public function bindUid()
 	{
-
-		dump($this);
-		exit;
 		$client_id = Request::param('client_id');
 		$uid = Request::param('uid');
 

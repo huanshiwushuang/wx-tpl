@@ -1,8 +1,7 @@
-import Vue from 'vue';
 import WS from '@/assets/js/utils/ws';
 import Record from './controller/record';
 import Data from './data/data'
-import { throttle } from 'lodash';
+import { throttle } from 'lodash-es';
 
 const options_default = {
     // websocket 协议
@@ -20,8 +19,10 @@ let options_use = {}
 
 let is_start = false;
 
+export let ws;
+
 // Init.protoData.$cookie.get('PHPSESSID')
-function start(options_params) {
+function _start(options_params) {
     if (is_start) {
         return;
     }
@@ -34,13 +35,11 @@ function start(options_params) {
     }
 
     // 创建 websocket
-    const ws = new WS({
+    ws = new WS({
         protocol: options_use.protocol,
         url: options_use.url,
     });
     ws.connect();
-
-    Vue.prototype.$ws = ws;
 
     // 状态-初始化
     let state_init = {
@@ -132,7 +131,7 @@ function start(options_params) {
     const handleCloseError = function (...args) {
         // 如果处于已初始化完成状态 || 正在初始化
         // 断开，才算是断开连接
-        if ([state_init.inited, state_init.initing].includes(state_init.state)) {
+        if (state_init.state !== state_init.init) {
 
             clearTimeout(handleCloseError.timeout);
 
@@ -153,8 +152,11 @@ function start(options_params) {
     // 处理-重新连接 websocket
     // throttle 节流
     const active_websocket = throttle(function () {
+        // socket 已关闭 && 自动重连次数已用尽 || 没有自动重连
         if ([WebSocket.CLOSED, WebSocket.CLOSING].includes(ws.readyState)) {
-            ws.connect();
+            if (ws.options_use.reconnectionTryCount <= 0 || !ws.options_use.reconnection) {
+                ws.connect();
+            }
         }
     }, 3000);
     window.addEventListener('touchstart', active_websocket);
@@ -162,12 +164,10 @@ function start(options_params) {
     window.addEventListener('scroll', active_websocket);
 }
 
-export default {
-    start: (...args) => {
-        try {
-            start(...args);
-        } catch (e) {
-            console.error(e);
-        }
+export const start = (...args) => {
+    try {
+        _start(...args);
+    } catch (e) {
+        console.error(e);
     }
 }
