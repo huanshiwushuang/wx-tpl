@@ -2,6 +2,7 @@ export default class Data {
     // 发送数据的节点
     static node_send(node) {
         return {
+            ms: Date.now(),
             source: null,
             type: null,
             ...node,

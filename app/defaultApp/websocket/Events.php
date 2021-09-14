@@ -57,6 +57,7 @@ class Events extends ThinkWorkerEvents
 		} catch (Throwable $e) {
 			return Gateway::sendToCurrentClient(Data::error('data format error, require json'));
 		}
+		
 
 		switch ($data_json->type) {
 			case 'inited':

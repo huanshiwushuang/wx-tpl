@@ -35,8 +35,6 @@ let state_init = {
 
     state: 'init',
 }
-// 初始化失败，重新尝试初始化次数
-let init_try_count = 5;
 // 所有的控制器
 const all_controller = [
     Record
@@ -67,11 +65,6 @@ ws.addEventListener('message', async e => {
                         if (state_init.state !== state_init.init) {
                             return;
                         }
-                        // 如果初始化次数用尽
-                        if (init_try_count <= 0) {
-                            return;
-                        }
-
                         // 正在初始化
                         state_init.state = state_init.initing;
 
@@ -95,7 +88,6 @@ ws.addEventListener('message', async e => {
                             source: 'main',
                             type: 'inited'
                         }))
-
                     }
                     break;
                 // 初始化完成
@@ -124,8 +116,6 @@ const handleCloseError = function (...args) {
             controller.ondisconnect.apply(this, args);
         })
 
-        // 重置-初始化尝试次数
-        init_try_count = 5;
         // 重置-初始化状态
         state_init.state = state_init.init;
     }, 50);
@@ -137,13 +127,6 @@ ws.addEventListener('error', handleCloseError);
 const active_websocket = () => {
     if ([WebSocket.CLOSED, WebSocket.CLOSING].includes(ws.readyState)) {
         ws.connect();
-    } else {
-        // 推迟无活跃关闭
-        clearTimeout(active_websocket.timeout);
-
-        active_websocket.timeout = setTimeout(() => {
-            ws.disconnect();
-        }, 30 * 1000)
     }
 }
 window.addEventListener('touchstart', active_websocket);

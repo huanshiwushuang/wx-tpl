@@ -34,11 +34,11 @@ module.exports = {
   computed: {
     config() {
       return {
-        url: 'wss://remote.513902.xyz:443/wss',
-        bind_url: '/websocket/bindUid',
-        uid: this.$cookie.get('PHPSESSID'),
-      }
-    }
+        url: "wss://remote.513902.xyz:443/wss",
+        bind_url: "/websocket/bindUid",
+        uid: this.$cookie.get("PHPSESSID"),
+      };
+    },
   },
   methods: {
     async init_created() {
