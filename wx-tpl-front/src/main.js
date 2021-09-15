@@ -6,7 +6,7 @@ import store from './store'
 import RouterMode from './router/mode'
 import router from './router'
 // WebSocket 连接
-import { start, ws } from './assets/js/websocket'
+import { start as startWebSocket, ws } from './assets/js/websocket'
 
 Vue.config.productionTip = false
 
@@ -16,7 +16,7 @@ RouterMode.config({
 });
 
 // 开启 websocket
-start({
+startWebSocket({
 	protocol: 'ws',
 	url: 'remote.513902.xyz:80/wss',
 	// 绑定地址
