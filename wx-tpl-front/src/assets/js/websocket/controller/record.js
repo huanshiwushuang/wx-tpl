@@ -1,7 +1,8 @@
 import { record } from 'rrweb';
 import { ws } from '../index';
-import Data from '../data/data';
 import pako from 'pako';
+// API
+import Code from '@/../../app/defaultApp/websocket/api/code.json5';
 
 let stop_record = () => { };
 
@@ -19,8 +20,9 @@ export default class Record {
 	}
 	// 收到数据
 	static onmessage(data_json) {
-		switch (data_json.type) {
-			case 'checkout':
+		switch (data_json.code) {
+			// checkout
+			case Code.ktn053fj_checkout:
 				console.log('重新录制');
 				Record.start_record();
 				break;
@@ -36,7 +38,7 @@ export default class Record {
 				ws.send(
 					pako.deflate(
 						JSON.stringify(
-							Data.node_send({
+							({
 								source: 'record',
 								type: 'event',
 								event: (event),

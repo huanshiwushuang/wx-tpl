@@ -1,41 +1,25 @@
 import WS from '@/assets/js/utils/ws';
 import Record from './controller/record';
-import Data from './data/data'
+import Init from '@/init';
+import Vue from 'vue';
 import { throttle } from 'lodash-es';
-// 通信 code
-import Code from '@/../../app/defaultApp/websocket/jsonSchema/code.json5';
+// API
+import Code from '@/../../app/defaultApp/websocket/api/code.json5';
 
-const options_default = {
-    // websocket 协议
+const options_use = {
     protocol: 'ws',
-    // websocket 网址
-    // 'remote.513902.xyz:2348'
-    url: null,
-    // https://remote.513902.xyz/websocket/bindUid
+    url: 'remote.513902.xyz:80/wss',
     // 绑定地址
-    bind_url: null,
+    bind_url: 'http://remote.513902.xyz/websocket/bindUid',
     // 用户 uid
-    uid: null,
+    uid: Init.protoData.$cookie.get('PHPSESSID'),
 }
-let options_use = {}
-
-let is_start = false;
 
 export let ws;
 
-// Init.protoData.$cookie.get('PHPSESSID')
-function _start(options_params) {
-    if (is_start) {
-        return;
-    }
-    is_start = true;
+Vue.prototype.$ws = ws;
 
-    // 配置
-    options_use = {
-        ...options_default,
-        ...options_params,
-    }
-
+function start() {
     // 创建 websocket
     ws = new WS({
         protocol: options_use.protocol,
@@ -67,66 +51,64 @@ function _start(options_params) {
         }
 
         // 根据 dist 确定数据交给哪个控制器处理
-        switch (data_json.dist) {
-            case 'record':
-                Record.onmessage(data_json);
-                break;
-            default:
-                // type 数据类型
-                switch (data_json.type) {
-                    // 初始化
-                    case Code.ktmsynva_init:
-                        {
-                            // 如果不是初始化状态
-                            if (state_init.state !== state_init.init) {
-                                return;
-                            }
-                            // 正在初始化
-                            state_init.state = state_init.initing;
+        switch (data_json.code) {
+            // 初始化
+            case Code.ktmsynva_init:
+                {
+                    // 如果不是初始化状态
+                    if (state_init.state !== state_init.init) {
+                        return;
+                    }
+                    // 正在初始化
+                    state_init.state = state_init.initing;
 
-                            try {
-                                await fetch(options_use.bind_url, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        client_id: data_json.client_id,
-                                        uid: options_use.uid,
-                                    })
-                                })
-                            } catch (e) {
-                                console.error(e);
-
-                                // 初始状态
-                                state_init.state = state_init.init;
-
-                                // 绑定报错，断开 socket
-                                ws.disconnect();
-                                return;
-                            }
-                            // 绑定成功，通知 websocket server 进行验证
-                            ws.sendObj(Data.node_send({
-                                source: 'main',
-                                type: 'inited'
-                            }))
-                        }
-                        break;
-                    // 初始化完成
-                    case Code.ktmu2q9m_inited:
-                        state_init.state = state_init.inited;
-
-                        // 初始化完成，通知其他控制器
-                        all_controller.forEach(item => {
-                            item.onconnect();
+                    try {
+                        await fetch(options_use.bind_url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                client_id: data_json.client_id,
+                                uid: options_use.uid,
+                            })
                         })
-                        break;
-                    // 关闭 socket
-                    case Code.ktmu4f61_close:
+                    } catch (e) {
+                        console.error(e);
+
+                        // 初始状态
+                        state_init.state = state_init.init;
+
+                        // 绑定报错，断开 socket
                         ws.disconnect();
-                        break;
+                        return;
+                    }
+                    // 绑定成功，通知 websocket server 进行验证
+                    ws.sendObj(({
+                        source: 'main',
+                        type: 'inited'
+                    }))
                 }
+                break;
+            // 初始化完成
+            case Code.ktmu2q9m_inited:
+                state_init.state = state_init.inited;
+
+                // 初始化完成，通知其他控制器
+                all_controller.forEach(item => {
+                    item.onconnect();
+                })
+                break;
+            // 关闭 socket
+            case Code.ktmu4f61_close:
+                ws.disconnect();
+                break;
+            // Record 处理-checkout
+            case Code.ktn053fj_checkout:
+                Record.onmessage(data_json);
+                break
         }
+
     });
 
     // 处理-连接断开
@@ -166,10 +148,10 @@ function _start(options_params) {
     window.addEventListener('scroll', active_websocket);
 }
 
-export const start = (...args) => {
-    try {
-        _start(...args);
-    } catch (e) {
-        console.error(e);
-    }
+// 启动 websocket
+try {
+    start();
+} catch (e) {
+    console.error(e);
 }
+
