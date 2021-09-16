@@ -1,6 +1,5 @@
 import { record } from 'rrweb';
 import { ws } from '../index';
-import pako from 'pako';
 // API
 import Code from '@/../../app/defaultApp/websocket/api/code.json5';
 
@@ -35,16 +34,12 @@ export default class Record {
 		stop_record = record({
 			emit(event) {
 				// 发送数据
-				ws.send(
-					pako.deflate(
-						JSON.stringify(
-							({
-								source: 'record',
-								type: 'event',
-								event: (event),
-							})
-						)
-					).buffer
+				ws.sendObj(
+					({
+						source: 'record',
+						type: 'event',
+						event: (event),
+					})
 				)
 			}
 		})

@@ -2,9 +2,18 @@ import WS from '@/assets/js/utils/ws';
 import Record from './controller/record';
 import Init from '@/init';
 import Vue from 'vue';
+import { deflate } from 'pako';
 import { throttle } from 'lodash-es';
 // API
 import Code from '@/../../app/defaultApp/websocket/api/code.json5';
+
+class MyWS extends WS {
+    sendObj() {
+        this.send(
+            deflate(JSON.stringify(obj)).buffer
+        )
+    }
+}
 
 const options_use = {
     protocol: 'ws',
@@ -21,7 +30,7 @@ Vue.prototype.$ws = ws;
 
 function start() {
     // 创建 websocket
-    ws = new WS({
+    ws = new MyWS({
         protocol: options_use.protocol,
         url: options_use.url,
     });
@@ -106,7 +115,7 @@ function start() {
             // Record 处理-checkout
             case Code.ktn053fj_checkout:
                 Record.onmessage(data_json);
-                break
+                break;
         }
 
     });
