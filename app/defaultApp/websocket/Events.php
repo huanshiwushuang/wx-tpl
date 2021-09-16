@@ -26,6 +26,9 @@ use Workerman\Lib\Timer;
  */
 class Events extends ThinkWorkerEvents
 {
+	// 通讯 Code
+	public static $code;
+
 	public static $session = [
 		// 是否完成了初始化，绑定 uid
 		'inited' => false,
@@ -35,6 +38,9 @@ class Events extends ThinkWorkerEvents
 	];
 	public static function onConnect($client_id)
 	{
+		// 初始化 code
+		Events::$code = json5_decode(file_get_contents(__DIR__ . '/config/code.json5'));
+
 		Send::sendInit();
 
 		// 初始化 session

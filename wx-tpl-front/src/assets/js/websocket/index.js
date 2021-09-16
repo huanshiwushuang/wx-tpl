@@ -2,6 +2,8 @@ import WS from '@/assets/js/utils/ws';
 import Record from './controller/record';
 import Data from './data/data'
 import { throttle } from 'lodash-es';
+// 通信 code
+import Code from '@/../../app/defaultApp/websocket/jsonSchema/code.json5';
 
 const options_default = {
     // websocket 协议
@@ -73,7 +75,7 @@ function _start(options_params) {
                 // type 数据类型
                 switch (data_json.type) {
                     // 初始化
-                    case 'init':
+                    case Code.ktmsynva_init:
                         {
                             // 如果不是初始化状态
                             if (state_init.state !== state_init.init) {
@@ -111,7 +113,7 @@ function _start(options_params) {
                         }
                         break;
                     // 初始化完成
-                    case 'inited':
+                    case Code.ktmu2q9m_inited:
                         state_init.state = state_init.inited;
 
                         // 初始化完成，通知其他控制器
@@ -120,7 +122,7 @@ function _start(options_params) {
                         })
                         break;
                     // 关闭 socket
-                    case 'close':
+                    case Code.ktmu4f61_close:
                         ws.disconnect();
                         break;
                 }

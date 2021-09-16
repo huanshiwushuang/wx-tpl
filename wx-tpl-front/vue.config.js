@@ -1,6 +1,7 @@
 const path = require('path');
 const config = require('./webpack/config.js');
 const fse = require('fs-extra');
+const JSON5 = require('json5');
 
 // 页面 文件名
 let pages = [
@@ -82,6 +83,17 @@ const webpackOptions = {
 				// 覆写 filename 或者 chunkFilename 会导致 assetsDir 失效，所以需要手动添加
 				filename: `${assetsDir}/js/${time_stamp}.[name].js`,
 				chunkFilename: `${assetsDir}/js/${time_stamp}.[name].js`,
+			},
+			module: {
+				rules: [
+					{
+						// 前后端交互的配置文件
+						test: /\.json5$/,
+						use: [
+							'json5-loader',
+						]
+					}
+				]
 			}
 		}
 	}
