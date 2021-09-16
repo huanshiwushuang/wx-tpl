@@ -1,5 +1,6 @@
 const path = require('path');
 const config = require('./webpack/config.js');
+const fse = require('fs-extra');
 
 // 页面 文件名
 let pages = [
@@ -25,16 +26,25 @@ pages = pages.reduce((sum, item) => {
 	return sum;
 }, {});
 
+
+
+const time_stamp = Date.now().toString(36);
+const assetsDir = time_stamp;
+
 const webpackOptions = {
 	outputDir: path.resolve(config.back.path.root, config.back.path.staticDir, 'defaultApp', config.front.env),
 	// 每次编译都会是不同的文件夹
-	assetsDir: `${Date.now().toString(36)}`,
+	assetsDir,
 	// 编译输出的资源模板文件中资源的路径前缀
 	publicPath: `/static/defaultApp/${config.front.env}`,
 	pages,
 	// https://cli.vuejs.org/zh/config/#css-extract
 	css: {
-		extract: true,
+		extract: {
+			// 添加时间戳前缀，保证每次编译后，多分支提交 git 不冲突
+			filename: `${assetsDir}/css/${time_stamp}.[name].css`,
+			chunkFilename: `${assetsDir}/css/${time_stamp}.[name].css`,
+		},
 	},
 	devServer: {
 		// 禁止 host 检查, 否则 socket 无法连接上
@@ -70,11 +80,18 @@ const webpackOptions = {
 			output: {
 				// 每次编译，都生成不同的文件夹名 和 文件名，防止 git 版本冲突
 				// 覆写 filename 或者 chunkFilename 会导致 assetsDir 失效，所以需要手动添加
-				filename: `${webpackOptions.assetsDir}/js/${Date.now().toString(36)}.[name].js`,
-				chunkFilename: `${webpackOptions.assetsDir}/js/${Date.now().toString(36)}.[name].js`,
+				filename: `${assetsDir}/js/${time_stamp}.[name].js`,
+				chunkFilename: `${assetsDir}/js/${time_stamp}.[name].js`,
 			}
 		}
 	}
+}
+
+switch (config.front.env) {
+	// 开发环境清空文件夹
+	case 'development':
+		fse.emptyDirSync(webpackOptions.outputDir);
+		break;
 }
 
 module.exports = webpackOptions;
