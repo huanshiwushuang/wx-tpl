@@ -1,8 +1,0 @@
-{
-    // 请求前端-初始化绑定
-    ktmsynva_init: 'ktmt11uq',
-    // 请求前端-关闭 websocket
-    ktmu4f61_close: 'ktmu4l4t',
-    // 请求前端-rrweb 重新 checkout
-    ktn053fj_checkout: 'ktn057e9',
-}

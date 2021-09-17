@@ -8,7 +8,6 @@ class Index extends Base
 {
     public function index()
     {
-
         $tpl_var = [
             'T' => '首页-戊戌数据',
             'K' => '首页-我是keywords',

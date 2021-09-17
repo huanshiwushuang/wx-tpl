@@ -12,7 +12,10 @@
 // [ 应用入口文件 ]
 namespace think;
 
+// 常量定义
 define('DS', DIRECTORY_SEPARATOR);
+define('PROJECT_ROOT', __DIR__ . DS . '..');
+define('SCHEMA', PROJECT_ROOT . DS . 'schema');
 
 require __DIR__ . '/../vendor/autoload.php';
 

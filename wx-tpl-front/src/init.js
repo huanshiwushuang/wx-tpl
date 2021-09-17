@@ -1,5 +1,4 @@
 // 初始化各种数据
-
 import Vue from 'vue';
 // cookie
 import Cookie from "js-cookie";
@@ -227,7 +226,6 @@ const ast = u.html.to_ast([...document.querySelectorAll('.data')].map(i => {
 	return i.outerHTML
 }).join(''));
 
-// localStorage 数据
 // localStorage 版本号
 const v = `krk7p4iy`;
 const local = {

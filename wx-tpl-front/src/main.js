@@ -1,21 +1,29 @@
+import './ajaxHook';
 import Init from './init';
 import Vue from 'vue'
+import Element from 'element-ui'
 import App from './App.vue'
 import store from './store'
 // 路由模式
 import RouterMode from './router/mode'
 import router from './router'
+// 样式
+import '@/assets/scss/element-variables.scss'
+import '@/assets/less/base.less';
 // WebSocket 连接
-import './assets/js/websocket'
+// import './assets/js/websocket'
 
 Vue.config.productionTip = false
+
+// ElementUI
+Vue.use(Element)
 
 // 配置路由模式
 RouterMode.config({
 	mode: 'ast',
 });
 
-// 混入可观测的数据
+// 混入数据
 Vue.mixin({
 	data() {
 		return {
@@ -24,12 +32,11 @@ Vue.mixin({
 		}
 	}
 })
-// 附加其他数据
+// 附加数据到原型
 Object.assign(Vue.prototype, Init.protoData);
 
 // 批量注册基础组件
 // ??????
-
 
 const app = new Vue({
 	router,

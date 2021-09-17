@@ -34,7 +34,10 @@ class Events extends ThinkWorkerEvents
 	];
 	public static function onConnect($client_id)
 	{
-		Send::sendInit();
+		
+		Gateway::sendToCurrentClient(json_encode([
+			'code' => 
+		]));
 
 		// 初始化 session
 		$_SESSION = array_merge([], Events::$session);
