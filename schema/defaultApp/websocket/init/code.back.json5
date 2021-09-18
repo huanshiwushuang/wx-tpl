@@ -6,7 +6,7 @@
         url: '/login',
         code: 'ktn4nus3',
         schema: {
-            type: 'object',
+            type: 'array',
             properties: {
                 code: 'string',
                 event: 'object',

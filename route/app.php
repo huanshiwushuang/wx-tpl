@@ -9,3 +9,6 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // use think\facade\Route;
+
+use think\facade\Route;
+

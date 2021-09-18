@@ -9,7 +9,7 @@ use JsonSchema\Validator;
 
 class Example extends Base
 {
-    public function index(Request $request, Validator $validator)
+    public function index(Request $request)
     {
         // 获取所有参数
         $qs = $request::param();
@@ -30,7 +30,7 @@ class Example extends Base
         
 
 
-        dump($schema);
+        dump($qs);
         exit;
 
         $tpl_var = [
