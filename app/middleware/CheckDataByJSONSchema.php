@@ -72,9 +72,10 @@ class CheckDataByJSONSchema
 		if (isset($params['code'])) {
 			// 控制器中判断，有 code，则肯定校验通过
 			$code = $params['code'];
-			$schema = common::get_schema_back();
+			$schemas = common::get_schemas_back();
+
 			// 找到 code 对应的 schema
-			$schema_match = array_filter($schema, function ($item) use ($code) {
+			$schemas_match = array_filter($schemas, function ($item) use ($code) {
 				if (is_string($item) && $item === $code) {
 					return true;
 				} else if (is_object($item) && $item->code === $code) {
@@ -82,7 +83,7 @@ class CheckDataByJSONSchema
 				}
 			});
 			// 如果 code 不对应 唯一的 schame
-			$count = count($schema_match);
+			$count = count($schemas_match);
 			if ($count !== 1) {
 				return $this->checkNotPass($request, 'ktpxujiw', 'code 对应 schema 数量不等于 1');
 			}
@@ -98,7 +99,7 @@ class CheckDataByJSONSchema
 				unset($params['qs']);
 			}
 
-			$one_value = array_values($schema_match)[0];
+			$one_value = array_values($schemas_match)[0];
 			// 如果找到的是对象，则需要进行，json-schema 校验
 			if (is_object($one_value)) {
 				$validator = new Validator();
