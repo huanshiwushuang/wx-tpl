@@ -14,22 +14,6 @@ class Example extends Base
         // 获取所有参数
         $qs = $request::param();
 
-        // 读取 schema
-        $schema = common::load_schema([
-            'defaultApp',
-            'controller',
-            'example',
-            'list.back.json5',
-        ]);
-        
-        // 校验数据
-        // if () {
-
-        // }
-
-        
-
-
         dump($qs);
         exit;
 
