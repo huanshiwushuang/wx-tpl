@@ -4,6 +4,8 @@
 
 const state = {
 }
+const getters = {
+}
 const mutations = {
 }
 const actions = {
@@ -11,6 +13,7 @@ const actions = {
 
 export default {
 	state,
+	getters,
 	mutations,
 	actions
 }
