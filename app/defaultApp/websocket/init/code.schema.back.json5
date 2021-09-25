@@ -1,0 +1,25 @@
+{
+    // 请求后端-验证初始化绑定结果
+    ktmu2q9m_inited: 'ktmu2ug7',
+    // 请求后端-接收 rrweb record event
+    ktn4nbcq_receive_record: {
+        url: '/login',
+        code: 'ktn4nus3',
+        schema: {
+            type: 'array',
+            properties: {
+                code: 'string',
+                event: 'object',
+            }
+        },
+    },
+    // 请求后端-验证登录
+    // ktn4emrw_login: {
+    //     // 请求码
+    //     code: 'ktn4hrp3',
+    //     // JSON Schema
+    //     schema: {
+            
+    //     }
+    // }
+}

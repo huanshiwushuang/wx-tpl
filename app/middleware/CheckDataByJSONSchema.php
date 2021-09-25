@@ -124,6 +124,7 @@ class CheckDataByJSONSchema
 		// 如果是开发环境
 		switch (env('env')) {
 			case 'development':
+				dump($error_code . ':');
 				dump($error_detail);
 				exit;
 		}

@@ -26,7 +26,7 @@
 	</style>
 
 	<!-- 导入 link 模板 -->
-	{if $Think.DEFAULT_APP_ENV == 'development'}
+	{if ENV == 'development'}
 		{include file="main/include_head_development"}
 	{else/}
 		{include file="main/include_head_production"}
@@ -41,7 +41,7 @@
 	<div id="app"></div>
 	
 	<!-- 导入 script 模板 -->
-	{if $Think.DEFAULT_APP_ENV == 'development'}
+	{if ENV == 'development'}
 		{include file="main/include_body_development"}
 	{else/}
 		{include file="main/include_body_production"}

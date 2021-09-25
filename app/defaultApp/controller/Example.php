@@ -2,15 +2,15 @@
 
 namespace app\defaultApp\controller;
 
-use app\common\common;
 use think\facade\Request;
 use think\facade\View;
-use JsonSchema\Validator;
 
 class Example extends Base
 {
     public function index(Request $request)
     {
+        dump(ROOT_APP);
+        exit;
         // 获取所有参数
         $qs = $request::param();
 

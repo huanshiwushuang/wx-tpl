@@ -14,7 +14,7 @@ class common
 
         if (empty(cache('schema_front'))) {
             $finder = new Finder();
-            $finder->in(SCHEMA)->name('*.front.json5')->files();
+            $finder->in(ROOT_APP)->name('*.front.json5')->files();
             $schemas = [];
 
             foreach ($finder as $file) {
@@ -35,7 +35,7 @@ class common
 
         if (empty($res)) {
             $finder = new Finder();
-            $finder->in(SCHEMA)->name('*.back.json5')->files();
+            $finder->in(ROOT_APP)->name('*.back.json5')->files();
             $schemas = [];
 
             foreach ($finder as $file) {
