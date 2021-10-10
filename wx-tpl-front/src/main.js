@@ -10,8 +10,13 @@ import router from './router'
 // 样式
 import '@/assets/scss/element-variables.scss'
 import '@/assets/less/base.less';
+
+import schema from './schema';
 // WebSocket 连接
 // import './assets/js/websocket'
+
+
+console.log(schema);
 
 Vue.config.productionTip = false
 

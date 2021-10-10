@@ -11,6 +11,9 @@ use JsonSchema\Validator;
 
 class CheckDataByJSONSchema
 {
+	// qs: json 格式的参数，如果 encode = 1 才有用
+	// encode: 表示 qs 是否是 json base64 编码后的参数
+	// code: 表示 当前所有参数，对应的 json schema
 	/**
 	 * 处理请求
 	 *
@@ -21,41 +24,32 @@ class CheckDataByJSONSchema
 	public function handle($request, \Closure $next)
 	{
 		$params = [];
-
 		$method = strtolower($request->method());
 
 		// 解析参数
-		switch ($method) {
-			case 'get':
-				$params = $request->param();
+		$params = $request->param();
+		// 是否 base64 编码了参数
+		$encode = isset($params['encode']) ? $params['encode'] : '0';
+		switch ($encode) {
+			case '1':
+				$qs = $request->param('qs');
 
-				// 是否 base64 编码了参数
-				$encode = isset($params['encode']) ? $params['encode'] : '0';
+				if (!empty($qs)) {
+					$qs = base64_decode($qs, true);
+					// 如果 base64 解码失败
+					if (!$qs) {
+						return $this->checkNotPass($request, 'ktpxu1km', 'qs 参数 base64 解码失败');
+					}
 
-				switch ($encode) {
-					case '1':
-						$qs = $request->param('qs');
-
-						if (!empty($qs)) {
-							$qs = base64_decode($qs, true);
-							// 如果 base64 解码失败
-							if (!$qs) {
-								return $this->checkNotPass($request, 'ktpxu1km', 'qs 参数 base64 解码失败');
-							}
-
-							$qs = json_decode($qs);
-							// 如果 json 解码失败
-							if (!$qs) {
-								return $this->checkNotPass($request, 'ktpxsfrb', 'qs 参数 json 解码失败');
-							}
-							// 解码 JSON
-							$params = array_merge($params, (array)$qs);
-						}
-						break;
+					$qs = json_decode($qs);
+					// 如果 json 解码失败
+					if (!$qs) {
+						return $this->checkNotPass($request, 'ktpxsfrb', 'qs 参数 json 解码失败');
+					}
+					// 解码 JSON
+					$params = array_merge($params, (array)$qs);
 				}
 				break;
-			default:
-				$params = $request->param();
 		}
 
 		// 合并参数

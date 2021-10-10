@@ -28,14 +28,14 @@ class common
 
         return $res;
     }
-    // 返回-根目录下 schema 文件夹中的 所有 *.back.json5 合并后的 schema
+    // 返回-/app 文件夹中的 所有 *.schema.back.json5 合并后的 schema
     static function get_schemas_back()
     {
         $res = cache('schema_back');
 
         if (empty($res)) {
             $finder = new Finder();
-            $finder->in(ROOT_APP)->name('*.back.json5')->files();
+            $finder->in(ROOT_APP)->name('*.schema.back.json5')->files();
             $schemas = [];
 
             foreach ($finder as $file) {
