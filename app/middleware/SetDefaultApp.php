@@ -34,6 +34,7 @@ class SetDefaultApp
 		// 需要 hook 修改 pathinfo 信息，便于 topthink/think-multi-app 包的使用
 		array_unshift($path_array, $default_app);
 
+		// 设置为默认应用
 		$request->setPathinfo(join('/', $path_array));
 
 		return $next($request);
