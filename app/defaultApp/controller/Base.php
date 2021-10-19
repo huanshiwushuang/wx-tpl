@@ -24,7 +24,7 @@ class Base extends BaseController
 
 			// 不是 entry 页面，则再 fetch entry 页面, $content作为 krt18uif_data ，塞进去。
 			if (!array_key_exists('krxg93vb_is_entry', $tpl_var) || !$tpl_var['krxg93vb_is_entry']) {
-				
+
 				// 数据源
 				$tpl_var['krt18uif_data'] = $content;
 
@@ -68,16 +68,42 @@ class Base extends BaseController
 						} else {
 							$attributes['rel'] = 'nofollow noopener noreferrer';
 						}
+
+						// 对所有 a 标签的 href 属性 qs 部分进行编码【起因：解决百度快照 gb2312 编码导致的 url 打开错误问题】
+						$qs = strstr($attributes['href'], '?');
+						echo $qs;
+						exit;
+						if ($qs) {
+							// 匹配所有需要编码的字符串
+							$pattern = '/[^?=&\/a-z0-9%]+/i';
+							$matches = [];
+							preg_match_all($pattern, $qs, $matches);
+							$matches = $matches[0];
+
+							// 匹配到的字符串进行编码
+							foreach ($matches as $key => $value) {
+								// 不使用 urlencode, rawurlencode 更符合标准
+								$matches[$key] = rawurlencode($value);
+							}
+
+							// 用编码后的字符串进行替换
+							foreach ($matches as $key => $val) {
+								$qs = preg_replace($pattern, $val, $qs, 1);
+							}
+
+							// 修改 dom 的 href 属性
+							$attributes['href'] = preg_replace('/\?.*/', $qs, $attributes['href'], 1);
+						}
 					}
 				},
 			]);
 
 			return $html5->saveHTML($dom);
 		});
-
 	}
 	// 变量检查，比如公有变量必须有默认值
-	protected function tpl_var_check($tpl_var) {
+	protected function tpl_var_check($tpl_var)
+	{
 		// 标题
 		if (!isset($tpl_var['T'])) {
 			$tpl_var['T'] = '戊戌数据 - 医药（数据）共享家';
@@ -91,7 +117,7 @@ class Base extends BaseController
 			$tpl_var['D'] = '戊戌数据是以医药数据为核心，集数据、资讯、政策于一体的信息服务平台，国内第一家信息开放、共享的医药数据库。致力于把数据信息带入每个企业，推动企业研发智能化、市场营销决策化，构建信息互联的医药新世界。医药数据的更多信息就在戊戌数据官网。';
 		}
 
-		
+
 		return $tpl_var;
 	}
 }

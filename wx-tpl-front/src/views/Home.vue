@@ -5,7 +5,7 @@
 		</a>
 		<ul class="kseosphd_ul">
 			<li>
-				<a href="https://www.wuxuwang.com" target="_blank">
+				<a href="https://www.wuxuwang.com?qs=测试URL编码" target="_blank">
 					打开官网
 				</a>
 			</li>
