@@ -69,31 +69,8 @@ class Base extends BaseController
 							$attributes['rel'] = 'nofollow noopener noreferrer';
 						}
 
-						// 对所有 a 标签的 href 属性 qs 部分进行编码【起因：解决百度快照 gb2312 编码导致的 url 打开错误问题】
-						$qs = strstr($attributes['href'], '?');
-						echo $qs;
-						exit;
-						if ($qs) {
-							// 匹配所有需要编码的字符串
-							$pattern = '/[^?=&\/a-z0-9%]+/i';
-							$matches = [];
-							preg_match_all($pattern, $qs, $matches);
-							$matches = $matches[0];
-
-							// 匹配到的字符串进行编码
-							foreach ($matches as $key => $value) {
-								// 不使用 urlencode, rawurlencode 更符合标准
-								$matches[$key] = rawurlencode($value);
-							}
-
-							// 用编码后的字符串进行替换
-							foreach ($matches as $key => $val) {
-								$qs = preg_replace($pattern, $val, $qs, 1);
-							}
-
-							// 修改 dom 的 href 属性
-							$attributes['href'] = preg_replace('/\?.*/', $qs, $attributes['href'], 1);
-						}
+						// 对所有 a 标签的 href 属性 qs 和 hash 部分进行编码【起因：解决百度快照 gb2312 编码导致的 url 打开错误问题】
+						$attributes['href'] = $this->urlencode($attributes['href']);
 					}
 				},
 			]);
@@ -119,5 +96,36 @@ class Base extends BaseController
 
 
 		return $tpl_var;
+	}
+	// url qs 和 hash 部分进行编码
+	protected function urlencode($url)
+	{
+		// 解析 url 为数组
+		$array_url = parse_url($url);
+
+		// 解析 qs 为数组
+		$array_query = [];
+		parse_str($array_url['query'], $array_query);
+
+		// 对 qs 和 hash 进行编码
+		$array_query_encode = [];
+		$str_hash_encode = rawurlencode($array_url['fragment']);
+
+		foreach ($array_query as $key => $value) {
+			array_push($array_query_encode, $key . '=' . rawurlencode($value));
+		}
+
+		// 拼接 && 替换为编码后的字符串
+		$str_replacement = implode('&', $array_query_encode);
+		if ($str_replacement) {
+			$str_replacement = '?' . $str_replacement;
+		}
+		if ($str_hash_encode) {
+			$str_hash_encode = '#' . $str_hash_encode;
+		}
+
+		$res_url = preg_replace('/\?.+/', $str_replacement . $str_hash_encode, $url, 1);
+
+		return $res_url;
 	}
 }
