@@ -71,8 +71,8 @@ class WxDOMTreeBuilder extends DOMTreeBuilder
 		}
 
 		// 调用外部回调函数，给予修改 options 的时机
-		if (is_callable($this->options['onStartTag'])) {
-			$this->options['onStartTag']($name, $attributes, $selfClosing);
+		if (is_callable($this->options['start_tag'])) {
+			$this->options['start_tag']($name, $attributes, $selfClosing);
 		}
 
 		parent::startTag($name, $attributes, $selfClosing);
@@ -85,6 +85,11 @@ class WxDOMTreeBuilder extends DOMTreeBuilder
 		// 结束暂停压缩代码
 		if ($this->pause_minify_tag_options !== null && $this->pause_minify_tag_options[0] === $name) {
 			$this->pause_minify_tag_options = null;
+		}
+
+		// 调用外部回调函数，给予修改 options 的时机
+		if (is_callable($this->options['end_tag'])) {
+			$this->options['end_tag']($name);
 		}
 
 		parent::endTag($name);
