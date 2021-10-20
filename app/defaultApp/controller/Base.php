@@ -105,11 +105,16 @@ class Base extends BaseController
 
 		// 解析 qs 为数组
 		$array_query = [];
-		parse_str($array_url['query'], $array_query);
+		if (isset($array_url['query'])) {
+			parse_str($array_url['query'], $array_query);
+		}
 
 		// 对 qs 和 hash 进行编码
 		$array_query_encode = [];
-		$str_hash_encode = rawurlencode($array_url['fragment']);
+		$str_hash_encode = '';
+		if (isset($array_url['fragment'])) {
+			$str_hash_encode = rawurlencode($array_url['fragment']);
+		}
 
 		foreach ($array_query as $key => $value) {
 			array_push($array_query_encode, $key . '=' . rawurlencode($value));

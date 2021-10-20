@@ -29,7 +29,9 @@ pages = pages.reduce((sum, item) => {
 
 
 
-const time_stamp = Date.now().toString(36);
+// const time_stamp = Date.now().toString(36);
+// 重新生成文件夹-不能阻止 git 追踪到相同文件-不能阻止不同分支合并的冲突，暂时不重新生成文件夹
+const time_stamp = 'kuytf97h';
 const assetsDir = time_stamp;
 
 const webpackOptions = {
