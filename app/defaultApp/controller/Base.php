@@ -117,7 +117,14 @@ class Base extends BaseController
 		}
 
 		foreach ($array_query as $key => $value) {
-			array_push($array_query_encode, $key . '=' . rawurlencode($value));
+			// 如果 value 是数组
+			if (is_array($value)) {
+				foreach ($value as $v) {
+					array_push($array_query_encode, rawurldecode($key . '[]') . '=' . rawurlencode($v));
+				}
+			} else {
+				array_push($array_query_encode, rawurlencode($key) . '=' . rawurlencode($value));
+			}
 		}
 
 		// 拼接 && 替换为编码后的字符串
