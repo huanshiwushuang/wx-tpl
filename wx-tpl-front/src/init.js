@@ -56,35 +56,30 @@ const u = {
 								waitRemove.push(node);
 							}
 							else {
-								// 修改 node 属性名
-								node.attr = node.attributes;
-								delete node.attributes;
-
-								// 重写所有 attrMap
-								node.attrMap = {};
 								// 重写所有 attr
-								node.attr = node.attr.reduce((sum, item) => {
-									let obj = {
+								node.attr = node.attributes.map(item => {
+									return {
 										key: item.name.value,
 										// 对所有 value 进行解码，统一处理 & 被转义的情况
 										// 此处三元运算，是为了防止，value 无值
 										val: item.value ? u.html.get_text(item.value.value) : item.value,
 										// 单双引号，便于之后 ast.to_html
 										quote: item.value ? item.value.quote : null,
-									};
+									}
+								})
+								delete node.attributes;
 
-									Object.defineProperty(node.attrMap, obj.key, {
-										get() {
-											return obj.val;
-										},
-										set(val) {
-											obj.val = val;
-										}
-									})
+								// 重写所有 attrMap
+								node.attrMap = (key) => {
+									if (key !== undefined) {
+										return node.attr.find(i => i.key === key)?.val || '';
+									}
 
-									sum.push(obj);
-									return sum;
-								}, [])
+									return node.attr.reduce((sum, item) => {
+										sum[item.key] = item.val;
+										return sum;
+									}, {});
+								};
 
 								// 附加 html 属性
 								if (node.close) {
@@ -103,14 +98,14 @@ const u = {
 								}
 
 								// 有 id 属性的 node，提到根节点来
-								let id = node.attrMap.id;
+								let id = node.attrMap('id');
 
 								if (id) {
 									ast[id] = node;
 								}
 								// 有 class 属性的 node，提到根节点来
-								if (node.attrMap.class) {
-									let arr = node.attrMap.class.trim().replace(/[\s\t\r\n]+/, ' ')
+								if (node.attrMap('class')) {
+									let arr = node.attrMap('class').trim().replace(/[\s\t\r\n]+/, ' ')
 										.split(' ');
 
 									arr.forEach(item => {
@@ -122,7 +117,7 @@ const u = {
 									})
 								}
 								// 有cid，则设置属性到 body 的同级
-								let cid = node.attrMap.cid
+								let cid = node.attrMap('cid')
 								if (cid) {
 									if (parent.cid) {
 										parent.cid[cid] = node;
@@ -134,7 +129,7 @@ const u = {
 								}
 
 								// 根据 type 确定是否需要格式化为 JSON5
-								switch (node.attrMap['type']?.replace(/[\s\t]/g, '')) {
+								switch (node.attrMap('type').replace(/[\s\t]/g, '')) {
 									case 'text/json5':
 										try {
 											node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');
