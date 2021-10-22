@@ -8,6 +8,8 @@ import Axios from 'axios';
 import { parse, walk, SyntaxKind } from "html5parser";
 // json5 解析库
 import JSON5 from 'json5';
+// base62
+import base62x from 'base62x'
 
 // 工具对象
 const u = {
@@ -285,6 +287,7 @@ const mixinData = {
 	// body 的 class
 	bodyClass: [],
 }
+
 const protoData = {
 	$win: window,
 	$u: u,
@@ -300,6 +303,7 @@ const protoData = {
 		return Axios.post(url, data, config)
 	},
 	$vue: Vue,
+	$base62x: base62x,
 };
 
 export default {

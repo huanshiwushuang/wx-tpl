@@ -25,10 +25,11 @@ import '@/assets/scss/element-variables.scss'
 // i18n
 import i18n from './lang'
 
+Vue.config.productionTip = false
+
 console.log(schema);
 
 Vue.use(Element)
-Vue.config.productionTip = false
 
 // 配置路由模式
 routerHook.config(config.routerHook);

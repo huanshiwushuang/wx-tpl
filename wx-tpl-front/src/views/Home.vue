@@ -58,7 +58,7 @@
 
 <script>
 import { getLanguage } from "@/lang";
-import base62x from 'base62x'
+
 
 export default {
     name: "Home",
@@ -73,7 +73,7 @@ export default {
         },
     },
     created() {
-        console.log(base62x);
+        // console.log(base62x);
     }
 };
 </script>

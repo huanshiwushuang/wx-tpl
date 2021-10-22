@@ -1,3 +1,4 @@
+// action
 export const index = {
     kujyqqm9: {
         schema: {
@@ -8,7 +9,7 @@ export const index = {
         }
     },
 }
-
+// action
 export const list = {
     kujyqqm9: {
         schema: {
