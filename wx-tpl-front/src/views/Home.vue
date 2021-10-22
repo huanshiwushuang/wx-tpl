@@ -41,16 +41,25 @@
         </div>
         <!-- 测试 wx-router-link -->
         <div>
-            <wx-router-link href="/index/about"> 超链接 </wx-router-link>
+            <wx-router-link href="/index/about" class="a b c">
+                超链接
+            </wx-router-link>
         </div>
         <div>
             <wx-router-link href="https://www.baidu.com"> 外站 </wx-router-link>
+        </div>
+        <div>
+            <wx-router-link v-bind="ast.kv201rze.attrMap()" class="a b c">
+                测试url编码
+            </wx-router-link>
         </div>
     </div>
 </template>
 
 <script>
 import { getLanguage } from "@/lang";
+import base62x from 'base62x'
+
 export default {
     name: "Home",
     methods: {
@@ -63,6 +72,9 @@ export default {
             location.reload();
         },
     },
+    created() {
+        console.log(base62x);
+    }
 };
 </script>
 

@@ -14,7 +14,6 @@ class Index extends Base
             'D' => '首页-我是description',
         ];
 
-        dump($this->request->param());
         // fetch 数据页面
         return View::fetch('index/index', $tpl_var);
     }
