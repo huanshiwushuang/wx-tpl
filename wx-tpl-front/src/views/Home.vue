@@ -39,6 +39,13 @@
             {{ $t("kv1s0cif") }}
             <el-button @click="kv1s45ip" type="primary">切换</el-button>
         </div>
+        <!-- 测试 wx-router-link -->
+        <div>
+            <wx-router-link href="/index/about"> 超链接 </wx-router-link>
+        </div>
+        <div>
+            <wx-router-link href="https://www.baidu.com"> 外站 </wx-router-link>
+        </div>
     </div>
 </template>
 

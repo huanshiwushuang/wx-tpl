@@ -17,6 +17,8 @@ import '@/assets/less/base.less';
 import schema from './schema';
 // WebSocket 连接
 // import './assets/js/websocket'
+// 批量注册基础组件
+import './components'
 // elementui
 import Element from 'element-ui'
 import '@/assets/scss/element-variables.scss'
@@ -42,9 +44,6 @@ Vue.mixin({
 })
 // 附加数据到原型
 Object.assign(Vue.prototype, Init.protoData);
-
-// 批量注册基础组件
-// ??????
 
 const app = new Vue({
 	router,
