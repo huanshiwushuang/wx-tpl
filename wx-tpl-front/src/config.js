@@ -1,6 +1,6 @@
 export default {
     // 路由模式
-    routerMode: {
+    routerHook: {
         mode: 'ast',
     }
 }

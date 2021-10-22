@@ -10,7 +10,7 @@ import App from './App.vue'
 import store from './store'
 // vue-router
 import router from './router'
-import routerMode from './router/mode'
+import routerHook from './router/hook'
 // base style
 import '@/assets/less/base.less';
 // 摘要
@@ -18,15 +18,18 @@ import schema from './schema';
 // WebSocket 连接
 // import './assets/js/websocket'
 // elementui
-import './ui/ElementUI'
-
+import Element from 'element-ui'
+import '@/assets/scss/element-variables.scss'
+// i18n
+import i18n from './lang'
 
 console.log(schema);
 
+Vue.use(Element)
 Vue.config.productionTip = false
 
 // 配置路由模式
-routerMode.config(config.routerMode);
+routerHook.config(config.routerHook);
 
 // 混入数据
 Vue.mixin({
@@ -46,6 +49,7 @@ Object.assign(Vue.prototype, Init.protoData);
 const app = new Vue({
 	router,
 	store,
+	i18n,
 	render: h => h(App)
 }).$mount('#app');
 

@@ -34,12 +34,28 @@
         <div>
             {{ ast.kuz84lp2.attrMap() }}
         </div>
+        <!-- 国际化测试 -->
+        <div>
+            {{ $t("kv1s0cif") }}
+            <el-button @click="kv1s45ip" type="primary">切换</el-button>
+        </div>
     </div>
 </template>
 
 <script>
+import { getLanguage } from "@/lang";
 export default {
     name: "Home",
+    methods: {
+        kv1s45ip() {
+            this.$cookie.set(
+                "lang",
+                getLanguage() === "zh_cn" ? "en" : "zh_cn"
+            );
+
+            location.reload();
+        },
+    },
 };
 </script>
 

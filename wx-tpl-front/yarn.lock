@@ -8411,6 +8411,11 @@ vue-hot-reload-api@^2.3.0:
   resolved "https://registry.nlark.com/vue-hot-reload-api/download/vue-hot-reload-api-2.3.4.tgz#532955cc1eb208a3d990b3a9f9a70574657e08f2"
   integrity sha1-UylVzB6yCKPZkLOp+acFdGV+CPI=
 
+vue-i18n@^8.26.5:
+  version "8.26.5"
+  resolved "https://registry.npmmirror.com/vue-i18n/download/vue-i18n-8.26.5.tgz?cache=0&sync_timestamp=1634809177684&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue-i18n%2Fdownload%2Fvue-i18n-8.26.5.tgz#b61e994e7ae83564c6aebd004543156bbdc7c7e9"
+  integrity sha1-th6ZTnroNWTGrr0ARUMVa73Hx+k=
+
 "vue-loader-v16@npm:vue-loader@^16.1.0":
   version "16.3.0"
   resolved "https://registry.nlark.com/vue-loader/download/vue-loader-16.3.0.tgz#2f195e4ba0fb0e263596d6830df17d1a36e8936c"
