@@ -7,35 +7,14 @@ use Symfony\Component\Finder\Finder;
 
 class common
 {
-    // 返回-根目录下 schema 文件夹中的 所有 *.front.json5 合并后的 schema
-    static function get_schemas_front()
+    // 返回-/app 文件夹中的 所有 *.schema.json5 合并后的 schema
+    static function get_schemas()
     {
-        $res = cache('schema_front');
-
-        if (empty(cache('schema_front'))) {
-            $finder = new Finder();
-            $finder->in(ROOT_APP)->name('*.front.json5')->files();
-            $schemas = [];
-
-            foreach ($finder as $file) {
-                $arr = (array)json5_decode($file->getContents());
-
-                $schemas = array_merge($schemas, $arr);
-            }
-
-            $res = $schemas;
-        }
-
-        return $res;
-    }
-    // 返回-/app 文件夹中的 所有 *.schema.back.json5 合并后的 schema
-    static function get_schemas_back()
-    {
-        $res = cache('schema_back');
+        $res = cache('schemas');
 
         if (empty($res)) {
             $finder = new Finder();
-            $finder->in(ROOT_APP)->name('*.schema.back.json5')->files();
+            $finder->in(APP_ROOT)->name('*.schema.json5')->files();
             $schemas = [];
 
             foreach ($finder as $file) {

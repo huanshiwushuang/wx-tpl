@@ -15,7 +15,7 @@ namespace think;
 // 常量定义
 define('DS', DIRECTORY_SEPARATOR);
 define('PROJECT_ROOT', __DIR__ . DS . '..');
-define('ROOT_APP', PROJECT_ROOT . DS . 'app');
+define('APP_ROOT', PROJECT_ROOT . DS . 'app');
 
 require __DIR__ . '/../vendor/autoload.php';
 

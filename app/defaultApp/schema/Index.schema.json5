@@ -1,7 +1,7 @@
 {
-    // 示例-列表数据
+    // index
     ktnz3f9c: {
-        schema: {
+        json_schema: {
             type: 'object',
             properties: {
                 data: {
@@ -19,6 +19,11 @@
                 }
             },
             required: ['data'],
+        }
+    },
+    // example
+    kv1utdof: {
+        json_schema: {
         }
     }
 }

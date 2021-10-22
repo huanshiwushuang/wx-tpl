@@ -11,7 +11,7 @@ use JsonSchema\Validator;
 
 class CheckDataByJSONSchema
 {
-	// query: base64 编码后的 json 字符串
+	// query: encodeURIComponent  编码后再 base64 编码的 json 字符串
 	// code: 表示 当前所有参数，对应的 json schema
 	/**
 	 * 处理请求
@@ -37,7 +37,10 @@ class CheckDataByJSONSchema
 					return $this->checkNotPass($request, 'ktpxu1km', 'query 参数 base64 解码失败');
 				}
 
+				$query = rawurldecode($query);
+
 				$query = json_decode($query);
+
 				// 如果 json 解码失败
 				if (!$query) {
 					return $this->checkNotPass($request, 'ktpxsfrb', 'query 参数 json 解码失败');
@@ -61,7 +64,7 @@ class CheckDataByJSONSchema
 		if (isset($params['code'])) {
 			// 控制器中判断，有 code，则肯定校验通过
 			$code = $params['code'];
-			$schemas = common::get_schemas_back();
+			$schemas = common::get_schemas();
 			$schemas_match = [];
 
 			// 找到 code 对应的 schema
@@ -87,9 +90,9 @@ class CheckDataByJSONSchema
 
 			$one_value = array_values($schemas_match)[0];
 			// 如果 schema 为对象 ，则需要进行，json-schema 校验
-			if (is_object($one_value->schema)) {
+			if (is_object($one_value->json_schema)) {
 				$validator = new Validator();
-				$validator->validate($params, $one_value->schema);
+				$validator->validate($params, $one_value->json_schema);
 
 				// 参数校验未通过
 				if (!$validator->isValid()) {
@@ -110,8 +113,7 @@ class CheckDataByJSONSchema
 		// 如果是开发环境
 		switch (env('env')) {
 			case 'development':
-				dump($error_code . ':');
-				dump($error_detail);
+				dump('【' . $error_code . '】 ' . $error_detail);
 				exit;
 		}
 
