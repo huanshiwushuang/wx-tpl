@@ -1,32 +1,32 @@
+// 配置
+import config from './config'
+// 便于拦截数据，实现数据的：模拟、校验
 import './ajaxHook';
+// 初始化
 import Init from './init';
 import Vue from 'vue'
-import Element from 'element-ui'
 import App from './App.vue'
+// vuex
 import store from './store'
-// 路由模式
-import RouterMode from './router/mode'
+// vue-router
 import router from './router'
-// 样式
-import '@/assets/scss/element-variables.scss'
+import routerMode from './router/mode'
+// base style
 import '@/assets/less/base.less';
-
+// 摘要
 import schema from './schema';
 // WebSocket 连接
 // import './assets/js/websocket'
+// elementui
+import './ui/ElementUI'
 
 
 console.log(schema);
 
 Vue.config.productionTip = false
 
-// ElementUI
-Vue.use(Element)
-
 // 配置路由模式
-RouterMode.config({
-	mode: 'ast',
-});
+routerMode.config(config.routerMode);
 
 // 混入数据
 Vue.mixin({

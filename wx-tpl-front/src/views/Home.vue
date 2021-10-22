@@ -30,6 +30,10 @@
         </ul>
         <!-- 测试 PHP 编码中文 query string -->
         <div v-html="ast.kuy6kzby.html()"></div>
+        <!-- 测试 attrMap -->
+        <div>
+            {{ ast.kuz84lp2.attrMap() }}
+        </div>
     </div>
 </template>
 

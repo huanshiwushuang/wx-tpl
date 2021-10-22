@@ -10,7 +10,7 @@ let options = {
 	// ast: 前端路由-请求页面
 	// api: 前端路由-请求接口
 	// refresh：后端路由-刷新页面
-	mode: 'ast'
+	mode: ''
 };
 // to url
 let toURL = location.href;
@@ -68,11 +68,14 @@ function init() {
 			}
 				break;
 			// 前端路由-api
-			default:
+			case 'api':
 				// 进度条开始
 				NProgress.start();
 
 				next();
+				break;
+			default:
+				throw new Error('router mode error');
 		}
 	})
 
@@ -84,8 +87,8 @@ function init() {
 
 					// 更新-TKD
 					document.title = newAst.krjziyjz_title.toString();
-					document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap.content)
-					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap.content)
+					document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap('content'))
+					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap('content'))
 
 					// 更新-AST
 					Init.mixinData.ast = Init.protoData.$u.html.to_ast(
