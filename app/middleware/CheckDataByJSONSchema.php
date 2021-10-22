@@ -11,8 +11,7 @@ use JsonSchema\Validator;
 
 class CheckDataByJSONSchema
 {
-	// qs: json 格式的参数，如果 encode = 1 才有用
-	// encode: 表示 qs 是否是 json base64 编码后的参数
+	// query: base64 编码后的 json 字符串
 	// code: 表示 当前所有参数，对应的 json schema
 	/**
 	 * 处理请求
@@ -23,33 +22,29 @@ class CheckDataByJSONSchema
 	 */
 	public function handle($request, \Closure $next)
 	{
-		$params = [];
 		$method = strtolower($request->method());
-
 		// 解析参数
 		$params = $request->param();
-		// 是否 base64 编码了参数
-		$encode = isset($params['encode']) ? $params['encode'] : '0';
-		switch ($encode) {
-			case '1':
-				$qs = $request->param('qs');
 
-				if (!empty($qs)) {
-					$qs = base64_decode($qs, true);
-					// 如果 base64 解码失败
-					if (!$qs) {
-						return $this->checkNotPass($request, 'ktpxu1km', 'qs 参数 base64 解码失败');
-					}
+		// query 参数为保留的经过 base64 编码的 JSON 字符串
+		if (isset($params['query'])) {
+			$query = $params['query'];
 
-					$qs = json_decode($qs);
-					// 如果 json 解码失败
-					if (!$qs) {
-						return $this->checkNotPass($request, 'ktpxsfrb', 'qs 参数 json 解码失败');
-					}
-					// 解码 JSON
-					$params = array_merge($params, (array)$qs);
+			if (!empty($query)) {
+				$query = base64_decode($query, true);
+				// 如果 base64 解码失败
+				if (!$query) {
+					return $this->checkNotPass($request, 'ktpxu1km', 'query 参数 base64 解码失败');
 				}
-				break;
+
+				$query = json_decode($query);
+				// 如果 json 解码失败
+				if (!$query) {
+					return $this->checkNotPass($request, 'ktpxsfrb', 'query 参数 json 解码失败');
+				}
+				// 解码 JSON
+				$params = array_merge($params, (array)$query);
+			}
 		}
 
 		// 合并参数
@@ -67,35 +62,32 @@ class CheckDataByJSONSchema
 			// 控制器中判断，有 code，则肯定校验通过
 			$code = $params['code'];
 			$schemas = common::get_schemas_back();
+			$schemas_match = [];
 
 			// 找到 code 对应的 schema
-			$schemas_match = array_filter($schemas, function ($item) use ($code) {
-				if (is_string($item) && $item === $code) {
-					return true;
-				} else if (is_object($item) && $item->code === $code) {
-					return true;
+			foreach ($schemas as $key => $val) {
+				if ($code === $key) {
+					array_push($schemas_match, $val);
 				}
-			});
+			}
+
 			// 如果 code 不对应 唯一的 schame
 			$count = count($schemas_match);
 			if ($count !== 1) {
 				return $this->checkNotPass($request, 'ktpxujiw', 'code 对应 schema 数量不等于 1');
 			}
 
-			// 删除多余参数，不该校验 encode code qs 参数
-			if (isset($params['encode'])) {
-				unset($params['encode']);
-			}
+			// 删除多余参数，不该校验 code query 参数
 			if (isset($params['code'])) {
 				unset($params['code']);
 			}
-			if (isset($params['qs'])) {
-				unset($params['qs']);
+			if (isset($params['query'])) {
+				unset($params['query']);
 			}
 
 			$one_value = array_values($schemas_match)[0];
-			// 如果找到的是对象，则需要进行，json-schema 校验
-			if (is_object($one_value)) {
+			// 如果 schema 为对象 ，则需要进行，json-schema 校验
+			if (is_object($one_value->schema)) {
 				$validator = new Validator();
 				$validator->validate($params, $one_value->schema);
 

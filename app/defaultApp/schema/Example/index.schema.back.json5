@@ -1,7 +1,6 @@
 {
     // 示例-列表数据
-    ktnz383z_lists: {
-        code: 'ktnz3f9c',
+    ktnz3f9c: {
         schema: {
             type: 'object',
             properties: {
