@@ -16,39 +16,44 @@ namespace app;
 // use app\data\Data;
 // use app\send\Send;
 // use app\controller\Record;
-// use GatewayWorker\Lib\Gateway;
-// use Workerman\Lib\Timer;
+use Workerman\Lib\Timer;
+use GatewayWorker\Lib\Gateway;
 use think\worker\Events as ThinkWorkerEvents;
+
+/**
+ * 1. 
+ */
 
 /**
  * Worker 命令行服务类
  */
 class Events extends ThinkWorkerEvents
 {
-    // public static $session = [
-    //     // 是否完成了初始化，绑定 uid
-    //     'init_complete' => false,
-    //     // 关闭连接: 定时器
-    //     'init_timer_id' => null,
-    //     'uid' => null,
-    // ];
-    // public static function onConnect($client_id)
-    // {
+    public static $session = [
+        // 是否完成了初始化，绑定 uid
+        'init_complete' => false,
+        // 关闭连接: 定时器
+        'init_timer_id' => null,
+        'uid' => null,
+    ];
+    public static function onConnect($client_id)
+    {
+        // 请求客户端初始化
+        Gateway::sendToCurrentClient(json_encode([
+            'code' => 'init',
+            'client_id' => $client_id,
+        ]));
 
-    //     // Gateway::sendToCurrentClient(json_encode([
-    //     // 	'code' => 
-    //     // ]));
+        // // 初始化 session
+        $_SESSION = array_merge([], Events::$session);
 
-    //     // // 初始化 session
-    //     // $_SESSION = array_merge([], Events::$session);
-
-    //     // // 定时，** 秒后关闭连接
-    //     // $_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
-    //     //     Send::sendClose($client_id, Code::close_init_timeout());
-    //     // }, [
-    //     //     $client_id
-    //     // ], false);
-    // }
+        // // 定时，** 秒后关闭连接
+        // $_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
+        //     Send::sendClose($client_id, Code::close_init_timeout());
+        // }, [
+        //     $client_id
+        // ], false);
+    }
     // // 覆盖默认操作
     // public static function onWebSocketConnect($client_id, $data)
     // {
