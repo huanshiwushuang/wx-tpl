@@ -8,11 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace app\defaultApp\websocket\controller;
+namespace websocket\controller;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
-use app\defaultApp\websocket\Group;
+use app\websocket\Group;
 use GatewayWorker\Lib\Gateway;
 
 class Record

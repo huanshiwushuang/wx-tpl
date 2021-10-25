@@ -8,16 +8,16 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace app\defaultApp\websocket;
+namespace websocket;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
-use app\defaultApp\websocket\code\Code;
-use app\defaultApp\websocket\data\Data;
-use app\defaultApp\websocket\send\Send;
+use app\websocket\code\Code;
+use app\websocket\data\Data;
+use app\websocket\send\Send;
+use app\websocket\controller\Record;
 use GatewayWorker\Lib\Gateway;
 use think\worker\Events as ThinkWorkerEvents;
-use app\defaultApp\websocket\controller\Record;
 use Workerman\Lib\Timer;
 
 /**
@@ -27,17 +27,17 @@ class Events extends ThinkWorkerEvents
 {
 	public static $session = [
 		// 是否完成了初始化，绑定 uid
-		'inited' => false,
+		'init_complete' => false,
 		// 关闭连接: 定时器
 		'init_timer_id' => null,
 		'uid' => null,
 	];
 	public static function onConnect($client_id)
 	{
-		
-		Gateway::sendToCurrentClient(json_encode([
-			'code' => 
-		]));
+
+		// Gateway::sendToCurrentClient(json_encode([
+		// 	'code' => 
+		// ]));
 
 		// 初始化 session
 		$_SESSION = array_merge([], Events::$session);
@@ -49,6 +49,7 @@ class Events extends ThinkWorkerEvents
 			$client_id
 		], false);
 	}
+	// 覆盖默认操作
 	public static function onWebSocketConnect($client_id, $data)
 	{
 	}
@@ -67,10 +68,10 @@ class Events extends ThinkWorkerEvents
 		}
 
 		switch ($data_json->type) {
-			case 'inited':
+			case 'init_complete':
 				// 如果已经初始化了
-				if ($_SESSION['inited']) {
-					return Gateway::sendToCurrentClient(Data::error('inited already'));
+				if ($_SESSION['init_complete']) {
+					return Gateway::sendToCurrentClient(Data::error('init complete already'));
 				}
 				// 检查是否初始化完成
 				$uid = $_SESSION['uid'];
@@ -79,14 +80,14 @@ class Events extends ThinkWorkerEvents
 					$uid = Gateway::getUidByClientId($client_id);
 				}
 				if (empty($uid)) {
-					return Gateway::sendToCurrentClient(Data::error('inited check did not pass'));
+					return Gateway::sendToCurrentClient(Data::error('init complete check did not pass'));
 				}
 				// ************************************************************
 				// 修改状态
-				$_SESSION['inited'] = true;
+				$_SESSION['init_complete'] = true;
 				$_SESSION['uid'] = $uid;
 
-				Gateway::sendToCurrentClient(Data::success('inited check passed'));
+				Gateway::sendToCurrentClient(Data::success('init complete check passed'));
 				// ************************************************************
 				// 删除定时器
 				Timer::del($_SESSION['init_timer_id']);
@@ -113,7 +114,7 @@ class Events extends ThinkWorkerEvents
 		}
 
 		// 尚未初始化
-		if (!$_SESSION['inited']) {
+		if (!$_SESSION['init_complete']) {
 			return Send::sendInit();
 		}
 		// ************************************************************

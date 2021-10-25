@@ -8,11 +8,11 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace app\defaultApp\websocket\send;
+namespace websocket\send;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
-use app\defaultApp\websocket\data\Data;
+use app\websocket\data\Data;
 use GatewayWorker\Lib\Context;
 use GatewayWorker\Lib\Gateway;
 use Workerman\Lib\Timer;

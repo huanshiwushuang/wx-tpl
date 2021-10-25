@@ -1,0 +1,25 @@
+Starting GatewayWorker server...
+Workerman[think] start in DEBUG mode
+-------------------------------------------- WORKERMAN ---------------------------------------------
+Workerman version:3.5.31          PHP version:7.2.24-0ubuntu0.18.04.8
+--------------------------------------------- WORKERS ----------------------------------------------
+proto   user            worker            listen                      processes    status           
+tcp     root            Register          text://127.0.0.1:1236       1             [OK]            
+tcp     root            BusinessWorker    none                        4             [OK]            
+tcp     root            thinkphp          websocket://0.0.0.0:2348    1             [OK]            
+----------------------------------------------------------------------------------------------------
+Press Ctrl+C to stop. Start success.
+stream_socket_server(): unable to connect to tcp://0.0.0.0:2348 (Permission denied) in file /mnt/c/code/wx-tpl/vendor/workerman/workerman/Worker.php on line 2233
+worker[thinkphp:4565] exit with status 256
+stream_socket_server(): unable to connect to tcp://0.0.0.0:2348 (Permission denied) in file /mnt/c/code/wx-tpl/vendor/workerman/workerman/Worker.php on line 2233
+worker[thinkphp:4572] exit with status 256
+stream_socket_server(): unable to connect to tcp://0.0.0.0:2348 (Permission denied) in file /mnt/c/code/wx-tpl/vendor/workerman/workerman/Worker.php on line 2233
+worker[thinkphp:4579] exit with status 256
+stream_socket_server(): unable to connect to tcp://0.0.0.0:2348 (Permission denied) in file /mnt/c/code/wx-tpl/vendor/workerman/workerman/Worker.php on line 2233
+Workerman[think] stopping ...
+WorkerStop
+WorkerStop
+WorkerStop
+WorkerStop
+worker[thinkphp:4586] exit with status 256
+Workerman[think] has been stopped

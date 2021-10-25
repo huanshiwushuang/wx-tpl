@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-namespace app\defaultApp\websocket;
+namespace websocket;
 
 // 组名由 json 字符串组成
 class Group

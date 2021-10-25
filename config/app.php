@@ -4,7 +4,9 @@
 // +----------------------------------------------------------------------
 
 // app 环境常量
-define('ENV', env('env') ?? 'production');
+if (!defined('ENV')) {
+	define('ENV', env('env') ?? 'production');
+}
 
 return [
 	// 应用地址

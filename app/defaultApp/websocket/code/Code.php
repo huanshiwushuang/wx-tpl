@@ -1,6 +1,8 @@
 <?php
 
-namespace app\defaultApp\websocket\code;
+namespace websocket\code;
+
+// define('kv69x1tr_env', env('env'));
 
 class Code
 {
