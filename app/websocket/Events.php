@@ -110,7 +110,7 @@ class Events extends ThinkWorkerEvents
                 Timer::del($_SESSION['init_timer_id']);
                 // ************************************************************
                 // 保持一个用户只有一个 socket 在线
-                $array_client_id = Gateway::getClientIdByUid($uid);;
+                $array_client_id = Gateway::getClientIdByUid($uid);
 
                 foreach ($array_client_id as $item_client_id) {
                     // 除了当前 client, 其他都断开
