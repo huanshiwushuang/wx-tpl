@@ -7,7 +7,7 @@ export default class WS extends EventTarget {
 		reconnectionDelay: 3000,
 		reconnectionTryCount: 5,
 		protocol: location.href.startsWith('https') ? 'wss' : 'ws',
-		url: null,
+		url: `${location.host}/ws`,
 	};
 	// 参数选项
 	#options_params = {};
