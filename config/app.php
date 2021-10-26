@@ -3,10 +3,11 @@
 // | 应用设置
 // +----------------------------------------------------------------------
 
-// app 环境常量
-if (!defined('ENV')) {
-	define('ENV', env('env') ?? 'production');
-}
+/**
+ * 导入一些常量的定义
+ * 这里导入, 可以让 GatewayWorker 也用到这些常量
+ */
+require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'define.php');
 
 return [
 	// 应用地址

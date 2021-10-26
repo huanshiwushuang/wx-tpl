@@ -12,9 +12,6 @@
 // [ 应用入口文件 ]
 namespace think;
 
-// 导入一些常量的定义
-require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'define.php');
-
 require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应

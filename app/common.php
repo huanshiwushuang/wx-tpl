@@ -28,7 +28,13 @@ class common
             $res = $schemas;
 
             // 写缓存
-            cache('schemas', $res);
+            switch (ENV) {
+                case 'development':
+                    // 开发期间不写缓存
+                    break;
+                default:
+                    cache('schemas', $res);
+            }
         }
 
         return $res;

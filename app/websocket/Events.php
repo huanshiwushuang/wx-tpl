@@ -18,9 +18,6 @@ use app\websocket\controller\Record;
 use Workerman\Lib\Timer;
 use think\worker\Events as ThinkWorkerEvents;
 
-require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'define.php');
-
-
 /**
  * 架构
  * C: 客户端

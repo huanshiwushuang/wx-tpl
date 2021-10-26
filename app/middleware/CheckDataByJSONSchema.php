@@ -88,7 +88,7 @@ class CheckDataByJSONSchema
 		$redirect_url = str_replace('?' . $request->query(), '', $request->url());
 
 		// 如果是开发环境
-		switch (env('env')) {
+		switch (ENV) {
 			case 'development':
 				echo ('error_code');
 				dump($error_code);

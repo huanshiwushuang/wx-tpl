@@ -4,3 +4,4 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('PROJECT_ROOT', __DIR__ . DS . '..');
 define('APP_ROOT', PROJECT_ROOT . DS . 'app');
+define('ENV', env('env') ?? 'production');
