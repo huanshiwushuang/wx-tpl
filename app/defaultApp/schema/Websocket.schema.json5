@@ -1,0 +1,14 @@
+{
+    // bindUid
+    kv7p8t8q: {
+        type: 'object',
+        properties: {
+            uid: {
+
+            },
+            client_id: {
+                
+            }
+        }
+    }
+}

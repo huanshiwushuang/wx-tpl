@@ -66,7 +66,7 @@ export default {
         kv1s45ip() {
             this.$cookie.set(
                 "lang",
-                getLanguage() === "zh_cn" ? "en" : "zh_cn"
+                getLanguage() === "zh-CN" ? "en-US" : "zh-CN"
             );
 
             location.reload();

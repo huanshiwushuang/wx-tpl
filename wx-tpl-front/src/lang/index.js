@@ -11,7 +11,7 @@ export function getLanguage() {
 	if (chooseLanguage) {
 		return chooseLanguage
 	}
-	return 'zh_cn'
+	return 'zh-CN'
 }
 
 const i18n = new VueI18n()
@@ -39,8 +39,8 @@ export const languageStatus = {
 (async () => {
 	let lang = getLanguage();
 	switch (lang) {
-		case 'en': {
-			let enLocale = import('./en')
+		case 'en-US': {
+			let enLocale = import('./en-US')
 			let elementEnLocale = import('element-ui/lib/locale/lang/en')
 			enLocale = await enLocale
 			elementEnLocale = await elementEnLocale
@@ -54,13 +54,13 @@ export const languageStatus = {
 			break;
 		// 默认中文
 		default: {
-			let zhCNLocale = import('./zh_cn')
+			let zhCNLocale = import('./zh-CN')
 			let elementZhCNLocale = import('element-ui/lib/locale/lang/zh-CN')
 			zhCNLocale = await zhCNLocale
 			elementZhCNLocale = await elementZhCNLocale
 
-			i18n.locale = 'zh_cn';
-			i18n.setLocaleMessage('zh_cn', {
+			i18n.locale = 'zh-CN';
+			i18n.setLocaleMessage('zh-CN', {
 				...zhCNLocale.default,
 				...elementZhCNLocale.default
 			});

@@ -2,7 +2,7 @@
 // 应用公共文件
 
 namespace app\common;
-
+// https://www.cnblogs.com/terencezhou/p/10474617.html
 use JsonSchema\Validator;
 use Symfony\Component\Finder\Finder;
 
