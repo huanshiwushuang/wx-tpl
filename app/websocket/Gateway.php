@@ -15,7 +15,7 @@ class Gateway extends ParentGateway
     public static function closeClient($client_id, $message = null)
     {
         $res = [
-            'code' => 'close',
+            'path' => 'close',
             'msg' => $message,
         ];
 
@@ -23,17 +23,16 @@ class Gateway extends ParentGateway
         parent::sendToClient($client_id, json_encode($res));
 
         // 然后，服务端关闭
-        Timer::add(1, function ($client_id, $message) {
-            parent::closeClient($client_id, $message);
+        Timer::add(1, function ($client_id) {
+            parent::closeClient($client_id);
         }, [
             $client_id,
-            $message
         ], false);
     }
     public static function closeCurrentClient($message = null)
     {
         $res = [
-            'code' => 'close',
+            'path' => 'close',
             'msg' => $message,
         ];
 
@@ -41,18 +40,16 @@ class Gateway extends ParentGateway
         parent::sendToCurrentClient(json_encode($res));
 
         // 然后，服务端关闭
-        Timer::add(1, function ($message) {
-            parent::closeCurrentClient($message);
-        }, [
-            $message
-        ], false);
+        Timer::add(1, function () {
+            parent::closeCurrentClient();
+        }, [], false);
     }
 
     // 发送初始化命令
     public static function sendInit()
     {
         Gateway::sendToCurrentClient(json_encode([
-            'code' => 'init',
+            'path' => 'init',
             'client_id' => Context::$client_id,
         ]));
     }

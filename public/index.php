@@ -12,10 +12,8 @@
 // [ 应用入口文件 ]
 namespace think;
 
-// 常量定义
-define('DS', DIRECTORY_SEPARATOR);
-define('PROJECT_ROOT', __DIR__ . DS . '..');
-define('APP_ROOT', PROJECT_ROOT . DS . 'app');
+// 导入一些常量的定义
+require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'define.php');
 
 require __DIR__ . '/../vendor/autoload.php';
 

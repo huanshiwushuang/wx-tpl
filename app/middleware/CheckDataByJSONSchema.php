@@ -1,18 +1,17 @@
 <?php
 
-// 根据-根目录下 schema 文件夹中的 *.back.json5 配置，对传入的参数，进行校验
+// 根据-app 目录下所有的 *.schema.json5 配置，对传入的参数，进行校验
 
 declare(strict_types=1);
 
 namespace app\middleware;
 
 use app\common\common;
-use JsonSchema\Validator;
 
 class CheckDataByJSONSchema
 {
 	// query: encodeURIComponent  编码后再 base64 编码的 json 字符串
-	// code: 表示 当前所有参数，对应的 json schema
+	// check: 表示 当前所有参数，对应的 json schema
 	/**
 	 * 处理请求
 	 *
@@ -60,44 +59,23 @@ class CheckDataByJSONSchema
 				break;
 		}
 
-		// 如果有 code 才校验
-		if (isset($params['code'])) {
-			// 控制器中判断，有 code，则肯定校验通过
-			$code = $params['code'];
-			$schemas = common::get_schemas();
-			$schemas_match = [];
+		// 如果有 check 才校验
+		if (isset($params['check'])) {
+			// 控制器中判断，有 check, 则肯定校验通过
+			$check = $params['check'];
 
-			// 找到 code 对应的 schema
-			foreach ($schemas as $key => $val) {
-				if ($code === $key) {
-					array_push($schemas_match, $val);
-				}
-			}
+			$params_all = $params;
+			// 删除多余参数，不该校验 check query 参数
+			unset($params['check']);
 
-			// 如果 code 不对应 唯一的 schame
-			$count = count($schemas_match);
-			if ($count !== 1) {
-				return $this->checkNotPass($request, 'ktpxujiw', 'code 对应 schema 数量不等于 1');
-			}
-
-			// 删除多余参数，不该校验 code query 参数
-			if (isset($params['code'])) {
-				unset($params['code']);
-			}
 			if (isset($params['query'])) {
 				unset($params['query']);
 			}
 
-			$one_value = array_values($schemas_match)[0];
-			// 如果 schema 为对象 ，则需要进行，json-schema 校验
-			if (is_object($one_value->json_schema)) {
-				$validator = new Validator();
-				$validator->validate($params, $one_value->json_schema);
-
-				// 参数校验未通过
-				if (!$validator->isValid()) {
-					return $this->checkNotPass($request, 'ktpzfuyw', $validator->getErrors());
-				}
+			$res = common::check_params($check, json_decode(json_encode($params)));
+			// 参数校验未通过
+			if ($res) {
+				return $this->checkNotPass($request, $res->code, $res->msg, $params, $params_all);
 			}
 		}
 
@@ -105,7 +83,7 @@ class CheckDataByJSONSchema
 	}
 
 	// 参数校验不通过
-	public function checkNotPass($request, $error_code, $error_detail)
+	public function checkNotPass($request, $error_code, $error_detail, $params = null, $params_all = null)
 	{
 		// 重定向地址
 		$redirect_url = str_replace('?' . $request->query(), '', $request->url());
@@ -113,7 +91,17 @@ class CheckDataByJSONSchema
 		// 如果是开发环境
 		switch (env('env')) {
 			case 'development':
-				dump('【' . $error_code . '】 ' . $error_detail);
+				echo ('error_code');
+				dump($error_code);
+
+				echo ('error_detail');
+				dump($error_detail);
+
+				echo ('check_params');
+				dump($params);
+
+				echo ('all_params');
+				dump($params_all);
 				exit;
 		}
 

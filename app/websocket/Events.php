@@ -11,10 +11,15 @@
 namespace app\websocket;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
+
+use app\common\common;
 use app\websocket\Gateway;
 use app\websocket\controller\Record;
 use Workerman\Lib\Timer;
 use think\worker\Events as ThinkWorkerEvents;
+
+require_once(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'define.php');
+
 
 /**
  * 架构
@@ -29,6 +34,16 @@ use think\worker\Events as ThinkWorkerEvents;
  * 4. C 发送 init_complete 到 W, 通知初始化完成, 验证通过后, 即可进行数据传递
  */
 
+/* 
+数据结构
+{
+    path: '',
+    params: {
+        check: '',
+    }
+}
+*/
+
 /**
  * Worker 命令行服务类
  */
@@ -41,6 +56,16 @@ class Events extends ThinkWorkerEvents
         // 关闭连接: 定时器
         'init_timer_id' => null,
         'uid' => null,
+    ];
+    // 默认数据格式
+    public static $data_php_default = [
+        // 请求路由
+        'path' => '',
+        // 请求参数
+        'params' => [
+            // 参数检查 code
+            'check' => ''
+        ]
     ];
     public static function onConnect($client_id)
     {
@@ -63,24 +88,31 @@ class Events extends ThinkWorkerEvents
     }
     public static function onMessage($client_id, $data)
     {
-        $data_json = json_decode($data);
+        // 关键：第 2 个参数指定将递归解析为关联数组
+        $data_php = json_decode($data, true);
 
         /**
          * json 校验
          * */
-        if (!is_object($data_json)) {
+        if (!is_array($data_php)) {
             return Gateway::sendToCurrentClient(json_encode([
-                'code' => 'error',
+                'path' => 'error',
                 'msg' => 'data format error, require json',
             ]));
         }
 
-        switch ($data_json->code) {
+        // 递归覆盖选项
+        $data_php = array_replace_recursive([], Events::$data_php_default, $data_php);
+
+        // 合并了数组之后，再转回对象
+        $data_php = json_decode(json_encode($data_php));
+
+        switch ($data_php->path) {
             case 'init_complete':
                 // 如果已经初始化了
                 if ($_SESSION['init_complete']) {
                     return Gateway::sendToCurrentClient(json_encode([
-                        'code' => 'error',
+                        'path' => 'error',
                         'msg' => 'init complete already',
                     ]));
                 }
@@ -92,7 +124,7 @@ class Events extends ThinkWorkerEvents
                 }
                 if (empty($uid)) {
                     return Gateway::sendToCurrentClient(json_encode([
-                        'code' => 'error',
+                        'path' => 'error',
                         'msg' => 'init complete check did not pass',
                     ]));
                 }
@@ -102,7 +134,7 @@ class Events extends ThinkWorkerEvents
                 $_SESSION['uid'] = $uid;
 
                 Gateway::sendToCurrentClient(json_encode([
-                    'code' => 'success',
+                    'path' => 'success',
                     'msg' => 'init complete check passed',
                 ]));
                 // ************************************************************
@@ -121,7 +153,7 @@ class Events extends ThinkWorkerEvents
                 // ************************************************************
                 // 通知，client 可以发送数据了
                 Gateway::sendToCurrentClient(json_encode([
-                    'code' => 'init_complete',
+                    'path' => 'init_complete',
                 ]));
                 return;
         }
@@ -131,18 +163,33 @@ class Events extends ThinkWorkerEvents
             return Gateway::sendInit();
         }
         // ************************************************************
+        // 如果有 check 参数, 进行参数校验
+        if ($data_php->params->check) {
+            $res = common::check_params($data_php->params->check, $data_php->params);
+            if ($res) {
+                switch (ENV) {
+                    case 'development':
+                        return Gateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
+                    default:
+                        unset($res->msg);
+                        return Gateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
+                }
+            }
+        }
+
+        // ************************************************************
         /**
-         * 根据 code, 自定义路由
+         * 根据 path, 自定义路由
          */
-        switch (strtolower($data_json->code)) {
+        switch (strtolower($data_php->path)) {
             case 'record':
                 // rrweb record
-                Record::onMessage($client_id, $data_json);
+                Record::onMessage($client_id, $data_php);
                 break;
             default:
                 Gateway::sendToCurrentClient(json_encode([
-                    'code' => 'error',
-                    'msg' => 'code field have not match',
+                    'path' => 'error',
+                    'msg' => 'path field have not match',
                 ]));
         }
     }
