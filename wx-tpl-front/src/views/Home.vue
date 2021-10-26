@@ -63,7 +63,7 @@ export default {
     name: "Home",
     methods: {
         kv1s45ip() {
-            setLanguage(getLanguage() === "zh-CN" ? "en-US" : "zh-CN");
+            setLanguage(getLanguage() === "zh-cn" ? "en-us" : "zh-cn");
         },
     },
     created() {

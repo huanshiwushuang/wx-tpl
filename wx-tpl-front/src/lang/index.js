@@ -32,15 +32,15 @@ export function getLanguage() {
 	if (chooseLanguage) {
 		return chooseLanguage
 	}
-	return 'zh-CN'
+	return 'zh-cn'
 }
 // 设置语言
 export const setLanguage = async (lang) => {
 	Cookie.set('lang', lang);
 
 	switch (lang) {
-		case 'en-US': {
-			let enLocale = import('./en-US')
+		case 'en-us': {
+			let enLocale = import('./en-us')
 			let elementEnLocale = import('element-ui/lib/locale/lang/en')
 			enLocale = await enLocale
 			elementEnLocale = await elementEnLocale
@@ -54,13 +54,13 @@ export const setLanguage = async (lang) => {
 			break;
 		// 默认中文
 		default: {
-			let zhCNLocale = import('./zh-CN')
+			let zhCNLocale = import('./zh-cn')
 			let elementZhCNLocale = import('element-ui/lib/locale/lang/zh-CN')
 			zhCNLocale = await zhCNLocale
 			elementZhCNLocale = await elementZhCNLocale
 
-			i18n.locale = 'zh-CN';
-			i18n.setLocaleMessage('zh-CN', {
+			i18n.locale = 'zh-cn';
+			i18n.setLocaleMessage('zh-cn', {
 				...zhCNLocale.default,
 				...elementZhCNLocale.default
 			});
