@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea0ac3cceb2374aa9107e5c336702991",
+    "content-hash": "15fbe7016f9728ca94fa0f33aef07758",
     "packages": [
         {
             "name": "colinodell/json5",
@@ -436,6 +436,60 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.7.5"
             },
             "time": "2021-07-01T14:25:37+00:00"
+        },
+        {
+            "name": "mfonte/base62x",
+            "version": "v1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mauriziofonte/php-base62x.git",
+                "reference": "5b37085ab70199b03c320cea1f7f216f249da4ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mauriziofonte/php-base62x/zipball/5b37085ab70199b03c320cea1f7f216f249da4ea",
+                "reference": "5b37085ab70199b03c320cea1f7f216f249da4ea",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^3.5.6",
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpstan/phpstan": "^0.12.99",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mfonte\\Base62x\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Maurizio Fonte",
+                    "email": "fonte.maurizio@gmail.com"
+                }
+            ],
+            "description": "A Base62x PHP implementation library, that can be used in frameworks like Laravel, that supports encoding/decoding of strings, arrays, objects, and binary resources. It also supports Gzip compression/decompression and symmetric encryption.",
+            "keywords": [
+                "base62x",
+                "compression",
+                "encoding",
+                "encryption",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/mauriziofonte/php-base62x/issues",
+                "source": "https://github.com/mauriziofonte/php-base62x/tree/v1.3.2"
+            },
+            "time": "2021-09-24T08:17:59+00:00"
         },
         {
             "name": "psr/cache",

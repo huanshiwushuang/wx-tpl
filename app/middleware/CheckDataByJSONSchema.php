@@ -7,10 +7,13 @@ declare(strict_types=1);
 namespace app\middleware;
 
 use app\common\common;
+// https://ufqi.com/dev/base62x/
+// https://packagist.org/packages/mfonte/base62x
+use Mfonte\Base62x\Base62x;
 
 class CheckDataByJSONSchema
 {
-	// query: encodeURIComponent  编码后再 base64 编码的 json 字符串
+	// query: encodeURIComponent  编码后再 Base62x 编码的 json 字符串
 	// check: 表示 当前所有参数，对应的 json schema
 	/**
 	 * 处理请求
@@ -25,18 +28,12 @@ class CheckDataByJSONSchema
 		// 解析参数
 		$params = $request->param();
 
-		// query 参数为保留的经过 base64 编码的 JSON 字符串
+		// query 参数为保留的经过 Base62x 编码的 JSON 字符串
 		if (isset($params['query'])) {
 			$query = $params['query'];
 
 			if (!empty($query)) {
-				$query = base64_decode($query, true);
-				// 如果 base64 解码失败
-				if (!$query) {
-					return $this->checkNotPass($request, 'ktpxu1km', 'query 参数 base64 解码失败');
-				}
-
-				$query = rawurldecode($query);
+				$query = Base62x::decode($query)->get();
 
 				$query = json_decode($query);
 
@@ -72,10 +69,12 @@ class CheckDataByJSONSchema
 				unset($params['query']);
 			}
 
-			$res = common::check_params($check, json_decode(json_encode($params)));
+			// 将 params 还原成符合 json 语义的 php 对象格式
+			$check_params = json_decode(json_encode($params));
+			$res = common::check_params($check, $check_params);
 			// 参数校验未通过
 			if ($res) {
-				return $this->checkNotPass($request, $res->code, $res->msg, $params, $params_all);
+				return $this->checkNotPass($request, $res->code, $res->msg, $check_params, $params_all);
 			}
 		}
 

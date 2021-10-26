@@ -104,7 +104,7 @@ class Events extends ThinkWorkerEvents
         // 递归覆盖选项
         $data_php = array_replace_recursive([], Events::$data_php_default, $data_php);
 
-        // 合并了数组之后，再转回对象
+        // 将 数据 还原成符合 json 语义的 php 对象格式
         $data_php = json_decode(json_encode($data_php));
 
         switch ($data_php->path) {
