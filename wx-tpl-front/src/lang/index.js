@@ -5,20 +5,11 @@ import Cookie from 'js-cookie'
 
 Vue.use(VueI18n);
 
-export function getLanguage() {
-	// cookie 保存的语言
-	const chooseLanguage = Cookie.get('lang')
-	if (chooseLanguage) {
-		return chooseLanguage
-	}
-	return 'zh-CN'
-}
-
 const i18n = new VueI18n()
 
 export default i18n;
 
-// 语言包加载状态
+// 初始化时-语言包加载状态
 let langLoadStatus = null;
 export const languageStatus = {
 	isLoaded: false,
@@ -34,10 +25,19 @@ export const languageStatus = {
 		})
 	}
 };
+// 获取语言
+export function getLanguage() {
+	// cookie 保存的语言
+	const chooseLanguage = Cookie.get('lang')
+	if (chooseLanguage) {
+		return chooseLanguage
+	}
+	return 'zh-CN'
+}
+// 设置语言
+export const setLanguage = async (lang) => {
+	Cookie.set('lang', lang);
 
-// 动态导入其他语言
-(async () => {
-	let lang = getLanguage();
 	switch (lang) {
 		case 'en-US': {
 			let enLocale = import('./en-US')
@@ -67,6 +67,12 @@ export const languageStatus = {
 		}
 
 	}
+}
+
+(async () => {
+	let lang = getLanguage();
+
+	await setLanguage(lang);
 
 	// 语言包加载完毕，回调，允许路由进入
 	if (langLoadStatus) {

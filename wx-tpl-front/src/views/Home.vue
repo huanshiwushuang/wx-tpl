@@ -32,7 +32,7 @@
         <div v-html="ast.kuy6kzby.html()"></div>
         <!-- 测试 attrMap -->
         <div>
-            {{ ast.kuz84lp2.attrMap() }}
+            {{ $v("kuz84lp2.attrMap")() }}
         </div>
         <!-- 国际化测试 -->
         <div>
@@ -57,24 +57,18 @@
 </template>
 
 <script>
-import { getLanguage } from "@/lang";
-
+import { getLanguage, setLanguage } from "@/lang";
 
 export default {
     name: "Home",
     methods: {
         kv1s45ip() {
-            this.$cookie.set(
-                "lang",
-                getLanguage() === "zh-CN" ? "en-US" : "zh-CN"
-            );
-
-            location.reload();
+            setLanguage(getLanguage() === "zh-CN" ? "en-US" : "zh-CN");
         },
     },
     created() {
         // console.log(base62x);
-    }
+    },
 };
 </script>
 
