@@ -109,9 +109,9 @@ class WxBaseController extends BaseController
 
             $dom = $html5->loadHTML($content, [
                 // 去除源码注释
-                'remove_comment' => true,
+                'remove_comment' => ENV !== 'development',
                 // 是否压缩 源码
-                'minify_source' => true,
+                'minify_source' => ENV !== 'development',
                 // 如果 dom 属性中的 key 或者 value 中，有数组中的任一关键字，则此 DOM 中的数据将不会被压缩
                 'any_not_minify' => [
                     'not_minify'
