@@ -28,7 +28,7 @@ export const languageStatus = {
 // 获取语言
 export function getLanguage() {
 	// cookie 保存的语言
-	const chooseLanguage = Cookie.get('lang')
+	const chooseLanguage = Cookie.get('think_lang')
 	if (chooseLanguage) {
 		return chooseLanguage
 	}
@@ -36,7 +36,7 @@ export function getLanguage() {
 }
 // 设置语言
 export const setLanguage = async (lang) => {
-	Cookie.set('lang', lang);
+	Cookie.set('think_lang', lang);
 }
 
 (async () => {

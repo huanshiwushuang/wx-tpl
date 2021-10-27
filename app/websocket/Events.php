@@ -178,6 +178,9 @@ class Events extends ThinkWorkerEvents
         /**
          * 根据 path, 自定义路由
          */
+
+        return Gateway::sendToCurrentClient(json_encode($data_php));
+
         switch (strtolower($data_php->path)) {
             case 'record':
                 // rrweb record

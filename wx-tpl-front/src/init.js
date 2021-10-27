@@ -10,6 +10,8 @@ import { parse, walk, SyntaxKind } from "html5parser";
 import JSON5 from 'json5';
 // base62
 import base62x from 'base62x'
+// websocket
+import websocket from './websocket'
 
 // 工具对象
 const u = {
@@ -324,6 +326,7 @@ const protoData = {
 	},
 	$vue: Vue,
 	$base62x: base62x,
+	$ws: websocket,
 };
 
 export default {
