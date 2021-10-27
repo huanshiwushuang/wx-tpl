@@ -2,7 +2,6 @@
 
 namespace app\defaultApp\controller;
 
-use think\facade\Lang;
 use think\facade\View;
 
 class Index extends Base
@@ -16,9 +15,7 @@ class Index extends Base
         ];
 
 
-        // Lang::setLangSet('en-us');
-        dump(Lang::get('kv91zomi'));
-        dump(Lang::getLangSet());
+        dump(lang('kv91zomi'));
 
 
         // exit;
