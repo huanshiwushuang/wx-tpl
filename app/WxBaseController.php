@@ -6,6 +6,7 @@ use think\App;
 use app\BaseController;
 use think\facade\View;
 use kqufcgta_html5\WxHTML5;
+use think\facade\Lang;
 
 class WxBaseController extends BaseController
 {
@@ -19,25 +20,46 @@ class WxBaseController extends BaseController
     {
         parent::__construct($app);
 
+        /* 
+        fix-bug: 多应用下，加载语言包
+        namespace think\app\MultiApp 242 行加载的是默认语言包
+        https://www.kancloud.cn/manual/thinkphp6_0/1037637
+        */
+        $this->app->loadLangPack($this->app->lang->getLangSet());
+
         // 过滤所有最终输出的页面
         $this->filter_app_view();
     }
     // 变量检查，比如公有变量必须有默认值
     protected function tpl_var_check($tpl_var)
     {
-        // 标题
-        if (!isset($tpl_var['T'])) {
-            $tpl_var['T'] = '戊戌数据 - 医药（数据）共享家';
-        }
-        // 关键词
-        if (!isset($tpl_var['K'])) {
-            $tpl_var['K'] = '戊戌数据,医药数据库,药品查询,药品库,药物杂质对照品库,一致性评价库,医保目录,临床试验库,药物目录,制药企业,医药公司,医药行业数据,戊戌网,戊戌数据官网';
-        }
-        // 描述
-        if (!isset($tpl_var['D'])) {
-            $tpl_var['D'] = '戊戌数据是以医药数据为核心，集数据、资讯、政策于一体的信息服务平台，国内第一家信息开放、共享的医药数据库。致力于把数据信息带入每个企业，推动企业研发智能化、市场营销决策化，构建信息互联的医药新世界。医药数据的更多信息就在戊戌数据官网。';
-        }
+        $LANG = Lang::getLangSet();
 
+        $default_var = [
+            [
+                'T',
+                '戊戌数据 - 医药（数据）共享家'
+            ],
+            [
+                'K',
+                '戊戌数据,医药数据库,药品查询,药品库,药物杂质对照品库,一致性评价库,医保目录,临床试验库,药物目录,制药企业,医药公司,医药行业数据,戊戌网,戊戌数据官网'
+            ],
+            [
+                'D',
+                '戊戌数据是以医药数据为核心，集数据、资讯、政策于一体的信息服务平台，国内第一家信息开放、共享的医药数据库。致力于把数据信息带入每个企业，推动企业研发智能化、市场营销决策化，构建信息互联的医药新世界。医药数据的更多信息就在戊戌数据官网。'
+            ],
+            [
+                'LANG',
+                empty($LANG) ? 'zh-cn' : $LANG,
+            ],
+        ];
+
+        // 变量定义循环检查
+        foreach ($default_var as $val) {
+            if (!isset($tpl_var[$val[0]])) {
+                $tpl_var[$val[0]] = $val[1];
+            }
+        }
         return $tpl_var;
     }
     // url qs 和 hash 部分进行编码
@@ -121,7 +143,9 @@ class WxBaseController extends BaseController
 
                     // 对所有 a 标签的 href 属性 qs 和 hash 部分进行编码【起因：解决百度快照 gb2312 编码导致的 url 打开错误问题】
                     if (preg_match('/^a$/i', $name)) {
-                        $attributes['href'] = $this->urlencode($attributes['href']);
+                        if (isset($attributes['href'])) {
+                            $attributes['href'] = $this->urlencode($attributes['href']);
+                        }
                     }
 
                     // call 回调函数，让子应用自定义处理

@@ -37,6 +37,10 @@ export function getLanguage() {
 // 设置语言
 export const setLanguage = async (lang) => {
 	Cookie.set('lang', lang);
+}
+
+(async () => {
+	let lang = getLanguage();
 
 	switch (lang) {
 		case 'en-us': {
@@ -67,12 +71,6 @@ export const setLanguage = async (lang) => {
 		}
 
 	}
-}
-
-(async () => {
-	let lang = getLanguage();
-
-	await setLanguage(lang);
 
 	// 语言包加载完毕，回调，允许路由进入
 	if (langLoadStatus) {

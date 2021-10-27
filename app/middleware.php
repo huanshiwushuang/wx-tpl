@@ -3,6 +3,8 @@
 return [
     // 全局请求缓存
     // \think\middleware\CheckRequestCache::class,
+    // 多语言加载-fix bug
+    \app\middleware\LoadLangPack_FixBugBefore::class,
     // 多语言加载
     \think\middleware\LoadLangPack::class,
     // Session初始化

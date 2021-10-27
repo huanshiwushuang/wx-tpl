@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'hello thinkphp'  => '欢迎使用ThinkPHP',
-    'data type error' => '数据类型错误',
+    'kv91zomi'  => '欢迎使用ThinkPHP',
+    'kv91zrnq' => '数据类型错误',
 ];

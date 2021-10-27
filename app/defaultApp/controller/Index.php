@@ -2,6 +2,7 @@
 
 namespace app\defaultApp\controller;
 
+use think\facade\Lang;
 use think\facade\View;
 
 class Index extends Base
@@ -14,6 +15,13 @@ class Index extends Base
             'D' => '首页-我是description',
         ];
 
+
+        // Lang::setLangSet('en-us');
+        dump(Lang::get('kv91zomi'));
+        dump(Lang::getLangSet());
+
+
+        // exit;
         // fetch 数据页面
         return View::fetch('index/index', $tpl_var);
     }

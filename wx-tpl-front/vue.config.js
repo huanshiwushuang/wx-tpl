@@ -28,26 +28,14 @@ pages = pages.reduce((sum, item) => {
 }, {});
 
 
-
-// const time_stamp = Date.now().toString(36);
-// 重新生成文件夹-不能阻止 git 追踪到相同文件-不能阻止不同分支合并的冲突，暂时不重新生成文件夹
-const time_stamp = 'kuytf97h';
-const assetsDir = time_stamp;
-
 const webpackOptions = {
 	outputDir: path.resolve(config.back.path.root, config.back.path.staticDir, 'defaultApp', config.front.env),
-	// 每次编译都会是不同的文件夹
-	assetsDir,
 	// 编译输出的资源模板文件中资源的路径前缀
 	publicPath: `/static/defaultApp/${config.front.env}`,
 	pages,
 	// https://cli.vuejs.org/zh/config/#css-extract
 	css: {
-		extract: {
-			// 添加时间戳前缀，保证每次编译后，多分支提交 git 不冲突
-			filename: `${assetsDir}/css/${time_stamp}.[name].css`,
-			chunkFilename: `${assetsDir}/css/${time_stamp}.[name].css`,
-		},
+		extract: true,
 	},
 	devServer: {
 		// 禁止 host 检查, 否则 socket 无法连接上
@@ -67,25 +55,19 @@ const webpackOptions = {
 
 			return true;
 		},
-		proxy: {
-			'/api': {
-				target: 'http://wx-tpl.wuxuwang.com',
-				ws: true,
-				changeOrigin: true
-				// pathRewrite: function(path, req) {
-				//   return path.replace('/api', '')
-				// }
-			}
-		}
+		// proxy: {
+		// 	'/api': {
+		// 		target: 'http://wx-tpl.wuxuwang.com',
+		// 		ws: true,
+		// 		changeOrigin: true
+		// 		// pathRewrite: function(path, req) {
+		// 		//   return path.replace('/api', '')
+		// 		// }
+		// 	}
+		// }
 	},
 	configureWebpack: () => {
 		return {
-			output: {
-				// 每次编译，都生成不同的文件夹名 和 文件名，防止 git 版本冲突
-				// 覆写 filename 或者 chunkFilename 会导致 assetsDir 失效，所以需要手动添加
-				filename: `${assetsDir}/js/${time_stamp}.[name].js`,
-				chunkFilename: `${assetsDir}/js/${time_stamp}.[name].js`,
-			},
 			module: {
 				rules: [
 					{

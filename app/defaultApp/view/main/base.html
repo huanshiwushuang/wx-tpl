@@ -1,6 +1,6 @@
-<!-- 严格禁止后端在此文件写任何变量，以防止其他页面 extend 此页面，出现 未定义变量的问题，扩展都用 block 完成 -->
+<!-- 严格禁止其他后端在此文件写任何变量，以防止其他页面 extend 此页面，出现 未定义变量的问题，扩展都用 block 完成 -->
 <!DOCTYPE html>
-<html lang='{block name="lang"}zh-cn{/block}'>
+<html lang='{$LANG}'>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
@@ -19,10 +19,12 @@
 
 	<!-- 旧版 IE 升级提示跳转代码 -->
 	<!-- https://support.dmeng.net/ie-update-warning.html -->
-	<script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href = "https://support.dmeng.net/upgrade-your-browser.html?referrer=" + encodeURIComponent(window.location.href); </script>
+	<script>if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode)) window.location.href = "https://support.dmeng.net/upgrade-your-browser.html?referrer=" + encodeURIComponent(window.location.href);</script>
 
 	<style>
-		.dn {display: none;}
+		.dn {
+			display: none;
+		}
 	</style>
 
 	<!-- 导入 link 模板 -->
@@ -38,8 +40,22 @@
 	<div class="data dn">{block name="data"} {/block}</div>
 
 	<!-- 前端渲染视图 -->
-	<div id="app"></div>
-	
+	<div id="app">
+		<div class="kv91oyk0 dn">
+			网页运行出了一点点问题，推荐您尝试切换其他浏览器。<br>
+			如果多种浏览器都无法显示，请联系客服: gh9694@foxmail.com
+		</div>
+	</div>
+	<script>
+		// 如果报错导致 DOM 未正确渲染，则给出友好提示
+		setTimeout(function() {
+			var tips = document.querySelector('.kv91oyk0');
+			if (tips) {
+				tips.classList.remove('dn');
+			}
+		}, 2000)
+	</script>
+
 	<!-- 导入 script 模板 -->
 	{if ENV == 'development'}
 		{include file="main/include_body_development"}

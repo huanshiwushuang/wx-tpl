@@ -64,6 +64,7 @@ export default {
     methods: {
         kv1s45ip() {
             setLanguage(getLanguage() === "zh-cn" ? "en-us" : "zh-cn");
+            location.reload();
         },
     },
     created() {

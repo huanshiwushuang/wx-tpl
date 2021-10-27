@@ -20,7 +20,10 @@ class Base extends WxBaseController
 				// 默认所有链接都不是白名单
 				$is_whitelist = false;
 
-				$url = trim($attributes['href']);
+				$url = null;
+				if (isset($attributes['href'])) {
+					$url = trim($attributes['href']);
+				}
 
 				// 戊戌数据
 				if (preg_match('/wuxuwang\.com/', $url) || preg_match('/^\//', $url)) {
