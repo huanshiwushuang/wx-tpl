@@ -2,11 +2,10 @@
 
 namespace app\defaultApp\controller;
 
-use GatewayClient\Gateway;
+use app\websocket\WxGatewayClient;
 
 // worker 集群注册地址
-Gateway::$registerAddress = config('gateway_worker.registerAddress');
-
+WxGatewayClient::$registerAddress = config('gateway_worker.registerAddress');
 
 class Websocket extends Base
 {
@@ -14,7 +13,7 @@ class Websocket extends Base
 	public function bind_uid()
 	{
 		if (request()->param('check') === 'kv7p8t8q') {
-			return '绑定逻辑尚未完成';
+			return WxGatewayClient::bindUid(request()->param('client_id'), request()->param('uid'));
 		}
 	}
 }

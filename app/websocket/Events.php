@@ -13,7 +13,7 @@ namespace app\websocket;
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
 use app\common\common;
-use app\websocket\Gateway;
+use app\websocket\WxGateway;
 use app\websocket\controller\Record;
 use Workerman\Lib\Timer;
 use think\worker\Events as ThinkWorkerEvents;
@@ -67,14 +67,14 @@ class Events extends ThinkWorkerEvents
     public static function onConnect($client_id)
     {
         // 请求客户端初始化
-        Gateway::sendInit();
+        WxGateway::sendInit();
 
         // 初始化 session
         $_SESSION = array_merge([], Events::$session_default);
 
         // 定时，** 秒后关闭连接
         $_SESSION['init_timer_id'] = Timer::add(3, function ($client_id) {
-            Gateway::closeClient($client_id, 'init timeout');
+            WxGateway::closeClient($client_id, 'init timeout');
         }, [
             $client_id
         ], false);
@@ -92,7 +92,7 @@ class Events extends ThinkWorkerEvents
          * json 校验
          * */
         if (!is_array($data_php)) {
-            return Gateway::sendToCurrentClient(json_encode([
+            return WxGateway::sendToCurrentClient(json_encode([
                 'path' => 'error',
                 'msg' => 'data format error, require json',
             ]));
@@ -108,19 +108,16 @@ class Events extends ThinkWorkerEvents
             case 'init_complete':
                 // 如果已经初始化了
                 if ($_SESSION['init_complete']) {
-                    return Gateway::sendToCurrentClient(json_encode([
+                    return WxGateway::sendToCurrentClient(json_encode([
                         'path' => 'error',
                         'msg' => 'init complete already',
                     ]));
                 }
                 // 检查是否初始化完成
-                $uid = $_SESSION['uid'];
+                $uid = WxGateway::getUidByClientId($client_id);
 
                 if (empty($uid)) {
-                    $uid = Gateway::getUidByClientId($client_id);
-                }
-                if (empty($uid)) {
-                    return Gateway::sendToCurrentClient(json_encode([
+                    return WxGateway::sendToCurrentClient(json_encode([
                         'path' => 'error',
                         'msg' => 'init complete check did not pass',
                     ]));
@@ -130,26 +127,27 @@ class Events extends ThinkWorkerEvents
                 $_SESSION['init_complete'] = true;
                 $_SESSION['uid'] = $uid;
 
-                Gateway::sendToCurrentClient(json_encode([
+                WxGateway::sendToCurrentClient(json_encode([
                     'path' => 'success',
                     'msg' => 'init complete check passed',
                 ]));
                 // ************************************************************
                 // 删除定时器
                 Timer::del($_SESSION['init_timer_id']);
+                unset($_SESSION['init_timer_id']);
                 // ************************************************************
                 // 保持一个用户只有一个 socket 在线
-                $array_client_id = Gateway::getClientIdByUid($uid);
+                $array_client_id = WxGateway::getClientIdByUid($uid);
 
                 foreach ($array_client_id as $item_client_id) {
                     // 除了当前 client, 其他都断开
                     if ($item_client_id !== $client_id) {
-                        Gateway::closeClient($client_id, 'only one client online');
+                        WxGateway::closeClient($client_id, 'only one client online');
                     }
                 }
                 // ************************************************************
                 // 通知，client 可以发送数据了
-                Gateway::sendToCurrentClient(json_encode([
+                WxGateway::sendToCurrentClient(json_encode([
                     'path' => 'init_complete',
                 ]));
                 return;
@@ -157,7 +155,7 @@ class Events extends ThinkWorkerEvents
 
         // 尚未初始化
         if (!$_SESSION['init_complete']) {
-            return Gateway::sendInit();
+            return WxGateway::sendInit();
         }
         // ************************************************************
         // 如果有 check 参数, 进行参数校验
@@ -166,10 +164,10 @@ class Events extends ThinkWorkerEvents
             if ($res) {
                 switch (ENV) {
                     case 'development':
-                        return Gateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
+                        return WxGateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
                     default:
                         unset($res->msg);
-                        return Gateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
+                        return WxGateway::sendToCurrentClient(json_encode($res, JSON_UNESCAPED_UNICODE));
                 }
             }
         }
@@ -179,7 +177,7 @@ class Events extends ThinkWorkerEvents
          * 根据 path, 自定义路由
          */
 
-        return Gateway::sendToCurrentClient(json_encode($data_php));
+        return WxGateway::sendToCurrentClient(json_encode($data_php));
 
         switch (strtolower($data_php->path)) {
             case 'record':
@@ -187,7 +185,7 @@ class Events extends ThinkWorkerEvents
                 Record::onMessage($client_id, $data_php);
                 break;
             default:
-                Gateway::sendToCurrentClient(json_encode([
+                WxGateway::sendToCurrentClient(json_encode([
                     'path' => 'error',
                     'msg' => 'path field have not match',
                 ]));
