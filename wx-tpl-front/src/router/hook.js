@@ -1,30 +1,40 @@
-import router from './index'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-// 导入初始化的数据
-import Init from '@/init'
-
+// 路由
+import router from './index'
+// request
+import request from '../request'
+// html_ast
+import { ast, html } from '../utils/html_ast'
+// 语言包
 import { languageStatus } from '@/lang'
+// 配置
+import { router as router_config } from '../config'
+// mixinData
+import { mixinData } from '../main'
 
-let options = {
+const options = {
 	// 路由模式
 	// ast: 前端路由-请求页面
 	// api: 前端路由-请求接口
 	// refresh：后端路由-刷新页面
-	mode: ''
+	mode: 'ast',
+	...router_config.hook
 };
+
 // to url
 let toURL = location.href;
 
-function init() {
-	// 前端路由需要用到的新的 AST 数据
-	let newAst = null;
-	// 是否是初始化进入页面
-	let isInitPage = true;
-	// 配置进度条
-	NProgress.configure({ showSpinner: false })
+// 前端路由需要用到的新的 AST 数据
+let newAst = null;
+// 是否是初始化进入页面
+let isInitPage = true;
+// 配置进度条
+NProgress.configure({ showSpinner: false })
 
+// 开始 hook
+function hook() {
 	router.beforeEach(async (to, from, next) => {
 		// 加上 base
 		toURL = `${router.options.base ?? ''}${to.fullPath}`
@@ -59,7 +69,7 @@ function init() {
 				// 不是初次进入页面
 				if (!isInitPage) {
 					// 请求数据
-					let res = await Init.protoData.$get(toURL, null, {
+					let res = await request.get(toURL, null, {
 						headers: {
 							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html，改为接收所有
 							Accept: '*/*',
@@ -67,7 +77,7 @@ function init() {
 					});
 
 					// 解析数据为新的 AST
-					newAst = Init.protoData.$u.html.to_ast(
+					newAst = html.to_ast(
 						res.data
 					);
 				}
@@ -100,13 +110,14 @@ function init() {
 					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap('content'))
 
 					// 更新-AST
-					Init.mixinData.ast = Init.protoData.$u.html.to_ast(
+					mixinData.ast = html.to_ast(
 						// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据
 						// 所以需要 to_html 再 to_ast
-						Init.protoData.$u.ast.to_html(newAst.data)
+						ast.to_html(newAst.data)
 					);
 
 					newAst = null;
+
 				}
 				break;
 		}
@@ -124,14 +135,4 @@ function init() {
 	})
 }
 
-export default {
-	// 路由模式
-	config(opts) {
-		options = {
-			...options,
-			...opts,
-		}
-		// 初始化路由模式
-		init();
-	}
-}
+export default hook

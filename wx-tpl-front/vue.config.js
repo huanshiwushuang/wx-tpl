@@ -66,21 +66,6 @@ const webpackOptions = {
 		// 	}
 		// }
 	},
-	configureWebpack: () => {
-		return {
-			module: {
-				rules: [
-					{
-						// 前后端交互的配置文件
-						test: /\.json5$/,
-						use: [
-							'json5-loader',
-						]
-					}
-				]
-			}
-		}
-	}
 }
 
 switch (config.front.env) {

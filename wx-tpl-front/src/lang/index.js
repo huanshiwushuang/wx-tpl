@@ -25,6 +25,7 @@ export const languageStatus = {
 		})
 	}
 };
+
 // 获取语言
 export function getLanguage() {
 	// cookie 保存的语言
@@ -34,8 +35,9 @@ export function getLanguage() {
 	}
 	return 'zh-cn'
 }
+
 // 设置语言
-export const setLanguage = async (lang) => {
+export function setLanguage(lang) {
 	Cookie.set('think_lang', lang);
 }
 

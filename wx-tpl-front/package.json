@@ -16,7 +16,6 @@
     "fs-extra": "^10.0.0",
     "html5parser": "^2.0.2",
     "js-cookie": "^2.2.1",
-    "json5-loader": "^4.0.1",
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",

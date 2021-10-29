@@ -1,50 +1,79 @@
-// 配置
-import config from './config'
+// base style
+import '@/assets/less/base.less';
 // 便于拦截数据，实现数据的：模拟、校验
 import './ajaxHook';
-// 初始化
-import Init from './init';
+// cookie
+import Cookie from "js-cookie";
+// 请求
+import request from './request';
+// html_ast
+import { html } from './utils/html_ast'
+// base62x
+import base62x from 'base62x';
+// websocket
+import websocket from './websocket';
+// local
+import local from './utils/local_storage';
+// 通用工具
+import utils from './utils'
+// vue
 import Vue from 'vue'
+// App
 import App from './App.vue'
 // vuex
 import store from './store'
 // vue-router
 import router from './router'
-import routerHook from './router/hook'
-// base style
-import '@/assets/less/base.less';
 // 摘要
 import schema from './schema';
-// WebSocket 连接
-// import './assets/js/websocket'
 // 批量注册基础组件
 import './components'
-// elementui
-import Element from 'element-ui'
-import '@/assets/scss/element-variables.scss'
 // i18n
 import i18n from './lang'
+// UI 组件库
+import Element from 'element-ui'
+import '@/assets/scss/element-variables.scss'
+
+Vue.use(Element);
 
 Vue.config.productionTip = false
 
 console.log(schema);
 
-Vue.use(Element)
-
-// 配置路由模式
-routerHook.config(config.routerHook);
-
-// 混入数据
+// 混入同一个对象数据
+export const mixinData = {
+	ast: html.to_ast([...document.querySelectorAll('.data')].map(i => {
+		return i.outerHTML
+	}).join('')),
+	local,
+	// 异步加载的组件
+	coms: [],
+	// body 的 class
+	bodyClass: [],
+};
 Vue.mixin({
 	data() {
 		return {
-			// fix-bug: 如果直接返回 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
-			...Init.mixinData
+			// fix-bug: 如果直接使用 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
+			...mixinData
 		}
 	}
 })
 // 附加数据到原型
-Object.assign(Vue.prototype, Init.protoData);
+Object.assign(Vue.prototype, {
+	$vue: Vue,
+	$win: window,
+	$ws: websocket,
+	$axios: request,
+	$cookie: Cookie,
+	$get: request.get,
+	$post: request.post,
+	$base62x: base62x,
+	// 稍微封装一下，默认取值的数据是 ast
+	$v(deep_key, data = mixinData.ast) {
+		return utils.v(data, deep_key);
+	},
+});
 
 const app = new Vue({
 	router,

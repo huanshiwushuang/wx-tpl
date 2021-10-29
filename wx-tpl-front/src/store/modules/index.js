@@ -28,11 +28,11 @@ const mutations_keys = Object.keys(sum.mutations);
 // 有的 state，初始化的值，来自于接口
 // 所以可以拿到数据之后更新 cache，下面的 reset 数据全部来自于 cache
 Object.assign(sum.state, {
-	ktyh0hji_cache: JSON.parse(JSON.stringify(sum.state))
+	cache: JSON.parse(JSON.stringify(sum.state))
 })
 Object.assign(sum.mutations, {
-	ktyh0hji_cache(state, payload) {
-		state.ktyh0hji_cache = payload;
+	cache(state, payload) {
+		state.cache = payload;
 	}
 })
 
@@ -50,7 +50,7 @@ state_keys.forEach((key) => {
 	if (!mutations_keys.includes(key_reset)) {
 
 		sum.mutations[key_reset] = function (state) {
-			state[key] = JSON.parse(JSON.stringify(sum.state.ktyh0hji_cache[key]));
+			state[key] = JSON.parse(JSON.stringify(state.cache[key]));
 		}
 
 	}

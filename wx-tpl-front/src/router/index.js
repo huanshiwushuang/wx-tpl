@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import hook from './hook'
 
 Vue.use(VueRouter)
 
@@ -29,3 +30,6 @@ const router = new VueRouter({
 })
 
 export default router
+
+// 执行 hook
+hook();

@@ -1,6 +1,6 @@
-export default {
-    // 路由模式
-    routerHook: {
+// 路由配置
+export const router ={
+    hook: {
         mode: 'ast',
     }
 }
