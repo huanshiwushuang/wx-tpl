@@ -71,21 +71,19 @@ class InitWS extends WS {
                     // 设置临时 客户端 id
                     this.#client_id_tmp = data_json.client_id;
 
-                    try {
-                        await fetch(this.#options_use.bind_url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                check: 'kv7p8t8q',
-                                client_id: this.#client_id_tmp,
-                                uid: this.#options_use.uid,
-                            })
+                    let res = await fetch(this.#options_use.bind_url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            check: 'kv7p8t8q',
+                            client_id: this.#client_id_tmp,
+                            uid: this.#options_use.uid,
                         })
-                    } catch (e) {
-                        console.error(e);
-
+                    })
+                    // fetch 比较特殊, 500 和 404 等 http 错误不会 reject
+                    if (!res.ok) {
                         // 初始状态
                         this.#state_set(this.#state_options.init);
 
