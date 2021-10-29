@@ -14,11 +14,6 @@ class Index extends Base
             'D' => '首页-我是description',
         ];
 
-
-        dump(lang('kv91zomi'));
-
-
-        // exit;
         // fetch 数据页面
         return View::fetch('index/index', $tpl_var);
     }

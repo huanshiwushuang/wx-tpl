@@ -1,7 +1,9 @@
 // base style
 import '@/assets/less/base.less';
+// config
+import { env } from './config'
 // 便于拦截数据，实现数据的：模拟、校验
-import './ajaxHook';
+// import './ajaxHook';
 // cookie
 import Cookie from "js-cookie";
 // 请求
@@ -24,8 +26,6 @@ import App from './App.vue'
 import store from './store'
 // vue-router
 import router from './router'
-// 摘要
-import schema from './schema';
 // 批量注册基础组件
 import './components'
 // i18n
@@ -37,8 +37,6 @@ import '@/assets/scss/element-variables.scss'
 Vue.use(Element);
 
 Vue.config.productionTip = false
-
-console.log(schema);
 
 // 混入同一个对象数据
 export const mixinData = {
@@ -82,17 +80,17 @@ const app = new Vue({
 	render: h => h(App)
 }).$mount('#app');
 
-// 生产环境，删除一些DOM
-if (process.env.NODE_ENV === 'production') {
-	var n = document.querySelectorAll(".data,.node_remove");
-	for (var i = 0; i < n.length; i++) {
-		n[i].parentNode.removeChild(n[i]);
-	}
+switch (env) {
+	// 开发环境
+	case 'development':
+		window.app = app;
+		break;
+	// 生产环境
+	case 'production':
+		var n = document.querySelectorAll(".data,.node_remove");
+		for (var i = 0; i < n.length; i++) {
+			n[i].parentNode.removeChild(n[i]);
+		}
+		window.krk7jl7x = app;
+		break;
 }
-
-if (process.env.NODE_ENV === "development") {
-	window.app = app;
-} else {
-	window.krk7jl7x = app;
-}
-

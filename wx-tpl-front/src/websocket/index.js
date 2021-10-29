@@ -1,9 +1,11 @@
-import WS from '../utils/ws';
-import { throttle } from 'lodash-es';
+import WS from '../utils/ws'
+import { throttle } from 'lodash-es'
 // cookie
-import Cookie from "js-cookie";
+import Cookie from "js-cookie"
 // controllers
-import controllers from './controller';
+import controllers from './controller'
+// request
+import request from '../request'
 
 // 初始化绑定 websocket
 class InitWS extends WS {
@@ -71,25 +73,20 @@ class InitWS extends WS {
                     // 设置临时 客户端 id
                     this.#client_id_tmp = data_json.client_id;
 
-                    let res = await fetch(this.#options_use.bind_url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
+                    try {
+                        await request.post(this.#options_use.bind_url, {
                             check: 'kv7p8t8q',
                             client_id: this.#client_id_tmp,
                             uid: this.#options_use.uid,
-                        })
-                    })
-                    // fetch 比较特殊, 500 和 404 等 http 错误不会 reject
-                    if (!res.ok) {
+                        });
+                    } catch (e) {
+                        
                         // 初始状态
                         this.#state_set(this.#state_options.init);
-
                         // 绑定报错，断开 socket
                         this.disconnect();
-                        return;
+
+                        return console.error(e);
                     }
                     // 绑定成功，通知 websocket server 进行验证
                     this.sendObj({
@@ -99,7 +96,7 @@ class InitWS extends WS {
                 break;
             // 初始化完成
             case 'init_complete':
-                console.info(`websocket 已连接`);
+                console.log(`websocket 已连接`);
 
                 this.#state_set(this.#state_options.inited);
 
@@ -128,7 +125,7 @@ class InitWS extends WS {
             // 如果处于已初始化完成状态
             // 断开，才算是断开连接
             if (this.#state === this.#state_options.inited) {
-                console.info(`websocket 已断开`);
+                console.log(`websocket 已断开`);
 
                 controllers.forEach(controller => {
                     controller.ondisconnect.apply(this, args);
