@@ -1,6 +1,6 @@
 <?php
 
-// 根据-app 目录下所有的 *.schema.json5 配置，对传入的参数，进行校验
+// 根据-app 目录下所有的 *.schema.php 配置，对传入的参数，进行校验
 
 declare(strict_types=1);
 

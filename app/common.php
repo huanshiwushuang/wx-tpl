@@ -8,7 +8,7 @@ use Symfony\Component\Finder\Finder;
 
 class common
 {
-    // 返回-/app 文件夹中的 所有 *.schema.json5 合并后的 schema
+    // 返回-/app 文件夹中的 所有 *.schema.php 合并后的 schema
     static function get_schemas(): array
     {
         // 取缓存
@@ -16,13 +16,14 @@ class common
 
         if (empty($res)) {
             $finder = new Finder();
-            $finder->in(APP_ROOT)->name('*.schema.json5')->files();
+            $finder->in(APP_ROOT)->name('*.schema.php')->files();
             $schemas = [];
 
             foreach ($finder as $file) {
-                $arr = (array)json5_decode($file->getContents());
+                // 导入 schema
+                $schema = require_once($file->getPathname());
 
-                $schemas = array_merge($schemas, $arr);
+                $schemas = array_merge($schemas, $schema);
             }
 
             $res = $schemas;
@@ -62,7 +63,7 @@ class common
         if ($count !== 1) {
             return (object)[
                 'code' => 'ktpxujiw',
-                'msg' => 'check 对应 schema 数量不等于 1',
+                'msg' => 'check 对应 schema 数量不等于 1，当前数量为：' . $count,
             ];
         }
 

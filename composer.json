@@ -28,7 +28,6 @@
         "topthink/think-multi-app": "^1.0",
         "topthink/think-worker": "^3.0",
         "workerman/gatewayclient": "^3.0",
-        "colinodell/json5": "^2.2",
         "symfony/finder": "^5.3",
         "justinrainbow/json-schema": "^5.2",
         "mfonte/base62x": "^1.3"
