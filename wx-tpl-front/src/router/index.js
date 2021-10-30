@@ -5,6 +5,9 @@ import hook from './hook'
 Vue.use(VueRouter)
 
 const routes = [
+	{
+		path: '*'
+	},
 	// 首页
 	{
 		path: '/',

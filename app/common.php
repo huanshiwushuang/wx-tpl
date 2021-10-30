@@ -80,4 +80,50 @@ class common
             ];
         }
     }
+    /**
+     * @param string $url
+     * @return string encoded url
+     */
+    static function urlencode($url): string
+    {
+        // 解析 url 为数组
+        $array_url = parse_url($url);
+
+        // 解析 qs 为数组
+        $array_query = [];
+        if (isset($array_url['query'])) {
+            parse_str($array_url['query'], $array_query);
+        }
+
+        // 对 qs 和 hash 进行编码
+        $array_query_encode = [];
+        $str_hash_encode = '';
+        if (isset($array_url['fragment'])) {
+            $str_hash_encode = rawurlencode($array_url['fragment']);
+        }
+
+        foreach ($array_query as $key => $value) {
+            // 如果 value 是数组
+            if (is_array($value)) {
+                foreach ($value as $v) {
+                    array_push($array_query_encode, rawurlencode($key . '[]') . '=' . rawurlencode($v));
+                }
+            } else {
+                array_push($array_query_encode, rawurlencode($key) . '=' . rawurlencode($value));
+            }
+        }
+
+        // 拼接 && 替换为编码后的字符串
+        $str_replacement = implode('&', $array_query_encode);
+        if ($str_replacement) {
+            $str_replacement = '?' . $str_replacement;
+        }
+        if ($str_hash_encode) {
+            $str_hash_encode = '#' . $str_hash_encode;
+        }
+
+        $res_url = preg_replace('/\?.+/', $str_replacement . $str_hash_encode, $url, 1);
+
+        return $res_url;
+    }
 }
