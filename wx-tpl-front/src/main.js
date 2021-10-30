@@ -1,5 +1,6 @@
 // base style
 import '@/assets/less/base.less';
+import config from './config';
 // cookie
 import Cookie from "js-cookie";
 // 请求
@@ -81,10 +82,13 @@ switch (process.env.NODE_ENV) {
 		break;
 	// 生产环境
 	case 'production':
-		var n = document.querySelectorAll(".data,.node_remove");
-		for (var i = 0; i < n.length; i++) {
-			n[i].parentNode.removeChild(n[i]);
-		}
 		window.krk7jl7x = app;
 		break;
+}
+
+if (config.is_remove_dom) {
+	var n = document.querySelectorAll(".data,.node_remove");
+	for (var i = 0; i < n.length; i++) {
+		n[i].parentNode.removeChild(n[i]);
+	}
 }

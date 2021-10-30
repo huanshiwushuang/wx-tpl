@@ -40,6 +40,18 @@ const res = {
             return false;
         })()
     })(),
+    // 是否移除 dom
+    is_remove_dom: (() => {
+        if ([true, false].includes(local.value.is_remove_dom)) {
+            return local.value.is_remove_dom;
+        }
+        return (() => {
+            if (process.env.NODE_ENV === 'development') {
+                return false;
+            }
+            return true;
+        })()
+    })(),
 }
 
 // 保存配置

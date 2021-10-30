@@ -76,6 +76,12 @@
                         <input type="checkbox" v-model="is_print_config" />
                     </td>
                 </tr>
+                <tr>
+                    <td>是否移除数据 dom</td>
+                    <td>
+                        <input type="checkbox" v-model="is_remove_dom" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
