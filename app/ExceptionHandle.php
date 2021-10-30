@@ -68,4 +68,16 @@ class ExceptionHandle extends Handle
         // 其他错误交给系统处理
         return parent::render($request, $e);
     }
+    /**
+     * @access protected
+     * @param Throwable $exception
+     * @return Response
+     */
+    protected function convertExceptionToResponse(Throwable $exception): Response
+    {
+        // 修改异常响应默认返回 text/html
+        $this->isJson = false;
+        dump('已修改异常响应默认返回 text/html');
+        return parent::convertExceptionToResponse($exception);
+    }
 }

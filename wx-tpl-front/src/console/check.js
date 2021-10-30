@@ -2,8 +2,6 @@ export default async function (response) {
     const url = response.config.url;
     const data = response.data;
 
-    console.group(`Check 数据---${url}`);
-
     // 导入库和数据
     const [
         Mock,
@@ -12,6 +10,9 @@ export default async function (response) {
         import('mockjs'),
         import('../mock/main'),
     ])
+
+    console.group(`Check 数据---${url}`);
+
     // 查找 check 规则
     const reg = new RegExp(`^${url}$`, 'i');
     const mock_matches = mock_data.filter(item => {

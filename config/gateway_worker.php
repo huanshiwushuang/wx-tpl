@@ -29,7 +29,7 @@ return [
     'name'                  => 'thinkphp',
     'count'                 => 1,
     'lanIp'                 => '127.0.0.1',
-    'startPort'             => 4000,
+    'startPort'             => 7000,
     'daemonize'             => false,
     'pingInterval'          => 30,
     'pingNotResponseLimit'  => 0,

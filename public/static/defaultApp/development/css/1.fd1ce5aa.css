@@ -1,5 +1,4 @@
 .kvdhlhtr {
-  width: 600px;
   border-collapse: collapse;
 }
 .kvdhlhtr th {
@@ -8,11 +7,11 @@
 .kvdhlhtr th,
 .kvdhlhtr td {
   border: 1px solid #000;
-  padding: 10px 0;
+  padding: 10px;
 }
-.kvdhlhtr input[type=radio],
-.kvdhlhtr input[type=checkbox] {
-  width: 40px;
-  height: 40px;
+.kvdhlhtr input[type="radio"],
+.kvdhlhtr input[type="checkbox"] {
+  width: 30px;
+  height: 30px;
 }
 

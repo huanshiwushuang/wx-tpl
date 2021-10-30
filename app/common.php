@@ -4,7 +4,7 @@
 namespace app\common;
 // https://www.cnblogs.com/terencezhou/p/10474617.html
 
-use app\websocket\WxGateway;
+use Exception;
 use JsonSchema\Validator;
 use Symfony\Component\Finder\Finder;
 
@@ -24,8 +24,6 @@ class common
             foreach ($finder as $file) {
                 // 导入 schema
                 $schema = require_once($file->getPathname());
-
-                WxGateway::sendToCurrentClient(json_encode($schema));
 
                 $schemas = array_merge($schemas, $schema);
             }
@@ -129,5 +127,11 @@ class common
         $res_url = preg_replace('/\?.+/', $str_replacement . $str_hash_encode, $url, 1);
 
         return $res_url;
+    }
+    // 抛出异常，打印调用栈
+    static function throw_exception()
+    {
+        $e = new Exception();
+        dump($e->getTraceAsString());
     }
 }
