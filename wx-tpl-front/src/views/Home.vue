@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { getLanguage, setLanguage } from "@/lang";
+import { getLanguage, setLanguage } from "../lang";
 
 export default {
     name: "Home",
