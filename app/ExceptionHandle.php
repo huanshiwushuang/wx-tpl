@@ -76,8 +76,11 @@ class ExceptionHandle extends Handle
     protected function convertExceptionToResponse(Throwable $exception): Response
     {
         // 修改异常响应默认返回 text/html
+        if ($this->isJson) {
+            dump('已修改异常响应默认返回 text/html');
+        }
         $this->isJson = false;
-        dump('已修改异常响应默认返回 text/html');
+
         return parent::convertExceptionToResponse($exception);
     }
 }

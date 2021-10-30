@@ -15,6 +15,7 @@ class Websocket extends Base
 		if (request()->param('check') === 'kv7p8t8q') {
 			WxGatewayClient::bindUid(request()->param('client_id'), request()->param('uid'));
 		}
+		
 		return [
 			'bind success'
 		];
