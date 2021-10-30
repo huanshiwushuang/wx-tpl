@@ -53,12 +53,17 @@ class ExceptionHandle extends Handle
     public function render($request, Throwable $e): Response
     {
         // 添加自定义异常处理机制
-        if (!isset($request->param()['wxxbb'])) {
-            return Response::create(
-                View::display('<div id="kvbv37sy_404"></div>'),
-                'html',
-                404
-            );
+        switch (ENV) {
+            case 'development':
+                break;
+            default:
+                if (!isset($request->param()['wxxbb'])) {
+                    return Response::create(
+                        View::display('<div id="kvbv37sy_404"></div>'),
+                        'html',
+                        404
+                    );
+                }
         }
         // 其他错误交给系统处理
         return parent::render($request, $e);

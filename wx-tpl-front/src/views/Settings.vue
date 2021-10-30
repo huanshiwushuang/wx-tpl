@@ -1,7 +1,6 @@
 <template>
     <div class="about">
         <h1 class="tc">设置页面</h1>
-        <h2 class="tc">单独设置，优先级高于环境变量切换</h2>
         <div class="tc">
             <wx-router-link is="a" href="/">
                 <button>回到首页</button>
