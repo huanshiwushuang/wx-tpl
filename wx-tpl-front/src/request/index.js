@@ -1,6 +1,5 @@
 import Axios from 'axios'
 import { is_mock, is_check } from '../config'
-import Mock from 'mockjs'
 
 // Axios
 const axiosInstance = Axios.create({});
@@ -9,7 +8,17 @@ const axiosInstance = Axios.create({});
 axiosInstance.interceptors.request.use(async (config) => {
     // 模拟数据
     if (is_mock) {
-        await import('../mock/main');
+        let [
+            Mock,
+            mock_data
+        ] = await Promise.all([
+            import('mockjs'),
+            import('../mock/main')
+        ])
+        // 循环应用 mock 规则
+        mock_data.forEach(item => {
+            Mock.mock(item.rurl, item.rtype, item.template);
+        })
     }
 
     return config;
@@ -19,51 +28,16 @@ axiosInstance.interceptors.request.use(async (config) => {
 
 // 响应拦截
 axiosInstance.interceptors.response.use(async (response) => {
-    const url = response.config.url;
     // 模拟数据
     if (is_mock) {
-        console.group(`Mock 数据---${url}`);
-        console.info(response);
-        console.groupEnd(`Mock 数据---${url}`);
+        let { default: console_mock } = await import('../console/mock');
+        console_mock(response);
     }
     // 检查数据
-    if (is_check) {
-        await import('../mock/main');
-
-        console.group(`Check 数据---${url}`);
-
-        const reg = new RegExp(`^${url}$`, 'i');
-        const arr = Object.values(Mock._mocked).filter(item => {
-            return reg.test(item.rurl);
-        });
-        const count = arr.length;
-
-        switch (count) {
-            case 0:
-                console.warn(`未找到 check 规则`);
-                break;
-            case 1:
-                if (['object', 'string'].includes(typeof arr[0].template)) {
-                    let result = Mock.valid(arr[0].template, response.data);
-
-                    if (result.length) {
-                        console.error('check 不通过');
-                        console.error('check 规则', arr[0].template);
-                        console.error('check 数据', response.data);
-                        console.error('check 结果', result);
-                    } else {
-                        console.info('check 通过');
-                    }
-
-                } else {
-                    console.error(`check 规则只能是对象 or 字符串`);
-                    console.error(`当前规则`, arr[0].template);
-                }
-                break;
-
-        }
-
-        console.groupEnd(`Check 数据---${url}`);
+    // 只有 content-type 是 json 才 check
+    if (is_check && /json/i.test(response.headers['content-type'])) {
+        let { default: console_check } = await import('../console/check');
+        console_check(response);
     }
 
     return response;

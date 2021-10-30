@@ -1,3 +1,6 @@
-import Mock from 'mockjs'
-
-Mock.mock('/websocket/bind_uid', { asd: 123 })
+export default [
+    {
+        rurl: '/websocket/bind_uid',
+        template: { "name": "@cname" },
+    }
+]

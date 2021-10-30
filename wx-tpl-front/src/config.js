@@ -35,3 +35,21 @@ export const is_check = (() => {
         return false;
     })()
 })();
+
+console.table([
+    {
+        key: 'env',
+        value: env
+    },
+    {
+        key: 'is_mock',
+        value: is_mock
+    },
+    {
+        key: 'is_check',
+        value: is_check
+    },
+], [
+    'key',
+    'value',
+])
