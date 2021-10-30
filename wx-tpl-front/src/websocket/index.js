@@ -1,5 +1,4 @@
 import WS from '../utils/ws'
-import { throttle } from 'lodash-es'
 // cookie
 import Cookie from "js-cookie"
 // controllers
@@ -44,9 +43,9 @@ class InitWS extends WS {
         this.addEventListener('close', this.#handle_close_error);
         this.addEventListener('error', this.#handle_close_error);
         // 处理激活
-        window.addEventListener('touchstart', this.#handle_activate);
-        window.addEventListener('mousemove', this.#handle_activate);
-        window.addEventListener('scroll', this.#handle_activate);
+        window.addEventListener('touchstart', this.#handle_activate.bind(this));
+        window.addEventListener('mousemove', this.#handle_activate.bind(this));
+        window.addEventListener('scroll', this.#handle_activate.bind(this));
     }
     // eslint-disable-next-line no-dupe-class-members
     async #on_message(event) {
@@ -80,7 +79,7 @@ class InitWS extends WS {
                             uid: this.#options_use.uid,
                         });
                     } catch (e) {
-                        
+
                         // 初始状态
                         this.#state_set(this.#state_options.init);
                         // 绑定报错，断开 socket
@@ -137,13 +136,12 @@ class InitWS extends WS {
     }
     // 重新连接 websocket
     // eslint-disable-next-line no-dupe-class-members
-    #handle_activate = throttle(function () {
-        // socket 已关闭
+    #handle_activate() {
+        // websocket 已关闭
         if ([WebSocket.CLOSED, WebSocket.CLOSING].includes(this.readyState)) {
             this.connect();
         }
-    }.bind(this), 3000)
-
+    }
     // eslint-disable-next-line no-dupe-class-members
     #state_set(state) {
         this.#state = state;

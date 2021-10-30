@@ -142,7 +142,7 @@ class Events extends ThinkWorkerEvents
                 foreach ($array_client_id as $item_client_id) {
                     // 除了当前 client, 其他都断开
                     if ($item_client_id !== $client_id) {
-                        WxGateway::closeClient($client_id, 'only one client online');
+                        WxGateway::closeClient($item_client_id, 'only one client online, exit because of ' . $client_id);
                     }
                 }
                 // ************************************************************
