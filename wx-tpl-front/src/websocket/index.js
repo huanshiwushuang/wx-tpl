@@ -5,6 +5,8 @@ import Cookie from "js-cookie"
 import controllers from './controller'
 // request
 import request from '../request'
+// log
+import log from '../utils/log'
 
 // 初始化绑定 websocket
 class InitWS extends WS {
@@ -95,7 +97,7 @@ class InitWS extends WS {
                 break;
             // 初始化完成
             case 'init_complete':
-                console.log(`websocket 已连接`);
+                log.green(`websocket 已连接`);
 
                 this.#state_set(this.#state_options.inited);
 
@@ -124,7 +126,7 @@ class InitWS extends WS {
             // 如果处于已初始化完成状态
             // 断开，才算是断开连接
             if (this.#state === this.#state_options.inited) {
-                console.log(`websocket 已断开`);
+                log.red(`websocket 已断开`);
 
                 controllers.forEach(controller => {
                     controller.ondisconnect.apply(this, args);
