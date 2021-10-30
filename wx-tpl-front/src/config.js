@@ -1,4 +1,4 @@
-import local from './utils/local_storage';
+import local from './data/local_storage';
 
 // 路由配置
 export const router = {

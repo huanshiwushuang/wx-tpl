@@ -8,14 +8,14 @@ import { env } from './config'
 import Cookie from "js-cookie";
 // 请求
 import request from './request';
-// html_ast
-import { html } from './utils/html_ast'
+// ast
+import ast from './data/ast';
+// localStorage
+import local from './data/local_storage';
 // base62x
 import base62x from 'base62x';
 // websocket
 import websocket from './websocket';
-// local
-import local from './utils/local_storage';
 // 通用工具
 import utils from './utils'
 // vue
@@ -39,10 +39,8 @@ Vue.use(Element);
 Vue.config.productionTip = false
 
 // 混入同一个对象数据
-export const mixinData = {
-	ast: html.to_ast([...document.querySelectorAll('.data')].map(i => {
-		return i.outerHTML
-	}).join('')),
+const mixinData = {
+	ast,
 	local,
 	// 异步加载的组件
 	coms: [],

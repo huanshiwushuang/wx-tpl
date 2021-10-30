@@ -11,8 +11,8 @@ import { ast, html } from '../utils/html_ast'
 import { languageStatus } from '@/lang'
 // 配置
 import { router as router_config } from '../config'
-// mixinData
-import { mixinData } from '../main'
+// ast
+import { set_ast } from '../data/ast'
 
 const options = {
 	// 路由模式
@@ -110,11 +110,11 @@ function hook() {
 					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap('content'))
 
 					// 更新-AST
-					mixinData.ast = html.to_ast(
+					set_ast(html.to_ast(
 						// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据
 						// 所以需要 to_html 再 to_ast
 						ast.to_html(newAst.data)
-					);
+					));
 
 					newAst = null;
 
