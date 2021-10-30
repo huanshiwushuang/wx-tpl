@@ -1,55 +1,67 @@
 import local from './data/local_storage';
 
-// 路由配置
-export const router = {
-    hook: {
-        mode: 'ast',
-    }
-}
+const res = {
+    // 路由模式
+    router_mode: (() => {
+        if (['ast', 'refresh', 'api'].includes(local.value.router_mode)) {
+            return local.value.router_mode;
+        }
+        return 'ast';
+    })(),
 
-// 环境
-export const env = (() => {
-    if (['development', 'production'].includes(local.value.env)) {
-        return local.value.env;
-    }
-    return process.env.NODE_ENV;
-})();
-
-// 是否 模拟 数据
-export const is_mock = (() => {
-    if ([true, false].includes(local.value.is_mock)) {
-        return local.value.is_mock
-    }
-    return false;
-})();
-
-// 是否 检查 数据
-export const is_check = (() => {
-    if ([true, false].includes(local.value.is_check)) {
-        return local.value.is_check;
-    }
-    return (() => {
-        if (env === 'development') {
-            return true;
+    // 是否 模拟 数据
+    is_mock: (() => {
+        if ([true, false].includes(local.value.is_mock)) {
+            return local.value.is_mock
         }
         return false;
-    })()
-})();
+    })(),
+    // 是否 检查 数据
+    is_check: (() => {
+        if ([true, false].includes(local.value.is_check)) {
+            return local.value.is_check;
+        }
+        return (() => {
+            if (process.env.NODE_ENV === 'development') {
+                return true;
+            }
+            return false;
+        })()
+    })(),
+    // 是否打印配置信息
+    is_print_config: (() => {
+        if ([true, false].includes(local.value.is_print_config)) {
+            return local.value.is_print_config;
+        }
+        return (() => {
+            if (process.env.NODE_ENV === 'development') {
+                return true;
+            }
+            return false;
+        })()
+    })(),
+}
 
-console.table([
-    {
-        key: 'env',
-        value: env
-    },
-    {
-        key: 'is_mock',
-        value: is_mock
-    },
-    {
-        key: 'is_check',
-        value: is_check
-    },
-], [
-    'key',
-    'value',
-])
+// 保存配置
+local.set(res);
+
+export default res;
+
+if (res.is_print_config) {
+    const settings_url = new URL(location.href);
+    settings_url.searchParams.set('settings', 1);
+
+    console.group(`配置信息---${settings_url.toString()}`);
+
+    console.table(Object.keys(res).map(key => {
+        return {
+            key,
+            value: res[key],
+        }
+    }), [
+        'key',
+        'value',
+    ]);
+
+    console.groupEnd(`配置信息`);
+}

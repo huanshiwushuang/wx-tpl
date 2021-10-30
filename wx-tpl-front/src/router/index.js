@@ -20,6 +20,15 @@ const routes = [
 						}
 					}
 				}
+				// 设置页面
+				if (new URLSearchParams(location.search).has('settings')) {
+					return {
+						path: '*',
+						component: async () => {
+							return await import('@/views/Settings.vue');
+						}
+					}
+				}
 				// 返回一个绝对匹配不到的 path
 				return {
 					path: 'kvdgktrh',

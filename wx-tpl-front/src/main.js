@@ -1,9 +1,5 @@
 // base style
 import '@/assets/less/base.less';
-// config
-import { env } from './config'
-// 便于拦截数据，实现数据的：模拟、校验
-// import './ajaxHook';
 // cookie
 import Cookie from "js-cookie";
 // 请求
@@ -17,7 +13,7 @@ import base62x from 'base62x';
 // websocket
 import websocket from './websocket';
 // 通用工具
-import utils from './utils'
+import utils from './utils/common'
 // vue
 import Vue from 'vue'
 // App
@@ -78,7 +74,7 @@ const app = new Vue({
 	render: h => h(App)
 }).$mount('#app');
 
-switch (env) {
+switch (process.env.NODE_ENV) {
 	// 开发环境
 	case 'development':
 		window.app = app;

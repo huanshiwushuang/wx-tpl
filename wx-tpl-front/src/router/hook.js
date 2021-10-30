@@ -10,7 +10,7 @@ import { ast, html } from '../utils/html_ast'
 // 语言包
 import { languageStatus } from '@/lang'
 // 配置
-import { router as router_config } from '../config'
+import config from '../config'
 // ast
 import { set_ast } from '../data/ast'
 
@@ -19,8 +19,7 @@ const options = {
 	// ast: 前端路由-请求页面
 	// api: 前端路由-请求接口
 	// refresh：后端路由-刷新页面
-	mode: 'ast',
-	...router_config.hook
+	mode: config.router_mode || 'ast',
 };
 
 // to url
