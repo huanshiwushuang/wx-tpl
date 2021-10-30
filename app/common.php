@@ -3,6 +3,8 @@
 
 namespace app\common;
 // https://www.cnblogs.com/terencezhou/p/10474617.html
+
+use app\websocket\WxGateway;
 use JsonSchema\Validator;
 use Symfony\Component\Finder\Finder;
 
@@ -22,6 +24,8 @@ class common
             foreach ($finder as $file) {
                 // 导入 schema
                 $schema = require_once($file->getPathname());
+
+                WxGateway::sendToCurrentClient(json_encode($schema));
 
                 $schemas = array_merge($schemas, $schema);
             }
