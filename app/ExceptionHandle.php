@@ -55,7 +55,7 @@ class ExceptionHandle extends Handle
         // 添加自定义异常处理机制
         if (!isset($request->param()['wxxbb'])) {
             return Response::create(
-                View::display('kvbv37sy_404'),
+                View::display('<div id="kvbv37sy_404"></div>'),
                 'html',
                 404
             );

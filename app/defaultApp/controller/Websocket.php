@@ -13,7 +13,10 @@ class Websocket extends Base
 	public function bind_uid()
 	{
 		if (request()->param('check') === 'kv7p8t8q') {
-			return WxGatewayClient::bindUid(request()->param('client_id'), request()->param('uid'));
+			WxGatewayClient::bindUid(request()->param('client_id'), request()->param('uid'));
 		}
+		return [
+			'bind success'
+		];
 	}
 }

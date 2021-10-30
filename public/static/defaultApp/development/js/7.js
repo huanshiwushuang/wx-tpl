@@ -31,7 +31,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var c_co
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ([{\n  rurl: '/websocket/bind_uid',\n  template: {\n    \"name\": \"@cname\"\n  }\n}]);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvbW9jay93ZWJzb2NrZXQuanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvbW9jay93ZWJzb2NrZXQuanM/MWMyMSJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBbXG4gICAge1xuICAgICAgICBydXJsOiAnL3dlYnNvY2tldC9iaW5kX3VpZCcsXG4gICAgICAgIHRlbXBsYXRlOiB7IFwibmFtZVwiOiBcIkBjbmFtZVwiIH0sXG4gICAgfVxuXSJdLCJtYXBwaW5ncyI6IkFBQUE7QUFBQTtBQUVBO0FBQ0E7QUFBQTtBQUFBO0FBRkEiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/mock/websocket.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ([{\n  rurl: '/websocket/bind_uid',\n  template: ['bind success']\n}]);//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvbW9jay93ZWJzb2NrZXQuanMuanMiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9zcmMvbW9jay93ZWJzb2NrZXQuanM/MWMyMSJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBbXG4gICAge1xuICAgICAgICBydXJsOiAnL3dlYnNvY2tldC9iaW5kX3VpZCcsXG4gICAgICAgIHRlbXBsYXRlOiBbJ2JpbmQgc3VjY2VzcyddLFxuICAgIH1cbl0iXSwibWFwcGluZ3MiOiJBQUFBO0FBQUE7QUFFQTtBQUNBO0FBRkEiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/mock/websocket.js\n");
 
 /***/ })
 

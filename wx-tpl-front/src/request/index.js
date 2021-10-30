@@ -33,9 +33,11 @@ axiosInstance.interceptors.response.use(async (response) => {
         let { default: console_mock } = await import('../console/mock');
         console_mock(response);
     }
-    // 检查数据
-    // 只有 content-type 是 json 才 check
-    if (is_check && /json/i.test(response.headers['content-type'])) {
+    // (检查数据 && 只有 content-type 是 json 才 check) || (空数据需要校验)
+    if (
+        (is_check && /json/i.test(response.headers['content-type'])) ||
+        !response.data
+    ) {
         let { default: console_check } = await import('../console/check');
         console_check(response);
     }
