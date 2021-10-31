@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         toggleLang() {
-            setLanguage(getLanguage() === "zh-cn" ? "en-us" : "zh-cn");
+            setLanguage(getLanguage() === "zh_cn" ? "en-us" : "zh-cn");
             location.reload();
         },
     },

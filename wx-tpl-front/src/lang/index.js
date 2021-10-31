@@ -31,21 +31,21 @@ export function getLanguage() {
 	// cookie 保存的语言
 	const chooseLanguage = Cookie.get('think_lang')
 	if (chooseLanguage) {
-		return chooseLanguage;
+		return chooseLanguage.replace('-', '_');
 	}
 	return 'zh_cn';
 }
 
 // 设置语言
 export function setLanguage(lang) {
-	Cookie.set('think_lang', lang);
+	Cookie.set('think_lang', lang).replace('_', '-');
 }
 
 (async () => {
 	let lang = getLanguage();
 
 	switch (lang) {
-		case 'en-us': {
+		case 'en_us': {
 			i18n.locale = lang;
 
 			let en_us = import('vant/es/locale/lang/en-US')
