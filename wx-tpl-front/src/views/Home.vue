@@ -43,7 +43,7 @@ export default {
     },
     computed: {
         // 同步数据到 store
-        ...helper.sync_store(["user_name"]),
+        ...helper.sync_store('A.B.C', ["user_name"]),
     },
     methods: {
         toggle_lang() {

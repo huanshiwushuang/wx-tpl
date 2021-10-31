@@ -15,6 +15,32 @@ const res = {
             console.error(`错误: `, e);
         }
     },
+    // 遍历 tree
+    walk_tree(tree, options) {
+        if (!Array.isArray(tree)) {
+            throw new Error('please input array')
+        }
+        const visit = function (node, parent, index, options) {
+            // 进入此节点
+            options.enter && options.enter(node, parent, index)
+
+            // 访问子节点的入口属性
+            options.childrenProp = options.childrenProp || 'children'
+
+            if (Array.isArray(node[options.childrenProp])) {
+                for (let i = 0; i < node[options.childrenProp].length; i++) {
+                    visit(node[options.childrenProp][i], node, i, options)
+                }
+            }
+
+            // 离开此节点
+            options.leave && options.leave(node, parent, index)
+        }
+
+        for (let i = 0; i < tree.length; i++) {
+            visit(tree[i], null, i, options)
+        }
+    }
 
 }
 
@@ -40,7 +66,7 @@ Object.assign(res, {
                         if (!has_namespace) {
                             this.$store.commit(key, val);
                         } else {
-                            this.$store.commit(`${namespace}/${key}`, val);
+                            this.$store.commit(`${namespace.replace(/\./g, '/')}/${key}`, val);
                         }
                     },
                 };

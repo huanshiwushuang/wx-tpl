@@ -1,23 +1,41 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import modules from './modules'
+import modules, { process_module } from './modules'
 
 Vue.use(Vuex)
 
-// 将所有 module 合并为一个 module 放置在 根下，命名问题冲突靠 时间戳前缀解决
-export default new Vuex.Store({
-    ...modules,
+const root = {
+    // 开发环境，严格模式，禁止不通过 mutations 修改数据
+    strict: process.env.NODE_ENV === 'development',
+    state: {
+        name: 'china',
+    },
+    getters: {
+
+    },
+    mutations: {
+
+    },
+    actions: {
+
+    },
     modules: {
-        asd: {
+        ...modules,
+        zzz: {
             namespaced: true,
             state: {
-                user_name: '过好',
+                mm: 31,
             },
             mutations: {
-                user_name(state, payload) {
-                    state.user_name = payload;
+                mm(state, payload) {
+                    state.mm = payload;
                 }
             }
         }
     }
-})
+};
+
+// 像处理其他子 module 一样，处理 root module
+process_module(root);
+
+export default new Vuex.Store(root);
