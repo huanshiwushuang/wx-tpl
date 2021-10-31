@@ -1,4 +1,13 @@
-const plugins = [];
+const plugins = [
+	[
+		'import', {
+			libraryName: 'vant',
+			libraryDirectory: 'es',
+			style: true,
+		},
+		'vant'
+	]
+];
 
 if (process.env.NODE_ENV === 'production') {
 	// 移除 console

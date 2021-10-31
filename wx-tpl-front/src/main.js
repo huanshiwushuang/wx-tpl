@@ -1,5 +1,6 @@
 // base style
 import '@/assets/less/base.less';
+// config
 import config from './config';
 // cookie
 import Cookie from "js-cookie";
@@ -12,7 +13,7 @@ import local from './data/local_storage';
 // base62x
 import base62x from 'base62x';
 // websocket
-import websocket from './websocket';
+// import websocket from './websocket';
 // 通用工具
 import utils from './utils/common'
 // vue
@@ -27,12 +28,29 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
-// UI 组件库
-import Element from 'element-ui'
-import '@/assets/scss/element-variables.scss'
+// UI 组件
+import {
+	Button,
+	DatetimePicker,
+	Toast,
+	Calendar,
+	Pagination,
+} from 'vant';
 
-Vue.use(Element);
+// 注册组件
+[
+	Button,
+	DatetimePicker,
+	Toast,
+	Calendar,
+	Pagination,
+].forEach(com => {
+	Vue.use(com);
+})
 
+// 设置组件
+Toast.setDefaultOptions({ duration: 3000 });
+// 设置 vue
 Vue.config.productionTip = false
 
 // 混入同一个对象数据
@@ -56,7 +74,7 @@ Vue.mixin({
 Object.assign(Vue.prototype, {
 	$vue: Vue,
 	$win: window,
-	$ws: websocket,
+	// $ws: websocket,
 	$axios: request,
 	$cookie: Cookie,
 	$get: request.get,
@@ -66,6 +84,7 @@ Object.assign(Vue.prototype, {
 	$v(deep_key, data = mixinData.ast) {
 		return utils.v(data, deep_key);
 	},
+	$toast: Toast,
 });
 
 const app = new Vue({

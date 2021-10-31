@@ -1,7 +1,7 @@
-
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import Cookie from 'js-cookie'
+import { Locale } from 'vant'
 
 Vue.use(VueI18n);
 
@@ -31,9 +31,9 @@ export function getLanguage() {
 	// cookie 保存的语言
 	const chooseLanguage = Cookie.get('think_lang')
 	if (chooseLanguage) {
-		return chooseLanguage
+		return chooseLanguage;
 	}
-	return 'zh-cn'
+	return 'zh_cn';
 }
 
 // 设置语言
@@ -46,30 +46,38 @@ export function setLanguage(lang) {
 
 	switch (lang) {
 		case 'en-us': {
-			let enLocale = import('./en-us')
-			let elementEnLocale = import('element-ui/lib/locale/lang/en')
-			enLocale = await enLocale
-			elementEnLocale = await elementEnLocale
-
 			i18n.locale = lang;
+
+			let en_us = import('vant/es/locale/lang/en-US')
+			let en_us_custom = import('./en-us')
+
+			en_us = await en_us
+			en_us_custom = await en_us_custom
+
+
 			i18n.setLocaleMessage(lang, {
-				...enLocale.default,
-				...elementEnLocale.default
+				...en_us_custom.default,
 			});
+
+			Locale.use(i18n.locale, en_us.default);
 		}
 			break;
 		// 默认中文
 		default: {
-			let zhCNLocale = import('./zh-cn')
-			let elementZhCNLocale = import('element-ui/lib/locale/lang/zh-CN')
-			zhCNLocale = await zhCNLocale
-			elementZhCNLocale = await elementZhCNLocale
-
 			i18n.locale = 'zh-cn';
-			i18n.setLocaleMessage('zh-cn', {
-				...zhCNLocale.default,
-				...elementZhCNLocale.default
+
+			let zh_cn = import('vant/es/locale/lang/zh-CN')
+			let zh_cn_custom = import('./zh-cn')
+
+			zh_cn = await zh_cn
+			zh_cn_custom = await zh_cn_custom
+
+
+			i18n.setLocaleMessage(i18n.locale, {
+				...zh_cn_custom.default,
 			});
+
+			Locale.use(i18n.locale, zh_cn.default);
 		}
 
 	}

@@ -1,7 +1,6 @@
 const path = require('path');
 const config = require('./webpack/config.js');
 const fse = require('fs-extra');
-const JSON5 = require('json5');
 
 // 页面 文件名
 let pages = [
@@ -36,6 +35,16 @@ const webpackOptions = {
 	// https://cli.vuejs.org/zh/config/#css-extract
 	css: {
 		extract: true,
+		loaderOptions: {
+			less: {
+				lessOptions: {
+					// 全局注入 less
+					modifyVars: {
+						hack: `true; @import '~@/assets/less/var.less';`
+					}
+				}
+			}
+		}
 	},
 	devServer: {
 		// 禁止 host 检查, 否则 socket 无法连接上
@@ -68,11 +77,11 @@ const webpackOptions = {
 	},
 }
 
-switch (config.front.env) {
-	// 开发环境清空文件夹
-	case 'development':
-		fse.emptyDirSync(webpackOptions.outputDir);
-		break;
-}
+// switch (config.front.env) {
+// 	// 开发环境清空文件夹
+// 	case 'development':
+// 		fse.emptyDirSync(webpackOptions.outputDir);
+// 		break;
+// }
 
 module.exports = webpackOptions;
