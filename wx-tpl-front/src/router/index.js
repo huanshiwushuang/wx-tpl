@@ -17,6 +17,9 @@ const routes = [
 						path: '*',
 						component: async () => {
 							return await import('@/views/404.vue');
+						},
+						meta: {
+							intercept: true
 						}
 					}
 				}
@@ -26,6 +29,9 @@ const routes = [
 						path: '*',
 						component: async () => {
 							return await import('@/views/Settings.vue');
+						},
+						meta: {
+							intercept: true
 						}
 					}
 				}
