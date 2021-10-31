@@ -5,4 +5,19 @@ import modules from './modules'
 Vue.use(Vuex)
 
 // 将所有 module 合并为一个 module 放置在 根下，命名问题冲突靠 时间戳前缀解决
-export default new Vuex.Store(modules)
+export default new Vuex.Store({
+    ...modules,
+    modules: {
+        asd: {
+            namespaced: true,
+            state: {
+                user_name: '过好',
+            },
+            mutations: {
+                user_name(state, payload) {
+                    state.user_name = payload;
+                }
+            }
+        }
+    }
+})

@@ -1,8 +1,5 @@
 const state = {
-	asd: 123,
-	zxc: [
-		{ zz: 1, xx: 1 }
-	],
+	user_name: '小银666',
 }
 const getters = {
 }

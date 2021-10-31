@@ -15,7 +15,7 @@ import base62x from 'base62x';
 // websocket
 // import websocket from './websocket';
 // 通用工具
-import utils from './utils/common'
+import helper from './utils/helper'
 // vue
 import Vue from 'vue'
 // App
@@ -35,6 +35,8 @@ import {
 	Toast,
 	Calendar,
 	Pagination,
+	CellGroup,
+	Field,
 } from 'vant';
 
 // 注册组件
@@ -44,6 +46,8 @@ import {
 	Toast,
 	Calendar,
 	Pagination,
+	CellGroup,
+	Field,
 ].forEach(com => {
 	Vue.use(com);
 })
@@ -82,7 +86,7 @@ Object.assign(Vue.prototype, {
 	$base62x: base62x,
 	// 稍微封装一下，默认取值的数据是 ast
 	$v(deep_key, data = mixinData.ast) {
-		return utils.v(data, deep_key);
+		return helper.v(data, deep_key);
 	},
 	$toast: Toast,
 });
@@ -93,6 +97,8 @@ const app = new Vue({
 	i18n,
 	render: h => h(App)
 }).$mount('#app');
+
+export default app;
 
 switch (process.env.NODE_ENV) {
 	// 开发环境

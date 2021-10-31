@@ -3,7 +3,7 @@
         <!-- 中英文切换 -->
         <h2>中英文切换</h2>
         <div>
-            <van-button type="primary" @click="toggleLang">切换</van-button>
+            <van-button type="primary" @click="toggle_lang">切换</van-button>
             {{ $t("kv1s0cif") }}
             <van-pagination
                 v-model="currentPage"
@@ -14,15 +14,25 @@
         <!-- 页面切换 -->
         <h2>页面切换</h2>
         <div>
-            <wx-router-link href="/index/about"
-                class="kvevouol"
-            > 关于我们 </wx-router-link>
+            <wx-router-link href="/index/about" class="kvevouol">
+                关于我们
+            </wx-router-link>
         </div>
+        <!--  -->
+        <!-- Field 是基于 Cell 实现的，可以使用 CellGroup 作为容器来提供外边框。 -->
+        <van-cell-group>
+            <van-field
+                v-model="user_name"
+                label="文本"
+                placeholder="请输入用户名"
+            />
+        </van-cell-group>
     </div>
 </template>
 
 <script>
 import { getLanguage, setLanguage } from "../lang";
+import helper from "@/utils/helper";
 
 export default {
     name: "Home",
@@ -31,11 +41,18 @@ export default {
             currentPage: 1,
         };
     },
+    computed: {
+        // 同步数据到 store
+        ...helper.sync_store(["user_name"]),
+    },
     methods: {
-        toggleLang() {
+        toggle_lang() {
             setLanguage(getLanguage() === "zh_cn" ? "en-us" : "zh-cn");
             location.reload();
         },
+    },
+    created() {
+        console.log(this);
     },
 };
 </script>
@@ -45,6 +62,5 @@ export default {
 .kvevouol {
     .fwb;
     color: @c_theme;
-    
 }
 </style>
