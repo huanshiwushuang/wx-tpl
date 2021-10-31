@@ -157,4 +157,7 @@ export default class WS extends EventTarget {
 	get readyState() {
 		return this.#socket.readyState;
 	}
+	get is_manual() {
+		return this.#is_manual;
+	}
 }

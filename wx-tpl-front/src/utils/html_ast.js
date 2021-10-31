@@ -4,10 +4,9 @@ import JSON5 from 'json5';
 
 export const html = {
     to_ast(html_str) {
-        console.time("to_ast");
-
+        // 记录遍历中, 待删除的无用节点
         const waitRemove = [];
-
+        // 解析 html
         let ast = parse(html_str);
 
         // 不再被动构建 attributeMap，改为自己 walk 时，主动构建
@@ -32,12 +31,9 @@ export const html = {
                         // 非空文本节点
                         else {
                             node.value = trimVal;
-                            node.html = function () {
+                            node.html = node.toString = function () {
                                 return node.value;
                             };
-                            node.toString = function () {
-                                return node.value;
-                            }
                         }
                         break;
                     // 标签节点
@@ -96,7 +92,7 @@ export const html = {
                             }
                             // 有 class 属性的 node，提到根节点来
                             if (node.attrMap('class')) {
-                                let arr = node.attrMap('class').trim().replace(/[\s\t\r\n]+/, ' ')
+                                let arr = node.attrMap('class').trim().replace(/[\s\t\r\n]+/g, ' ')
                                     .split(' ');
 
                                 arr.forEach(item => {
@@ -144,7 +140,6 @@ export const html = {
             }
         });
 
-        console.timeEnd("to_ast");
         return ast;
     },
     get_text(str) {
@@ -158,7 +153,6 @@ export const ast = {
         if (!Array.isArray(ast)) {
             throw new Error('please input array');
         }
-        console.time('to_html');
 
         let res = '';
         walk(ast, {
@@ -192,8 +186,6 @@ export const ast = {
                 }
             }
         })
-
-        console.timeEnd('to_html');
 
         return res;
     }
