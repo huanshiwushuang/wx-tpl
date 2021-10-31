@@ -1,5 +1,6 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
 
 namespace app;
 
@@ -46,13 +47,18 @@ abstract class BaseController
         $this->app     = $app;
         $this->request = $this->app->request;
 
+        // fix-bug: https://www.kancloud.cn/manual/thinkphp6_0/1037637
+        // 评论处
+        $this->app->loadLangPack($this->app->lang->getLangSet());
+
         // 控制器初始化
         $this->initialize();
     }
 
     // 初始化
     protected function initialize()
-    {}
+    {
+    }
 
     /**
      * 验证数据
@@ -90,5 +96,4 @@ abstract class BaseController
 
         return $v->failException(true)->check($data);
     }
-
 }
