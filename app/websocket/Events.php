@@ -177,6 +177,9 @@ class Events extends ThinkWorkerEvents
          * 根据 path, 自定义路由
          */
 
+        WxGateway::sendToCurrentClient(json_encode([
+            'ping' => '哈哈'
+        ]));
         return WxGateway::sendToCurrentClient(json_encode($data_php));
 
         switch (strtolower($data_php->path)) {

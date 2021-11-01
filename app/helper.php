@@ -24,7 +24,7 @@ class helper
 
             foreach ($finder as $file) {
                 // 导入 schema
-                $schema = require_once($file->getPathname());
+                $schema = include($file->getPathname());
 
                 $schemas = array_merge($schemas, $schema);
             }
