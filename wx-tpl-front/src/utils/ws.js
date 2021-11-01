@@ -107,21 +107,22 @@ export default class WS extends EventTarget {
 	#connect() {
 		// 如果已经连接上了
 		if ([WebSocket.OPEN, WebSocket.CONNECTING].includes(this.#socket?.readyState)) {
-			return;
+			return this;
 		}
 
-		// 自动重连，次数 -1
-		if (!this.#is_manual) {
-			this.#options_use.reconnectionTryCount--;
-		}
-
+		// 如果是手动连接
 		if (this.#is_manual) {
 			this.#create();
-		}
-		// 自动重连，要有延迟
-		else {
+		} else {
 			setTimeout(() => {
+				// 如果已经连接上了
+				if ([WebSocket.OPEN, WebSocket.CONNECTING].includes(this.#socket?.readyState)) {
+					return this;
+				}
+
+				this.#options_use.reconnectionTryCount--;
 				this.#create();
+
 			}, this.#options_use.reconnectionDelay);
 		}
 
