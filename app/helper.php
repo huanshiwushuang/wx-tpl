@@ -139,11 +139,25 @@ class helper
     // 编码
     static function str_encode($input)
     {
-        return LZString::compressToEncodedURIComponent($input);
+        // + 比 - 出现更频繁
+        $src   =  ['-', "+"];
+        $dist  =  ["__", "_"];
+
+        $res = LZString::compressToEncodedURIComponent($input);
+        $res = str_replace($src, $dist, $res);
+
+        return $res;
     }
     // 解码
     static function str_decode($input)
     {
-        return LZString::decompressFromEncodedURIComponent($input);
+        // + 比 - 出现更频繁
+        $src   =  ["__", "_"];
+        $dist  =  ['-', "+"];
+
+        $res = str_replace($src, $dist, $input);
+        $res = LZString::decompressFromEncodedURIComponent($res);
+
+        return $res;
     }
 }

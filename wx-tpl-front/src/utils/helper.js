@@ -1,3 +1,5 @@
+import LZString from "lz-string";
+
 const res = {
     // 通过字符串参数，访问深层次对象数据
     v(data, deep_key) {
@@ -41,6 +43,32 @@ const res = {
             visit(tree[i], null, i, options)
         }
     },
+    // 编码
+    str_encode(val) {
+        const src = ['-', "\\+"];
+        const dist = ["__", "_"];
+
+        let res = LZString.compressToEncodedURIComponent(val);
+        src.forEach((item, index) => {
+            res = res.replaceAll(new RegExp(item, 'g'), dist[index]);
+        })
+
+        return res;
+    },
+    // 解码
+    str_decode(val) {
+        const src = ["__", "_"];
+        const dist = ['-', "+"];
+
+        let res = val;
+        src.forEach((item, index) => {
+            res = res.replace(new RegExp(item, 'g'), dist[index]);
+        })
+
+        res = LZString.decompressFromEncodedURIComponent(res);
+
+        return res;
+    }
 }
 
 Object.assign(res, {

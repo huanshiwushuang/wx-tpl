@@ -26,8 +26,6 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
-// lz-string
-import LZString from 'lz-string'
 // UI 组件
 import {
 	Button,
@@ -83,8 +81,8 @@ Object.assign(Vue.prototype, {
 	$cookie: Cookie,
 	$get: request.get,
 	$post: request.post,
-	$str_encode: LZString.compressToEncodedURIComponent,
-	$str_decode: LZString.decompressFromEncodedURIComponent,
+	$str_encode: helper.str_encode,
+	$str_decode: helper.str_decode,
 	// 稍微封装一下，默认取值的数据是 ast
 	$v(deep_key, data = mixinData.ast) {
 		return helper.v(data, deep_key);
