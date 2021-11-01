@@ -36,7 +36,7 @@ const sum = modulesFiles.keys().filter(modulePath => {
 		}
 		// 文件夹
 		else {
-			node_cache[current_key] = {
+			node_cache[current_key] = node_cache[current_key] || {
 				modules: {
 				}
 			}
@@ -59,29 +59,44 @@ const sum = modulesFiles.keys().filter(modulePath => {
 }, {});
 
 
-// 处理最后的 有数据的 节点
+// 处理最后的 有数据的 module
 export function process_module(module) {
+	const state_keys = Object.keys(module.state);
+
 	// 每个 module 都保留自己 state 的初始化数据
-	if (module.state.cache) {
-		throw new Error('cache 字段为保留字，不要使用');
+	const keep_keywords = ['cache'];
+
+	for (let i of keep_keywords) {
+		if (state_keys.includes(i)) {
+			return console.error(`state 中禁止使用保留字`, keep_keywords);
+		}
 	}
 
-	Object.keys(module.state).forEach(state_key => {
+	state_keys.forEach(state_key => {
 		// 添加默认的与 state 同名的 mutations
 		if (!(state_key in module.mutations)) {
 			module.mutations[state_key] = function (state, payload) {
 				state[state_key] = payload;
 			}
 		}
-		// 添加默认的与 state 同名的 mutations reset
+		// 添加默认的与 state 同名的 action reset
 		let reset_key = `${state_key}_reset`;
-		if (!(reset_key in module.mutations)) {
-			module.mutations[reset_key] = function (state) {
-				state[state_key] = JSON.parse(JSON.stringify(module.state.cache[state_key]));
+		if (!(reset_key in module.actions)) {
+			module.actions[reset_key] = function ({ commit }) {
+				commit(state_key, JSON.parse(JSON.stringify(module.state.cache[state_key])));
 			}
 		}
-	});
 
+	});
+	// 添加 reset_self 
+	module.actions.reset_self = function ({ dispatch }) {
+		// 循环重置每一个属性
+		state_keys.forEach(key => {
+			dispatch(`${key}_reset`);
+		});
+	}
+
+	// 添加缓存
 	module.state.cache = JSON.parse(JSON.stringify(module.state));
 }
 
