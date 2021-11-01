@@ -5,23 +5,23 @@ import config from '../config'
 const axiosInstance = Axios.create({});
 
 // 请求拦截
-axiosInstance.interceptors.request.use(async (config) => {
+axiosInstance.interceptors.request.use(async (request_config) => {
     // 模拟数据
     if (config.is_mock) {
         let [
             Mock,
-            mock_data
+            { default: mock_data }
         ] = await Promise.all([
             import('mockjs'),
             import('../mock/main')
         ])
         // 循环应用 mock 规则
-        mock_data.forEach(item => {
-            Mock.mock(item.rurl, item.rtype, item.template);
-        })
+        for (let item of mock_data) {
+            Mock.mock(item.rurl, item.rtype, item.mock_template);
+        }
     }
 
-    return config;
+    return request_config;
 }, error => {
     return Promise.reject(error);
 })
@@ -33,7 +33,9 @@ axiosInstance.interceptors.response.use(async (response) => {
         let { default: console_mock } = await import('../console/mock');
         console_mock(response);
     }
-    // (检查数据 && 只有 content-type 是 json 才 check) || (空数据需要校验)
+    /* 
+    (检查数据 && 只有 content-type 是 json 才 check) || (空数据需要校验)
+    */
     if (
         (config.is_check && /json/i.test(response.headers['content-type'])) ||
         !response.data

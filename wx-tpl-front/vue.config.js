@@ -1,6 +1,5 @@
 const path = require('path');
 const config = require('./webpack/config.js');
-const fse = require('fs-extra');
 
 // 页面 文件名
 let pages = [
@@ -46,6 +45,7 @@ const webpackOptions = {
 			}
 		}
 	},
+
 	devServer: {
 		// 禁止 host 检查, 否则 socket 无法连接上
 		disableHostCheck: true,
@@ -74,6 +74,34 @@ const webpackOptions = {
 		// 		// }
 		// 	}
 		// }
+	},
+	configureWebpack: {
+		resolve: {
+			alias: {
+				'_view': path.resolve(__dirname, '../app/defaultApp/view')
+			}
+		},
+	},
+	chainWebpack: (config) => {
+		// https://segmentfault.com/a/1190000019920162
+		config.module
+			.rule('html_render')
+			.test(/\.art$/)
+			.use('art-template-loader')
+			.loader('art-template-loader')
+			.end()
+		// config.module.rules.push(
+		// 	// 用于 mock 时渲染模板
+		// 	// https://blog.csdn.net/Charissa2017/article/details/104811195
+		// 	{
+		// 		test: /\.html$/,
+		// 		use: [
+		// 			{
+		// 				loader: 'html-es6-template-loader',
+		// 			}
+		// 		]
+		// 	}
+		// )
 	},
 }
 
