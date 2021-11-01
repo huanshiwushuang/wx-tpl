@@ -1,6 +1,9 @@
 export default class WS extends EventTarget {
 	// 是否手动触发了修改状态的逻辑
 	#is_manual = false
+	// 是否将自动重连
+	// 根据 reconnection 和 reconnectionTryCount 和 服务端是否返回 close 信号判断
+	#will_auto_reconnectuon = false;
 	// 默认选项
 	#options_default = {
 		reconnection: true,
@@ -26,19 +29,22 @@ export default class WS extends EventTarget {
 		// 保存参数
 		this.#options_params = options_params;
 		// 合并参数
-		this.#reset_options_use();
+		this.#reset_fields();
 
 		if (!this.#options_use.url) {
 			throw new Error('url required');
 		}
 	}
-	// 重置参数
+	// 重置属性
 	// eslint-disable-next-line no-dupe-class-members
-	#reset_options_use() {
+	#reset_fields() {
 		this.#options_use = {
 			...this.#options_default,
 			...this.#options_params
 		}
+
+		// 判断是否将自动重连
+		this.#will_auto_reconnectuon = this.#options_use.reconnection && this.#options_use.reconnectionTryCount > 0;
 		return this;
 	}
 	// 创建 WebSocket
@@ -63,7 +69,7 @@ export default class WS extends EventTarget {
 	// eslint-disable-next-line no-dupe-class-members
 	#handleOpen() {
 		// 重置-选项
-		this.#reset_options_use();
+		this.#reset_fields();
 	}
 	// 处理-断开
 	// eslint-disable-next-line no-dupe-class-members
@@ -74,6 +80,7 @@ export default class WS extends EventTarget {
 		switch (e.code) {
 			// 1000 是收到了关闭信号，正常关闭不重连，怀疑 gatewayworker close 时，没有正确发送关闭信号，导致 code 收到 1006
 			case 1000:
+				this.#will_auto_reconnectuon = false;
 				return this;
 			default:
 				// 如果允许自动连接
@@ -88,6 +95,9 @@ export default class WS extends EventTarget {
 
 				// 非手动重连
 				this.#is_manual = false;
+				// 将自动重连
+				this.#will_auto_reconnectuon = true;
+
 				this.#handleDisconnect.timeout = setTimeout(() => {
 					this.#connect();
 				}, 100);
@@ -147,7 +157,7 @@ export default class WS extends EventTarget {
 	set options_use(options_params = {}) {
 		this.#options_params = options_params;
 
-		this.#reset_options_use();
+		this.#reset_fields();
 	}
 	get options_use() {
 		return {
@@ -159,5 +169,8 @@ export default class WS extends EventTarget {
 	}
 	get is_manual() {
 		return this.#is_manual;
+	}
+	get will_auto_reconnectuon() {
+		return this.#will_auto_reconnectuon;
 	}
 }

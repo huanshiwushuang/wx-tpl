@@ -11,7 +11,7 @@ import ast from './data/ast';
 // localStorage
 import local from './data/local_storage';
 // websocket
-import websocket from './websocket';
+// import websocket from './websocket';
 // 通用工具
 import helper from './utils/helper'
 // vue
@@ -76,7 +76,7 @@ Vue.mixin({
 Object.assign(Vue.prototype, {
 	$vue: Vue,
 	$win: window,
-	$ws: websocket,
+	// $ws: websocket,
 	$axios: request,
 	$cookie: Cookie,
 	$get: request.get,
