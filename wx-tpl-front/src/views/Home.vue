@@ -27,6 +27,14 @@
                 placeholder="请输入用户名"
             />
         </van-cell-group>
+
+        <div v-html="$v('kvg1aqto.html')()"></div>
+        <div>
+            <h2>
+                js 解码后的数据：
+            </h2>
+            {{ $str_decode($v("kvg521pw").toString()) }}
+        </div>
     </div>
 </template>
 
@@ -43,7 +51,7 @@ export default {
     },
     computed: {
         // 同步数据到 store
-        ...helper.sync_store('views.A.B.C', ["user_name"]),
+        ...helper.sync_store("views.A.B.C", ["user_name"]),
     },
     methods: {
         toggle_lang() {

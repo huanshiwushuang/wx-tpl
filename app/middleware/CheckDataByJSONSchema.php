@@ -6,10 +6,9 @@ declare(strict_types=1);
 
 namespace app\middleware;
 
-use app\common\common;
+use app\helper;
 // https://ufqi.com/dev/base62x/
 // https://packagist.org/packages/mfonte/base62x
-use Mfonte\Base62x\Base62x;
 
 class CheckDataByJSONSchema
 {
@@ -33,7 +32,7 @@ class CheckDataByJSONSchema
 			$query = $params['query'];
 
 			if (!empty($query)) {
-				$query = Base62x::decode($query)->get();
+				$query = helper::str_decode($query);
 
 				$query = json_decode($query);
 
@@ -71,7 +70,7 @@ class CheckDataByJSONSchema
 
 			// 将 params 还原成符合 json 语义的 php 对象格式
 			$check_params = json_decode(json_encode($params));
-			$res = common::check_params($check, $check_params);
+			$res = helper::check_params($check, $check_params);
 			// 参数校验未通过
 			if ($res) {
 				return $this->checkNotPass($request, $res->code, $res->msg, $check_params, $params_all);

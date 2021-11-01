@@ -40,8 +40,7 @@ const res = {
         for (let i = 0; i < tree.length; i++) {
             visit(tree[i], null, i, options)
         }
-    }
-
+    },
 }
 
 Object.assign(res, {

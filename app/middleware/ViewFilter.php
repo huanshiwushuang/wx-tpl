@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace app\middleware;
 
-use app\common\common;
+use app\helper;
 use think\facade\View;
 use kqufcgta_html5\WxHTML5;
 use think\facade\Lang;
@@ -60,7 +60,7 @@ class ViewFilter
 					// 对所有 a 标签的 href 属性 qs 和 hash 部分进行编码【起因：解决百度快照 gb2312 编码导致的 url 打开错误问题】
 					if (preg_match('/^a$/i', $name)) {
 						if (isset($attributes['href'])) {
-							$attributes['href'] = common::urlencode($attributes['href']);
+							$attributes['href'] = helper::urlencode($attributes['href']);
 						}
 					}
 

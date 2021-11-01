@@ -12,7 +12,7 @@ namespace app\websocket;
 
 // https://www.kancloud.cn/walkor/gateway-worker/326109
 
-use app\common\common;
+use app\helper;
 use app\websocket\WxGateway;
 use app\websocket\controller\Record;
 use Workerman\Lib\Timer;
@@ -160,7 +160,7 @@ class Events extends ThinkWorkerEvents
         // ************************************************************
         // 如果有 check 参数, 进行参数校验
         if ($data_php->params->check) {
-            $res = common::check_params($data_php->params->check, $data_php->params);
+            $res = helper::check_params($data_php->params->check, $data_php->params);
             if ($res) {
                 switch (ENV) {
                     case 'development':

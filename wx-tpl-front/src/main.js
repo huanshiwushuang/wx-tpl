@@ -10,8 +10,6 @@ import request from './request';
 import ast from './data/ast';
 // localStorage
 import local from './data/local_storage';
-// base62x
-import base62x from 'base62x';
 // websocket
 // import websocket from './websocket';
 // 通用工具
@@ -28,6 +26,8 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
+// lz-string
+import LZString from 'lz-string'
 // UI 组件
 import {
 	Button,
@@ -83,7 +83,8 @@ Object.assign(Vue.prototype, {
 	$cookie: Cookie,
 	$get: request.get,
 	$post: request.post,
-	$base62x: base62x,
+	$str_encode: LZString.compressToEncodedURIComponent,
+	$str_decode: LZString.decompressFromEncodedURIComponent,
 	// 稍微封装一下，默认取值的数据是 ast
 	$v(deep_key, data = mixinData.ast) {
 		return helper.v(data, deep_key);
