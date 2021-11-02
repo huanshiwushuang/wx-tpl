@@ -8,14 +8,6 @@ const res = {
         }
         return 'ast';
     })(),
-
-    // 是否 模拟 数据
-    is_mock: (() => {
-        if ([true, false].includes(local.value.is_mock)) {
-            return local.value.is_mock
-        }
-        return false;
-    })(),
     // 是否 检查 数据
     is_check: (() => {
         if ([true, false].includes(local.value.is_check)) {

@@ -71,7 +71,7 @@ function hook() {
 					let res = await request.get(toURL, null, {
 						headers: {
 							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html，改为接收所有
-							Accept: '*/*',
+							Accept: 'text/html',
 						}
 					});
 

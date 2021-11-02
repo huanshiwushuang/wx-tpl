@@ -1781,13 +1781,6 @@ array-unique@^0.3.2:
   resolved "https://registry.nlark.com/array-unique/download/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
-art-template-loader@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.nlark.com/art-template-loader/download/art-template-loader-1.4.3.tgz#0c22565fe2f6cee37ff7dedfffbf8b53e0fba02e"
-  integrity sha1-DCJWX+L2zuN/997f/7+LU+D7oC4=
-  dependencies:
-    loader-utils "^1.1.0"
-
 asn1.js@^5.2.0:
   version "5.4.1"
   resolved "https://registry.npm.taobao.org/asn1.js/download/asn1.js-5.4.1.tgz#11a980b84ebb91781ce35b0fdc2ee294e3783f07"
@@ -5729,13 +5722,6 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.5, mkdirp@~0.5.1:
   integrity sha1-2Rzv1i0UNsoPQWIOJRKI1CAJne8=
   dependencies:
     minimist "^1.2.5"
-
-mockjs-async@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.nlark.com/mockjs-async/download/mockjs-async-0.0.5.tgz#1e408fcca6bf0b92e938b12817be14fe37db1cbc"
-  integrity sha1-HkCPzKa/C5LpOLEoF74U/jfbHLw=
-  dependencies:
-    commander "*"
 
 mockjs@^1.1.0:
   version "1.1.0"

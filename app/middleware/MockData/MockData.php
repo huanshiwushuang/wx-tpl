@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\middleware\MockData;
 
 use app\helper;
-use Exception;
 use think\facade\View;
 
 class MockData
@@ -19,8 +18,6 @@ class MockData
      */
     public function handle($request, \Closure $next)
     {
-        $exception = null;
-
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         if (isset($request->param()['mock']) && ENV === 'development') {
             // 默认添加的模拟数据
@@ -82,11 +79,6 @@ class MockData
 
         // 继续传播请求
         $response = $next($request);
-
-        // 如果有异常，则抛出
-        if ($exception) {
-            throw $exception;
-        }
 
         return $response;
     }

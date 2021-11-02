@@ -90,18 +90,6 @@ const webpackOptions = {
 			.use('art-template-loader')
 			.loader('art-template-loader')
 			.end()
-		// config.module.rules.push(
-		// 	// 用于 mock 时渲染模板
-		// 	// https://blog.csdn.net/Charissa2017/article/details/104811195
-		// 	{
-		// 		test: /\.html$/,
-		// 		use: [
-		// 			{
-		// 				loader: 'html-es6-template-loader',
-		// 			}
-		// 		]
-		// 	}
-		// )
 	},
 }
 
