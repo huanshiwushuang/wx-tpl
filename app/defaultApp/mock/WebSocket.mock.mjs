@@ -20,22 +20,29 @@ let reject = () => { };
             rurl: '/index/about',
             // mockjs 语法的数据生成规则
             template: {
-                'name': `${result.data.content}`,
+                'name': `${result.data.content}-@name`,
             },
         }
     ]
-    
-    // 打印数据给 后端 mock
-    if (!/window/i.test(globalThis.constructor.name)) {
-        process.stdout.write(JSON.stringify(res));
-    }
-    // 导出数据给 前端 check
-    resolve(res);
+
+    // 导出数据
+    resolve_json(res);
 })()
 
 
+
+const resolve_json = (data) => {
+    // 打印数据给 后端 mock
+    if (!/window/i.test(globalThis.constructor.name)) {
+        process.stdout.write(JSON.stringify(data));
+    }
+    // 导出数据给 前端 check
+    resolve(data);
+}
 export default new Promise(async (_resolve, _reject) => {
     resolve = _resolve;
     reject = _reject;
 });
+
+
 
