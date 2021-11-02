@@ -43,6 +43,39 @@ class helper
 
         return $res;
     }
+    // 返回-/app 文件夹中的 所有 *.mock.json5 合并后的 mock
+    static function get_mock_datas(): array
+    {
+        // 取缓存
+        $res = cache('mock_datas');
+
+        if (empty($res)) {
+            $finder = new Finder();
+            $finder->in(APP_ROOT)->name('*.mock.json5')->files();
+            $mock_datas = [];
+
+            foreach ($finder as $file) {
+                // 导入 mock_data
+                $mock_data = json5_decode($file->getContents());
+                // $schema = include($file->getPathname());
+
+                $mock_datas = array_merge($mock_datas, $mock_data);
+            }
+
+            $res = $mock_datas;
+
+            // 写缓存
+            switch (ENV) {
+                case 'development':
+                    // 开发期间不写缓存
+                    break;
+                default:
+                    cache('mock_datas', $res);
+            }
+        }
+
+        return $res;
+    }
     /**
      * 参数校验
      * 返回 object 表示 check 不通过
@@ -82,6 +115,12 @@ class helper
                 'msg' => $validator->getErrors(),
             ];
         }
+    }
+    /**
+     * Mockjs 返回匹配到的数据
+     */
+    static function get_matched_data()
+    {
     }
     /**
      * @param string $url
@@ -157,6 +196,28 @@ class helper
 
         $res = str_replace($src, $dist, $input);
         $res = LZString::decompressFromEncodedURIComponent($res);
+
+        return $res;
+    }
+    /* 
+    执行 js by nodejs
+    仅适用于开发中的使用
+    */
+    static function eval_js(string $filename, string $code)
+    {
+
+        // 确保目录存在
+        $dir = runtime_path() . 'eval_js';
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        // 确保文件存在
+        $filename = $dir . DS . $filename . '.js';
+
+        file_put_contents($filename, $code);
+        // 执行 js
+        $res = trim(`node $filename`);
 
         return $res;
     }

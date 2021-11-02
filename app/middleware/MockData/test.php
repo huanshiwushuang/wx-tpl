@@ -1,6 +1,4 @@
 <?php
-
-$res = shell_exec('node ./MockData.js');
-
-var_dump($res);
-var_dump(json_decode($res));
+$asd = __DIR__ . DIRECTORY_SEPARATOR . 'asd.zxc';
+var_dump($asd);
+file_put_contents(__DIR__ . DIRECTORY_SEPARATOR . 'asd.zxc', '123');

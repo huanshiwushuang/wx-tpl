@@ -1,0 +1,10 @@
+[
+    {
+        // 匹配请求的url
+        rurl: '/index/about',
+        // mockjs 语法的数据生成规则
+        template: {
+            'name': '@cname',
+        }
+    }
+]
