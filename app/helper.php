@@ -45,7 +45,7 @@ class helper
         return $res;
     }
     /**
-     * 返回-/app 文件夹中的 所有 *.mock.json5 合并后的 mock rule
+     * 返回-/app 文件夹中的 所有 *.mock.mjs 执行后打印的 json
      */
     static function get_mock_rules(): array
     {
@@ -54,14 +54,18 @@ class helper
 
         if (empty($res)) {
             $finder = new Finder();
-            $finder->in(APP_ROOT)->name('*.mock.json5')->files();
+            $finder->in(APP_ROOT)->name('*.mock.mjs')->files();
             $mock_rules = [];
 
             foreach ($finder as $file) {
+                $pathname = $file->getPathname();
                 // 导入 mock_rule
-                $mock_rule = json5_decode($file->getContents());
-                // $schema = include($file->getPathname());
+                $result = `node $pathname`;
 
+                // json 反序列化
+                $mock_rule = json_decode($result);
+
+                // rule 合并
                 $mock_rules = array_merge($mock_rules, $mock_rule);
             }
 

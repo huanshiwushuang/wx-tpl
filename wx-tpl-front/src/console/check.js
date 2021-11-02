@@ -1,34 +1,36 @@
 import Mock from 'mockjs';
-// bug: 如果监听 /app 下的所有，则 webpack 会一直编译
-const modulesFiles = require.context('BACK_ROOT/app/defaultApp/mock', true, /\.mock\.json5$/);
-
-// 读取后端中的所有 mock 规则
-const mock_rules = modulesFiles.keys().reduce((sum, modulePath) => {
-    const { default: defa } = modulesFiles(modulePath);
-
-    sum.push(...defa);
-
-    return sum;
-}, []);
 
 export default async function (response) {
+    // bug: 如果监听 /app 下的所有，则 webpack 会一直编译
+    const modulesFiles = require.context('BACK_ROOT/app/defaultApp/mock', true, /\.mock\.mjs$/);
+
+    // 读取后端中的所有 mock 规则
+    const mock_rules = [];
+    const keys = modulesFiles.keys();
+    for (let modulePath of keys) {
+        let mock_rule = await modulesFiles(modulePath).default;
+
+        mock_rules.push(...mock_rule);
+    }
+
+    // 开始 check
     const url = response.config.url;
     const data = response.data;
 
     console.group(`Check 数据---${url}`);
 
     // 查找 check 规则
-    const mock_matches = mock_rules.filter(item => {
+    const mock_matched = mock_rules.filter(item => {
         return new RegExp(item.rurl, 'i').test(url);
     });
     // 执行 check
-    switch (mock_matches.length) {
+    switch (mock_matched.length) {
         case 0:
             console.warn(`未找到 check 规则`);
             break;
         case 1:
             {
-                const template = mock_matches[0].template;
+                const template = mock_matched[0].template;
 
                 if (['object', 'string'].includes(typeof template)) {
                     let result = Mock.valid(template, data);
@@ -48,7 +50,7 @@ export default async function (response) {
             }
             break;
         default:
-            console.error(`找到 ${mock_matches.length} 个 check 规则`);
+            console.error(`找到 ${mock_matched.length} 个 check 规则`);
     }
 
     console.groupEnd(`Check 数据---${url}`);
