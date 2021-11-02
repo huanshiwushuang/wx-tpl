@@ -6,7 +6,7 @@ return [
     // 视图过滤
     \app\middleware\ViewFilter::class,
     // 全局请求缓存
-    // \think\middleware\CheckRequestCache::class,
+    \think\middleware\CheckRequestCache::class,
     // 多语言加载-fix bug
     // \app\middleware\LoadLangPack_FixBugBefore::class,
     // 多语言加载
@@ -16,5 +16,5 @@ return [
     // 数据检查
     \app\middleware\CheckDataByJSONSchema::class,
     // 数据 Mock
-    \app\middleware\MockData\MockData::class,
+    \app\middleware\MockData::class,
 ];

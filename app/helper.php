@@ -2,7 +2,6 @@
 // 应用公共文件
 
 namespace app;
-// https://www.cnblogs.com/terencezhou/p/10474617.html
 
 use Exception;
 use JsonSchema\Validator;
@@ -11,7 +10,9 @@ use LZCompressor\LZString;
 
 class helper
 {
-    // 返回-/app 文件夹中的 所有 *.schema.php 合并后的 schema
+    /**
+     * 返回-/app 文件夹中的 所有 *.schema.php 合并后的 schema
+     */
     static function get_schemas(): array
     {
         // 取缓存
@@ -43,26 +44,28 @@ class helper
 
         return $res;
     }
-    // 返回-/app 文件夹中的 所有 *.mock.json5 合并后的 mock
-    static function get_mock_datas(): array
+    /**
+     * 返回-/app 文件夹中的 所有 *.mock.json5 合并后的 mock rule
+     */
+    static function get_mock_rules(): array
     {
         // 取缓存
-        $res = cache('mock_datas');
+        $res = cache('mock_rules');
 
         if (empty($res)) {
             $finder = new Finder();
             $finder->in(APP_ROOT)->name('*.mock.json5')->files();
-            $mock_datas = [];
+            $mock_rules = [];
 
             foreach ($finder as $file) {
-                // 导入 mock_data
-                $mock_data = json5_decode($file->getContents());
+                // 导入 mock_rule
+                $mock_rule = json5_decode($file->getContents());
                 // $schema = include($file->getPathname());
 
-                $mock_datas = array_merge($mock_datas, $mock_data);
+                $mock_rules = array_merge($mock_rules, $mock_rule);
             }
 
-            $res = $mock_datas;
+            $res = $mock_rules;
 
             // 写缓存
             switch (ENV) {
@@ -70,7 +73,7 @@ class helper
                     // 开发期间不写缓存
                     break;
                 default:
-                    cache('mock_datas', $res);
+                    cache('mock_rules', $res);
             }
         }
 
@@ -115,12 +118,6 @@ class helper
                 'msg' => $validator->getErrors(),
             ];
         }
-    }
-    /**
-     * Mockjs 返回匹配到的数据
-     */
-    static function get_matched_data()
-    {
     }
     /**
      * @param string $url
@@ -168,14 +165,18 @@ class helper
 
         return $res_url;
     }
-    // 抛出异常，打印调用栈
+    /**
+     * 抛出异常，打印调用栈
+     */
     static function print_stack()
     {
         $e = new Exception();
         dump($e->getTraceAsString());
     }
-    // https://blog.csdn.net/qq_26702065/article/details/52002615
-    // 编码
+    /**
+     * https://blog.csdn.net/qq_26702065/article/details/52002615
+     * 编码
+     */
     static function str_encode($input)
     {
         // + 比 - 出现更频繁
@@ -187,7 +188,9 @@ class helper
 
         return $res;
     }
-    // 解码
+    /**
+     * 解码
+     */
     static function str_decode($input)
     {
         // + 比 - 出现更频繁
@@ -199,25 +202,24 @@ class helper
 
         return $res;
     }
-    /* 
-    执行 js by nodejs
-    仅适用于开发中的使用
-    */
+    /**
+     * 执行 js by nodejs
+     * 仅适用于开发中的使用
+     */
     static function eval_js(string $filename, string $code)
     {
-
-        // 确保目录存在
         $dir = runtime_path() . 'eval_js';
 
+        // 确保目录存在
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
-        // 确保文件存在
+        // 定义文件目录
         $filename = $dir . DS . $filename . '.js';
 
         file_put_contents($filename, $code);
         // 执行 js
-        $res = trim(`node $filename`);
+        $res = trim(`node $filename 2>&1`);
 
         return $res;
     }

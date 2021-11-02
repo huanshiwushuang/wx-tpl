@@ -1,8 +1,9 @@
 import Mock from 'mockjs';
+// bug: 如果监听 /app 下的所有，则 webpack 会一直编译
 const modulesFiles = require.context('BACK_ROOT/app/defaultApp/mock', true, /\.mock\.json5$/);
 
 // 读取后端中的所有 mock 规则
-const mock_datas = modulesFiles.keys().reduce((sum, modulePath) => {
+const mock_rules = modulesFiles.keys().reduce((sum, modulePath) => {
     const { default: defa } = modulesFiles(modulePath);
 
     sum.push(...defa);
@@ -17,7 +18,7 @@ export default async function (response) {
     console.group(`Check 数据---${url}`);
 
     // 查找 check 规则
-    const mock_matches = mock_datas.filter(item => {
+    const mock_matches = mock_rules.filter(item => {
         return new RegExp(item.rurl, 'i').test(url);
     });
     // 执行 check
