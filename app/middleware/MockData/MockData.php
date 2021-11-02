@@ -35,7 +35,7 @@ class MockData
                 // 使用 node 正则匹配 当前 baseUrl
                 $is_matched = helper::eval_js('kvi0k0i3', "
                     console.log(
-                        (new RegExp('$val->rurl')).test('$url') - 0
+                        (new RegExp('$val->rurl', 'i')).test('$url') - 0
                     );
                 ");
                 // 如果匹配成功

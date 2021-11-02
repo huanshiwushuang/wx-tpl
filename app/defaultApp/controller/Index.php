@@ -29,4 +29,11 @@ class Index extends Base
         // fetch 数据页面
         return View::fetch('index/about', $tpl_var);
     }
+    public function json()
+    {
+        return [
+            'asd',
+            123
+        ];
+    }
 }

@@ -75,22 +75,26 @@ const webpackOptions = {
 		// 	}
 		// }
 	},
-	configureWebpack: {
-		resolve: {
-			alias: {
-				'_view': path.resolve(__dirname, '../app/defaultApp/view')
+	configureWebpack: () => {
+		return {
+			resolve: {
+				alias: {
+					'FRONT_ROOT': config.front.path.root,
+					'BACK_ROOT': config.back.path.root,
+				}
+			},
+			module: {
+				rules: [
+					{
+						test: /\.json5$/,
+						use: [
+							'json5-loader',
+						]
+					}
+				]
 			}
-		},
-	},
-	chainWebpack: (config) => {
-		// https://segmentfault.com/a/1190000019920162
-		config.module
-			.rule('html_render')
-			.test(/\.art$/)
-			.use('art-template-loader')
-			.loader('art-template-loader')
-			.end()
-	},
+		}
+	}
 }
 
 // switch (config.front.env) {
