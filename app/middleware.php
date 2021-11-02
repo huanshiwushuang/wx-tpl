@@ -15,4 +15,6 @@ return [
     \think\middleware\SessionInit::class,
     // 数据检查
     \app\middleware\CheckDataByJSONSchema::class,
+    // 数据 Mock
+    \app\middleware\MockData\MockData::class,
 ];

@@ -25,21 +25,23 @@ class ViewFilter
 		View::instance()->end_tag_callback = [];
 
 		View::filter(function ($content) {
-			// 获取模板变量
-			$tpl_var = View::instance()->get();
+			// 是否是 fetch 的 entry 页面
+			$krxg93vb_is_entry = View::__isset('krxg93vb_is_entry') && View::__get('krxg93vb_is_entry');
 
 			// 不是 entry 页面，则再 fetch entry 页面, $content作为 html_data ，塞进去。
-			if (!isset($tpl_var['krxg93vb_is_entry']) || !$tpl_var['krxg93vb_is_entry']) {
+			if (!$krxg93vb_is_entry) {
 				// 数据源
 				$tpl_var['html_data'] = $content;
 
-				// 入口页面标识变量
+				// 标识-开始-入口页面
 				$tpl_var['krxg93vb_is_entry'] = true;
 
 				// 变量检查
 				$this->tpl_var_check($tpl_var);
 
-				return View::fetch('main/entry', $tpl_var);
+				View::assign($tpl_var);
+
+				return View::fetch('main/entry');
 			}
 
 			// 最后一次的 fetch，则直接输出
@@ -76,6 +78,9 @@ class ViewFilter
 					}
 				}
 			]);
+
+			// 标识-结束-入口页面
+			View::assign('krxg93vb_is_entry', false);
 
 			return $html5->saveHTML($dom);
 		});

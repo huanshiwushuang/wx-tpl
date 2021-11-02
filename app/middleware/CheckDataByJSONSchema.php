@@ -61,11 +61,14 @@ class CheckDataByJSONSchema
 			$check = $params['check'];
 
 			$params_all = $params;
-			// 删除多余参数，不该校验 check query 参数
+			// 删除多余参数，不该的 参数
 			unset($params['check']);
 
 			if (isset($params['query'])) {
 				unset($params['query']);
+			}
+			if (isset($params['mock'])) {
+				unset($params['mock']);
 			}
 
 			// 将 params 还原成符合 json 语义的 php 对象格式
