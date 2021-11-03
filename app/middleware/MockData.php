@@ -55,7 +55,7 @@ class MockData
                 $result = json_decode($exec_result, true);
                 // dump($result);
 
-                if (!$result) {
+                if (!is_array($result)) {
                     helper::print_exception([
                         'nodejs 执行',
                         '【',

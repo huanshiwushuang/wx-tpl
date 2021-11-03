@@ -1,38 +1,23 @@
-<span asd=123 id="ktjrkds0">
-	我是index.html
-	<a id="krk9cdu0" href="https://www.wuxuwang.com/a/b/c?asd=123&qwe=哈哈哈&zxc=1232#ppp">
-		我是index.html
-	</a>
-	<img id="krk9e2qx" data-zxc="https://www.wuxuwang.com/a/b/c?asd=123&qwe=哈哈哈&zxc=1232#ppp" cid="zz">
-</span>
+{include file="components/jzm-header-bar"}
+{include file="index/components/jzm-index-nav-bar"}
 
-<div id="kuy6kzby">
-	<a id="kv201rze" href="https://www.wuxuwang.com?qs=测试URL编码&a=123&b=zxc&c=@$^_&d=%%#mmm" target="_blank"
-		class="dataclass">
-		测试PHP 的 URL编码
-
-		<div>
-			国际化多语言测试：【{$Think.lang.kv91zomi}】
-		</div>
-	</a>
-
-	<div>
-		<a id="kuz84lp2" href="https://github.com/huanshiwushuang/wx-tpl" target="_blank">
-			测试PHP rel
-		</a>
-	</div>
-	<div></div>
-</div>
-<div id="kvg1aqto">
-	<?php
-	$asd = '豫章故郡，洪都新府。星分翼轸，地接衡庐。襟三江而带五湖，控蛮荆而引瓯越。物华天宝，龙光射牛斗之墟；人杰地灵，徐孺下陈蕃之榻。雄州雾列，俊采星驰。台隍枕夷夏之交，宾主尽东南之美。都督阎公之雅望，棨戟遥临；宇文新州之懿范，襜帷暂驻。十旬休假，胜友如云；千里逢迎，高朋满座。腾蛟起凤，孟学士之词宗；紫电青霜，王将军之武库。家君作宰，路出名区；童子何知，躬逢胜饯。
-	时维九月，序属三秋。潦水尽而寒潭清，烟光凝而暮山紫。俨骖騑于上路，访风景于崇阿；临帝子之长洲，得天人之旧馆。层峦耸翠，上出重霄；飞阁流丹，下临无地。鹤汀凫渚，穷岛屿之萦回；桂殿兰宫，即冈峦之体势。
-	披绣闼，俯雕甍，山原旷其盈视，川泽纡其骇瞩。闾阎扑地，钟鸣鼎食之家；舸舰弥津，'?>
-	{$asd}
-	<div id="kvg521pw">
-		{$asd | str_encode }
-	</div>
-
-	
+<div>
+	<ul>
+		{volist name="list" id="vo"}
+		<li class="kvjp1c6c" data-love="{$vo.love}">
+			<img cid="head" src="/asd">
+			<div cid="name">{$vo.name}</div>
+			<div cid="guanzhu">关注</div>
+			<img cid="pic" src="{$vo.pic}" alt="">
+			<div cid="content">
+				{$vo.juzi.content}
+			</div>
+			<div cid="author">
+				{$vo.juzi.author}
+			</div>
+		</li>
+		{/volist}
+	</ul>
 </div>
 
+{include file="components/jzm-tab-bar"}

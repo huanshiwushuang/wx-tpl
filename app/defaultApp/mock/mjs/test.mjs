@@ -1,6 +1,7 @@
-import WebSocketMockMjs from "./mjs/WebSocket.mock.mjs";
+import requestMjs from "./helper/request.mjs";
 
 (async () => {
-    let asd = await WebSocketMockMjs;
-    console.log(asd);
+    let res = await requestMjs.get_juzi(2);
+
+    console.log(res);
 })()

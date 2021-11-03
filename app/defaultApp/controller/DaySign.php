@@ -4,11 +4,13 @@ namespace app\defaultApp\controller;
 
 use think\facade\View;
 
-class Index extends Base
+/**
+ * 日签
+ */
+class DaySign extends Base
 {
     public function index()
     {
-        // dump(View::__get('mock_data'));
-        return View::fetch('index/index');
+        return '日签';
     }
 }

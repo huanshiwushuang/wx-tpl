@@ -1,65 +1,51 @@
 import Axios from 'axios';
 import Mock from 'mockjs';
-import helper from './helper.mjs';
-
+import exec from './helper/exec.mjs';
+import request from './helper/request.mjs';
+import utils from './helper/utils.mjs';
 // 生成输出的 promise
-const output_promise = helper.output_promise();
+const output_promise = exec.output_promise();
+// 任务栈，url 匹配的才会执行
+const tasks = [
+    {
+        rurl: '/',
+        async task() {
+            const num = utils.random_num(3, 6);
+            const head = await request.get_head(num);
+            const juzi = await request.get_juzi(num);
+            const pic = await request.get_pic(num);
 
-// 传入参数
-const exec = function (params = {}) {
-    // 浏览器需要接收参数
-    helper.init_params(params);
-
-    // 任务栈，url 匹配的才会执行
-    const tasks = [
-        {
-            rurl: '/index/json',
-            async task() {
-                let res = {
-                    template: {
-                        name: '@cname',
-                    }
-                }
-                return {
-                    ...res,
-                    data: Mock.mock(res.template),
+            let res = {
+                template: {
+                    list: head.map((item, index) => {
+                        return {
+                            head: item,
+                            name: '@cname',
+                            pic: pic[index],
+                            juzi: juzi[index],
+                            'love|50-200': 1,
+                        }
+                    })
                 }
             }
-        },
-        {
-            // 匹配请求的url
-            rurl: '/index/about',
-            async task() {
-                let res = {};
-                let result = {};
-                try {
-                    result = await Axios.get('https://v1.jinrishici.com/all.json')
-                } catch (e) {
-                    output.reject(e);
-                }
-
-                res = {
-                    // mockjs 语法的数据生成规则
-                    template: {
-                        'name': `${result.data.content}-@cname`,
-                    },
-                };
-
-                Object.assign(res, {
-                    data: Mock.mock(res.template),
-                })
-                return res;
+            return {
+                ...res,
+                data: Mock.mock(res.template),
             }
         }
-    ];
+    },
+];
 
+
+// 传入参数
+const start = function (params = {}) {
+    // 浏览器需要接收参数
+    exec.init_params(params);
     // 执行任务
-    helper.exec_tasks(tasks).then(result => {
+    exec.exec_tasks(tasks).then(result => {
         output_promise.resolve(result);
     })
-
     return output_promise;
 };
-
-helper.is_nodejs() && exec();
-export default exec;
+exec.is_nodejs() && start();
+export default start;

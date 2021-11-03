@@ -26,6 +26,8 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
+// html_ast
+import * as html_ast from './utils/html_ast'
 // UI 组件
 import {
 	Button,
@@ -35,6 +37,8 @@ import {
 	Pagination,
 	CellGroup,
 	Field,
+
+	Tabbar, TabbarItem
 } from 'vant';
 
 // 注册组件
@@ -46,6 +50,9 @@ import {
 	Pagination,
 	CellGroup,
 	Field,
+
+	Tabbar,
+	TabbarItem,
 ].forEach(com => {
 	Vue.use(com);
 })
@@ -83,6 +90,8 @@ Object.assign(Vue.prototype, {
 	$post: request.post,
 	$str_encode: helper.str_encode,
 	$str_decode: helper.str_decode,
+	$html: html_ast.html,
+	$ast: html_ast.ast,
 	// 稍微封装一下，默认取值的数据是 ast
 	$v(deep_key, data = mixinData.ast) {
 		return helper.v(data, deep_key);
