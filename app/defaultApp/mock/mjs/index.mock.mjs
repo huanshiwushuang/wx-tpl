@@ -1,9 +1,9 @@
 import Axios from 'axios';
 import Mock from 'mockjs';
-import { output_promise, exec_tasks } from './helper.mjs';
+import helper from './helper.mjs';
 
 // 生成输出的 promise
-const output = output_promise();
+const output = helper.output_promise();
 export default output;
 
 // 任务栈，url 匹配的才会执行
@@ -50,7 +50,7 @@ const tasks = [
 ];
 
 // 执行任务
-exec_tasks(tasks).then(result => {
+helper.exec_tasks(tasks).then(result => {
     output.resolve(result);
 })
 

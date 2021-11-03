@@ -60,3 +60,9 @@ export const exec_tasks = async (tasks) => {
     });
     return res;
 }
+
+export default {
+    output_promise,
+    get_params,
+    exec_tasks
+}
