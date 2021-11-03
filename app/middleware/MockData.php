@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace app\middleware;
 
 use app\helper;
-use Exception;
 use think\facade\View;
 
 /**
