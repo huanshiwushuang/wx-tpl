@@ -20,6 +20,13 @@ const res = {
             return false;
         })()
     })(),
+    // 是否 mock 数据
+    is_mock: (() => {
+        if ([true, false].includes(local.value.is_mock)) {
+            return local.value.is_mock;
+        }
+        return false;
+    })(),
     // 是否打印配置信息
     is_print_config: (() => {
         if ([true, false].includes(local.value.is_print_config)) {

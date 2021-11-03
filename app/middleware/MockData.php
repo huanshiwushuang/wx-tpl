@@ -29,19 +29,27 @@ class MockData
     public function handle($request, \Closure $next)
     {
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
-        if (isset($request->param()['mock']) && ENV === 'development') {
+        $params = $request->param();
+        if (
+            isset($params['mock']) &&
+            $params['mock'] == 1 &&
+            ENV === 'development'
+        ) {
             // 默认数据
             $data_default = [];
 
             // 获取所有的 mock file pathname
             $mock_files_pathname = helper::get_files_pathname_by_ext();
-            $baseUrl = $request->baseUrl();
+            // 参数
+            $params = helper::str_encode(json_encode([
+                'pathname' => $request->baseUrl(),
+            ]));
 
             $all_exec_result = [];
             // 循环执行 *.mock.mjs
             foreach ($mock_files_pathname as $file_pathname) {
                 // 执行 mjs 传入 baseUrl
-                $exec_result = `node ${file_pathname} $baseUrl 2>&1`;
+                $exec_result = `node ${file_pathname} $params 2>&1`;
                 // dump($exec_result);
 
                 $result = json_decode($exec_result, true);

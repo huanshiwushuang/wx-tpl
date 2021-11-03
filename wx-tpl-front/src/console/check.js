@@ -9,7 +9,9 @@ export default async function (response) {
     const keys = modulesFiles.keys();
     for (let modulePath of keys) {
         // array
-        let mock_rule = await modulesFiles(modulePath).default;
+        let mock_rule = await modulesFiles(modulePath).default({
+            pathname: response.config.url,
+        });
 
         mock_rules.push(...mock_rule);
     }

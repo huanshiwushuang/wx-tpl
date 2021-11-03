@@ -53,6 +53,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>是否模拟数据</td>
+                    <td>
+                        <input type="checkbox" v-model="is_mock" />
+                    </td>
+                </tr>
+                <tr>
                     <td title="前端校验后端返回数据是否符合 mock 规则">
                         是否校验数据
                     </td>
