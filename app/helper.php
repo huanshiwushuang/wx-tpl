@@ -44,43 +44,20 @@ class helper
 
         return $res;
     }
+
     /**
-     * 返回-/app 文件夹中的 所有 *.mock.mjs 执行后打印的 json
+     * 返回-指定 文件夹中的 所有 指定后缀的 文件路径
      */
-    static function get_mock_rules(): array
+    static function get_files_pathname_by_ext(string $path = APP_ROOT, string $ext = '*.mock.mjs'): array
     {
-        // 取缓存
-        $res = cache('mock_rules');
+        $finder = new Finder();
+        $finder->in($path)->name($ext)->files();
+        $res = [];
 
-        if (empty($res)) {
-            $finder = new Finder();
-            $finder->in(APP_ROOT)->name('*.mock.mjs')->files();
-            $mock_rules = [];
-
-            foreach ($finder as $file) {
-                $pathname = $file->getPathname();
-                // 导入 mock_rule
-                $result = `node $pathname`;
-
-                // json 反序列化
-                $mock_rule = json_decode($result);
-
-                // rule 合并
-                $mock_rules = array_merge($mock_rules, $mock_rule);
-            }
-
-            $res = $mock_rules;
-
-            // 写缓存
-            switch (ENV) {
-                case 'development':
-                    // 开发期间不写缓存
-                    break;
-                default:
-                    cache('mock_rules', $res);
-            }
+        foreach ($finder as $file) {
+            $pathname = $file->getPathname();
+            array_push($res, $pathname);
         }
-
         return $res;
     }
     /**
@@ -177,6 +154,18 @@ class helper
         $e = new Exception();
         dump($e->getTraceAsString());
     }
+    /**
+     * 抛出异常, 传入数组，每个内容一行
+     */
+    static function print_exception(array $data)
+    {
+        $str = '';
+        foreach ($data as $val) {
+            $str = $str . $val . PHP_EOL;
+        }
+        throw new Exception($str);
+    }
+
     /**
      * https://blog.csdn.net/qq_26702065/article/details/52002615
      * 编码

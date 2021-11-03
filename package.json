@@ -1,5 +1,7 @@
 {
-  "devDependencies": {},
+  "devDependencies": {
+    "fs-extra": "^10.0.0"
+  },
   "dependencies": {
     "axios": "^0.24.0",
     "mockjs": "^1.1.0"

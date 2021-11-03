@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\middleware;
 
 use app\helper;
+use Exception;
 use think\facade\View;
 
 /**
@@ -32,62 +33,70 @@ class MockData
         if (isset($request->param()['mock']) && ENV === 'development') {
             // 默认数据
             $data_default = [];
-            // 模拟数据
-            $data_mock = [];
 
-            // 获取所有的 mock 数据
-            $mock_rules = helper::get_mock_rules();
-            $url = $request->baseUrl();
+            // 获取所有的 mock file pathname
+            $mock_files_pathname = helper::get_files_pathname_by_ext();
+            $baseUrl = $request->baseUrl();
 
-            // 遍历所有 mock 规则
-            $matched_rules = [];
-            foreach ($mock_rules as $rule) {
-                // 使用 node 正则匹配 当前 baseUrl
-                $is_matched = helper::eval_js('kvi0k0i3', "
-                    console.log(
-                        (new RegExp('$rule->rurl', 'i')).test('$url') - 0
-                    );
-                ");
-                // 如果匹配成功
-                if ($is_matched === '1') {
-                    array_push($matched_rules, $rule);
+            $all_exec_result = [];
+            // 循环执行 *.mock.mjs
+            foreach ($mock_files_pathname as $file_pathname) {
+                // 执行 mjs 传入 baseUrl
+                $exec_result = `node ${file_pathname} $baseUrl 2>&1`;
+                // dump($exec_result);
+
+                $result = json_decode($exec_result, true);
+                // dump($result);
+
+                if (!$result) {
+                    helper::print_exception([
+                        'nodejs 执行',
+                        '【',
+                        $file_pathname,
+                        '】',
+                        'json decode 错误',
+                        '【',
+                        $exec_result,
+                        '】',
+                    ]);
                 }
+                // array
+                $exec_result = $result;
+
+                // 执行结果，写入 json 文件
+                $pathinfo = pathinfo($file_pathname);
+                $output_dir = $pathinfo['dirname'] . DS . '..' . DS . 'json';
+                if (!file_exists($output_dir)) {
+                    mkdir($output_dir, 0777, true);
+                }
+                file_put_contents(
+                    $output_dir . DS . $pathinfo['basename'] . '.json',
+                    json_encode(
+                        $exec_result,
+                        // 不编码中文 && 不转义斜线 && 格式化输出
+                        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+                    ),
+                );
+                // 合并执行的结果
+                $all_exec_result = array_merge($all_exec_result, $exec_result);
             }
 
-            // 有多少个 mock 规则
-            switch (count($matched_rules)) {
+            $count = count($all_exec_result);
+            switch ($count) {
                 case 0:
-                    dump('没有匹配的 mock rule，以下为所有的 mock rule');
-                    dump($mock_rules);
-                    exit;
+                    helper::print_exception(['匹配到 0 个 mock rule']);
                     break;
                 case 1:
-                    $template = json_encode($matched_rules[0]->template);
-
-                    $data_mock = helper::eval_js('kvi0k68s', "
-                        const Mock = require('mockjs');
-                        console.log(JSON.stringify(Mock.mock($template)))
-                    ");
-
                     break;
                 default:
-                    dump('多个匹配的 mock rule，以下为匹配的 rule');
-                    dump($matched_rules);
-                    dump('多个匹配的 mock rule，以下为所有的 rule');
-                    dump($mock_rules);
-                    exit;
-            }
-            // 尝试 json 反序列化
-            if (is_string($data_mock)) {
-                // 指定为数组
-                $data_mock = json_decode($data_mock, true);
-            }
-            if (!is_array($data_mock)) {
-                $data_mock = [];
+                    helper::print_exception(["匹配到 $count 个 mock rule"]);
             }
 
             // 合并默认数据 和 mock 数据
-            View::assign(array_merge($data_default, $data_mock));
+            View::assign(array_merge($data_default, $all_exec_result[0]['data'], [
+                // 新增 mock_data 方便在 控制器直接返回模拟的数据
+                'mock_data' => $all_exec_result[0]['data'],
+            ]));
         }
 
         // 继续传播请求

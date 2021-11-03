@@ -31,9 +31,6 @@ class Index extends Base
     }
     public function json()
     {
-        return [
-            'asd',
-            123
-        ];
+        return view::__get('mock_data');
     }
 }
