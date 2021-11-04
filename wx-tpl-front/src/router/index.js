@@ -23,18 +23,6 @@ const routes = [
 						}
 					}
 				}
-				// 设置页面
-				if (new URLSearchParams(location.search).has('settings')) {
-					return {
-						path: '*',
-						component: async () => {
-							return await import('@/views/Settings.vue');
-						},
-						meta: {
-							intercept: true
-						}
-					}
-				}
 				// 返回一个绝对匹配不到的 path
 				return {
 					path: 'kvdgktrh',
@@ -44,13 +32,20 @@ const routes = [
 			{
 				path: '/',
 				name: 'Home',
-				component: () => import('@/views/Home.vue'),
+				components: {
+					default: () => import('@/views/Home.vue'),
+				},
 			},
 			// 设置
 			{
 				path: '/settings',
 				name: 'Settings',
-				component: () => import('@/views/Settings.vue'),
+				component: async () => {
+					if (new URLSearchParams(location.search).get('key') === 'wxxbb') {
+						return await import('@/views/Settings.vue');
+					}
+					return await import('@/views/404.vue');
+				},
 			},
 			// 关于
 			{

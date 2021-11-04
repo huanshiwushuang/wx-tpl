@@ -78,6 +78,12 @@
                         <input type="checkbox" v-model="is_remove_dom" />
                     </td>
                 </tr>
+                <tr>
+                    <td>是否附件组件 this 到 app</td>
+                    <td>
+                        <input type="checkbox" v-model="is_attach_com" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

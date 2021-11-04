@@ -1,5 +1,5 @@
 // html_ast
-import { html } from '../utils/html_ast'
+import { html } from '../utils/tools'
 
 let ast = html.to_ast([...document.querySelectorAll('.data')].map(i => {
     return i.outerHTML

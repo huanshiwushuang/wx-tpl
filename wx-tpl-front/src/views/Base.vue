@@ -2,9 +2,10 @@
     <div>
         <!-- 被拦截了, 比如 404 || 要求登录 || 设置页面 -->
         <router-view v-if="$route.meta.intercept"></router-view>
-        <div v-else>
-            我才是Base
+        <div>
+            <router-view name="header"></router-view>
             <router-view></router-view>
+            <router-view name="footer"></router-view>
         </div>
     </div>
 </template>

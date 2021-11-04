@@ -10,7 +10,7 @@ async function init_params(p) {
     Object.assign(params, p);
 }
 // 输出数据
-function output_promise() {
+function output() {
     let resolve;
     let reject;
     const res = new Promise((_resolve, _reject) => {
@@ -99,7 +99,7 @@ switch (ENV) {
 }
 
 export default {
-    output_promise,
+    output,
     exec_tasks,
     init_params,
     is_browser,

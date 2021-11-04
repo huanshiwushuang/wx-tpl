@@ -1,4 +1,4 @@
-import requestMjs from "./helper/request.mjs";
+import requestMjs from "./utils/request.mjs";
 
 (async () => {
     let res = await requestMjs.get_juzi(2);

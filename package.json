@@ -1,9 +1,8 @@
 {
   "devDependencies": {
-    "fs-extra": "^10.0.0"
-  },
-  "dependencies": {
     "axios": "^0.24.0",
+    "html5parser": "^2.0.2",
+    "json5": "^2.2.0",
     "lz-string": "^1.4.4",
     "mockjs": "^1.1.0"
   }

@@ -1,16 +1,17 @@
-import Axios from 'axios';
 import Mock from 'mockjs';
-import exec from './helper/exec.mjs';
-import request from './helper/request.mjs';
-import utils from './helper/utils.mjs';
+import init from './utils/init.mjs';
+import request from './utils/request.mjs';
+import { _ } from './utils/tools.mjs';
+
 // 生成输出的 promise
-const output_promise = exec.output_promise();
+const output = init.output();
+
 // 任务栈，url 匹配的才会执行
 const tasks = [
     {
         rurl: '/',
         async task() {
-            const num = utils.random_num(3, 6);
+            const num = _.random_num(3, 6);
             const head = await request.get_head(num);
             const juzi = await request.get_juzi(num);
             const pic = await request.get_pic(num);
@@ -40,12 +41,12 @@ const tasks = [
 // 传入参数
 const start = function (params = {}) {
     // 浏览器需要接收参数
-    exec.init_params(params);
+    init.init_params(params);
     // 执行任务
-    exec.exec_tasks(tasks).then(result => {
-        output_promise.resolve(result);
+    init.exec_tasks(tasks).then(result => {
+        output.resolve(result);
     })
-    return output_promise;
+    return output;
 };
-exec.is_nodejs() && start();
+init.is_nodejs() && start();
 export default start;

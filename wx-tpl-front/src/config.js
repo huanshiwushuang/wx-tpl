@@ -51,6 +51,18 @@ const res = {
             return true;
         })()
     })(),
+    // 是否附加组件到 app 上
+    is_attach_com: (() => {
+        if ([true, false].includes(local.value.is_attach_com)) {
+            return local.value.is_attach_com;
+        }
+        return (() => {
+            if (process.env.NODE_ENV === 'development') {
+                return true;
+            }
+            return false;
+        })()
+    })(),
 }
 
 // 保存配置

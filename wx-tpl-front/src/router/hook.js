@@ -6,7 +6,7 @@ import router from './index'
 // request
 import request from '../request'
 // html_ast
-import { ast, html } from '../utils/html_ast'
+import { ast, html } from '../utils/tools'
 // 语言包
 import { languageStatus } from '@/lang'
 // 配置

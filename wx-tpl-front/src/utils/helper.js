@@ -1,77 +1,7 @@
-import LZString from "lz-string";
+// 项目助手：其他都是通用了，此文件仅用于当前项目
+import { _ } from './tools';
 
-const res = {
-    // 通过字符串参数，访问深层次对象数据
-    v(data, deep_key) {
-        const arr = deep_key.split('.');
-
-        try {
-            let res = data;
-            for (let i of arr) {
-                res = res[i];
-            }
-            return res;
-        } catch (e) {
-            console.error(`访问数据: `, data);
-            console.error(`访问路径: `, deep_key);
-            console.error(`错误: `, e);
-        }
-    },
-    // 遍历 tree
-    walk_tree(tree, options) {
-        if (!Array.isArray(tree)) {
-            throw new Error('please input array')
-        }
-        const visit = function (node, parent, index, options) {
-            // 进入此节点
-            options.enter && options.enter(node, parent, index)
-
-            // 访问子节点的入口属性
-            options.childrenProp = options.childrenProp || 'children'
-
-            if (Array.isArray(node[options.childrenProp])) {
-                for (let i = 0; i < node[options.childrenProp].length; i++) {
-                    visit(node[options.childrenProp][i], node, i, options)
-                }
-            }
-
-            // 离开此节点
-            options.leave && options.leave(node, parent, index)
-        }
-
-        for (let i = 0; i < tree.length; i++) {
-            visit(tree[i], null, i, options)
-        }
-    },
-    // 编码
-    str_encode(val) {
-        const src = ['-', "\\+"];
-        const dist = ["__", "_"];
-
-        let res = LZString.compressToEncodedURIComponent(val);
-        src.forEach((item, index) => {
-            res = res.replaceAll(new RegExp(item, 'g'), dist[index]);
-        })
-
-        return res;
-    },
-    // 解码
-    str_decode(val) {
-        const src = ["__", "_"];
-        const dist = ['-', "+"];
-
-        let res = val;
-        src.forEach((item, index) => {
-            res = res.replace(new RegExp(item, 'g'), dist[index]);
-        })
-
-        res = LZString.decompressFromEncodedURIComponent(res);
-
-        return res;
-    }
-}
-
-Object.assign(res, {
+export default {
     // 同步 v-model 到 store
     sync_store(namespace, map) {
         const has_namespace = map !== undefined;
@@ -85,9 +15,9 @@ Object.assign(res, {
                 sum[key] = {
                     get() {
                         if (!has_namespace) {
-                            return res.v(this.$store.state, key);
+                            return _.v(this.$store.state, key);
                         }
-                        return res.v(this.$store.state, `${namespace}.${key}`);
+                        return _.v(this.$store.state, `${namespace}.${key}`);
                     },
                     set(val) {
                         if (!has_namespace) {
@@ -102,6 +32,4 @@ Object.assign(res, {
         }
         return {};
     }
-})
-
-export default res;
+}

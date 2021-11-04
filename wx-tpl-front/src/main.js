@@ -7,13 +7,13 @@ import Cookie from "js-cookie";
 // 请求
 import request from './request';
 // ast
-import ast from './data/ast';
+import ast_data from './data/ast';
 // localStorage
 import local from './data/local_storage';
 // websocket
 // import websocket from './websocket';
 // 通用工具
-import helper from './utils/helper'
+import { ast as tools_ast, html as tools_html, str as tools_str, _ } from './utils/tools'
 // vue
 import Vue from 'vue'
 // App
@@ -26,31 +26,18 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
-// html_ast
-import * as html_ast from './utils/html_ast'
 // UI 组件
 import {
 	Button,
-	DatetimePicker,
 	Toast,
-	Calendar,
-	Pagination,
-	CellGroup,
-	Field,
-
-	Tabbar, TabbarItem
+	Tabbar,
+	TabbarItem
 } from 'vant';
 
 // 注册组件
 [
 	Button,
-	DatetimePicker,
 	Toast,
-	Calendar,
-	Pagination,
-	CellGroup,
-	Field,
-
 	Tabbar,
 	TabbarItem,
 ].forEach(com => {
@@ -64,18 +51,42 @@ Vue.config.productionTip = false
 
 // 混入同一个对象数据
 const mixinData = {
-	ast,
+	ast: ast_data,
 	local,
 	// 异步加载的组件
 	coms: [],
 	// body 的 class
 	bodyClass: [],
+	// 颜色变量
+	// c_theme: '255,121,4'
+	c_theme: '#FF7904',
 };
 Vue.mixin({
 	data() {
 		return {
 			// fix-bug: 如果直接使用 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
 			...mixinData
+		}
+	},
+	beforeCreate() {
+		if (config.is_attach_com) {
+			let name = this.$options.name;
+			if (name) {
+				if (this.$root[name]) {
+					this.$root[name].push(this);
+				} else {
+					this.$root[name] = [this];
+				}
+			}
+		}
+	},
+	beforeDestroy() {
+		let name = this.$options.name;
+		if (name) {
+			let index = this.$root[name].indexOf(this);
+			if (index != -1) {
+				this.$root[name].splice(index, 1);
+			}
 		}
 	}
 })
@@ -88,13 +99,13 @@ Object.assign(Vue.prototype, {
 	$cookie: Cookie,
 	$get: request.get,
 	$post: request.post,
-	$str_encode: helper.str_encode,
-	$str_decode: helper.str_decode,
-	$html: html_ast.html,
-	$ast: html_ast.ast,
+	$str_encode: tools_str.encode,
+	$str_decode: tools_str.decode,
+	$html: tools_html,
+	$ast: tools_ast,
 	// 稍微封装一下，默认取值的数据是 ast
 	$v(deep_key, data = mixinData.ast) {
-		return helper.v(data, deep_key);
+		return _.v(data, deep_key);
 	},
 	$toast: Toast,
 });
