@@ -31,7 +31,8 @@ import {
 	Button,
 	Toast,
 	Tabbar,
-	TabbarItem
+	TabbarItem,
+	Icon,
 } from 'vant';
 
 // 注册组件
@@ -40,6 +41,7 @@ import {
 	Toast,
 	Tabbar,
 	TabbarItem,
+	Icon,
 ].forEach(com => {
 	Vue.use(com);
 })

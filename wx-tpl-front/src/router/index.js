@@ -23,6 +23,18 @@ const routes = [
 						}
 					}
 				}
+				// 设置页面
+				if (new URLSearchParams(location.search).has('settings')) {
+					return {
+						path: '*',
+						component: async () => {
+							return await import('@/views/Settings.vue');
+						},
+						meta: {
+							intercept: true
+						}
+					}
+				}
 				// 返回一个绝对匹配不到的 path
 				return {
 					path: 'kvdgktrh',
@@ -34,24 +46,17 @@ const routes = [
 				name: 'Home',
 				components: {
 					default: () => import('@/views/Home.vue'),
+					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
 			},
-			// 设置
+			// 日签
 			{
-				path: '/settings',
-				name: 'Settings',
-				component: async () => {
-					if (new URLSearchParams(location.search).get('key') === 'wxxbb') {
-						return await import('@/views/Settings.vue');
-					}
-					return await import('@/views/404.vue');
+				path: '/daysign',
+				name: 'Home',
+				components: {
+					default: () => import('@/views/DaySign.vue'),
+					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
-			},
-			// 关于
-			{
-				path: '/index/about',
-				name: 'about',
-				component: () => import('@/views/About.vue')
 			},
 			// 404
 			{

@@ -11,6 +11,6 @@ class DaySign extends Base
 {
     public function index()
     {
-        return '日签';
+        return View::fetch('day_sign/index');
     }
 }

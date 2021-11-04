@@ -39,13 +39,12 @@ export const _ = {
         try {
             let res = data;
             for (let i of arr) {
-                // 如果是函数，则调用
-                if (i.endsWith('()')) {
-                    let tmp = i.replace('()', '');
-                    res = res[tmp]();
-                    continue;
-                }
                 res = res[i];
+            }
+            if ([undefined, null].includes(res)) {
+                console.error(`_.v 访问返回 ${res}`)
+                console.error(`访问数据`, data);
+                console.error(`访问路径`, deep_key);
             }
             return res;
         } catch (e) {
@@ -78,8 +77,27 @@ export const html = {
         // })
         walk(ast, {
             enter(node, parent) {
-                // 记录 parent，方便删除无用的子节点
-                node.parent = parent;
+
+                Object.defineProperties(node, {
+                    // 记录 parent，方便删除无用的子节点
+                    parent: {
+                        enumerable: false,
+                        configurable: true,
+                        get() {
+                            return parent;
+                        }
+                    },
+                    // 添加 v 方法，用于访问子属性
+                    v: {
+                        enumerable: false,
+                        configurable: true,
+                        writable: true,
+                        value(deep_key) {
+                            return _.v(node, deep_key);
+                        }
+                    }
+                })
+
                 // 删除无用属性
                 delete node.attributeMap;
 
@@ -97,6 +115,16 @@ export const html = {
                             node.html = node.toString = function () {
                                 return node.value;
                             };
+                            // 定义 getter 属性
+                            Object.defineProperties(node, {
+                                str: {
+                                    enumerable: false,
+                                    configurable: true,
+                                    get() {
+                                        return node.toString();
+                                    }
+                                }
+                            })
                         }
                         break;
                     // 标签节点
@@ -119,17 +147,19 @@ export const html = {
                             })
                             delete node.attributes;
 
-                            // 重写所有 attrMap
-                            node.attrMap = (key) => {
-                                if (key) {
-                                    return node.attr.find(i => i.key === key)?.val || '';
+                            // 定义 getter 属性
+                            Object.defineProperties(node, {
+                                attr_map: {
+                                    enumerable: false,
+                                    configurable: true,
+                                    get() {
+                                        return node.attr.reduce((sum, item) => {
+                                            sum[item.key] = item.val;
+                                            return sum;
+                                        }, {});
+                                    }
                                 }
-
-                                return node.attr.reduce((sum, item) => {
-                                    sum[item.key] = item.val;
-                                    return sum;
-                                }, {});
-                            };
+                            })
 
                             // 附加 html 属性
                             if (node.close) {
@@ -146,16 +176,25 @@ export const html = {
                             node.toString = function () {
                                 return html.get_text(this.html());
                             }
+                            Object.defineProperties(node, {
+                                str: {
+                                    enumerable: false,
+                                    configurable: true,
+                                    get() {
+                                        return node.toString();
+                                    }
+                                }
+                            })
 
                             // 有 id 属性的 node，提到根节点来
-                            let id = node.attrMap('id');
+                            let id = node.attr_map.id;
 
                             if (id) {
                                 ast[id] = node;
                             }
                             // 有 class 属性的 node，提到根节点来
-                            if (node.attrMap('class')) {
-                                let arr = node.attrMap('class').trim().replace(/[\s\t\r\n]+/g, ' ')
+                            if (node.attr_map.class) {
+                                let arr = node.attr_map.class.trim().replace(/[\s\t\r\n]+/g, ' ')
                                     .split(' ');
 
                                 arr.forEach(item => {
@@ -167,7 +206,7 @@ export const html = {
                                 })
                             }
                             // 有cid，则设置属性到 body 的同级
-                            let cid = node.attrMap('cid')
+                            let cid = node.attr_map.cid
                             if (cid) {
                                 if (parent.cid) {
                                     parent.cid[cid] = node;
@@ -179,7 +218,7 @@ export const html = {
                             }
 
                             // 根据 type 确定是否需要格式化为 JSON5
-                            switch (node.attrMap('type').replace(/[\s\t]/g, '')) {
+                            switch (node.attr_map.type?.replace(/[\s\t]/g, '')) {
                                 case 'text/json5':
                                     try {
                                         node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');

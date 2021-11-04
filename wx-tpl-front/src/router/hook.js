@@ -105,8 +105,8 @@ function hook() {
 
 					// 更新-TKD
 					document.title = newAst.krjziyjz_title.toString();
-					document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap('content'))
-					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attrMap('content'))
+					document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attr_map.content)
+					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attr_map.content)
 
 					// 更新-AST
 					set_ast(html.to_ast(

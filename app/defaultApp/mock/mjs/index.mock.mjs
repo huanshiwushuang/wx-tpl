@@ -1,7 +1,6 @@
 import Mock from 'mockjs';
 import init from './utils/init.mjs';
-import request from './utils/request.mjs';
-import { _ } from './utils/tools.mjs';
+const { Random } = Mock;
 
 // 生成输出的 promise
 const output = init.output();
@@ -11,22 +10,25 @@ const tasks = [
     {
         rurl: '/',
         async task() {
-            const num = _.random_num(3, 6);
-            const head = await request.get_head(num);
-            const juzi = await request.get_juzi(num);
-            const pic = await request.get_pic(num);
-
             let res = {
                 template: {
-                    list: head.map((item, index) => {
-                        return {
-                            head: item,
-                            name: '@cname',
-                            pic: pic[index],
-                            juzi: juzi[index],
-                            'love|50-200': 1,
+                    'list|10-20': [
+                        {
+                            'head': `@image(50x50)`,
+                            'name|1': [
+                                '@name',
+                                '@cname',
+                            ],
+                            'guanzhu|100-400': 1,
+                            'pic': `@image(690x380)`,
+                            'content': `@cparagraph(2,4)`,
+                            'author|1': [
+                                `@cname`,
+                                `@name`,
+                            ],
+                            'love|100-400': 1
                         }
-                    })
+                    ]
                 }
             }
             return {

@@ -22,14 +22,14 @@ export default {
         let res = [];
         for (let i = 0; i < count; i++) {
             res.push(
-                Axios.get('https://open.saintic.com/api/sentence/')
+                Axios.get('http://yijuzhan.com/api/word.php?m=json')
             );
         }
         res = await Promise.all(res);
         return res.map(i => {
             return {
-                ...i.data.data,
-                content: i.data.data.sentence,
+                ...i.data,
+                author: i.data.source,
             }
         });
     },
