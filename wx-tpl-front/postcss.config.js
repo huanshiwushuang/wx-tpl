@@ -5,7 +5,10 @@ module.exports = ({ file }) => {
     return {
         plugins: {
             "postcss-px-to-viewport": {
+                // https://www.codenong.com/js73e70c40cfff/
                 viewportWidth: designWidth,
+                viewportUnit: 'vmin',
+                fontViewportUnit: 'vmin',
             },
         },
     };

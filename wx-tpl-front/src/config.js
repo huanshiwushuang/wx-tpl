@@ -13,12 +13,7 @@ const res = {
         if ([true, false].includes(local.value.is_check)) {
             return local.value.is_check;
         }
-        return (() => {
-            if (process.env.NODE_ENV === 'development') {
-                return true;
-            }
-            return false;
-        })()
+        return false;
     })(),
     // 是否 mock 数据
     is_mock: (() => {
@@ -32,36 +27,21 @@ const res = {
         if ([true, false].includes(local.value.is_print_config)) {
             return local.value.is_print_config;
         }
-        return (() => {
-            if (process.env.NODE_ENV === 'development') {
-                return true;
-            }
-            return false;
-        })()
+        return false;
     })(),
     // 是否移除 dom
     is_remove_dom: (() => {
         if ([true, false].includes(local.value.is_remove_dom)) {
             return local.value.is_remove_dom;
         }
-        return (() => {
-            if (process.env.NODE_ENV === 'development') {
-                return false;
-            }
-            return true;
-        })()
+        return true;
     })(),
     // 是否附加组件到 app 上
     is_attach_com: (() => {
         if ([true, false].includes(local.value.is_attach_com)) {
             return local.value.is_attach_com;
         }
-        return (() => {
-            if (process.env.NODE_ENV === 'development') {
-                return true;
-            }
-            return false;
-        })()
+        return false;
     })(),
 }
 

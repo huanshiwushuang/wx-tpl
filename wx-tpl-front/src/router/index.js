@@ -52,7 +52,7 @@ const routes = [
 			// 日签
 			{
 				path: '/daysign',
-				name: 'Home',
+				name: 'DaySign',
 				components: {
 					default: () => import('@/views/DaySign.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
