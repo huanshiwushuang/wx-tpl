@@ -11,6 +11,6 @@ class My extends Base
 {
     public function index()
     {
-        return '我的';
+        return View::fetch('my/index');
     }
 }

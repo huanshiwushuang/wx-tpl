@@ -1,13 +1,9 @@
 <template>
     <div class="kvjmvqxx_com">
-        <van-tabbar v-model="tabbar_index" :placeholder="true">
-            <van-tabbar-item
-                icon-prefix="icon"
-                icon="shouye"
-                to="/"
-                :replace="true"
-                >首页</van-tabbar-item
-            >
+        <van-tabbar v-model="tabbar_index" :placeholder="true" route>
+            <van-tabbar-item icon="wap-home-o" to="/" :replace="true">
+                首页
+            </van-tabbar-item>
             <van-tabbar-item
                 icon-prefix="icon"
                 icon="biji"
@@ -15,7 +11,7 @@
                 :replace="true"
                 >日签</van-tabbar-item
             >
-            <div class="kvl4qag2 tc fs30">
+            <div class="kvl4qag2 tc">
                 <van-icon class-prefix="icon" name="yongyan" color="#fff" />
             </div>
             <van-tabbar-item
@@ -56,5 +52,6 @@ export default {
     background: @c_theme;
     border-radius: 100%;
     align-self: center;
+    font-size: 44px;
 }
 </style>

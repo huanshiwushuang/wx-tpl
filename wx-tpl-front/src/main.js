@@ -1,5 +1,7 @@
 // base style
 import '@/assets/less/base.less';
+// flexible
+import 'amfe-flexible'
 // config
 import config from './config';
 // cookie
@@ -33,6 +35,8 @@ import {
 	Tabbar,
 	TabbarItem,
 	Icon,
+	PullRefresh,
+	Tab, Tabs,
 } from 'vant';
 
 // 注册组件
@@ -42,6 +46,8 @@ import {
 	Tabbar,
 	TabbarItem,
 	Icon,
+	PullRefresh,
+	Tab, Tabs,
 ].forEach(com => {
 	Vue.use(com);
 })

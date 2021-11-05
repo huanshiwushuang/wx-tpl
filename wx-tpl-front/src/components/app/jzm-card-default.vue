@@ -11,8 +11,9 @@
                 </div>
 
                 <van-button
-                    :color="c_theme"
                     plain
+                    round
+                    size="small"
                     class="kvl0dnb6"
                     @click="$emit('subscribe')"
                 >
@@ -20,7 +21,7 @@
                 </van-button>
             </div>
             <!-- 配图 和 内容 -->
-            <div class="mt20">
+            <div class="mt20 tc">
                 <img :src="pic" class="kvl0hpfv" />
             </div>
             <div class="kvl1vv1u">
@@ -40,7 +41,7 @@
                 color="#9c9c9c"
                 @click="$emit('love')"
             />
-            <span class="fs26">
+            <span>
                 {{ love }}
             </span>
             <!-- 收藏 -->
@@ -113,14 +114,9 @@ export default {
     height: 50px;
     border-radius: 100%;
 }
-.kvl0dnb6 {
-    width: 80px;
-    height: 36px;
-    border-radius: 99px;
-}
 .kvl0hpfv {
-    width: 690px;
-    height: 380px;
+    max-width: ~"min(690px, 100%)";
+    max-height: 380px;
     border-radius: 6px;
 }
 .kvl1xrv7 {
@@ -143,5 +139,9 @@ export default {
 }
 .kvl1t4cc {
     margin-left: 70px;
+}
+.kvl0dnb6 {
+    min-width: 120px;
+    height: 44px;
 }
 </style>

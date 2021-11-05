@@ -11,6 +11,6 @@ class Type extends Base
 {
     public function index()
     {
-        return '分类';
+        return View::fetch('type/index');
     }
 }

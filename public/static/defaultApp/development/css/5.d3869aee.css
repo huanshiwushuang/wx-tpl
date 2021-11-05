@@ -1,0 +1,17 @@
+.kvdhlhtr {
+  border-collapse: collapse;
+}
+.kvdhlhtr th {
+  background: #26a9a2;
+}
+.kvdhlhtr th,
+.kvdhlhtr td {
+  border: 0.01818rem solid #000;
+  padding: 0.18182rem;
+}
+.kvdhlhtr input[type="radio"],
+.kvdhlhtr input[type="checkbox"] {
+  width: 0.54545rem;
+  height: 0.54545rem;
+}
+
