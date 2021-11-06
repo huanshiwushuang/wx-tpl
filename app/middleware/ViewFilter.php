@@ -25,23 +25,31 @@ class ViewFilter
 		View::instance()->end_tag_callback = [];
 
 		View::filter(function ($content) {
-			// 是否是 fetch 的 entry 页面
-			$krxg93vb_is_entry = View::__isset('krxg93vb_is_entry') && View::__get('krxg93vb_is_entry');
+			// 只有先 assign, 再 fetch 页面的 变量才能在 instance 拿到
+			$all_var = View::instance()->get();
 
-			// 不是 entry 页面，则再 fetch entry 页面, $content作为 html_data ，塞进去。
-			if (!$krxg93vb_is_entry) {
+			// 该内容是否需要继承 main/base.html 内容
+			$all_var = array_merge($all_var, [
+				'vf_extend_base' => isset($all_var['vf_extend_base']) ?  $all_var['vf_extend_base'] : true,
+			]);
+
+			// 需要继承 main/base.html 内容，则再 fetch 页面, $content 作为 html_data ，塞进去。
+			if ($all_var['vf_extend_base']) {
 				// 数据源
-				$tpl_var['html_data'] = $content;
+				$all_var['html_data'] = $content;
 
-				// 标识-开始-入口页面
-				$tpl_var['krxg93vb_is_entry'] = true;
+				// 标识-不需要继承 base 了
+				$all_var['vf_extend_base'] = false;
 
 				// 变量检查
-				$this->tpl_var_check($tpl_var);
+				$this->view_var_check($all_var);
 
-				View::assign($tpl_var);
+				// 赋值到全局变量
+				// 只有先 assign, 再 fetch 页面的 变量才能在 instance 拿到
+				View::assign($all_var);
 
-				return View::fetch('main/entry');
+				$asd = View::fetch('main/base');
+				return $asd;
 			}
 
 			// 最后一次的 fetch，则直接输出
@@ -79,8 +87,8 @@ class ViewFilter
 				}
 			]);
 
-			// 标识-结束-入口页面
-			View::assign('krxg93vb_is_entry', false);
+			// 重置为 extend base
+			View::assign('vf_extend_base', true);
 
 			return $html5->saveHTML($dom);
 		});
@@ -88,7 +96,7 @@ class ViewFilter
 		return $next($request);
 	}
 	// 变量检查，比如公有变量必须有默认值
-	protected function tpl_var_check(&$tpl_var)
+	protected function view_var_check(&$all_var)
 	{
 		$LANG = Lang::getLangSet();
 
@@ -109,13 +117,21 @@ class ViewFilter
 				'LANG',
 				empty($LANG) ? 'zh-cn' : $LANG,
 			],
+			// 视图渲染变量，根节点
+			[
+				'json_data',
+				json_encode([]),
+			]
 		];
 
 		// 变量定义循环检查
 		foreach ($default_var as $val) {
-			if (!isset($tpl_var[$val[0]])) {
-				$tpl_var[$val[0]] = $val[1];
+			if (!isset($all_var[$val[0]])) {
+				$all_var[$val[0]] = $val[1];
 			}
 		}
+
+		// view 渲染变量 wx 输出为 json
+		// $all_var
 	}
 }

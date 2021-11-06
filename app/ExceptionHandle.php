@@ -52,6 +52,7 @@ class ExceptionHandle extends Handle
      */
     public function render($request, Throwable $e): Response
     {
+        // dump($e);
         // 添加自定义异常处理机制
         switch (ENV) {
             case 'development':

@@ -8,7 +8,7 @@ class Index extends Base
 {
     public function index()
     {
-        // dump(View::__get('mock_data'));
-        return View::fetch('index/index');
+
+        return View::fetch('index/index', []);
     }
 }

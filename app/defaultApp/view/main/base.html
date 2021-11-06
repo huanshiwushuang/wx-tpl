@@ -11,11 +11,9 @@
 	<meta name="renderer" content="webkit" />
 	<meta name="force-rendering" content="webkit" />
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
-	<!-- 确保：ios 或者 mac 不会自动添加脏数据 -->
-	<meta name="format-detection" content="telephone=no, email=no, address=no" />
-
-	{block name="block_head"}
-	{/block}
+	<meta id="K" name="keywords" content="{$K}" />
+	<meta id="D" name="description" content="{$D}" />
+	<title id="T">{$T}</title>
 
 	<!-- 旧版 IE 升级提示跳转代码 -->
 	<!-- https://support.dmeng.net/ie-update-warning.html -->
@@ -37,12 +35,18 @@
 		{include file="main/include_head_production"}
 	{/if}
 
-	
 </head>
 
 <body id="body">
-	<!-- 后端渲染数据 -->
-	<div class="data dn">{block name="data"} {/block}</div>
+	<!-- 后端渲染 html 模板 -->
+	<div class="data dn">
+		{$html_data|raw}
+	</div>
+	
+	<!-- 后端直接输出 json 数据 -->
+	<script type="text/json">
+		{$json_data}
+	</script>
 
 	<!-- 前端渲染视图 -->
 	<div id="app">
