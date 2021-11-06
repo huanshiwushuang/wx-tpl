@@ -117,11 +117,17 @@ class ViewFilter
 				'LANG',
 				empty($LANG) ? 'zh-cn' : $LANG,
 			],
-			// 视图渲染变量，根节点
+
+			// html 数据
+			[
+				'html_data',
+				json_encode([]),
+			],
+			// json 数据
 			[
 				'json_data',
 				json_encode([]),
-			]
+			],
 		];
 
 		// 变量定义循环检查
