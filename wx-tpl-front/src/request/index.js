@@ -28,17 +28,20 @@ axiosInstance.interceptors.request.use(async (request_config) => {
 // 响应拦截
 axiosInstance.interceptors.response.use(async (response) => {
     /* 
-        (检查数据 && 只有 content-type 是 json 才 check) || (空数据需要校验)
+    html 需要提取数据
     */
-    if (
-        (config.is_check && /json/i.test(response.headers['content-type'])) ||
-        !response.data
-    ) {
+    if (/html/i.test(response.headers['content-type'])) {
+        debugger
+    }
+    /* 
+        检查数据
+    */
+    if (config.is_check) {
         let { default: console_check } = await import('../console/check');
         console_check(response);
     }
 
-    return response;
+    return response.data;
 }, error => {
     return Promise.reject(error);
 })

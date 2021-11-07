@@ -4,18 +4,12 @@ import '@/assets/less/base.less';
 import 'amfe-flexible'
 // config
 import config from './config';
-// cookie
-import Cookie from "js-cookie";
-// 请求
-import request from './request';
-// ast
-import ast_data from './data/ast';
-// localStorage
-import local from './data/local_storage';
+// mixin data
+import mixin_data from './data/mixin_data';
+// proto data
+import proto_data from './data/proto_data';
 // websocket
 // import websocket from './websocket';
-// 通用工具
-import { ast as tools_ast, html as tools_html, str as tools_str, _ } from './utils/tools'
 // vue
 import Vue from 'vue'
 // App
@@ -57,23 +51,11 @@ Toast.setDefaultOptions({ duration: 3000 });
 // 设置 vue
 Vue.config.productionTip = false
 
-// 混入同一个对象数据
-const mixinData = {
-	ast: ast_data,
-	local,
-	// 异步加载的组件
-	coms: [],
-	// body 的 class
-	bodyClass: [],
-	// 颜色变量
-	// c_theme: '255,121,4'
-	c_theme: '#FF7904',
-};
 Vue.mixin({
 	data() {
 		return {
 			// fix-bug: 如果直接使用 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
-			...mixinData
+			...mixin_data
 		}
 	},
 	beforeCreate() {
@@ -90,7 +72,7 @@ Vue.mixin({
 	},
 	beforeDestroy() {
 		let name = this.$options.name;
-		if (name) {
+		if (config.is_attach_com && name) {
 			let index = this.$root[name].indexOf(this);
 			if (index != -1) {
 				this.$root[name].splice(index, 1);
@@ -100,21 +82,7 @@ Vue.mixin({
 })
 // 附加数据到原型
 Object.assign(Vue.prototype, {
-	$vue: Vue,
-	$win: window,
-	// $ws: websocket,
-	$axios: request,
-	$cookie: Cookie,
-	$get: request.get,
-	$post: request.post,
-	$str_encode: tools_str.encode,
-	$str_decode: tools_str.decode,
-	$html: tools_html,
-	$ast: tools_ast,
-	// 稍微封装一下，默认取值的数据是 ast
-	$v(deep_key, data = mixinData.ast) {
-		return _.v(data, deep_key);
-	},
+	...proto_data,
 	$toast: Toast,
 });
 

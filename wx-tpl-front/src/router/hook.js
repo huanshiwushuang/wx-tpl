@@ -6,18 +6,17 @@ import router from './index'
 // request
 import request from '../request'
 // html_ast
-import { ast, html } from '../utils/tools'
+import { html } from '../utils/tools'
 // 语言包
 import { languageStatus } from '@/lang'
 // 配置
 import config from '../config'
 // ast
-import { set_ast } from '../data/ast'
+import mixin_data from '../data/mixin_data'
 
 const options = {
 	// 路由模式
 	// ast: 前端路由-请求页面
-	// api: 前端路由-请求接口
 	// refresh：后端路由-刷新页面
 	mode: config.router_mode || 'ast',
 };
@@ -77,19 +76,12 @@ function hook() {
 
 					// 解析数据为新的 AST
 					newAst = html.to_ast(
-						res.data
+						res
 					);
 				}
 
 				toNext();
 			}
-				break;
-			// 前端路由-api
-			case 'api':
-				// 进度条开始
-				NProgress.start();
-
-				toNext();
 				break;
 			default:
 				throw new Error('router mode error');
@@ -109,11 +101,7 @@ function hook() {
 					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attr_map.content)
 
 					// 更新-AST
-					set_ast(html.to_ast(
-						// // 为了节约内存，newAst 中仍然只提取 class=data 中的数据
-						// 所以需要 to_html 再 to_ast
-						ast.to_html(newAst.data)
-					));
+					mixin_data.ast = JSON.parse(newAst.data.str);
 
 					newAst = null;
 

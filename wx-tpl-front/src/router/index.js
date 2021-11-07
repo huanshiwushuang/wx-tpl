@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import hook from './hook'
-import ast from '../data/ast'
+import mixin_data from '../data/mixin_data'
 
 Vue.use(VueRouter)
 
@@ -12,7 +12,7 @@ const routes = [
 		children: [
 			(() => {
 				// 404 页面
-				if (ast.kvbv37sy_404) {
+				if (mixin_data.ast.kvpcjcl7_404) {
 					return {
 						path: '*',
 						component: async () => {
@@ -38,7 +38,7 @@ const routes = [
 			},
 			// 日签
 			{
-				path: '/daysign-index',
+				path: '/daysign',
 				components: {
 					default: () => import('@/views/DaySign/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
@@ -46,7 +46,7 @@ const routes = [
 			},
 			// 分类
 			{
-				path: '/type-index',
+				path: '/type',
 				components: {
 					default: () => import('@/views/Type/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
@@ -54,7 +54,7 @@ const routes = [
 			},
 			// 我的
 			{
-				path: '/my-index',
+				path: '/my',
 				components: {
 					default: () => import('@/views/My/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),

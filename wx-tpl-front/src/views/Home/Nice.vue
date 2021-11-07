@@ -1,13 +1,14 @@
 <template>
     <div class="kvkh7nuy_com">
+        Nice
         <!-- 句子列表 -->
-        <jzm-card-default
+        <!-- <jzm-card-default
             v-for="(item, index) in cards"
             :key="index"
             v-bind="item"
             class="kvl2074f"
         >
-        </jzm-card-default>
+        </jzm-card-default> -->
     </div>
 </template>
 
@@ -18,21 +19,6 @@ export default {
         return {};
     },
     computed: {
-        // 卡片
-        cards() {
-            return this.$v("kvjp1c6c_li").map((item) => {
-                return {
-                    head: item.v("cid.head.attr_map.src"),
-                    name: item.v("cid.name.str"),
-                    guanzhu: item.v("cid.guanzhu.str"),
-                    pic: item.v("cid.pic.attr_map.src"),
-
-                    content: item.v("cid.content.str"),
-                    author: item.v("cid.author.str"),
-                    love: Number(item.v("attr_map.data-love")),
-                };
-            });
-        },
     },
     methods: {},
     created() {},

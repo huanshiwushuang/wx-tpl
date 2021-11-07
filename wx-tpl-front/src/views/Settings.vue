@@ -30,7 +30,7 @@
                                 value="ast"
                                 class="vm"
                             />
-                            <span class="vm"> 新式 AST-无刷新模式 </span>
+                            <span class="vm"> AST-无刷新模式 </span>
                         </label>
                         <label>
                             <input
@@ -40,15 +40,6 @@
                                 class="vm"
                             />
                             <span class="vm"> 传统页面-刷新模式 </span>
-                        </label>
-                        <label>
-                            <input
-                                v-model="router_mode"
-                                type="radio"
-                                value="api"
-                                class="vm"
-                            />
-                            <span class="vm"> API 接口-无刷新模式 </span>
                         </label>
                     </td>
                 </tr>

@@ -11,6 +11,8 @@ class My extends Base
 {
     public function index()
     {
-        return View::fetch('my/index');
+        return View::display('', [
+            'json_data' => View::__get('mock_data')
+        ]);
     }
 }

@@ -48,8 +48,7 @@ class ViewFilter
 				// 只有先 assign, 再 fetch 页面的 变量才能在 instance 拿到
 				View::assign($all_var);
 
-				$asd = View::fetch('main/base');
-				return $asd;
+				return View::fetch('main/base');
 			}
 
 			// 最后一次的 fetch，则直接输出
@@ -121,12 +120,12 @@ class ViewFilter
 			// html 数据
 			[
 				'html_data',
-				json_encode([]),
+				'',
 			],
 			// json 数据
 			[
 				'json_data',
-				json_encode([]),
+				[],
 			],
 		];
 
@@ -137,7 +136,8 @@ class ViewFilter
 			}
 		}
 
-		// view 渲染变量 wx 输出为 json
-		// $all_var
+		// PHP 转 JSON
+		// 强制顶层为对象
+		$all_var['json_data'] = json_encode((object)$all_var['json_data'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 }

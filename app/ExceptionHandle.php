@@ -60,7 +60,11 @@ class ExceptionHandle extends Handle
             default:
                 if (!isset($request->param()['wxxbb'])) {
                     return Response::create(
-                        View::display('<div id="kvbv37sy_404"></div>'),
+                        View::display('', [
+                            'json_data' => [
+                                'kvpcjcl7_404' => true,
+                            ]
+                        ]),
                         'html',
                         404
                     );

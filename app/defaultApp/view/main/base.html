@@ -39,12 +39,12 @@
 
 <body id="body">
 	<!-- 后端渲染 html 模板 -->
-	<div class="data dn">
+	<div class="dn">
 		{$html_data|raw}
 	</div>
 	
 	<!-- 后端直接输出 json 数据 -->
-	<script type="text/json">
+	<script id="data" type="text/json">
 		{$json_data}
 	</script>
 

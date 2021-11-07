@@ -9,6 +9,8 @@ class Index extends Base
     public function index()
     {
 
-        return View::fetch('index/index', []);
+        return View::display('', [
+            'json_data' => View::__get('mock_data')
+        ]);
     }
 }

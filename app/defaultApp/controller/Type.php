@@ -11,6 +11,8 @@ class Type extends Base
 {
     public function index()
     {
-        return View::fetch('type/index');
+        return View::display('', [
+            'json_data' => View::__get('mock_data')
+        ]);
     }
 }
