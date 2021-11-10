@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import config from '../config'
+import { html as tools_html } from '../utils/tools'
 
 // Axios
 const axiosInstance = Axios.create({});
@@ -28,17 +29,27 @@ axiosInstance.interceptors.request.use(async (request_config) => {
 // 响应拦截
 axiosInstance.interceptors.response.use(async (response) => {
     /* 
-    html 需要提取数据
-    */
-    if (/html/i.test(response.headers['content-type'])) {
-        debugger
-    }
-    /* 
         检查数据
     */
     if (config.is_check) {
+        let check_data;
+        /* 
+        html 需要提取数据
+        */
+        if (/html/i.test(response.headers['content-type'])) {
+            response.data = tools_html.to_ast(response.data);
+            // 需要被校验的 JSON 数据
+            check_data = JSON.parse(response.data.data.str);
+        } else if (/json/i.test(response.headers['content-type'])) {
+            // 需要被校验的 JSON 数据
+            check_data = response.data;
+        }
+
         let { default: console_check } = await import('../console/check');
-        console_check(response);
+        console_check({
+            url: response.config.url,
+            check_data,
+        });
     }
 
     return response.data;

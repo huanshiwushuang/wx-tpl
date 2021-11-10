@@ -5,8 +5,6 @@ import 'nprogress/nprogress.css'
 import router from './index'
 // request
 import request from '../request'
-// html_ast
-import { html } from '../utils/tools'
 // 语言包
 import { languageStatus } from '@/lang'
 // 配置
@@ -69,15 +67,13 @@ function hook() {
 					// 请求数据
 					let res = await request.get(toURL, null, {
 						headers: {
-							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html，改为接收所有
+							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html
 							Accept: 'text/html',
 						}
 					});
 
-					// 解析数据为新的 AST
-					newAst = html.to_ast(
-						res
-					);
+					// 数据为新的 html 的 AST
+					newAst = res;
 				}
 
 				toNext();
@@ -96,12 +92,12 @@ function hook() {
 				if (!isInitPage) {
 
 					// 更新-TKD
-					document.title = newAst.krjziyjz_title.toString();
-					document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attr_map.content)
-					document.querySelector('#krjzir1m_description').setAttribute('content', newAst.krjzir1m_description.attr_map.content)
+					document.title = newAst.T.str;
+					document.querySelector('#K').setAttribute('content', newAst.K.attr_map.content)
+					document.querySelector('#D').setAttribute('content', newAst.D.attr_map.content)
 
 					// 更新-AST
-					mixin_data.ast = JSON.parse(newAst.data.str);
+					mixin_data.data = JSON.parse(newAst.data.str);
 
 					newAst = null;
 

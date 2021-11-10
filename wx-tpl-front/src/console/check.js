@@ -1,6 +1,9 @@
 import Mock from 'mockjs';
 
-export default async function (response) {
+export default async function ({
+    url,
+    check_data,
+}) {
     // bug: 如果监听 /app 下的所有，则 webpack 会一直编译
     const modulesFiles = require.context('BACK_ROOT/app/defaultApp/mock/mjs', true, /\.mock\.mjs$/);
 
@@ -10,15 +13,11 @@ export default async function (response) {
     for (let modulePath of keys) {
         // array
         let mock_rule = await modulesFiles(modulePath).default({
-            pathname: response.config.url,
+            pathname: url,
         });
 
         mock_rules.push(...mock_rule);
     }
-
-    // 开始 check
-    const url = response.config.url;
-    const data = response.data;
 
     console.group(`Check 数据---${url}`);
 
@@ -32,12 +31,12 @@ export default async function (response) {
                 const template = mock_rules[0].template;
 
                 if (['object', 'string'].includes(typeof template)) {
-                    let result = Mock.valid(template, data);
+                    let result = Mock.valid(template, check_data);
 
                     if (result.length) {
                         console.error('check 不通过');
                         console.error('check 规则', template);
-                        console.error('check 数据', data);
+                        console.error('check 数据', check_data);
                         console.error('check 结果', result);
                     } else {
                         console.info('check 通过');

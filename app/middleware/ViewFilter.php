@@ -138,6 +138,6 @@ class ViewFilter
 
 		// PHP 转 JSON
 		// 强制顶层为对象
-		$all_var['json_data'] = json_encode((object)$all_var['json_data'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+		$all_var['json_data'] = json_encode($all_var['json_data'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 }

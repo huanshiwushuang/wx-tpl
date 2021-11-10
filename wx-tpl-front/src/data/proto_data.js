@@ -5,6 +5,10 @@ import Cookie from "js-cookie";
 import request from '../request';
 // 通用工具
 import { str as tools_str } from '../utils/tools'
+// vant
+import {
+    Toast,
+} from 'vant';
 
 export default {
     $vue: Vue,
@@ -16,4 +20,5 @@ export default {
     $post: request.post,
     $str_encode: tools_str.encode,
     $str_decode: tools_str.decode,
+    $toast: Toast,
 }

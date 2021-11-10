@@ -82,8 +82,7 @@ Vue.mixin({
 })
 // 附加数据到原型
 Object.assign(Vue.prototype, {
-	...proto_data,
-	$toast: Toast,
+	...proto_data
 });
 
 const app = new Vue({

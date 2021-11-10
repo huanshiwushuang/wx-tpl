@@ -1,8 +1,25 @@
 // localStorage
 import local from './local_storage';
 
+// config
+import config from '../config';
+
+const data = JSON.parse(document.querySelector('#data').innerHTML);
+
+(async () => {
+    // 数据校验
+    if (config.is_check) {
+        let { default: console_check } = await import('../console/check');
+
+        console_check({
+            url: location.pathname,
+            check_data: data,
+        });
+    }
+})()
+
 export default {
-    ast: JSON.parse(document.querySelector('#data').innerHTML),
+    data,
     local,
     // 异步加载的组件
     coms: [],
