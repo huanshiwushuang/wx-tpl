@@ -26,7 +26,7 @@ export default {
             console.log("下拉刷新");
             setTimeout(() => {
                 this.isLoading = false;
-            }, 2000);
+            }, 1000);
         },
     },
 };

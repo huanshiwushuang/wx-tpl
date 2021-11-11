@@ -4,7 +4,13 @@
             <!-- 头部 -->
             <div class="df jcsb aic">
                 <div class="df aic">
-                    <img v-lazy="head" class="kvl0avoo" />
+                    <van-image
+                        :src="head"
+                        fit="scale-down"
+                        lazy-load
+                        round
+                        class="kvl0avoo"
+                    />
                     <span class="ml20">
                         {{ name }}
                     </span>
@@ -22,7 +28,12 @@
             </div>
             <!-- 配图 和 内容 -->
             <div class="mt20 tc">
-                <img v-lazy="pic" class="kvl0hpfv" />
+                <van-image
+                    :src="pic"
+                    fit="scale-down"
+                    lazy-load
+                    class="kvl0hpfv"
+                />
             </div>
             <div class="kvl1vv1u">
                 <div class="kvl1xrv7">
@@ -112,7 +123,6 @@ export default {
 .kvl0avoo {
     width: 50px;
     height: 50px;
-    border-radius: 100%;
 }
 .kvl0hpfv {
     max-width: ~"min(690px, 100%)";

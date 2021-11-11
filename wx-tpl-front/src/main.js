@@ -32,6 +32,7 @@ import {
 	PullRefresh,
 	Tab, Tabs,
 	Lazyload,
+	Image,
 } from 'vant';
 
 // 注册组件
@@ -49,6 +50,7 @@ import {
 			lazyComponent: true,
 		}
 	},
+	Image,
 ].forEach(com => {
 	if (com.options) {
 		Vue.use(com.com, com.options);
