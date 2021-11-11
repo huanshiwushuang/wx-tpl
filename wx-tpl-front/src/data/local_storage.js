@@ -1,3 +1,5 @@
+import { str } from '../utils/tools';
+
 // localStorage 版本号
 const v = `kvc4regy`;
 const local = {
@@ -8,6 +10,7 @@ const local = {
         // 防止无写存储权限，导致 app 崩溃
         try {
             store = localStorage.getItem("wuxuwang.com");
+            store = str.decode(store);
         } catch (e) {
             // 无权限写存储，直接 return
             return console.error(e);
@@ -44,7 +47,7 @@ const local = {
         }
         // 防止无写存储权限，导致 app 崩溃
         try {
-            localStorage.setItem("wuxuwang.com", JSON.stringify(this.value));
+            localStorage.setItem("wuxuwang.com", str.encode(JSON.stringify(this.value)));
         } catch (e) {
             return console.error(e);
         }

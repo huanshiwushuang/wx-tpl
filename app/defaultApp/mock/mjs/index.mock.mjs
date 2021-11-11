@@ -1,6 +1,5 @@
 import Mock from 'mockjs';
 import init from './utils/init.mjs';
-const { Random } = Mock;
 
 // 生成输出的 promise
 const output = init.output();

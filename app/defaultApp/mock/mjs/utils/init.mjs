@@ -37,7 +37,11 @@ async function exec_tasks(tasks) {
     // 最终输出的是多任务执行后的数组
     const filter = tasks.filter(item => {
         // 过滤 url
-        return new RegExp(item.rurl, 'i').test(params.pathname);
+        if (item.rurl instanceof RegExp) {
+            return new RegExp(item.rurl, 'i').test(params.pathname);
+        } else {
+            return item.rurl.trim() === params.pathname.trim();
+        }
     });
     let result = await Promise.all(
         filter.map(item => {

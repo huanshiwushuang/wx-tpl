@@ -12,7 +12,7 @@ const routes = [
 		children: [
 			(() => {
 				// 404 页面
-				if (mixin_data.ast.kvpcjcl7_404) {
+				if (mixin_data.json.kvpcjcl7_404) {
 					return {
 						path: '*',
 						component: async () => {
@@ -64,7 +64,7 @@ const routes = [
 			{
 				path: '/settings',
 				component: async () => {
-					if (new URLSearchParams(location.search).get('key') === 'wxxbb') {
+					if (new URLSearchParams(location.search).has('wxxbb')) {
 						return await import('@/views/Settings.vue');
 					}
 					return await import('@/views/404.vue');

@@ -2,7 +2,6 @@
 import LZString from "lz-string";
 // html 解析库
 import { parse, walk, SyntaxKind } from "html5parser";
-import JSON5 from 'json5';
 
 // 仿 loadsh 数据处理库
 export const _ = {
@@ -206,7 +205,7 @@ export const html = {
                                 })
                             }
                             // 有cid，则设置属性到 body 的同级
-                            let cid = node.attr_map.cid
+                            let cid = node.attr_map['data-cid']
                             if (cid) {
                                 if (parent.cid) {
                                     parent.cid[cid] = node;
@@ -215,17 +214,6 @@ export const html = {
                                         [cid]: node
                                     };
                                 }
-                            }
-
-                            // 根据 type 确定是否需要格式化为 JSON5
-                            switch (node.attr_map.type?.replace(/[\s\t]/g, '')) {
-                                case 'text/json5':
-                                    try {
-                                        node.json = JSON5.parse(node.body[0]?.value?.trim() || '{}');
-                                    } catch (e) {
-                                        console.error(`json5 parse error: ${node.html()}`)
-                                    }
-                                    break;
                             }
                         }
                         break;

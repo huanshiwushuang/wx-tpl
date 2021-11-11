@@ -97,10 +97,9 @@ function hook() {
 					document.querySelector('#D').setAttribute('content', newAst.D.attr_map.content)
 
 					// 更新-AST
-					mixin_data.data = JSON.parse(newAst.data.str);
+					mixin_data.json = JSON.parse(newAst.data.str);
 
 					newAst = null;
-
 				}
 				break;
 		}

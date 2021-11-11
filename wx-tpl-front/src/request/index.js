@@ -28,14 +28,10 @@ axiosInstance.interceptors.request.use(async (request_config) => {
 
 // 响应拦截
 axiosInstance.interceptors.response.use(async (response) => {
-    /* 
-        检查数据
-    */
+    // 检查数据
     if (config.is_check) {
         let check_data;
-        /* 
-        html 需要提取数据
-        */
+        // html 需要提取数据
         if (/html/i.test(response.headers['content-type'])) {
             response.data = tools_html.to_ast(response.data);
             // 需要被校验的 JSON 数据
@@ -44,12 +40,14 @@ axiosInstance.interceptors.response.use(async (response) => {
             // 需要被校验的 JSON 数据
             check_data = response.data;
         }
-
-        let { default: console_check } = await import('../console/check');
-        console_check({
-            url: response.config.url,
-            check_data,
-        });
+        // 如果有 check_data
+        if (check_data) {
+            let { default: console_check } = await import('../console/check');
+            console_check({
+                url: response.config.url,
+                check_data,
+            });
+        }
     }
 
     return response.data;

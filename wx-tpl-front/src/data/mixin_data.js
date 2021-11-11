@@ -19,7 +19,7 @@ const data = JSON.parse(document.querySelector('#data').innerHTML);
 })()
 
 export default {
-    data,
+    json: data,
     local,
     // 异步加载的组件
     coms: [],

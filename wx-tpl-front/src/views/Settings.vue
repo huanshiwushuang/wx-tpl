@@ -75,6 +75,12 @@
                         <input type="checkbox" v-model="is_attach_com" />
                     </td>
                 </tr>
+                <tr>
+                    <td>是否附加 app 到 window 上</td>
+                    <td>
+                        <input type="checkbox" v-model="is_attach_app" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

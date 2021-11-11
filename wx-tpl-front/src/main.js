@@ -94,17 +94,11 @@ const app = new Vue({
 
 export default app;
 
-switch (process.env.NODE_ENV) {
-	// 开发环境
-	case 'development':
-		window.app = app;
-		break;
-	// 生产环境
-	case 'production':
-		window.krk7jl7x = app;
-		break;
+// 是否附加 app 到 window
+if (config.is_attach_app) {
+	window.app = app;
 }
-
+// 是否移除 DOM
 if (config.is_remove_dom) {
 	var n = document.querySelectorAll(".data,.node_remove");
 	for (var i = 0; i < n.length; i++) {

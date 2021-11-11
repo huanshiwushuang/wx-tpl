@@ -43,8 +43,14 @@ const res = {
         }
         return false;
     })(),
+    // 是否附加 app 到 window 上
+    is_attach_app: (() => {
+        if ([true, false].includes(local.value.is_attach_app)) {
+            return local.value.is_attach_app;
+        }
+        return false;
+    })(),
 }
-
 // 保存配置
 local.set(res);
 
@@ -52,7 +58,9 @@ export default res;
 
 if (res.is_print_config) {
     const settings_url = new URL(location.href);
-    settings_url.searchParams.set('settings', 1);
+
+    settings_url.pathname = '/settings';
+    settings_url.searchParams.set('wxxbb', '1');
 
     console.group(`配置信息---${settings_url.toString()}`);
 
