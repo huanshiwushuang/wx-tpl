@@ -1,0 +1,24 @@
+.c_theme {
+    color: @c_theme;
+}
+
+.icon {
+    font-size: inherit;
+}
+
+* {
+    max-width: ~'min(100vmin, 100%)';
+
+    &:not([class*=van-]) {
+        .fs30;
+    }
+}
+
+// 进度条颜色
+#nprogress {
+    .bar {
+        color     : #ffd066;
+        background: currentColor;
+        box-shadow: 0 0 1.33333vw currentColor, 0 0 0.66667vw currentColor;
+    }
+}

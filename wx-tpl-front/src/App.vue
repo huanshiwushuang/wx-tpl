@@ -21,7 +21,7 @@
         </div>
 
         <!-- 临时 div，用于生成并获取 class，应用到 body 上 -->
-        <div id="ksh34m2s" :class="bodyClass" style="display: none;"></div>
+        <div id="ksh34m2s" :class="bodyClass" style="display: none"></div>
     </div>
 </template>
 
@@ -41,5 +41,5 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 </style>

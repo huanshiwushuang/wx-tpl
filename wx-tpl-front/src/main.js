@@ -1,5 +1,5 @@
 // base style
-import '@/assets/less/base.less';
+import '@/assets/less/index.less';
 // flexible
 import 'amfe-flexible'
 // config
@@ -33,6 +33,7 @@ import {
 	Tab, Tabs,
 	Lazyload,
 	Image,
+	Loading,
 } from 'vant';
 
 // 注册组件
@@ -51,6 +52,7 @@ import {
 		}
 	},
 	Image,
+	Loading,
 ].forEach(com => {
 	if (com.options) {
 		Vue.use(com.com, com.options);
@@ -94,9 +96,7 @@ Vue.mixin({
 	}
 })
 // 附加数据到原型
-Object.assign(Vue.prototype, {
-	...proto_data
-});
+Object.assign(Vue.prototype, proto_data);
 
 const app = new Vue({
 	router,
