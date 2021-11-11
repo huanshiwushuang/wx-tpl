@@ -4,7 +4,7 @@
             <!-- 头部 -->
             <div class="df jcsb aic">
                 <div class="df aic">
-                    <img :src="head" class="kvl0avoo" />
+                    <img v-lazy="head" class="kvl0avoo" />
                     <span class="ml20">
                         {{ name }}
                     </span>
@@ -22,7 +22,7 @@
             </div>
             <!-- 配图 和 内容 -->
             <div class="mt20 tc">
-                <img :src="pic" class="kvl0hpfv" />
+                <img v-lazy="pic" class="kvl0hpfv" />
             </div>
             <div class="kvl1vv1u">
                 <div class="kvl1xrv7">

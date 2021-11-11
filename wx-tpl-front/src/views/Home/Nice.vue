@@ -1,14 +1,13 @@
 <template>
     <div class="kvkh7nuy_com">
-        Nice
         <!-- 句子列表 -->
-        <!-- <jzm-card-default
-            v-for="(item, index) in cards"
+        <jzm-card-default
+            v-for="(item, index) in json.list"
             :key="index"
             v-bind="item"
             class="kvl2074f"
         >
-        </jzm-card-default> -->
+        </jzm-card-default>
     </div>
 </template>
 

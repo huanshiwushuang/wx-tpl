@@ -31,6 +31,7 @@ import {
 	Icon,
 	PullRefresh,
 	Tab, Tabs,
+	Lazyload,
 } from 'vant';
 
 // 注册组件
@@ -42,8 +43,18 @@ import {
 	Icon,
 	PullRefresh,
 	Tab, Tabs,
+	{
+		com: Lazyload,
+		options: {
+			lazyComponent: true,
+		}
+	},
 ].forEach(com => {
-	Vue.use(com);
+	if (com.options) {
+		Vue.use(com.com, com.options);
+	} else {
+		Vue.use(com);
+	}
 })
 
 // 设置组件
