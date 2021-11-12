@@ -3,7 +3,7 @@
         id="app"
         :class="[
             {
-                is_ua_mobile,
+                not_ua_mobile: !is_ua_mobile,
             },
         ]"
     >
@@ -50,9 +50,9 @@ export default {
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
 #app {
-    &.is_ua_mobile {
-        padding: 10px;
-        background: url("~@/assets/img/kvvzwjfg.png") center center;
+    &.not_ua_mobile {
+        border: 30px solid transparent;
+        border-image: ~'url("~@/assets/img/kvvzwjfg.png") 30/30 stretch';
     }
 }
 </style>

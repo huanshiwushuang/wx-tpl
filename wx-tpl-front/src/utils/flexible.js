@@ -1,5 +1,6 @@
 import { env } from './tools';
 
+// 整体布局控制
 (function flexible(window, document) {
 	var docEl = document.documentElement
 	var dpr = window.devicePixelRatio || 1
@@ -18,8 +19,12 @@ import { env } from './tools';
 	function setRemUnit() {
 		// 默认
 		let idealWidth = Math.min(docEl.clientWidth, docEl.clientHeight);
-		// 适配 PC
-		idealWidth = env.is_ua_mobile() ? idealWidth : Math.min(idealWidth, 550);
+		if (!env.is_ua_mobile()) {
+			// 适配 PC 比例按照 iphone6/7/8 plus 计算
+			idealWidth = Math.min(idealWidth, idealWidth / (736 / 414));
+			// 限制最小宽度
+			idealWidth = Math.max(idealWidth, 414);
+		}
 
 		let rem = idealWidth / 10;
 
@@ -48,4 +53,6 @@ import { env } from './tools';
 		}
 		docEl.removeChild(fakeBody)
 	}
-}(window, document))
+}(window, document));
+
+// tabbar 布局控制

@@ -191,8 +191,6 @@ ul {
   animation: van-slide-right-leave 0.3s both ease-in;
 }
 
-<<<<<<< HEAD
-=======
 .van-loading {
   position: relative;
   color: #c8c9cc;
@@ -320,7 +318,6 @@ ul {
   opacity: 0.3125;
 }
 
->>>>>>> refs/remotes/origin/out-json
 .van-info {
   position: absolute;
   top: 0;
@@ -1274,136 +1271,6 @@ ul {
   overflow: visible;
 }
 
-<<<<<<< HEAD
-.van-loading {
-  position: relative;
-  color: #c8c9cc;
-  font-size: 0;
-  vertical-align: middle;
-}
-.van-loading__spinner {
-  position: relative;
-  display: inline-block;
-  width: 0.8rem;
-  max-width: 100%;
-  height: 0.8rem;
-  max-height: 100%;
-  vertical-align: middle;
-  animation: van-rotate 0.8s linear infinite;
-}
-.van-loading__spinner--spinner {
-  animation-timing-function: steps(12);
-}
-.van-loading__spinner--spinner i {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-.van-loading__spinner--spinner i::before {
-  display: block;
-  width: 0.05333rem;
-  height: 25%;
-  margin: 0 auto;
-  background-color: currentColor;
-  border-radius: 40%;
-  content: ' ';
-}
-.van-loading__spinner--circular {
-  animation-duration: 2s;
-}
-.van-loading__circular {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.van-loading__circular circle {
-  animation: van-circular 1.5s ease-in-out infinite;
-  stroke: currentColor;
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-.van-loading__text {
-  display: inline-block;
-  margin-left: 0.21333rem;
-  color: #969799;
-  font-size: 0.37333rem;
-  vertical-align: middle;
-}
-.van-loading--vertical {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.van-loading--vertical .van-loading__text {
-  margin: 0.21333rem 0 0;
-}
-@keyframes van-circular {
-  0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -40;
-  }
-  100% {
-    stroke-dasharray: 90, 150;
-    stroke-dashoffset: -120;
-  }
-}
-.van-loading__spinner--spinner i:nth-of-type(1) {
-  transform: rotate(30deg);
-  opacity: 1;
-}
-.van-loading__spinner--spinner i:nth-of-type(2) {
-  transform: rotate(60deg);
-  opacity: 0.9375;
-}
-.van-loading__spinner--spinner i:nth-of-type(3) {
-  transform: rotate(90deg);
-  opacity: 0.875;
-}
-.van-loading__spinner--spinner i:nth-of-type(4) {
-  transform: rotate(120deg);
-  opacity: 0.8125;
-}
-.van-loading__spinner--spinner i:nth-of-type(5) {
-  transform: rotate(150deg);
-  opacity: 0.75;
-}
-.van-loading__spinner--spinner i:nth-of-type(6) {
-  transform: rotate(180deg);
-  opacity: 0.6875;
-}
-.van-loading__spinner--spinner i:nth-of-type(7) {
-  transform: rotate(210deg);
-  opacity: 0.625;
-}
-.van-loading__spinner--spinner i:nth-of-type(8) {
-  transform: rotate(240deg);
-  opacity: 0.5625;
-}
-.van-loading__spinner--spinner i:nth-of-type(9) {
-  transform: rotate(270deg);
-  opacity: 0.5;
-}
-.van-loading__spinner--spinner i:nth-of-type(10) {
-  transform: rotate(300deg);
-  opacity: 0.4375;
-}
-.van-loading__spinner--spinner i:nth-of-type(11) {
-  transform: rotate(330deg);
-  opacity: 0.375;
-}
-.van-loading__spinner--spinner i:nth-of-type(12) {
-  transform: rotate(360deg);
-  opacity: 0.3125;
-}
-
-=======
->>>>>>> refs/remotes/origin/out-json
 .van-pull-refresh {
   overflow: hidden;
   user-select: none;
