@@ -1,13 +1,11 @@
 <template>
-    <div>
+    <div id="base">
         <!-- 被拦截了, 比如 404 || 要求登录 || 设置页面 -->
         <router-view v-if="$route.meta.intercept"></router-view>
 
         <div>
             <router-view name="header"></router-view>
-            <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-                <router-view></router-view>
-            </van-pull-refresh>
+            <router-view></router-view>
             <router-view name="footer"></router-view>
         </div>
     </div>
@@ -17,21 +15,12 @@
 export default {
     name: "Base",
     data() {
-        return {
-            isLoading: false,
-        };
+        return {};
     },
-    methods: {
-        onRefresh() {
-            console.log("下拉刷新");
-            setTimeout(() => {
-                this.isLoading = false;
-            }, 1000);
-        },
-    },
+    methods: {},
 };
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 </style>

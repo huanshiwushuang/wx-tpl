@@ -4,30 +4,37 @@
             <van-tabbar-item icon="wap-home-o" to="/" :replace="true">
                 首页
             </van-tabbar-item>
+
             <van-tabbar-item
                 icon-prefix="icon"
                 icon="biji"
                 to="/daysign"
                 :replace="true"
-                >日签</van-tabbar-item
             >
+                日签
+            </van-tabbar-item>
+
             <div class="kvl4qag2 tc">
                 <van-icon class-prefix="icon" name="yongyan" color="#fff" />
             </div>
+
             <van-tabbar-item
                 icon-prefix="icon"
                 icon="fenlei"
                 to="/type"
                 :replace="true"
-                >分类</van-tabbar-item
             >
+                分类
+            </van-tabbar-item>
+
             <van-tabbar-item
                 icon-prefix="icon"
                 icon="wode"
                 to="/my"
                 :replace="true"
-                >我的</van-tabbar-item
             >
+                我的
+            </van-tabbar-item>
         </van-tabbar>
     </div>
 </template>
@@ -43,7 +50,7 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 
 .kvl4qag2 {
     width: 80px;

@@ -17,15 +17,14 @@ export default {
     data() {
         return {};
     },
-    computed: {
-    },
+    computed: {},
     methods: {},
     created() {},
 };
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 
 .kvl2074f {
     border-bottom: 20px solid #f5f5f5;

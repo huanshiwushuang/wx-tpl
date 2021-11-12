@@ -17,5 +17,5 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 </style>

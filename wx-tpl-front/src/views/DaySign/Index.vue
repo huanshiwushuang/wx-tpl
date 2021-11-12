@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 .kvmd2n2j  {
     font-size: 30px;
 }

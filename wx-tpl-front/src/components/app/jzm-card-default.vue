@@ -4,18 +4,25 @@
             <!-- 头部 -->
             <div class="df jcsb aic">
                 <div class="df aic">
-                    <van-image
-                        :src="head"
-                        fit="scale-down"
-                        lazy-load
-                        round
-                        class="kvl0avoo"
-                    />
+                    <!-- 头像 -->
+                    <van-image :src="head" lazy-load round class="kvl0avoo">
+                        <template v-slot:loading>
+                            <div class="kvurdces_loading fs14">
+                                <van-loading :color="c_theme" />
+                            </div>
+                        </template>
+                        <template v-slot:error>
+                            <div class="kvurf9qz_error">
+                                <van-icon name="photo" />
+                            </div>
+                        </template>
+                    </van-image>
                     <span class="ml20">
                         {{ name }}
                     </span>
                 </div>
 
+                <!-- 关注 -->
                 <van-button
                     plain
                     round
@@ -28,13 +35,20 @@
             </div>
             <!-- 配图 和 内容 -->
             <div class="mt20 tc">
-                <van-image
-                    :src="pic"
-                    fit="scale-down"
-                    lazy-load
-                    class="kvl0hpfv"
-                />
+                <van-image :src="pic" lazy-load class="kvl0hpfv">
+                    <template v-slot:loading>
+                        <div class="kvurdces_loading">
+                            <van-loading :color="c_theme" />
+                        </div>
+                    </template>
+                    <template v-slot:error>
+                        <div class="kvurf9qz_error">
+                            <van-icon name="photo" />
+                        </div>
+                    </template>
+                </van-image>
             </div>
+            <!-- 作者 -->
             <div class="kvl1vv1u">
                 <div class="kvl1xrv7">
                     {{ content }}
@@ -57,7 +71,7 @@
             </span>
             <!-- 收藏 -->
             <van-icon
-                class="kvl1t4cc"
+                class="kvl1t4cc kvuqtyqk_id"
                 class-prefix="icon"
                 name="wenjianjia"
                 color="#9c9c9c"
@@ -65,7 +79,7 @@
             />
             <!-- 分享 -->
             <van-icon
-                class="kvl1t4cc"
+                class="kvl1t4cc kvuqw3j4_id"
                 class-prefix="icon"
                 name="fenxiang"
                 color="#9c9c9c"
@@ -111,22 +125,28 @@ export default {
             required: true,
         },
     },
+    mounted() {
+        setTimeout(() => {
+            // window.document.write(`${devicePixelRatio}<br>`);
+        }, 1000);
+    },
 };
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
 
 .kvki5240 {
     background: #fff;
 }
 .kvl0avoo {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
 }
 .kvl0hpfv {
-    max-width: ~"min(690px, 100%)";
-    max-height: 380px;
+    .oh;
+    width: 690px;
+    height: 380px;
     border-radius: 6px;
 }
 .kvl1xrv7 {
@@ -153,5 +173,16 @@ export default {
 .kvl0dnb6 {
     min-width: 120px;
     height: 44px;
+}
+.kvuqtyqk_id,
+.kvuqw3j4_id {
+    .fs32;
+}
+.kvurdces_loading,
+.kvurf9qz_error {
+    .df;
+    .aic;
+    .jcc;
+    .h;
 }
 </style>

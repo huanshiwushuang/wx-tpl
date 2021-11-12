@@ -321,3 +321,19 @@ export const json = {
             .replace(/'/g, '"').replace(/[\s\r\n]*([\][{},"])[\s\r\n]*/g, '$1').replace(/,([}\]])/g, '$1').replace(/([{,])([^:{"]+?):/g, '$1"$2":');
     }
 }
+
+// 环境信息检测
+export const env = {
+    is_ua_mobile() {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            return true;
+        }
+        return false;
+    },
+    is_mobile() {
+        if (/Android|Linux|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)) {
+            return true;
+        }
+        return false;
+    }
+}

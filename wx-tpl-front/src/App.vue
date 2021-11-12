@@ -1,5 +1,12 @@
 <template>
-    <div id="app">
+    <div
+        id="app"
+        :class="[
+            {
+                is_ua_mobile,
+            },
+        ]"
+    >
         <router-view> </router-view>
         <!-- 异步组件，比如弹窗 -->
         <div>
@@ -21,7 +28,7 @@
         </div>
 
         <!-- 临时 div，用于生成并获取 class，应用到 body 上 -->
-        <div id="ksh34m2s" :class="bodyClass" style="display: none;"></div>
+        <div id="ksh34m2s" :class="bodyClass" style="display: none"></div>
     </div>
 </template>
 
@@ -41,5 +48,11 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/base.less";
+@import (reference) "@/assets/less/index.less";
+#app {
+    &.is_ua_mobile {
+        padding: 10px;
+        background: url("~@/assets/img/kvvzwjfg.png") center center;
+    }
+}
 </style>
