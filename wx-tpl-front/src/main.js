@@ -1,7 +1,9 @@
-// base style
+// style
 import '@/assets/less/index.less';
 // flexible
-import 'amfe-flexible'
+import '@/utils/flexible'
+// vant pc 兼容
+import '@vant/touch-emulator';
 // config
 import config from './config';
 // mixin data

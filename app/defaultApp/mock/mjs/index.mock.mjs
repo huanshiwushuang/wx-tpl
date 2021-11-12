@@ -13,7 +13,7 @@ const tasks = [
                 template: {
                     'list|10-20': [
                         {
-                            'head': `@image(50x50)`,
+                            'head': `@image(80x80)`,
                             'name|1': [
                                 '@name',
                                 '@cname',

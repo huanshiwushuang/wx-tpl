@@ -10,7 +10,7 @@ const local = {
         // 防止无写存储权限，导致 app 崩溃
         try {
             store = localStorage.getItem("wuxuwang.com");
-            store = str.decode(store);
+
         } catch (e) {
             // 无权限写存储，直接 return
             return console.error(e);
@@ -18,7 +18,9 @@ const local = {
 
         // json 解析错误，则重置
         try {
-            obj = JSON.parse(store || "{}");
+            store = store ? str.decode(store) : '{}';
+
+            obj = JSON.parse(store);
 
             // 版本号错误，则重置
             if (!obj.v || parseInt(obj.v, 36) < parseInt(v, 36)) {

@@ -6,12 +6,17 @@
     font-size: inherit;
 }
 
+// 设置所有元素最大宽度不超过设计图的宽度 或者 父元素的宽度
 * {
-    max-width: ~'min(100vmin, 100%)';
+    max-width: ~'min(750px, 100%)';
+}
 
-    &:not([class*=van-]) {
-        .fs30;
-    }
+html {
+    .ma;
+}
+
+#base {
+    .fs30;
 }
 
 // 进度条颜色

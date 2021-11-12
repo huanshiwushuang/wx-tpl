@@ -3,7 +3,7 @@
         "template": {
             "list|10-20": [
                 {
-                    "head": "@image(50x50)",
+                    "head": "@image(80x80)",
                     "name|1": [
                         "@name",
                         "@cname"
@@ -22,175 +22,157 @@
         "data": {
             "list": [
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Elizabeth Thompson",
-                    "guanzhu": 286,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Thomas Harris",
+                    "guanzhu": 313,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "决第必交争平节无才状时标格积相。得他布书价从心号它相片毛。先系直象周布素见连越元马完必例解。",
-                    "author": "David Brown",
+                    "content": "第天年极候电动三具等素去有物强看王我。通局反质段自发装军积党立已构往。属话当少品往度际利农先表口复你主两。",
+                    "author": "余静",
+                    "love": 317
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Larry Hernandez",
+                    "guanzhu": 162,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "近派之行表长万色事处能过影。我回快连流线党心高百影提回价流。率高界最认局小道员总本表圆子达每马。",
+                    "author": "姚磊",
+                    "love": 336
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Jose Lopez",
+                    "guanzhu": 315,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "层说音代深中书它取水整米把义理查。无生求太界置次战论张电们开。数那取油能天同派准程术热用动阶治。要众和济整度器而府何中则展。",
+                    "author": "罗秀兰",
                     "love": 174
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Steven Young",
-                    "guanzhu": 355,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "曹洋",
+                    "guanzhu": 220,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "号八按争入路选规收细听表。交部眼说重日三结根是和千放任王。",
-                    "author": "Elizabeth Williams",
-                    "love": 147
+                    "content": "转不始每来资山处门府二准他总确化是满。向形着起住中白争后月决维位。",
+                    "author": "George Lee",
+                    "love": 352
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "丁丽",
-                    "guanzhu": 290,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Mark Garcia",
+                    "guanzhu": 208,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "毛些真处列无果知事代么转规划红土。活值内越极命但路至民月火工化满世。",
-                    "author": "傅静",
-                    "love": 187
+                    "content": "体常力门三育方段好委外管工育身般活。动温些变易求社几龙发资率重合该。经严阶状由劳务花速动温规少决区六。",
+                    "author": "陈勇",
+                    "love": 176
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Laura Martin",
-                    "guanzhu": 135,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Scott Robinson",
+                    "guanzhu": 391,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "积社少车际达华将断研才声结运此权。心好在论法传重交器现响真非。有代石根切术高作标他万六。",
-                    "author": "Brian Young",
-                    "love": 388
+                    "content": "太放热面品和划验眼数第存办支容。那委感千研派看中们指何组美月做。易身至劳而社办低风结选当劳听计。",
+                    "author": "Mark Lewis",
+                    "love": 136
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "汪芳",
-                    "guanzhu": 385,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "余超",
+                    "guanzhu": 246,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "位图据线意题话志马史音马该入拉口权。常战维话如团建究断省军开。起开各程设率型是快命分清。需调件把划制克题深知会界。",
-                    "author": "唐明",
-                    "love": 321
+                    "content": "深理实越油度压走知规听义联其铁王须。克织头团以变备正引系委叫布。提风九常厂周写科社治适入指委保。",
+                    "author": "毛强",
+                    "love": 103
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "朱秀英",
-                    "guanzhu": 338,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Daniel Walker",
+                    "guanzhu": 203,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "党安常党按空代议名你关打号温影验海名。农全化不接路转期月治红对拉龙经布。",
-                    "author": "夏磊",
-                    "love": 312
+                    "content": "共但红设土两省布本取研状切。她研般门地年影要直但年马完取近。风信么离些影二先土采适利两目。研而严规导出外派说置级经西总成。",
+                    "author": "Brenda Thomas",
+                    "love": 277
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Dorothy Thompson",
-                    "guanzhu": 238,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "易丽",
+                    "guanzhu": 360,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "系问省比至比织众商派青得战公过都始什。查党身界证那世当时大改务容现。",
-                    "author": "贾涛",
-                    "love": 292
+                    "content": "习根照却需无值组那流边农。加龙委发样省阶适厂适来历派由将。",
+                    "author": "Mark Smith",
+                    "love": 379
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "朱涛",
-                    "guanzhu": 351,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Helen Lee",
+                    "guanzhu": 362,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "律业没备步象这拉连济结几造得该。争统按系加回取类加质斯信织千。一满酸活立团工大各常从时研红该者实。",
-                    "author": "姚勇",
-                    "love": 221
+                    "content": "满式元农用数十车济我族小利。却打约织龙育生更车水决林火。",
+                    "author": "Eric Harris",
+                    "love": 123
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Kenneth Lewis",
-                    "guanzhu": 211,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Steven Garcia",
+                    "guanzhu": 147,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "运说制只与比划很维儿话技集不。已术温并等极强路了马况并整。们号务持流活目有都国己解支资非包北。",
-                    "author": "Jennifer Miller",
-                    "love": 238
+                    "content": "再向用受飞研形色发八话外才更二以。每消美领条后法用治把志矿除持。军天将清养调头这派千非取压。",
+                    "author": "赖刚",
+                    "love": 361
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Eric Smith",
-                    "guanzhu": 212,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "白洋",
+                    "guanzhu": 387,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "之先机权处重代状美光片命的干型增。感每规步美格象真感划打界科素期特金。马际性结维红革这很放道也认。",
-                    "author": "冯超",
-                    "love": 206
+                    "content": "别起统值这周起形目来件满准写示没是。后片究好两理济计响且达决海然心干。斯求现种问府速已始别长照标比看。",
+                    "author": "Kimberly Garcia",
+                    "love": 174
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Carol Johnson",
-                    "guanzhu": 283,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "乔超",
+                    "guanzhu": 340,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "先细器很体属产品清间厂且选因。新种非收更对同党低拉许出流之。",
-                    "author": "冯平",
-                    "love": 194
+                    "content": "万员京始等者每次团根部完它。资原料就科也她空军史五则支明主研用气。其林争加见始或界具论布克表严团。",
+                    "author": "Margaret Moore",
+                    "love": 376
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "邵明",
-                    "guanzhu": 212,
-                    "pic": "http://dummyimage.com/690x380",
-                    "content": "情格万然教海段据话做制话也东被。包照空济术列先手到命场油五还并外前。",
-                    "author": "Ruth Rodriguez",
-                    "love": 275
-                },
-                {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Donald Gonzalez",
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Christopher Harris",
                     "guanzhu": 279,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "为油究叫间名识果作根便验。变消上样统自没几派他群派量广题从。很始军联看列参究才调然会团市民等族列。",
-                    "author": "Jose Lopez",
-                    "love": 299
+                    "content": "员南同前都目但各们什争产团。根度安价成月连己需议才关出毛。派在运土白手权度北准要报制式万强流。",
+                    "author": "George Taylor",
+                    "love": 128
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Donald Walker",
-                    "guanzhu": 261,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "胡勇",
+                    "guanzhu": 252,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "过往至或老那解后断华厂之难动化。道场元存今根眼七部厂重别角会时油即。题管合层后导列干记格新给声必市种引。",
-                    "author": "江明",
-                    "love": 302
+                    "content": "西题观段前高土思领无变石步子。提又细去种表数极矿好更权风通。心么类以权京却类科数数展音事集如争很。",
+                    "author": "杨平",
+                    "love": 133
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Ruth Lewis",
-                    "guanzhu": 296,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "程秀兰",
+                    "guanzhu": 340,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "石保般养难元位难示族许金。何法眼设分长公者越导带格把。很此区者安参科么造动整平带示。",
-                    "author": "Ronald Smith",
-                    "love": 301
+                    "content": "天群其存再不或重转增样增处管。日南始转命最须说会达再层非放保。参本习音心运统一得作身所资是法报。流市每处我市油它明好影值都用才则。",
+                    "author": "龙静",
+                    "love": 203
                 },
                 {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "Elizabeth Clark",
-                    "guanzhu": 302,
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Jennifer Wilson",
+                    "guanzhu": 213,
                     "pic": "http://dummyimage.com/690x380",
-                    "content": "加龙级划象广住提拉科很明这。些是住第体消们才质么意养统王眼。马复情记广提说是技总变构办整。话则文志队专提北养程年十反住心。",
-                    "author": "Shirley Lewis",
-                    "love": 186
-                },
-                {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "彭平",
-                    "guanzhu": 154,
-                    "pic": "http://dummyimage.com/690x380",
-                    "content": "交劳达提许构象路红从分边指候运都步此。社者六已几边这立着看民住面资说即。农只直新采权整政已了性队速华活难养准。",
-                    "author": "郑勇",
-                    "love": 357
-                },
-                {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "邱秀兰",
-                    "guanzhu": 151,
-                    "pic": "http://dummyimage.com/690x380",
-                    "content": "水较斗权世及指百较想何率压不确你照。调经种事拉准维马真自式照入器。社小及类需中度变经化增个对快省色很与。",
-                    "author": "孟勇",
-                    "love": 304
-                },
-                {
-                    "head": "http://dummyimage.com/50x50",
-                    "name": "唐刚",
-                    "guanzhu": 105,
-                    "pic": "http://dummyimage.com/690x380",
-                    "content": "布老单生且重南老几者组百层。金革基部长儿矿争办毛给土省西。际命世布品教关究况候还价治体正主北。",
-                    "author": "Thomas Miller",
-                    "love": 223
+                    "content": "系格第克速其正入结主那象定度今。金议政约亲适反速精采劳主素新外油。和么万线连安压价场道一何名示我。",
+                    "author": "龚伟",
+                    "love": 191
                 }
             ]
         },

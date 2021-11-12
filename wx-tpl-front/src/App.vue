@@ -1,5 +1,12 @@
 <template>
-    <div id="app">
+    <div
+        id="app"
+        :class="[
+            {
+                is_ua_mobile,
+            },
+        ]"
+    >
         <router-view> </router-view>
         <!-- 异步组件，比如弹窗 -->
         <div>
@@ -42,4 +49,10 @@ export default {
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
+#app {
+    &.is_ua_mobile {
+        padding: 10px;
+        background: url("~@/assets/img/kvvzwjfg.png") center center;
+    }
+}
 </style>
