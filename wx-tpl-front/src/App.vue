@@ -41,35 +41,55 @@ export default {
             });
         },
     },
+    created() {
+        this.bodyClass.push({
+            not_mobile_ua: !this.is_mobile_ua,
+        });
+    },
 };
 </script>
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
-#app {
-    // PC 端
+// PC 端
+body {
     &.not_mobile_ua {
-        // max-height: calc(100vh - 100px);
-        // margin-top: 50px;
+        * {
+            max-width: ~"min(calc(750px - 17px), 100%)";
+        }
+
+        #app {
+            .bsbb;
+            padding: ~"20PX 0 24PX 0";
+            min-height: 100vh;
+            background: #fff;
+            // reset tabbar
+            .kvjmvqxx_com {
+                .van-tabbar--fixed {
+                    bottom: ~"24PX";
+                }
+            }
+        }
     }
-}
-.kvxm27pw_com {
-    max-width: none;
-}
-.kvxj0euv_phone {
-    .pf;
-    .bsbb;
-    width: ~"calc(750px + 100PX)";
-    height: 100vh;
-    left: 50%;
-    top: 0;
-    z-index: 1;
-    transform: translate(-50%, 0);
-    background-size: 100% 100%;
-    max-width: none;
-    pointer-events: none;
-    border: ~"30PX solid transparent";
-    border-width: ~"53PX 50PX 54PX 50PX";
-    border-image: url("~@/assets/img/kvvzwjfg.png") 53 50 54 50;
+    .kvxm27pw_com {
+        max-width: none;
+    }
+    .kvxj0euv_phone {
+        .pf;
+        .bsbb;
+        width: ~"calc(750px)";
+        height: 100vh;
+        left: 50%;
+        top: 0;
+        z-index: 2;
+        transform: translate(-50%, 0);
+        max-width: none;
+        pointer-events: none;
+        border-style: solid;
+        border-width: ~"53PX 50PX 54PX 50PX";
+        border-image: ~'url("~@/assets/img/kvvzwjfg.png") 53 50 54 50/53PX 50PX 54PX 50PX/8PX 8PX 6PX 9PX';
+        box-shadow: 0 0 0 40px #fff;
+        border-radius: 90px;
+    }
 }
 </style>

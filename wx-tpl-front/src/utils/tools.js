@@ -325,15 +325,9 @@ export const json = {
 // 环境信息检测
 export const env = {
     is_mobile_ua() {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            return true;
-        }
-        return false;
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     },
     is_mobile() {
-        if (/Android|Linux|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform)) {
-            return true;
-        }
-        return false;
+        return /Android|Linux|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform);
     }
 }

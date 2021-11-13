@@ -1,4 +1,4 @@
-import { env } from './tools';
+import mixin_data from '../data/mixin_data';
 
 // 整体布局控制
 (function flexible(window, document) {
@@ -17,18 +17,22 @@ import { env } from './tools';
 	setBodyFontSize();
 
 	function setRemUnit() {
-		// 默认
-		let idealWidth = Math.min(docEl.clientWidth, docEl.clientHeight);
-		if (!env.is_mobile_ua()) {
-			// 适配 PC 
-			idealWidth = Math.min(idealWidth, idealWidth / (780 / 380));
-			// 限制最小宽度
-			idealWidth = Math.max(idealWidth, 414);
+		// 理想宽度
+		let ideal_width = Math.min(docEl.clientWidth, docEl.clientHeight);
+
+		// 适配 PC 
+		if (!mixin_data.is_mobile_ua) {
+			let client_height = docEl.clientHeight;
+			// 理想高宽之比
+			let ratio = 780 / 380;
+
+			// 理想宽高 map to 实际宽高
+			ideal_width = client_height / ratio;
 		}
 
-		let rem = idealWidth / 10;
+		let rem = ideal_width / 10;
 
-		docEl.style.fontSize = rem + 'px'
+		docEl.style.fontSize = `${rem}px`;
 	}
 
 	setRemUnit()

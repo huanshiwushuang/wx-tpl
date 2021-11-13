@@ -70,16 +70,13 @@ Vue.config.productionTip = false
 
 Vue.mixin({
 	data() {
-		return {
-			// fix-bug: 如果直接使用 mixinData 对象，则 在使用 vue-echarts 时，貌似 vue-echarts 会修改到 mixinData，导致所有组件被混入 echarts 的一些方法
-			...mixin_data
-		}
+		return mixin_data;
 	},
 	beforeCreate() {
 		if (config.is_attach_com) {
 			let name = this.$options.name;
 			if (name) {
-				if (this.$root[name]) {
+				if (this.$root[name] && Array.isArray(this.$root[name])) {
 					this.$root[name].push(this);
 				} else {
 					this.$root[name] = [this];
@@ -90,9 +87,11 @@ Vue.mixin({
 	beforeDestroy() {
 		let name = this.$options.name;
 		if (config.is_attach_com && name) {
-			let index = this.$root[name].indexOf(this);
-			if (index != -1) {
-				this.$root[name].splice(index, 1);
+			if (Array.isArray(this.$root[name])) {
+				let index = this.$root[name].indexOf(this);
+				if (index != -1) {
+					this.$root[name].splice(index, 1);
+				}
 			}
 		}
 	}

@@ -33,16 +33,4 @@ const res = {
     is_mobile_ua: env.is_mobile_ua(),
 };
 
-// 响应式更新
-const update = () => {
-    res.is_mobile_ua = env.is_mobile_ua();
-}
-window.addEventListener('resize', update)
-window.addEventListener('pageshow', function (e) {
-    if (e.persisted) {
-        update()
-    }
-})
-
-
 export default res;
