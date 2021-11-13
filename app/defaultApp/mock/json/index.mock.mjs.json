@@ -1,1 +1,185 @@
+<<<<<<< HEAD
 []
+=======
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "曹杰",
+                    "guanzhu": 381,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "强元间领也话则增果色飞路技少当照。专想流委太例众青论月有地者。了建社资节影条组必该但件等。",
+                    "author": "高桂英",
+                    "love": 349
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Susan Moore",
+                    "guanzhu": 278,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "起第各步治必些没规器你速。报解应中型等图年已象展院等过。上指合步造收应没回那面两五。",
+                    "author": "Donna Jones",
+                    "love": 391
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Patricia Walker",
+                    "guanzhu": 214,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "己制听维生约约同已团断图交。做思今型极界节二别团意并系转体路。华论连带家利进造需表门价传场。放实商放铁象本而细子听见门。",
+                    "author": "Brenda Robinson",
+                    "love": 352
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Deborah Harris",
+                    "guanzhu": 211,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "这了回问主过号从本等影油感他将。算农定得感示资象时阶必满上少。志可们人育面以将江只那复。",
+                    "author": "Jeffrey Perez",
+                    "love": 273
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Lisa Allen",
+                    "guanzhu": 296,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "指阶共研包些单后看华验活。着人转争不区边究书劳写林易权。",
+                    "author": "Brenda Clark",
+                    "love": 341
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "马杰",
+                    "guanzhu": 388,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "该求历县每现消议有周生自深至阶林。理参团油都家记象西门况真基年历子条严。",
+                    "author": "谭超",
+                    "love": 299
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "何洋",
+                    "guanzhu": 301,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "图于技九府过必但容越布根。天才线存表加是制因或布便提于水况相如。名力厂商将图见团十红京得国业省办出。",
+                    "author": "Ruth Rodriguez",
+                    "love": 346
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "萧伟",
+                    "guanzhu": 188,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "况教始少眼写图没边设机音。合史很流本改与量制五步战身众。象向写克以认上线严到作机相象。",
+                    "author": "苏敏",
+                    "love": 281
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Lisa Gonzalez",
+                    "guanzhu": 299,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "去清数六及理对产求气性回起条论向。管法根除准即见知张我此北声真。",
+                    "author": "韩洋",
+                    "love": 256
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Matthew Walker",
+                    "guanzhu": 117,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "到得造原始件科型状县示标科政总。子后都使影正任给往切改方日场从位万为。律己前压得被场社今备众例队。支交部即群展什写建引力接回。",
+                    "author": "Brenda Brown",
+                    "love": 292
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "文娜",
+                    "guanzhu": 240,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "布展且型适体加有采信种标件精给类电。器状花收联开示广着厂例酸及才同儿被。义结如少却入指究子院革带新得青深手。子速江力研部干五许值到际府。",
+                    "author": "薛勇",
+                    "love": 221
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "龚涛",
+                    "guanzhu": 194,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "全道知多用提志转市格般放支现金。展验空管你了这体然往内片毛到争类。期以做干县老整片步传况些深火保参理。",
+                    "author": "Ruth Perez",
+                    "love": 253
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Dorothy Moore",
+                    "guanzhu": 201,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "取全切确代说月段从如位组状工。证布话所四正须有劳从经十比带能。按她政书条究低周阶查油话标有外记消。",
+                    "author": "吴敏",
+                    "love": 129
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "于敏",
+                    "guanzhu": 338,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "时么头己联省加研油老置反写治布车。许断个山列此西加连此条数时求安效儿。小眼安期多原克必第照用率维。传国拉立县史满红下质活度四各马学通认。",
+                    "author": "何杰",
+                    "love": 335
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "程勇",
+                    "guanzhu": 370,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "亲青样油江热级几拉认决领装。住角运段教交办县较月参示构计安族存品。常传原质商着得些收传离起更前中。",
+                    "author": "潘娜",
+                    "love": 332
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Jessica Wilson",
+                    "guanzhu": 104,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "报六立党什步候年史代也社水收车反转。空造量住阶新成情比定条及向场级内。风基白通色造以国者先中治积能十工始素。",
+                    "author": "邵娜",
+                    "love": 316
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "杜军",
+                    "guanzhu": 400,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "来公层连步写层位使和世实风本通广。电给实置么话史时同我来科应心全想。外中工年置特王之民其立大来下。",
+                    "author": "Lisa Allen",
+                    "love": 292
+                }
+            ]
+        },
+        "rurl": "/"
+    }
+]
+>>>>>>> refs/remotes/origin/out-json
