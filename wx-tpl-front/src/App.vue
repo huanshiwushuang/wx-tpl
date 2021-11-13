@@ -1,15 +1,9 @@
 <template>
-    <div
-        id="app"
-        :class="[
-            {
-                not_ua_mobile: !is_ua_mobile,
-            },
-        ]"
-    >
-        <router-view> </router-view>
-        <!-- 异步组件，比如弹窗 -->
-        <div>
+    <div class="kvxm27pw_com">
+        <!-- 内容 -->
+        <div id="app" :class="[{ not_mobile_ua: !is_mobile_ua }]">
+            <router-view> </router-view>
+            <!-- 异步组件，比如弹窗 -->
             <component
                 v-for="(item, index) in coms"
                 :key="index"
@@ -26,6 +20,9 @@
                 ></component>
             </component>
         </div>
+
+        <!-- PC 端的手机外壳 -->
+        <div v-show="!is_mobile_ua" class="kvxj0euv_phone"></div>
 
         <!-- 临时 div，用于生成并获取 class，应用到 body 上 -->
         <div id="ksh34m2s" :class="bodyClass" style="display: none"></div>
@@ -50,9 +47,29 @@ export default {
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
 #app {
-    &.not_ua_mobile {
-        border: 30px solid transparent;
-        border-image: ~'url("~@/assets/img/kvvzwjfg.png") 30/30 stretch';
+    // PC 端
+    &.not_mobile_ua {
+        // max-height: calc(100vh - 100px);
+        // margin-top: 50px;
     }
+}
+.kvxm27pw_com {
+    max-width: none;
+}
+.kvxj0euv_phone {
+    .pf;
+    .bsbb;
+    width: ~"calc(750px + 100PX)";
+    height: 100vh;
+    left: 50%;
+    top: 0;
+    z-index: 1;
+    transform: translate(-50%, 0);
+    background-size: 100% 100%;
+    max-width: none;
+    pointer-events: none;
+    border: ~"30PX solid transparent";
+    border-width: ~"53PX 50PX 54PX 50PX";
+    border-image: url("~@/assets/img/kvvzwjfg.png") 53 50 54 50;
 }
 </style>

@@ -324,7 +324,7 @@ export const json = {
 
 // 环境信息检测
 export const env = {
-    is_ua_mobile() {
+    is_mobile_ua() {
         if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             return true;
         }

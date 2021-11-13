@@ -19,9 +19,9 @@ import { env } from './tools';
 	function setRemUnit() {
 		// 默认
 		let idealWidth = Math.min(docEl.clientWidth, docEl.clientHeight);
-		if (!env.is_ua_mobile()) {
-			// 适配 PC 比例按照 iphone6/7/8 plus 计算
-			idealWidth = Math.min(idealWidth, idealWidth / (736 / 414));
+		if (!env.is_mobile_ua()) {
+			// 适配 PC 
+			idealWidth = Math.min(idealWidth, idealWidth / (780 / 380));
 			// 限制最小宽度
 			idealWidth = Math.max(idealWidth, 414);
 		}

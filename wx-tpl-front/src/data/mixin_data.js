@@ -30,12 +30,12 @@ const res = {
     // c_theme: '255,121,4'
     c_theme: '#FF7904',
     // 是否移动端
-    is_ua_mobile: env.is_ua_mobile(),
+    is_mobile_ua: env.is_mobile_ua(),
 };
 
 // 响应式更新
 const update = () => {
-    res.is_ua_mobile = env.is_ua_mobile();
+    res.is_mobile_ua = env.is_mobile_ua();
 }
 window.addEventListener('resize', update)
 window.addEventListener('pageshow', function (e) {
