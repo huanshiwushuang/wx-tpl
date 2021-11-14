@@ -2,10 +2,10 @@
 
 namespace app\defaultApp\controller;
 
-use app\BaseController;
+use app\WxBaseController;
 use think\facade\View;
 
-class Base extends BaseController
+class Base extends WxBaseController
 {
 	public function initialize()
 	{

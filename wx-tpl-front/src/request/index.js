@@ -44,7 +44,7 @@ axiosInstance.interceptors.response.use(async (response) => {
         if (check_data) {
             let { default: console_check } = await import('../console/check');
             console_check({
-                url: response.config.url,
+                url: response.config.url.pathname,
                 check_data,
             });
         }
