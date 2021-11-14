@@ -70,6 +70,10 @@ const routes = [
 					return await import('@/views/404.vue');
 				},
 			},
+			{
+				path: '/test',
+				component: () => import('@/views/Settings'),
+			},
 			// 404
 			{
 				path: '*',

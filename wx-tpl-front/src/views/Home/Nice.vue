@@ -1,5 +1,8 @@
 <template>
     <div class="kvkh7nuy_com">
+        <wx-router-link href="/test">
+            测试
+        </wx-router-link>
         <!-- 句子列表 -->
         <jzm-card-default
             v-for="(item, index) in json.list"
