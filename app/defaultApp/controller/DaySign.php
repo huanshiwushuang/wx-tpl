@@ -11,8 +11,13 @@ class DaySign extends Base
 {
     public function index()
     {
-        return View::display('', [
-            'json_data' => View::__get('mock_data')
+        $json_data = [];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $json_data;
+        }
+        return  View::display('', [
+            'json_data' => $json_data,
         ]);
     }
 }

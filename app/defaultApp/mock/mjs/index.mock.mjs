@@ -1,9 +1,6 @@
 import Mock from 'mockjs';
 import init from './utils/init.mjs';
 
-// 生成输出的 promise
-const output = init.output();
-
 // 任务栈，url 匹配的才会执行
 const tasks = [
     {
@@ -38,9 +35,11 @@ const tasks = [
     },
 ];
 
-
 // 传入参数
 const start = function (params = {}) {
+    // 生成输出的 promise
+    const output = init.output();
+
     // 浏览器需要接收参数
     init.init_params(params);
     // 执行任务

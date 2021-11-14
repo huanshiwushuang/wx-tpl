@@ -10,7 +10,10 @@ class Index extends Base
     {
         $json_data = View::__get('mock_data');
 
-        return preg_match('/json/i', request()->header('accept')) ? $json_data : View::display('', [
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $json_data;
+        }
+        return  View::display('', [
             'json_data' => $json_data,
         ]);
     }
