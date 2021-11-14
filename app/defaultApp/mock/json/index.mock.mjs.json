@@ -1,1 +1,199 @@
-[]
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "朱刚",
+                    "guanzhu": 283,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "通下又理明去边近第型标压片。日自国铁认与外下织织照高取于具府着志。入三性数进被张温克车离和。展则存装酸压即亲石达解海运力王出。",
+                    "author": "Steven Brown",
+                    "love": 120
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "薛刚",
+                    "guanzhu": 194,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "林并志线一位养状干真按斯约战史西已。二反要何自马近精持军影该带。被位维做想正复斯相自圆叫统派政。",
+                    "author": "于军",
+                    "love": 271
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Michael Allen",
+                    "guanzhu": 189,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "们离代当许众条七十特提活生酸。越期调青七志单千任行加直设。高起军者展果也市月么万办没。知及世你见取者基值相完体命。",
+                    "author": "薛勇",
+                    "love": 247
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "锺娟",
+                    "guanzhu": 203,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "具人保省到文克是属来空区其。声消持理关开明历报列层五京便些地。教济过商道有且机直见会美空。当本必八存治结来式手领为。",
+                    "author": "李强",
+                    "love": 117
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Lisa Thomas",
+                    "guanzhu": 134,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "准我产般少斗志装或一明想查龙许许。据主称示两况万史织技我行计说。育性划边院至战单在亲些间交。领律直打铁族江方完论群身克名需规克。",
+                    "author": "萧杰",
+                    "love": 227
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Ruth Hernandez",
+                    "guanzhu": 344,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "常其其已步声领也正级收严拉力。大三酸志好此有我或实山相花且果起。写你学越率计强第以需增内能学。",
+                    "author": "Laura Taylor",
+                    "love": 366
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Sarah Hernandez",
+                    "guanzhu": 293,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "算研场当见才类我温动公会意才。本拉安话又极属际他义名利每层展消然。今火保处群入江常片步必西写。",
+                    "author": "曹静",
+                    "love": 167
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "于娟",
+                    "guanzhu": 278,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "这低会证领直产象常好展性。准结建那小该消把周劳常始风证。面现反类包平题器备道交空革战此广据容。",
+                    "author": "石娜",
+                    "love": 395
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "易秀英",
+                    "guanzhu": 147,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "且四东商其型众表白革代千太。却口战近论文型土强理备五。已要养那养思深加长可深平内太回有包。七也况达走声习示发些区见社。",
+                    "author": "孙平",
+                    "love": 218
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "杜洋",
+                    "guanzhu": 370,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "精好接公料采但音线西象交属特委六。向新八据面适种了响机类性小问证。",
+                    "author": "崔芳",
+                    "love": 306
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "曹娟",
+                    "guanzhu": 349,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "不海务每果住般整得运角切边。定起即见线产也片派比规历己。",
+                    "author": "胡平",
+                    "love": 220
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "程强",
+                    "guanzhu": 388,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "几向气元小表传社边叫一却约被。作千最火会自却我了问条十何。明从工得入式火造接是出以连。族厂相商元中内六劳程厂众更织都。",
+                    "author": "李刚",
+                    "love": 313
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "朱强",
+                    "guanzhu": 376,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "方技县全会使回况三南革参容关引运红。至队大金段南面采全从战温干。为近海认论气中龙组应志着深。写进是再所该但一义交术京别管毛制深。",
+                    "author": "江洋",
+                    "love": 393
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Frank Moore",
+                    "guanzhu": 395,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "状除我物线流快我好许劳效儿。关难人却总生五经片术院线拉经决因车素。",
+                    "author": "Eric Williams",
+                    "love": 232
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "万军",
+                    "guanzhu": 252,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "都离头广个号厂打话较十深开严文片规置。改走外毛属资也织置县次油。全道织林结主时上义拉政家真。",
+                    "author": "Christopher Lopez",
+                    "love": 156
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "程平",
+                    "guanzhu": 187,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "月公分每个报元步用量也或他与。图活不此话单京五新火民反快是外素斗。去复证社管类专前主界力须明们华。",
+                    "author": "丁涛",
+                    "love": 266
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Brian Williams",
+                    "guanzhu": 254,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "社提多全原或利持元于能百系我区象完。米研权那成研很合精育成群快好已家叫色。用战将内做身入教感量低道效保得。参结民段品气属只战两石样今。",
+                    "author": "George Martinez",
+                    "love": 384
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "顾伟",
+                    "guanzhu": 201,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "何例争象为半步好个积布七族识规。布计形素人种将据自织办且改向还法。",
+                    "author": "周洋",
+                    "love": 223
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Matthew White",
+                    "guanzhu": 172,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "本子济眼本题口快任交克走克样。切见参书都质三数位下各权行这。部应压题般电术需难毛子技共不叫几两光。",
+                    "author": "任磊",
+                    "love": 318
+                }
+            ]
+        },
+        "rurl": "/"
+    }
+]
