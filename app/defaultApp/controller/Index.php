@@ -8,13 +8,18 @@ class Index extends Base
 {
     public function index()
     {
-        $json_data = View::__get('mock_data');
+        $page = [
+            't' => '标题',
+            'k' => '关键词',
+            'd' => '描述',
+            'json' => View::__get('mock_data'),
+        ];
 
         if (preg_match('/json/i', request()->header('accept'))) {
-            return $json_data;
+            return $page;
         }
         return  View::display('', [
-            'json_data' => $json_data,
+            'page' => $page
         ]);
     }
 }

@@ -70,6 +70,17 @@ body {
                 }
             }
         }
+
+        .van-tabbar--fixed {
+            left: auto;
+        }
+        #nprogress {
+            max-width: none;
+
+            * {
+                max-width: none;
+            }
+        }
     }
     .kvxm27pw_com {
         max-width: none;

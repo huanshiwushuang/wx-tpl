@@ -1,6 +1,6 @@
-import Axios from 'axios'
-import config from '../config'
-import { html as tools_html } from '../utils/tools'
+import Axios from 'axios';
+import config from '../config';
+import './hook';
 
 // Axios
 const axiosInstance = Axios.create({});
@@ -11,7 +11,6 @@ axiosInstance.interceptors.request.use(async (request_config) => {
     let a = document.createElement('a');
     a.href = request_config.url;
     let url = new URL(a.href);
-
     // 如果 url 没有 mock, 就使用 config 的 is_mock 配置
     if (!url.searchParams.has('mock')) {
         if (config.is_mock) {
@@ -19,7 +18,7 @@ axiosInstance.interceptors.request.use(async (request_config) => {
         }
     }
 
-    request_config.url = url;
+    request_config.url = url.toString();
 
     return request_config;
 }, error => {
@@ -30,24 +29,21 @@ axiosInstance.interceptors.request.use(async (request_config) => {
 axiosInstance.interceptors.response.use(async (response) => {
     // 检查数据
     if (config.is_check) {
-        let check_data;
-        // html 需要提取数据
-        if (/html/i.test(response.headers['content-type'])) {
-            response.data = tools_html.to_ast(response.data);
-            // 需要被校验的 JSON 数据
-            check_data = JSON.parse(response.data.data.str);
-        } else if (/json/i.test(response.headers['content-type'])) {
-            // 需要被校验的 JSON 数据
-            check_data = response.data;
+        // 需要被校验的 JSON 数据
+        let check_data = response.data;
+
+        // 有 tkd 的是 page 数据
+        if (['t', 'k', 'd'].filter(i => {
+            return i in response.data;
+        }).length === 3) {
+            check_data = response.data.json
         }
-        // 如果有 check_data
-        if (check_data) {
-            let { default: console_check } = await import('../console/check');
-            console_check({
-                url: response.config.url.pathname,
-                check_data,
-            });
-        }
+
+        let { default: console_check } = await import('../console/check');
+        console_check({
+            url: new URL(response.config.url).pathname,
+            check_data,
+        });
     }
 
     return response.data;

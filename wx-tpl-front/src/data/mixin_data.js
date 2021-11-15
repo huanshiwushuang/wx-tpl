@@ -1,26 +1,24 @@
 // localStorage
 import local from './local_storage';
-// config
-import config from '../config';
-// env
-import { env } from '../utils/tools';
+// store
+import store from '../store';
+// tools
+import { env, html } from '../utils/tools';
 
-const data = JSON.parse(document.querySelector('#data').innerHTML);
+// 提取 page 数据缓存到 store
+const ast = html.to_ast(document.documentElement.outerHTML);
+const page = JSON.parse(ast.page.str);
 
-// 数据校验
-(async () => {
-    if (config.is_check) {
-        let { default: console_check } = await import('../console/check');
-
-        console_check({
-            url: location.pathname,
-            check_data: data,
-        });
-    }
-})();
+store.commit('views/Base/pages', {
+    ...store.state.views.Base.pages,
+    [location.pathname]: page,
+});
 
 const res = {
-    json: data,
+    // 占位，之后在 router 中重写
+    page: null,
+    json: null,
+    // local
     local,
     // 异步加载的组件
     coms: [],

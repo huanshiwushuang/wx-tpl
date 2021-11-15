@@ -17,7 +17,10 @@ class DaySign extends Base
             return $json_data;
         }
         return  View::display('', [
-            'json_data' => $json_data,
+            't' => '我是日签的 title',
+            'k' => '我是日签的 keywords',
+            'd' => '我是日签的 description',
+            'json' => $json_data,
         ]);
     }
 }

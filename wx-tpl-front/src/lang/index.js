@@ -83,8 +83,8 @@ export function setLanguage(lang) {
 	}
 
 	// 语言包加载完毕，回调，允许路由进入
+	languageStatus.isLoaded = true;
 	if (langLoadStatus) {
-		languageStatus.isLoaded = true;
 		langLoadStatus.resolve();
 	}
 })();

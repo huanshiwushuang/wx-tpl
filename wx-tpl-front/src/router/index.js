@@ -12,7 +12,7 @@ const routes = [
 		children: [
 			(() => {
 				// 404 页面
-				if (mixin_data.json.kvpcjcl7_404) {
+				if (mixin_data.page?.kvpcjcl7_404) {
 					return {
 						path: '*',
 						component: async () => {

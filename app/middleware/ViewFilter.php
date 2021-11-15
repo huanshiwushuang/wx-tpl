@@ -33,10 +33,10 @@ class ViewFilter
 				'vf_extend_base' => isset($all_var['vf_extend_base']) ?  $all_var['vf_extend_base'] : true,
 			]);
 
-			// 需要继承 main/base.html 内容，则再 fetch 页面, $content 作为 html_data ，塞进去。
+			// 需要继承 main/base.html 内容，则再 fetch 页面, $content 作为 html ，塞进去。
 			if ($all_var['vf_extend_base']) {
 				// 数据源
-				$all_var['html_data'] = $content;
+				$all_var['html'] = $content;
 
 				// 标识-不需要继承 base 了
 				$all_var['vf_extend_base'] = false;
@@ -97,47 +97,75 @@ class ViewFilter
 	// 变量检查，比如公有变量必须有默认值
 	protected function view_var_check(&$all_var)
 	{
-		$LANG = Lang::getLangSet();
+		$lang = Lang::getLangSet();
 
-		$default_var = [
+		// 检查 顶层 变量
+		$this->array_check_var($all_var, [
+			// page 数据
 			[
-				'T',
+				'page',
+				[],
+			],
+		]);
+
+		// 检查 page 变量
+		$this->array_check_var($all_var['page'], [
+			[
+				't',
 				'戊戌数据 - 医药（数据）共享家'
 			],
 			[
-				'K',
+				'k',
 				'戊戌数据,医药数据库,药品查询,药品库,药物杂质对照品库,一致性评价库,医保目录,临床试验库,药物目录,制药企业,医药公司,医药行业数据,戊戌网,戊戌数据官网'
 			],
 			[
-				'D',
+				'd',
 				'戊戌数据是以医药数据为核心，集数据、资讯、政策于一体的信息服务平台，国内第一家信息开放、共享的医药数据库。致力于把数据信息带入每个企业，推动企业研发智能化、市场营销决策化，构建信息互联的医药新世界。医药数据的更多信息就在戊戌数据官网。'
 			],
 			[
-				'LANG',
-				empty($LANG) ? 'zh-cn' : $LANG,
-			],
+				'json',
+				[],
+			]
+		]);
 
+		// 检查 顶层 变量-再次
+		$this->array_check_var($all_var, [
+			[
+				'lang',
+				empty($lang) ? 'zh-cn' : $lang,
+			],
 			// html 数据
 			[
-				'html_data',
+				'html',
 				'',
 			],
-			// json 数据
+			// tkd
 			[
-				'json_data',
-				[],
+				't',
+				$all_var['page']['t'],
 			],
-		];
-
-		// 变量定义循环检查
-		foreach ($default_var as $val) {
-			if (!isset($all_var[$val[0]])) {
-				$all_var[$val[0]] = $val[1];
-			}
-		}
+			[
+				'k',
+				$all_var['page']['k'],
+			],
+			[
+				'd',
+				$all_var['page']['d'],
+			],
+		]);
 
 		// PHP 转 JSON
 		// 强制顶层为对象
-		$all_var['json_data'] = json_encode($all_var['json_data'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+		$all_var['page'] = json_encode($all_var['page'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+	}
+
+	// 循环检查某一个数组中 是否有 传入的变量, 不存在则默认
+	protected function array_check_var(array &$check_var, array $var_array)
+	{
+		foreach ($var_array as $val) {
+			if (!isset($check_var[$val[0]])) {
+				$check_var[$val[0]] = $val[1];
+			}
+		}
 	}
 }

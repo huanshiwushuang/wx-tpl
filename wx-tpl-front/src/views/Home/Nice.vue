@@ -3,14 +3,15 @@
         <wx-router-link href="/test">
             测试
         </wx-router-link>
+        <input type="text">
         <!-- 句子列表 -->
-        <jzm-card-default
+        <!-- <jzm-card-default
             v-for="(item, index) in json.list"
             :key="index"
             v-bind="item"
             class="kvl2074f"
         >
-        </jzm-card-default>
+        </jzm-card-default> -->
     </div>
 </template>
 

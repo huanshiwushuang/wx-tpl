@@ -1,6 +1,6 @@
 <!-- 严格禁止其他后端在此文件写任何变量，以防止其他页面 extend 此页面，出现 未定义变量的问题，扩展都用 block 完成 -->
 <!DOCTYPE html>
-<html lang='{$LANG}'>
+<html lang='{$lang}'>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
@@ -11,9 +11,9 @@
 	<meta name="renderer" content="webkit" />
 	<meta name="force-rendering" content="webkit" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-	<meta id="K" name="keywords" content="{$K}" />
-	<meta id="D" name="description" content="{$D}" />
-	<title id="T">{$T}</title>
+	<meta id="k" name="keywords" content="{$k}" />
+	<meta id="d" name="description" content="{$d}" />
+	<title id="t">{$t}</title>
 
 	<!-- 旧版 IE 升级提示跳转代码 -->
 	<!-- https://support.dmeng.net/ie-update-warning.html -->
@@ -40,12 +40,12 @@
 <body id="body">
 	<!-- 后端渲染 html 模板 -->
 	<div class="dn">
-		{$html_data|raw}
+		{$html|raw}
 	</div>
 	
 	<!-- 后端直接输出 json 数据 -->
-	<script id="data" type="text/json">
-		{$json_data}
+	<script id="page" type="text/json">
+		{$page}
 	</script>
 
 	<!-- 前端渲染视图 -->

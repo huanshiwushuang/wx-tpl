@@ -1,16 +1,18 @@
 // 进度条
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 // 路由
-import router from './index'
+import router from './index';
 // request
-import request from '../request'
+import request from '../request';
 // 语言包
-import { languageStatus } from '@/lang'
+import { languageStatus } from '@/lang';
 // 配置
-import config from '../config'
+import config from '../config';
 // ast
-import mixin_data from '../data/mixin_data'
+import mixin_data from '../data/mixin_data';
+// store
+import store from '../store';
 
 const options = {
 	// 路由模式
@@ -22,8 +24,8 @@ const options = {
 // to url
 let toURL = location.href;
 
-// 前端路由需要用到的新的 AST 数据
-let newAst = null;
+// 页面数据
+let page = null;
 // 是否是初始化进入页面
 let isInitPage = true;
 // 配置进度条
@@ -62,19 +64,8 @@ function hook() {
 				// 进度条开始
 				NProgress.start();
 
-				// 不是初次进入页面
-				if (!isInitPage) {
-					// 请求数据
-					let res = await request.get(toURL, null, {
-						headers: {
-							// axios 默认请求头接收的是 json，此处请求的页面，接收的应为 html
-							Accept: 'text/html',
-						}
-					});
-
-					// 数据为新的 html 的 AST
-					newAst = res;
-				}
+				// 请求数据
+				page = await request.get(toURL);
 
 				toNext();
 			}
@@ -90,16 +81,20 @@ function hook() {
 			case 'ast':
 				// 不是第一次进入页面
 				if (!isInitPage) {
+					// page 数据保存到 store
+					store.commit('views/Base/pages', {
+						...store.state.views.Base.pages,
+						[location.pathname]: page,
+					});
+					// 更新 mixin data
+					mixin_data.page = page;
+					mixin_data.json = page.json;
 
 					// 更新-TKD
-					document.title = newAst.T.str;
-					document.querySelector('#K').setAttribute('content', newAst.K.attr_map.content)
-					document.querySelector('#D').setAttribute('content', newAst.D.attr_map.content)
+					document.title = page.t;
+					document.querySelector('#k').setAttribute('content', page.k);
+					document.querySelector('#d').setAttribute('content', page.d);
 
-					// 更新-AST
-					mixin_data.json = JSON.parse(newAst.data.str);
-
-					newAst = null;
 				}
 				break;
 		}
