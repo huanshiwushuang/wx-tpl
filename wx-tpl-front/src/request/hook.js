@@ -9,12 +9,19 @@ import store from '../store';
 proxy({
     //请求发起前进入
     onRequest: (config, handler) => {
-        let url_obj = new URL(config.url);
+        // 阻止 webpack 的 .hot-update.json 连接
+        if (/\.hot-update\.json/.test(config.url)) {
+            return;
+        }
+
+        let a = document.createElement('a');
+        a.href = config.url;
+        let url_obj = new URL(a.href);
 
         // 如果有缓存
         let page = store.state.views.Base.pages[url_obj.pathname];
         if (page) {
-            console.log(`数据缓存`, page, `---${url_obj.href}`);
+            console.log(`缓存数据`, page, `---${url_obj.href}`);
 
             return handler.resolve({
                 config: config,

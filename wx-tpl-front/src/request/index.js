@@ -17,7 +17,6 @@ axiosInstance.interceptors.request.use(async (request_config) => {
             url.searchParams.set('mock', 1);
         }
     }
-
     request_config.url = url.toString();
 
     return request_config;
@@ -33,17 +32,23 @@ axiosInstance.interceptors.response.use(async (response) => {
         let check_data = response.data;
 
         // 有 tkd 的是 page 数据
-        if (['t', 'k', 'd'].filter(i => {
+        if (['t', 'k', 'd'].find(i => {
             return i in response.data;
-        }).length === 3) {
+        })) {
             check_data = response.data.json
         }
 
         let { default: console_check } = await import('../console/check');
+
+        let a = document.createElement('a');
+        a.href = response.config.url;
+        let url = new URL(a.href);
+
         console_check({
-            url: new URL(response.config.url).pathname,
+            url: url.pathname,
             check_data,
         });
+
     }
 
     return response.data;

@@ -91,9 +91,15 @@ function hook() {
 					mixin_data.json = page.json;
 
 					// 更新-TKD
-					document.title = page.t;
-					document.querySelector('#k').setAttribute('content', page.k);
-					document.querySelector('#d').setAttribute('content', page.d);
+					if (page.t) {
+						document.title = page.t;
+					}
+					if (page.k) {
+						document.querySelector('#k').setAttribute('content', page.k);
+					}
+					if (page.d) {
+						document.querySelector('#d').setAttribute('content', page.d);
+					}
 
 				}
 				break;
