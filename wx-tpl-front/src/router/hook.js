@@ -79,6 +79,10 @@ function hook() {
 	router.afterEach(() => {
 		switch (options.mode) {
 			case 'ast':
+				// 更新 mixin data
+				mixin_data.page = page;
+				mixin_data.json = page.json;
+
 				// 不是第一次进入页面
 				if (!isInitPage) {
 					// page 数据保存到 store
@@ -86,9 +90,6 @@ function hook() {
 						...store.state.views.Base.pages,
 						[location.pathname]: page,
 					});
-					// 更新 mixin data
-					mixin_data.page = page;
-					mixin_data.json = page.json;
 
 					// 更新-TKD
 					if (page.t) {

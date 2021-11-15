@@ -4,11 +4,13 @@
         <router-view v-if="$route.meta.intercept"></router-view>
 
         <keep-alive>
-            <div>
-                <router-view name="header"></router-view>
-                <router-view></router-view>
-                <router-view name="footer"></router-view>
-            </div>
+            <router-view name="header"></router-view>
+        </keep-alive>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+        <keep-alive>
+            <router-view name="footer"></router-view>
         </keep-alive>
     </div>
 </template>

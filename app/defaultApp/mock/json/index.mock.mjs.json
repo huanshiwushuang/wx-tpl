@@ -1,1 +1,127 @@
-[]
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Kimberly Lee",
+                    "guanzhu": 352,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "调成月组权开体分管便题别有决多布引难。果却生一片作党快不品去见学线得名。音同最区影流一直快生月验清给除五西共。",
+                    "author": "Anthony Young",
+                    "love": 344
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "杨艳",
+                    "guanzhu": 239,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "劳酸响圆除流近车们和行动非低青拉。题达类再放改则选阶件起周者列员张。想志及被劳工车值要算快此才题反。",
+                    "author": "Edward Hernandez",
+                    "love": 362
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Sandra Allen",
+                    "guanzhu": 368,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "花快务可器需连形产增九到属六经。战难家约研说林红干律米目活。级次你断无资千律引反住指容而下。",
+                    "author": "George Moore",
+                    "love": 263
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "袁超",
+                    "guanzhu": 254,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "边满基识眼日队特按常五别基。备件王动质非集线积术车了利青连土原。据七山石外开行争党且不持近照。积之元位她管山调没都府斯斗土问指北。",
+                    "author": "Melissa Lee",
+                    "love": 343
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "姚秀兰",
+                    "guanzhu": 376,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "写志满重局群率做社作能六飞准况么安。叫需十龙土花志确目音要消其经保马。",
+                    "author": "Helen Jones",
+                    "love": 367
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "张洋",
+                    "guanzhu": 388,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "准京或酸头业线和学土千两导要。步地边导布圆家究品们许引确边上两完。",
+                    "author": "Melissa Perez",
+                    "love": 147
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Angela Anderson",
+                    "guanzhu": 319,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "国应问联公化划东手平界律存感四构革。由当几生基将者不美反质置温效己。院千布但再选名省百务习前产经作。",
+                    "author": "Ronald Thomas",
+                    "love": 190
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "William Moore",
+                    "guanzhu": 398,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "从史清步共亲近着今价能每容细几习。平数布权交运持收业及般这五称则。住列通名音统被只总术结己回江许光委。接同就广列化却性法张光所极派。",
+                    "author": "Maria Martinez",
+                    "love": 101
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "江娟",
+                    "guanzhu": 107,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "布调连通易照影记白资什这整术持族。造装电感品现别得县没非部。",
+                    "author": "陈艳",
+                    "love": 230
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Linda Allen",
+                    "guanzhu": 153,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "京亲四提见即名但年律少儿。运置什多总度知千产据书采质。",
+                    "author": "马军",
+                    "love": 223
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "何桂英",
+                    "guanzhu": 183,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "存二记表作安至决厂根多山各加更。快受要至党都开石及住思为队山。更话外重率质般主才车义决本。",
+                    "author": "Charles Harris",
+                    "love": 391
+                }
+            ]
+        },
+        "rurl": "/"
+    }
+]

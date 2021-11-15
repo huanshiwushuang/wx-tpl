@@ -12,9 +12,9 @@ class DaySign extends Base
     public function index()
     {
         $page = [
-            // 't' => '我是日签的 title',
-            // 'k' => '我是日签的 keywords',
-            // 'd' => '我是日签的 description',
+            't' => '我是日签的 title',
+            'k' => '我是日签的 keywords',
+            'd' => '我是日签的 description',
             'json' => [],
         ];
 
