@@ -32,6 +32,7 @@ const routes = [
 			{
 				path: '/',
 				components: {
+					header: () => import('@/views/Home/components/Header.vue'),
 					default: () => import('@/views/Home/Nice.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},

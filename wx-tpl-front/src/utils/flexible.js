@@ -1,38 +1,22 @@
-import mixin_data from '../data/mixin_data';
-
-// 整体布局控制
 (function flexible(window, document) {
 	var docEl = document.documentElement
 	var dpr = window.devicePixelRatio || 1
 
 	// adjust body font size
-	function setBodyFontSize() {
-		if (document.body) {
-			document.body.style.fontSize = (12 * dpr) + 'px'
-		}
-		else {
-			document.addEventListener('DOMContentLoaded', setBodyFontSize)
-		}
-	}
-	setBodyFontSize();
+	// function setBodyFontSize () {
+	//   if (document.body) {
+	//     document.body.style.fontSize = (12 * dpr) + 'px'
+	//   }
+	//   else {
+	//     document.addEventListener('DOMContentLoaded', setBodyFontSize)
+	//   }
+	// }
+	// setBodyFontSize();
 
+	// set 1rem = viewWidth / 10
 	function setRemUnit() {
-		// 理想宽度
-		let ideal_width = Math.min(docEl.clientWidth, docEl.clientHeight);
-
-		// 适配 PC 
-		if (!mixin_data.is_mobile_ua) {
-			let client_height = docEl.clientHeight;
-			// 理想高宽之比
-			let ratio = 780 / 380;
-
-			// 理想宽高 map to 实际宽高
-			ideal_width = client_height / ratio;
-		}
-
-		let rem = ideal_width / 10;
-
-		docEl.style.fontSize = `${rem}px`;
+		var rem = docEl.clientWidth / 10
+		docEl.style.fontSize = rem + 'px'
 	}
 
 	setRemUnit()
@@ -57,6 +41,4 @@ import mixin_data from '../data/mixin_data';
 		}
 		docEl.removeChild(fakeBody)
 	}
-}(window, document));
-
-// tabbar 布局控制
+}(window, document))
