@@ -1,6 +1,6 @@
 const state = {
     // 所有页面的数据缓存
-    pages: {}
+    pages: {},
 }
 const getters = {
 }

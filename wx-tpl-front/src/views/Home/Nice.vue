@@ -1,5 +1,6 @@
 <template>
     <div class="kvkh7nuy_com">
+        <input type="text">
         <!-- 句子列表 -->
         <jzm-card-default
             v-for="(item, index) in json.list"

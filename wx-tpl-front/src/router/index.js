@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import hook from './hook'
 import mixin_data from '../data/mixin_data'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
 	{

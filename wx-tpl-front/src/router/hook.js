@@ -31,9 +31,14 @@ let isInitPage = true;
 // 配置进度条
 NProgress.configure({ showSpinner: false })
 
+// 维护历史栈
+let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		_to = to;
+		_from = from;
+
 		// 加上 base
 		toURL = `${router.options.base ?? ''}${to.fullPath}`
 
@@ -109,6 +114,10 @@ function hook() {
 		NProgress.done();
 		// 结束第一次进入页面
 		isInitPage = false;
+
+		// 追加历史栈
+		console.log(_to);
+		console.log(_from);
 	})
 
 	router.onError(() => {

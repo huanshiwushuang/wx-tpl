@@ -10,7 +10,7 @@ const node_cache = {};
 
 // webpack 读取当前目录下的所有除了 index.js 的模块，将导出合并为一个 tree
 const modules = modulesFiles.keys().filter(modulePath => {
-    return !new RegExp('./index.js', 'i').test(modulePath);
+    return !new RegExp('\\./index.js', 'i').test(modulePath);
 }).reduce((sum, modulePath) => {
     // 分割成文件夹名字的数组
     const path_array = modulePath
