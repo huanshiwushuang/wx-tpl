@@ -1,9 +1,11 @@
 import Axios from 'axios';
 import config from '../config';
-import './hook';
 
 // Axios
-const axiosInstance = Axios.create({});
+export const axios_options = {
+    baseURL: location.origin
+};
+const axiosInstance = Axios.create(axios_options);
 
 // 请求拦截
 axiosInstance.interceptors.request.use(async (request_config) => {

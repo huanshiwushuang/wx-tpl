@@ -1,18 +1,7 @@
 // localStorage
 import local from './local_storage';
-// store
-import store from '../store';
 // tools
-import { env, html } from '../utils/tools';
-
-// 提取 page 数据缓存到 store
-const ast = html.to_ast(document.documentElement.outerHTML);
-const page = JSON.parse(ast.page.str);
-
-store.commit('views/Base/pages', {
-    ...store.state.views.Base.pages,
-    [location.pathname]: page,
-});
+import { env } from '../utils/tools';
 
 const res = {
     // 占位，之后在 router 中重写
