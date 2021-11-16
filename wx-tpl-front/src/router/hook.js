@@ -26,7 +26,7 @@ NProgress.configure({ showSpinner: false })
 // 当前路由的 state
 let history_current_state;
 
-// 重写方法, 获取当前路由动作
+// 重写方法, 获取当前路由 action
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
 	store.commit('history/action', 'replace');
@@ -41,13 +41,13 @@ VueRouter.prototype.push = function () {
 
 window.addEventListener('popstate', (e) => {
 	// 根据 state 中的 key 判断是前进 or 后退
-	// 默认应用首屏的 state === null
+	// key 是 vue-router 路由时自动添加的
 	// 非首屏的 state 为 {key: 时间戳}
-	const to_key = e.state === null ? -1 : e.state.key;
-	const from_key = history_current_state === null ? -1 : history_current_state.key;
+	const to_key = e.state?.key ?? -1;
+	const from_key = history_current_state?.key ?? -1;
 
 	// 后退
-	if (from_key > to_key) {
+	if (parseFloat(from_key) > parseFloat(to_key)) {
 		store.commit('history/action', 'back');
 	}
 	// 前进
@@ -88,6 +88,7 @@ function hook() {
 			await languageStatus.waitLoaded();
 			next();
 		}
+
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
@@ -140,40 +141,23 @@ function hook() {
 			default:
 				throw new Error('router mode error');
 		}
+
 	});
 	router.afterEach(() => {
 		// 保存当前 history state
 		history_current_state = history.state;
 
-		// 更新缓存数据
-		// switch (store.state.history.action) {
-		// 	// 不缓存
-		// 	case 'replace':
-		// 	case 'back':
-		// 		_from.meta.not_keep_alive = true;
-		// 		break;
-		// 	// 缓存
-		// 	case 'forward':
-		// 	case 'push':
-		// 	case '':
-		// 		_from.meta.not_keep_alive = false;
-		// 		break;
-		// }
-
-		// 更新页面数据
 		switch (options.mode) {
 			case 'ast':
 				// 更新 mixin data
 				mixin_data.page = page;
 				mixin_data.json = page.json;
 
-				// 是否缓存 page 数据
-				if (!_to.meta.not_keep_alive) {
-					store.commit('views/Base/pages', {
-						...store.state.views.Base.pages,
-						[cache_key]: page,
-					});
-				}
+				// 缓存 page 数据
+				store.commit('views/Base/pages', {
+					...store.state.views.Base.pages,
+					[cache_key]: page,
+				});
 
 				// 不是第一次进入页面
 				if (_from !== VueRouter.START_LOCATION) {
@@ -188,45 +172,72 @@ function hook() {
 						document.querySelector('#d').setAttribute('content', page.d);
 					}
 				}
-				break;
-		}
+				// ****************************************************
+				// 维护历史栈
+				switch (store.state.history.action) {
+					case 'replace':
+						store.commit('history/stack', [
+							...[
+								...store.state.history.stack,
+							].slice(0, -1),
+							{
+								to: _to,
+								from: _from,
+							}
+						])
+						break;
+					case 'back':
+						store.commit('history/stack', [
+							...store.state.history.stack,
+						].slice(0, -1));
 
-		// 维护历史栈
-		switch (store.state.history.action) {
-			case 'replace':
-				store.commit('history/stack', [
-					...[
-						...store.state.history.stack,
-					].slice(0, -1),
-					{
-						to: _to,
-						from: _from,
-					}
-				])
+						store.commit('history/pointer', store.state.history.pointer - 1);
+						break;
+					case 'forward':
+					case 'push':
+					default:
+						store.commit('history/stack', [
+							...store.state.history.stack,
+							{
+								to: _to,
+								from: _from,
+							}
+						])
+						store.commit('history/pointer', store.state.history.pointer + 1);
+				}
+				// ****************************************************
+				// 默认缓存所有, 返回的时候才排除当前组件
+				_to.meta.exclude = [];
+				switch (store.state.history.action) {
+					case 'back':
+						{
+							// 确认需要排除的组件
+							_to.meta.exclude = Object.values(_from.matched[1].components).map(i => {
+								if (!i.name) {
+									console.error(`此组件未配置 name, 无法在 back 时清除缓存`, i);
+								}
+								return i.name;
+							});
+							if ([...new Set(_to.meta.exclude)].length !== _to.meta.exclude.length) {
+								console.error(`组件名重复`, _to.meta.exclude);
+							}
+							// 确认需要清除的 page 缓存
+							store.commit('views/Base/pages', {
+								...Object.keys(store.state.views.Base.pages).filter(key => {
+									return key !== `${axios_options.baseURL}${_from.fullPath}`;
+								}).reduce((sum, key) => {
+									sum[key] = store.state.views.Base.pages[key];
+									return sum;
+								}, {}),
+							});
+						}
+						break;
+				}
 				break;
-			case 'back':
-				store.commit('history/stack', [
-					...store.state.history.stack,
-				].slice(0, -1));
-
-				store.commit('history/pointer', store.state.history.pointer - 1);
-				break;
-			case 'forward':
-			case 'push':
-			default:
-				store.commit('history/stack', [
-					...store.state.history.stack,
-					{
-						to: _to,
-						from: _from,
-					}
-				])
-				store.commit('history/pointer', store.state.history.pointer + 1);
 		}
 
 		NProgress.done();
 	})
-
 	router.onError(() => {
 		// 导航故障，结束加载
 		NProgress.done();
