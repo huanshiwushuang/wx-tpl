@@ -23,11 +23,11 @@
 
 	// reset rem unit on page resize
 	window.addEventListener('resize', setRemUnit)
-	window.addEventListener('pageshow', function (e) {
-		if (e.persisted) {
-			setRemUnit()
-		}
-	})
+	// window.addEventListener('pageshow', function (e) {
+	// 	if (e.persisted) {
+	// 		setRemUnit()
+	// 	}
+	// })
 
 	// detect 0.5px supports
 	if (dpr >= 2) {

@@ -1,6 +1,9 @@
 <template>
     <div class="kvkh7nuy_com">
         <input type="text">
+        <wx-router-link href="/my">
+            我的
+        </wx-router-link>
         <!-- 句子列表 -->
         <jzm-card-default
             v-for="(item, index) in json.list"

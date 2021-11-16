@@ -8,14 +8,17 @@
                 v-if="$route.meta.not_keep_alive"
                 name="header"
             ></router-view>
-            <keep-alive v-else>
-                <router-view name="header"></router-view>
+            <keep-alive>
+                <router-view
+                    v-if="!$route.meta.not_keep_alive"
+                    name="header"
+                ></router-view>
             </keep-alive>
 
             <!-- body -->
             <router-view v-if="$route.meta.not_keep_alive"></router-view>
-            <keep-alive v-else>
-                <router-view></router-view>
+            <keep-alive>
+                <router-view v-if="!$route.meta.not_keep_alive"></router-view>
             </keep-alive>
 
             <!-- footer -->
@@ -23,8 +26,11 @@
                 v-if="$route.meta.not_keep_alive"
                 name="footer"
             ></router-view>
-            <keep-alive v-else>
-                <router-view name="footer"></router-view>
+            <keep-alive>
+                <router-view
+                    v-if="!$route.meta.not_keep_alive"
+                    name="footer"
+                ></router-view>
             </keep-alive>
         </template>
     </div>
@@ -36,7 +42,6 @@ export default {
     data() {
         return {};
     },
-    methods: {},
 };
 </script>
 

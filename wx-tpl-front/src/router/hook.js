@@ -21,6 +21,41 @@ import { html } from '../utils/tools';
 // ****************************************************
 // 配置进度条
 NProgress.configure({ showSpinner: false })
+
+// ****************************************************
+// 当前路由的 state
+let history_current_state;
+
+// 重写方法, 获取当前路由动作
+const _replace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function () {
+	store.commit('history/action', 'replace');
+	return _replace.apply(this, arguments);
+};
+
+const _push = VueRouter.prototype.push;
+VueRouter.prototype.push = function () {
+	store.commit('history/action', 'push');
+	return _push.apply(this, arguments);
+};
+
+window.addEventListener('popstate', (e) => {
+	// 根据 state 中的 key 判断是前进 or 后退
+	// 默认应用首屏的 state === null
+	// 非首屏的 state 为 {key: 时间戳}
+	const to_key = e.state === null ? -1 : e.state.key;
+	const from_key = history_current_state === null ? -1 : history_current_state.key;
+
+	// 后退
+	if (from_key > to_key) {
+		store.commit('history/action', 'back');
+	}
+	// 前进
+	else {
+		store.commit('history/action', 'forward');
+	}
+});
+
 // ****************************************************
 // 路由模式
 const options = {
@@ -28,21 +63,23 @@ const options = {
 	// refresh：后端路由-刷新页面
 	mode: config.router_mode || 'ast',
 };
+
 // ****************************************************
 let page = null;
 let to_url = location.href;
 let request_url;
 let cache_key;
 let _to, _from;
+
 // ****************************************************
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		// ****************************************************
 		_to = to;
 		_from = from;
-		// cache_key =
 		// 加上 base
-		to_url = `${router.options.base ?? ''}${to.fullPath}`
+		to_url = `${router.options.base ?? ''}${to.fullPath}`;
 
 		// ****************************************************
 		// next
@@ -75,24 +112,25 @@ function hook() {
 				a.href = request_url;
 				let url_obj = new URL(a.href);
 				cache_key = url_obj.toString();
+
 				// 提取 cache_data
 				let cache_data = store.state.views.Base.pages[cache_key];
+
 				// 如果有缓存
 				if (cache_data) {
 					page = cache_data;
 					console.log(`缓存数据`, cache_data, `---${request_url}`);
 				}
+
 				// 否则请求数据
 				else {
 					// 如果是第一次进入页面
 					if (_from === VueRouter.START_LOCATION) {
 						let ast = html.to_ast(document.documentElement.outerHTML);
 						page = JSON.parse(ast.page.str);
-
 					} else {
 						NProgress.start();
 						page = await request.get(request_url);
-
 					}
 				}
 
@@ -102,18 +140,34 @@ function hook() {
 			default:
 				throw new Error('router mode error');
 		}
-
-	})
-
+	});
 	router.afterEach(() => {
+		// 保存当前 history state
+		history_current_state = history.state;
+
+		// 更新缓存数据
+		// switch (store.state.history.action) {
+		// 	// 不缓存
+		// 	case 'replace':
+		// 	case 'back':
+		// 		_from.meta.not_keep_alive = true;
+		// 		break;
+		// 	// 缓存
+		// 	case 'forward':
+		// 	case 'push':
+		// 	case '':
+		// 		_from.meta.not_keep_alive = false;
+		// 		break;
+		// }
+
+		// 更新页面数据
 		switch (options.mode) {
 			case 'ast':
 				// 更新 mixin data
 				mixin_data.page = page;
 				mixin_data.json = page.json;
 
-				// page 数据保存到 store
-				// 根据 to 的 meta 判断是否缓存
+				// 是否缓存 page 数据
 				if (!_to.meta.not_keep_alive) {
 					store.commit('views/Base/pages', {
 						...store.state.views.Base.pages,
@@ -137,8 +191,40 @@ function hook() {
 				break;
 		}
 
-		NProgress.done();
+		// 维护历史栈
+		switch (store.state.history.action) {
+			case 'replace':
+				store.commit('history/stack', [
+					...[
+						...store.state.history.stack,
+					].slice(0, -1),
+					{
+						to: _to,
+						from: _from,
+					}
+				])
+				break;
+			case 'back':
+				store.commit('history/stack', [
+					...store.state.history.stack,
+				].slice(0, -1));
 
+				store.commit('history/pointer', store.state.history.pointer - 1);
+				break;
+			case 'forward':
+			case 'push':
+			default:
+				store.commit('history/stack', [
+					...store.state.history.stack,
+					{
+						to: _to,
+						from: _from,
+					}
+				])
+				store.commit('history/pointer', store.state.history.pointer + 1);
+		}
+
+		NProgress.done();
 	})
 
 	router.onError(() => {
@@ -146,7 +232,7 @@ function hook() {
 		NProgress.done();
 		// 导航故障，保持 to url 不变
 		history.replaceState({}, '', to_url);
-	})
+	});
 }
 
 export default hook

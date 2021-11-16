@@ -101,6 +101,16 @@ class ViewFilter
 
 		// 检查 顶层 变量
 		$this->array_check_var($all_var, [
+			// 语言
+			[
+				'lang',
+				empty($lang) ? 'zh-cn' : $lang,
+			],
+			// html 数据
+			[
+				'html',
+				'',
+			],
 			// page 数据
 			[
 				'page',
@@ -128,34 +138,12 @@ class ViewFilter
 			]
 		]);
 
-		// 检查 顶层 变量-再次
-		$this->array_check_var($all_var, [
-			[
-				'lang',
-				empty($lang) ? 'zh-cn' : $lang,
-			],
-			// html 数据
-			[
-				'html',
-				'',
-			],
-			// tkd
-			[
-				't',
-				$all_var['page']['t'],
-			],
-			[
-				'k',
-				$all_var['page']['k'],
-			],
-			[
-				'd',
-				$all_var['page']['d'],
-			],
-		]);
+		// page 所有变量提升到 顶层
+		foreach ($all_var['page'] as $key => $val) {
+			$all_var[$key] = $val;
+		}
 
 		// PHP 转 JSON
-		// 强制顶层为对象
 		$all_var['page'] = json_encode($all_var['page'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 

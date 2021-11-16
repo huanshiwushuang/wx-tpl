@@ -38,9 +38,9 @@ async function exec_tasks(tasks) {
     const filter = tasks.filter(item => {
         // 过滤 url
         if (item.rurl instanceof RegExp) {
-            return new RegExp(item.rurl, 'i').test(params.pathname);
+            return item.rurl.test(params.pathname);
         } else {
-            return item.rurl.trim() === params.pathname.trim();
+            return new RegExp(`^${item.rurl}$`, 'i').test(params.pathname);
         }
     });
     let result = await Promise.all(

@@ -11,8 +11,18 @@ class My extends Base
 {
     public function index()
     {
+        $page = [
+            't' => '标题111111111',
+            'k' => '关键词22222222222',
+            'd' => '描述3333333',
+            'json' => [],
+        ];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $page;
+        }
         return View::display('', [
-            'json_data' => View::__get('mock_data')
+            'page' => $page,
         ]);
     }
 }
