@@ -69,7 +69,7 @@ export function process_module(module) {
     const state_keys = Object.keys(module.state);
 
     // 每个 module 都保留自己 state 的初始化数据
-    const keep_keywords = ['cache'];
+    const keep_keywords = ['_cache'];
 
     for (let i of keep_keywords) {
         if (state_keys.includes(i)) {
@@ -88,7 +88,7 @@ export function process_module(module) {
         let reset_key = `${state_key}_reset`;
         if (!(reset_key in module.actions)) {
             module.actions[reset_key] = function ({ commit }) {
-                commit(state_key, JSON.parse(JSON.stringify(module.state.cache[state_key])));
+                commit(state_key, JSON.parse(JSON.stringify(module.state._cache[state_key])));
             }
         }
 
@@ -102,7 +102,7 @@ export function process_module(module) {
     }
 
     // 添加缓存
-    module.state.cache = JSON.parse(JSON.stringify(module.state));
+    module.state._cache = JSON.parse(JSON.stringify(module.state));
 }
 
 // 根节点

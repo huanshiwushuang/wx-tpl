@@ -20,7 +20,7 @@ import { html } from '../utils/tools';
 
 // ****************************************************
 // 配置进度条
-NProgress.configure({ showSpinner: false })
+NProgress.configure({ showSpinner: false });
 
 // ****************************************************
 // 当前路由的 state
@@ -66,9 +66,7 @@ const options = {
 
 // ****************************************************
 let page = null;
-let to_url = location.href;
 let request_url;
-let cache_key;
 let _to, _from;
 
 // ****************************************************
@@ -78,8 +76,14 @@ function hook() {
 		// ****************************************************
 		_to = to;
 		_from = from;
-		// 加上 base
-		to_url = `${router.options.base ?? ''}${to.fullPath}`;
+		// from full url
+		let a = document.createElement('a');
+		a.href = from.fullPath;
+		store.commit('page/from_url', location.href);
+
+		// to full url
+		a.href = `${router.options.base ?? ''}${to.fullPath}`;
+		store.commit('page/to_url', (new URL(a.href)).toString());
 
 		// ****************************************************
 		// next
@@ -88,7 +92,6 @@ function hook() {
 			await languageStatus.waitLoaded();
 			next();
 		}
-
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
@@ -100,23 +103,19 @@ function hook() {
 					if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
 						to_next();
 					} else {
-						location = to_url;
+						location = store.state.page.to_url;
 					}
 				}
 				break;
 			// 前端路由-ast
 			case 'ast': {
-				request_url = `${axios_options.baseURL}${to.fullPath}`;
-
-				// 提取 cache_key
-				let a = document.createElement('a');
-				a.href = request_url;
-				let url_obj = new URL(a.href);
-				cache_key = url_obj.toString();
+				// ****************************************************
+				// 请求的 url
+				a.href = `${axios_options.baseURL}${to.fullPath}`;
+				request_url = (new URL(a.href)).toString();
 
 				// 提取 cache_data
-				let cache_data = store.state.views.Base.pages[cache_key];
-
+				let cache_data = store.state.page.cache[request_url];
 				// 如果有缓存
 				if (cache_data) {
 					page = cache_data;
@@ -128,13 +127,32 @@ function hook() {
 					// 如果是第一次进入页面
 					if (_from === VueRouter.START_LOCATION) {
 						let ast = html.to_ast(document.documentElement.outerHTML);
-						page = JSON.parse(ast.page.str);
+						if (ast.page) {
+							try {
+								page = JSON.parse(ast.page.str);
+							} catch {
+								NProgress.start();
+								page = await request.get(request_url);
+							}
+						} else {
+							NProgress.start();
+							page = await request.get(request_url);
+						}
 					} else {
 						NProgress.start();
 						page = await request.get(request_url);
 					}
 				}
-
+				// ****************************************************
+				// 记录页面滚动位置
+				store.commit('page/saved_position', {
+					...store.state.page.saved_position,
+					[store.state.page.from_url]: {
+						x: window.scrollX,
+						y: window.scrollY
+					}
+				});
+				// ****************************************************
 				to_next();
 			}
 				break;
@@ -149,14 +167,15 @@ function hook() {
 
 		switch (options.mode) {
 			case 'ast':
+				// ****************************************************
 				// 更新 mixin data
 				mixin_data.page = page;
 				mixin_data.json = page.json;
 
 				// 缓存 page 数据
-				store.commit('views/Base/pages', {
-					...store.state.views.Base.pages,
-					[cache_key]: page,
+				store.commit('page/cache', {
+					...store.state.page.cache,
+					[request_url]: page,
 				});
 
 				// 不是第一次进入页面
@@ -206,7 +225,7 @@ function hook() {
 						store.commit('history/pointer', store.state.history.pointer + 1);
 				}
 				// ****************************************************
-				// 默认缓存所有, 返回的时候才排除当前组件
+				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
 				switch (store.state.history.action) {
 					case 'back':
@@ -222,11 +241,11 @@ function hook() {
 								console.error(`组件名重复`, _to.meta.exclude);
 							}
 							// 确认需要清除的 page 缓存
-							store.commit('views/Base/pages', {
-								...Object.keys(store.state.views.Base.pages).filter(key => {
+							store.commit('page/cache', {
+								...Object.keys(store.state.page.cache).filter(key => {
 									return key !== `${axios_options.baseURL}${_from.fullPath}`;
 								}).reduce((sum, key) => {
-									sum[key] = store.state.views.Base.pages[key];
+									sum[key] = store.state.page.cache[key];
 									return sum;
 								}, {}),
 							});
@@ -242,7 +261,7 @@ function hook() {
 		// 导航故障，结束加载
 		NProgress.done();
 		// 导航故障，保持 to url 不变
-		history.replaceState({}, '', to_url);
+		history.replaceState({}, '', store.state.page.to_url);
 	});
 }
 

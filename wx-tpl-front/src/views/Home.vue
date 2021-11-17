@@ -8,25 +8,31 @@
         <van-sticky :offset-top="0">
             <div class="kw2w8g6k">
                 <nav>
-                    <ul class="kw2wexke_ul">
-                        <li
+                    <div class="kw2wexke_box">
+                        <wx-router-link
                             v-for="(v, k) in nav"
                             :key="k"
-                            class="kw2wkwk3_li"
-                            :class="[
-                                {
-                                    active:
-                                        v.href ===
-                                        $store.state.views.Home.tabbar_to,
-                                },
-                            ]"
-                            @click="handle_nav_click(v)"
+                            :href="v.href"
+                            replace
                         >
-                            <wx-router-link :href="v.href" replace>
+                            <div
+                                class="kw2wkwk3_item"
+                                :class="[
+                                    {
+                                        active: new RegExp(
+                                            `^${v.href}/?$`,
+                                            'i'
+                                        ).test(
+                                            $store.state.views.Home.tabbar_to
+                                        ),
+                                    },
+                                ]"
+                                @click="handle_nav_click(v)"
+                            >
                                 {{ v.label }}
-                            </wx-router-link>
-                        </li>
-                    </ul>
+                            </div>
+                        </wx-router-link>
+                    </div>
                 </nav>
             </div>
         </van-sticky>
@@ -94,7 +100,7 @@ export default {
     .fs36;
     right: 30px;
     top: 50%;
-    transform: translate(0, -50%);
+    transform: scale(1.3) translate(0, -30%);
 }
 
 .kw2w8g6k {
@@ -107,15 +113,15 @@ export default {
 // reset vant
 .van-sticky--fixed {
     .kw2w8g6k {
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.03);
     }
 }
 
-.kw2wexke_ul {
+.kw2wexke_box {
     .df;
     justify-content: space-around;
 }
-.kw2wkwk3_li {
+.kw2wkwk3_item {
     padding: 0 18px;
     &.active {
         box-shadow: 0 -6px 0 0 @c_theme inset;

@@ -1,0 +1,35 @@
+.kw0h39r8 {
+  font-size: 0.48rem;
+  margin: 0;
+  padding: 0.33333rem 0;
+  font-family: cursive;
+}
+.kw0hjnhc {
+  background: #fff;
+  border-bottom: 0.02667rem solid #f5f5f5;
+}
+.kw0i22hw {
+  position: absolute;
+  font-size: 0.48rem;
+  right: 0.4rem;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.kw2w8g6k {
+  font-size: 0.42667rem;
+  height: 1.04rem;
+  line-height: 1.04rem;
+  background: #fff;
+  filter: drop-shadow(0 0.01333rem 0 black);
+}
+.kw2wexke_ul {
+  display: flex;
+  justify-content: space-around;
+}
+.kw2wkwk3_li {
+  padding: 0 0.24rem;
+}
+.kw2wkwk3_li.active {
+  box-shadow: 0 -0.08rem 0 0 #FF7904 inset;
+}
+

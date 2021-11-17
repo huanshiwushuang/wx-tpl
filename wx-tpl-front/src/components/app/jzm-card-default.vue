@@ -33,7 +33,7 @@
                     关注
                 </van-button>
             </div>
-            <!-- 配图 和 内容 -->
+            <!-- 配图 -->
             <div class="mt20 tc">
                 <van-image :src="pic" lazy-load class="kvl0hpfv">
                     <template v-slot:loading>
@@ -42,7 +42,7 @@
                         </div>
                     </template>
                     <template v-slot:error>
-                        <div class="kvurf9qz_error">
+                        <div class="kvurf9qz_error kw350amm_error">
                             <van-icon name="photo" />
                         </div>
                     </template>
@@ -184,5 +184,9 @@ export default {
     .aic;
     .jcc;
     .h;
+}
+
+.kw350amm_error {
+    font-size: 150px;
 }
 </style>

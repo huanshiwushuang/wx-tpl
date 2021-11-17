@@ -1,6 +1,4 @@
 const state = {
-    // 页面数据缓存
-    pages: {},
 }
 const getters = {
 }

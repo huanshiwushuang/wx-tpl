@@ -18,8 +18,10 @@
                 日签
             </van-tabbar-item>
 
-            <div class="kvl4qag2 tc">
-                <van-icon class-prefix="icon" name="yongyan" color="#fff" />
+            <div class="kw3416h9">
+                <div class="kvl4qag2 tc">
+                    <van-icon class-prefix="icon" name="yongyan" color="#fff" />
+                </div>
             </div>
 
             <van-tabbar-item
@@ -64,5 +66,11 @@ export default {
     border-radius: 100%;
     align-self: center;
     font-size: 44px;
+}
+.kw3416h9 {
+    .df;
+    .aic;
+    .jcc;
+    flex: 1;
 }
 </style>

@@ -42,7 +42,7 @@ async function exec_tasks(tasks) {
         } else if (typeof item.rurl === 'function') {
             return item.rurl(params.pathname);
         } else {
-            return new RegExp(`^${item.rurl}$`, 'i').test(params.pathname);
+            return new RegExp(`^${item.rurl}/?$`, 'i').test(params.pathname);
         }
     });
     let result = await Promise.all(
