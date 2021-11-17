@@ -35,9 +35,9 @@ class MockData
             putenv('path=' . $env_path . PATH_SEPARATOR . $node_path);
         }
 
-        dump($node_path);
-        dump(getenv());
-        exit;
+        // dump($node_path);
+        // dump(getenv());
+        // exit;
 
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         $params = $request->param();
