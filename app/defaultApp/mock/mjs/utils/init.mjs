@@ -39,6 +39,8 @@ async function exec_tasks(tasks) {
         // 过滤 url
         if (item.rurl instanceof RegExp) {
             return item.rurl.test(params.pathname);
+        } else if (typeof item.rurl === 'function') {
+            return item.rurl(params.pathname);
         } else {
             return new RegExp(`^${item.rurl}$`, 'i').test(params.pathname);
         }

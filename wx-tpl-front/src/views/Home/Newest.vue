@@ -1,8 +1,8 @@
 <template>
-    <div class="kvkh7nuy_com">
+    <div class="kw2y4834_com">
         <!-- 句子列表 -->
         <jzm-card-default
-            v-for="(item, index) in cards"
+            v-for="(item, index) in json.list"
             :key="index"
             v-bind="item"
             class="kvl2074f"
@@ -13,27 +13,11 @@
 
 <script>
 export default {
-    name: "Home",
+    name: "home_newest",
     data() {
         return {};
     },
-    computed: {
-        // 卡片
-        cards() {
-            return this.$v("kvjp1c6c_li").map((item) => {
-                return {
-                    head: item.v("cid.head.attr_map.src"),
-                    name: item.v("cid.name.str"),
-                    guanzhu: item.v("cid.guanzhu.str"),
-                    pic: item.v("cid.pic.attr_map.src"),
-
-                    content: item.v("cid.content.str"),
-                    author: item.v("cid.author.str"),
-                    love: Number(item.v("attr_map.data-love")),
-                };
-            });
-        },
-    },
+    computed: {},
     methods: {},
     created() {},
 };

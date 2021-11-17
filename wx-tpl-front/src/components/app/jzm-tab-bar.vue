@@ -1,7 +1,11 @@
 <template>
     <div class="kvjmvqxx_com">
         <van-tabbar v-model="tabbar_index" :placeholder="true" route>
-            <van-tabbar-item icon="wap-home-o" to="/" :replace="true">
+            <van-tabbar-item
+                icon="wap-home-o"
+                :to="$store.state.views.Home.tabbar_to"
+                :replace="true"
+            >
                 首页
             </van-tabbar-item>
 

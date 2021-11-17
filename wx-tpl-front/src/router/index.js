@@ -32,10 +32,28 @@ const routes = [
 			{
 				path: '/',
 				components: {
-					header: () => import('@/views/Home/components/Header.vue'),
-					default: () => import('@/views/Home/Nice.vue'),
+					default: () => import('@/views/Home.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
+				children: [
+					{
+						path: '',
+						component: () => import('@/views/Home/Nice.vue'),
+					},
+					{
+						path: 'index/newest',
+						component: () => import('@/views/Home/Newest.vue'),
+					},
+					{
+						path: 'index/popular',
+						component: () => import('@/views/Home/Popular.vue'),
+					},
+					{
+						path: 'index/rank',
+						component: () => import('@/views/Home/Rank.vue'),
+					},
+				]
+
 			},
 			// 日签
 			{

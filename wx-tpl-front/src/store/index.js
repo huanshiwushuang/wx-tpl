@@ -32,6 +32,7 @@ const modules = modulesFiles.keys().filter(modulePath => {
                 getters: {},
                 mutations: {},
                 actions: {},
+                modules: {},
                 ...modulesFiles(modulePath).default
             };
             // 加工 module

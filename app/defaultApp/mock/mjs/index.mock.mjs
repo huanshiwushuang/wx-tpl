@@ -33,6 +33,36 @@ const tasks = [
             }
         }
     },
+    {
+        rurl: '/index/newest',
+        async task() {
+            let res = {
+                template: {
+                    'list|10-20': [
+                        {
+                            'head': `@image(80x80)`,
+                            'name|1': [
+                                '@name',
+                                '@cname',
+                            ],
+                            'guanzhu|100-400': 1,
+                            'pic': `@image(690x380)`,
+                            'content': `@cparagraph(2,4)`,
+                            'author|1': [
+                                `@cname`,
+                                `@name`,
+                            ],
+                            'love|100-400': 1
+                        }
+                    ]
+                }
+            }
+            return {
+                ...res,
+                data: Mock.mock(res.template),
+            }
+        }
+    },
 ];
 
 // 传入参数

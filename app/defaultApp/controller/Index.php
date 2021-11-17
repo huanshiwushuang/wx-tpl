@@ -22,4 +22,20 @@ class Index extends Base
             'page' => $page
         ]);
     }
+    public function newest()
+    {
+        $page = [
+            't' => '最新-标题',
+            'k' => '最新-关键词',
+            'd' => '最新-描述',
+            'json' => View::__get('mock_data'),
+        ];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $page;
+        }
+        return  View::display('', [
+            'page' => $page
+        ]);
+    }
 }
