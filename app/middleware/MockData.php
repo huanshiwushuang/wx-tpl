@@ -47,6 +47,7 @@ class MockData
             ]));
 
             dump(shell_exec('echo $PATH'));
+            dump(shell_exec('env'));
             exit;
 
 
