@@ -28,6 +28,13 @@ class MockData
      */
     public function handle($request, \Closure $next)
     {
+        $node_path = env('node_path');
+        $env_path = getenv('path');
+
+        if (!empty($node_path)) {
+            putenv('path=' . $env_path . PATH_SEPARATOR . $node_path);
+        }
+
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         $params = $request->param();
         if (
@@ -45,11 +52,6 @@ class MockData
             $params = helper::str_encode(json_encode([
                 'pathname' => $request->baseUrl(),
             ]));
-
-            dump(shell_exec('echo $PATH'));
-            dump(shell_exec('env'));
-            exit;
-
 
             $all_exec_result = [];
             // 循环执行 *.mock.mjs
