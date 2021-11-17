@@ -1,1 +1,172 @@
-[]
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "易芳",
+                    "guanzhu": 185,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "各己着厂她不手时机取而事速。风维报适与酸交金合改由权先。思单林领除引矿手权子消老亲。",
+                    "author": "Jessica Wilson",
+                    "love": 269
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Linda Young",
+                    "guanzhu": 232,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "而增地近示无千目领传所比价交角。速约分八百清团根所电最所了属些数四根。四场经制素给元石情存小海改。转最体对听面今后低部值京几关共局毛极。",
+                    "author": "于霞",
+                    "love": 392
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Ruth Rodriguez",
+                    "guanzhu": 194,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "也把传响音何白更八效划况思。北化结求金些设作因向统小节规。",
+                    "author": "梁明",
+                    "love": 208
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "金刚",
+                    "guanzhu": 168,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "来条子场号与极然同增而求程车转加许。与整定调状养眼却通机文记清。劳空在金县毛经派置除西传高会较统常。",
+                    "author": "Cynthia Perez",
+                    "love": 383
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Brenda Lewis",
+                    "guanzhu": 305,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "须心入认造少响达新斗意历音型今。领专就来还近儿际住济位领值从。各状义土要复较学选题直查你想许之。",
+                    "author": "Barbara Thomas",
+                    "love": 153
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "蒋芳",
+                    "guanzhu": 281,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "例切明得深更对五更内也七江动战验。利角进油物持受非门须领身细。拉通管程毛关会红该复办长好广打识厂。",
+                    "author": "郭明",
+                    "love": 153
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Edward Harris",
+                    "guanzhu": 393,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "日外产劳约车公战区定土林区区十们单。至切发题业响切无值能战得个候。身按形回记组人且史那花管各从认。",
+                    "author": "Barbara Perez",
+                    "love": 167
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Richard Johnson",
+                    "guanzhu": 351,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "六选华着低始只平要被不明。通提高土在长象队温生规级度求装联组名。",
+                    "author": "吴勇",
+                    "love": 298
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "魏军",
+                    "guanzhu": 104,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "消向体又济听原把应好效正两非律导。族都族加数开格式对情小军西间。门级观应规表各直例斯县国此得。",
+                    "author": "范超",
+                    "love": 285
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "韩芳",
+                    "guanzhu": 346,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "能新族向圆主段矿直身术新革打理织可走。现中件除向争线图重始用作社。次应体总也术们各拉图又产众。",
+                    "author": "Gary Taylor",
+                    "love": 281
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "John Walker",
+                    "guanzhu": 172,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "厂克满动了国青装而已率圆备深立。段民设很一律况我改则感养劳相之非件。整须空代究四由民何干照劳山素导十。",
+                    "author": "Ruth Rodriguez",
+                    "love": 186
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "江军",
+                    "guanzhu": 201,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "发引问最军六和决开世平高细路较式族。建革族活规报北色但口院称统。体如我利最样响表列除义管。",
+                    "author": "Mark Harris",
+                    "love": 351
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "贺丽",
+                    "guanzhu": 288,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "事矿变名界看完立张采把场青。心选际部又及各按成派队连论。志天除什争际着共头术同红确在。将容运科叫连千将老通组院起。",
+                    "author": "梁军",
+                    "love": 227
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Thomas Harris",
+                    "guanzhu": 334,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "革圆无民最半为采内劳上么利步物广中。层支统省商原道争金支思置。名南型问战长天装转酸段习直了反共入前。",
+                    "author": "潘秀兰",
+                    "love": 313
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Lisa Lee",
+                    "guanzhu": 245,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "必儿了何意支快天整十设取记从没西看道。此商不长成知调角立花没活图设片能决。",
+                    "author": "黎娟",
+                    "love": 322
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Donna Gonzalez",
+                    "guanzhu": 318,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "九新式得马县再布确装清眼收白结前。效计开群合素维海直况化数认。是论声此发织专历府方确对几。马什年后值今张斯美值今住世我。",
+                    "author": "Linda White",
+                    "love": 187
+                }
+            ]
+        },
+        "rurl": "/"
+    }
+]
