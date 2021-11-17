@@ -45,8 +45,10 @@ class MockData
             $params = helper::str_encode(json_encode([
                 'pathname' => $request->baseUrl(),
             ]));
-            dump(shell_exec('echo $PATH'));
+
+            dump(getenv('path'));
             exit;
+
             $all_exec_result = [];
             // 循环执行 *.mock.mjs
             foreach ($mock_files_pathname as $file_pathname) {
