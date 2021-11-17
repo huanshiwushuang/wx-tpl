@@ -1,5 +1,5 @@
 <template>
-    <div id="base">
+    <div id="base" class="df fdc">
         <!-- 被拦截了, 比如 404 || 要求登录 -->
         <router-view v-if="$route.meta.intercept"></router-view>
         <template v-else>
@@ -32,4 +32,7 @@ export default {
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
+#base {
+    min-height: 100vh;
+}
 </style>

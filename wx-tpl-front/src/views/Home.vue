@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="df fdc flg">
         <!-- Header -->
         <div class="kw0hjnhc pr tc">
             <h1 class="kw0h39r8">句子迷</h1>
@@ -108,13 +108,7 @@ export default {
     height: 78px;
     line-height: 78px;
     background: #fff;
-    filter: drop-shadow(0px 1px 0px black);
-}
-// reset vant
-.van-sticky--fixed {
-    .kw2w8g6k {
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.03);
-    }
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
 }
 
 .kw2wexke_box {

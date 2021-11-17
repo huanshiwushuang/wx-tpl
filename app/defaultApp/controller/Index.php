@@ -38,4 +38,36 @@ class Index extends Base
             'page' => $page
         ]);
     }
+    public function popular()
+    {
+        $page = [
+            't' => '热门-标题',
+            'k' => '热门-关键词',
+            'd' => '热门-描述',
+            'json' => View::__get('mock_data'),
+        ];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $page;
+        }
+        return  View::display('', [
+            'page' => $page
+        ]);
+    }
+    public function rank()
+    {
+        $page = [
+            't' => '排行-标题',
+            'k' => '排行-关键词',
+            'd' => '排行-描述',
+            'json' => View::__get('mock_data'),
+        ];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $page;
+        }
+        return  View::display('', [
+            'page' => $page
+        ]);
+    }
 }
