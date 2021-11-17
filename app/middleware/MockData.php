@@ -46,8 +46,9 @@ class MockData
                 'pathname' => $request->baseUrl(),
             ]));
 
-            dump(getenv('path'));
+            dump(getenv('PATH'));
             exit;
+
 
             $all_exec_result = [];
             // 循环执行 *.mock.mjs
