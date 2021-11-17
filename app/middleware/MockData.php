@@ -46,7 +46,7 @@ class MockData
                 'pathname' => $request->baseUrl(),
             ]));
 
-            dump(getenv('PATH'));
+            dump(phpinfo());
             exit;
 
 
