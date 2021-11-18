@@ -4,7 +4,7 @@ import init from './utils/init.mjs';
 // 任务栈，url 匹配的才会执行
 const tasks = [
     {
-        rurl: '/type',
+        rurl: /^\/type(\/)?$/,
         async task() {
             let res = {
                 template: {

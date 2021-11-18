@@ -103,6 +103,8 @@ class MockData
             // 匹配到规则的数量
             $count = count($all_exec_result);
 
+            // dump($all_exec_result);
+            // exit;
             switch ($count) {
                 case 0:
                     // helper::print_exception(['匹配到 0 个 mock rule']);

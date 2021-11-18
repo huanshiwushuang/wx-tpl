@@ -4,7 +4,7 @@ import init from './utils/init.mjs';
 // 任务栈，url 匹配的才会执行
 const tasks = [
     {
-        rurl: '/',
+        rurl: /^\/(\d+)?\/?$/,
         async task() {
             let res = {
                 template: {
@@ -34,7 +34,7 @@ const tasks = [
         }
     },
     {
-        rurl: '/index/newest',
+        rurl: /^\/index\/newest(\/)?(\/\d+)?$/,
         async task() {
             let res = {
                 template: {
@@ -64,7 +64,7 @@ const tasks = [
         }
     },
     {
-        rurl: '/index/popular',
+        rurl: /^\/index\/popular(\/)?(\/\d+)?$/,
         async task() {
             let res = {
                 template: {
@@ -92,7 +92,7 @@ const tasks = [
         }
     },
     {
-        rurl: '/index/rank',
+        rurl: /^\/index\/rank(\/)?(\/\d+)?$/,
         async task() {
             let res = {
                 template: {

@@ -37,6 +37,8 @@ import {
 	Image,
 	Loading,
 	Sticky,
+	List,
+	Cell,
 } from 'vant';
 
 // 注册组件
@@ -57,6 +59,8 @@ import {
 	Image,
 	Loading,
 	Sticky,
+	List,
+	Cell,
 ].forEach(com => {
 	if (com.options) {
 		Vue.use(com.com, com.options);
