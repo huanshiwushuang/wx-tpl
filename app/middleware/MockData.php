@@ -102,6 +102,7 @@ class MockData
 
             // 匹配到规则的数量
             $count = count($all_exec_result);
+
             switch ($count) {
                 case 0:
                     // helper::print_exception(['匹配到 0 个 mock rule']);
@@ -110,7 +111,7 @@ class MockData
                     // 合并默认数据 和 mock 数据
                     View::assign(array_merge($data_default, $all_exec_result[0]['data'], [
                         // 新增 mock_data 方便在 控制器直接返回模拟的数据
-                        'mock_data' => $all_exec_result[0]['data'],
+                        'mock_data' => (object)$all_exec_result[0]['data'],
                     ]));
                     break;
                 default:

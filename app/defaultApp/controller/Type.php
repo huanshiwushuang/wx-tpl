@@ -11,8 +11,18 @@ class Type extends Base
 {
     public function index()
     {
-        return View::display('', [
-            'json_data' => View::__get('mock_data')
+        $page = [
+            't' => '分类-标题',
+            'k' => '分类-关键词',
+            'd' => '分类-描述',
+            'json' => View::__get('mock_data'),
+        ];
+
+        if (preg_match('/json/i', request()->header('accept'))) {
+            return $page;
+        }
+        return  View::display('', [
+            'page' => $page
         ]);
     }
 }

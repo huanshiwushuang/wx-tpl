@@ -31,14 +31,7 @@ axiosInstance.interceptors.response.use(async (response) => {
     // 检查数据
     if (config.is_check) {
         // 需要被校验的 JSON 数据
-        let check_data = response.data;
-
-        // 有 tkd 的是 page 数据
-        if (['t', 'k', 'd'].find(i => {
-            return i in response.data;
-        })) {
-            check_data = response.data.json
-        }
+        let check_data = response.data.json;
 
         let { default: console_check } = await import('../console/check');
 
