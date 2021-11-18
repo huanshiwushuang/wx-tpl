@@ -134,9 +134,12 @@ class ViewFilter
 			],
 			[
 				'json',
-				[],
+				(object)[],
 			]
 		]);
+
+		// page 下的 json 转为 对象
+		$all_var['page']['json'] = (object)$all_var['page']['json'];
 
 		// page 所有变量提升到 顶层
 		foreach ($all_var['page'] as $key => $val) {

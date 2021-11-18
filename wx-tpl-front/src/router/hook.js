@@ -128,11 +128,15 @@ function hook() {
 					if (_from === VueRouter.START_LOCATION) {
 						let ast = html.to_ast(document.documentElement.outerHTML);
 						if (ast.page) {
-							try {
-								page = JSON.parse(ast.page.str);
-							} catch {
-								NProgress.start();
-								page = await request.get(request_url);
+							page = JSON.parse(ast.page.str);
+							// 检查数据
+							if (config.is_check) {
+								let { default: console_check } = await import('../console/check');
+
+								console_check({
+									url: location.pathname,
+									check_data: page.json,
+								});
 							}
 						} else {
 							NProgress.start();
