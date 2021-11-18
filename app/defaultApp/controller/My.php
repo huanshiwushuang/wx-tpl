@@ -15,7 +15,7 @@ class My extends Base
             't' => '标题111111111',
             'k' => '关键词22222222222',
             'd' => '描述3333333',
-            'json' => [],
+            'json' => (object)[],
         ];
 
         if (preg_match('/json/i', request()->header('accept'))) {
