@@ -174,6 +174,9 @@ function hook() {
 		// 保存当前 history state
 		history_current_state = history.state;
 
+		Object.assign(page, {
+			request_url,
+		})
 		// 更新 mixin data
 		mixin_data.page = page;
 		mixin_data.json = page.json;
