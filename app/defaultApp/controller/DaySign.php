@@ -7,7 +7,7 @@ use think\facade\View;
 /**
  * 日签
  */
-class DaySign extends Base
+class Daysign extends Base
 {
     public function index()
     {
