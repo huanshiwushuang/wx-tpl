@@ -1,0 +1,154 @@
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "胡洋",
+                    "guanzhu": 229,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "青引斗商业团青除量明界毛些。前展知清众儿党则自参特越约路造革金度。往高拉代被局他类族非包今我图低效器。",
+                    "author": "Linda Davis",
+                    "love": 118
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "邓杰",
+                    "guanzhu": 210,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "此反近比或志消情写运农么用办万。研线达际十口省连主对入头处。",
+                    "author": "沈平",
+                    "love": 246
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "白超",
+                    "guanzhu": 151,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "般华世做认情验资级四率看毛。铁海车称气前容为解活相由光角质。五除任军就战数七联新于着严。长论强因价十数业四好共类传王观。",
+                    "author": "Maria Gonzalez",
+                    "love": 123
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "邵强",
+                    "guanzhu": 211,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "权包极积类片更求原收清照酸的无面要按。时济收育美育么又度酸日节快。了军会步调还别百人马快正术图许。",
+                    "author": "方强",
+                    "love": 289
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "William Hernandez",
+                    "guanzhu": 238,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "北明采每养报度便众内入意先称。革叫包平行农调无特入主系青易派导持。",
+                    "author": "Brian Clark",
+                    "love": 202
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Eric Walker",
+                    "guanzhu": 385,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "须每形思公通代二林原自约天当收。斗合改历听风率导省拉广民京节细。马极目设府标如五等确此石和中。",
+                    "author": "Michael Gonzalez",
+                    "love": 284
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "赖军",
+                    "guanzhu": 297,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "面写基约复意高便电公说农常术改通。们还专们心即史部力较热设毛把。下适适和各何自如半打见可军。",
+                    "author": "魏秀英",
+                    "love": 171
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "曾洋",
+                    "guanzhu": 141,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "计反车带清专三响通门回农带界。据门住当器委把复着目一又业。",
+                    "author": "贾娜",
+                    "love": 131
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Sarah Perez",
+                    "guanzhu": 162,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "场办物第消京比下单圆二内的没直油。眼国办指精格叫度周许且得细发查步。过些较细节北是三制山议系。",
+                    "author": "梁娜",
+                    "love": 292
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "William Wilson",
+                    "guanzhu": 280,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "规住成所包理适委本长件再各法。拉团观更王要义线能党科石。县使联住战林车调来较上世号团。感统较段须出领器号广民段当代始约。",
+                    "author": "Jennifer Rodriguez",
+                    "love": 230
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Richard Robinson",
+                    "guanzhu": 358,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "以花金四红连目术相院学声维。你定素那标于管必速派越流准节组。查色将克据且则自置行第低来公始。月定合易东组意多术导分大况无型子。",
+                    "author": "Donald Wilson",
+                    "love": 217
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "锺刚",
+                    "guanzhu": 392,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "高断年参提标许度全县小型而天利。志研气改总车们王些共运象角。如工约外好放必总有今求党安关。",
+                    "author": "Jason Miller",
+                    "love": 137
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Thomas Harris",
+                    "guanzhu": 355,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "重社件调政对二比代处高解。老话们制决农应济明经新二花八精什。求条器美类务品之化入飞研法算因院。圆儿周林局它为分红济速住文还。",
+                    "author": "Deborah Garcia",
+                    "love": 121
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Mark Anderson",
+                    "guanzhu": 158,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "风他文利济加花场府小成例很育。满整式给来式从果况但说水府率增劳出。",
+                    "author": "Patricia White",
+                    "love": 235
+                }
+            ]
+        },
+        "rurl": "/"
+    }
+]
