@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/lang/zh-cn.js"],"names":["kv1s0cif"],"mappings":"gHAAA,OAAe,cACXA,SAAU","file":"js/chunk-2d229be6.e37bf015.js","sourcesContent":["export default {\r\n    kv1s0cif: '我是中文'\r\n}"],"sourceRoot":""}
