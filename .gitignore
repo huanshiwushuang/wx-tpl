@@ -5,6 +5,6 @@
 runtime
 # .env
 
-mock/json/
+app/**/mock/json/
 
 node_modules
