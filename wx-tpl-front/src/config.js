@@ -50,6 +50,10 @@ const res = {
         }
         return false;
     })(),
+    // axios_base_url
+    axios_base_url: (() => {
+        return local.value.axios_base_url || location.origin;
+    })(),
 }
 // 保存配置
 local.set(res);
@@ -60,7 +64,7 @@ if (res.is_print_config) {
     const settings_url = new URL(location.href);
 
     settings_url.pathname = '/settings';
-    settings_url.searchParams.set('wxxbb', '1');
+    settings_url.searchParams.set('jzm', '1');
 
     console.group(`配置信息---${settings_url.toString()}`);
 

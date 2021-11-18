@@ -103,8 +103,12 @@ function hook() {
 				break;
 		}
 		// ****************************************************
-		// 如果是第一次进入页面
-		if (_from === VueRouter.START_LOCATION) {
+		// 如果是第一次进入页面 && axios baseURL 是当前域名
+		a.href = axios_options.baseURL;
+		if (
+			_from === VueRouter.START_LOCATION &&
+			new URL(a.href).host === location.host
+		) {
 			let ast = html.to_ast(document.documentElement.outerHTML);
 			try {
 				page = JSON.parse(ast.page?.str);

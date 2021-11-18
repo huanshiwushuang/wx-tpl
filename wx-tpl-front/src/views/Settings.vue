@@ -81,6 +81,12 @@
                         <input type="checkbox" v-model="is_attach_app" />
                     </td>
                 </tr>
+                <tr>
+                    <td>数据 API baseURL</td>
+                    <td>
+                        <input type="text" v-model="axios_base_url" />
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

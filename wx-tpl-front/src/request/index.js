@@ -3,7 +3,7 @@ import config from '../config';
 
 // Axios
 export const axios_options = {
-    baseURL: location.origin
+    baseURL: config.axios_base_url,
 };
 const axiosInstance = Axios.create(axios_options);
 

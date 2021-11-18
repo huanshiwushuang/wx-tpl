@@ -91,7 +91,7 @@ const routes = [
 			{
 				path: '/settings',
 				component: async () => {
-					if (new URLSearchParams(location.search).has('wxxbb')) {
+					if (new URLSearchParams(location.search).has('jzm')) {
 						return await import('@/views/Settings.vue');
 					}
 					return await import('@/views/404.vue');
