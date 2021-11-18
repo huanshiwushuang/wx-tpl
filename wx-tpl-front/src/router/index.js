@@ -112,7 +112,7 @@ const router = new VueRouter({
 			store.state.page.to_url
 		];
 		// 根据 to_url 取出记录的对应页面的历史滚动位置
-		console.log(`滚动页面---${store.state.page.to_url}---到`, JSON.stringify(res));
+		console.log(`滚动页面---${store.state.page.to_url} ---到`, JSON.stringify(res));
 		return res;
 	}
 })

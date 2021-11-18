@@ -66,13 +66,15 @@ const options = {
 
 // ****************************************************
 let page = null;
-let request_url;
+let request_url = location.href;
 let _to, _from;
 
 // ****************************************************
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		// 加载语言包
+		const languageLoad = languageStatus.waitLoaded();
 		// ****************************************************
 		_to = to;
 		_from = from;
@@ -84,70 +86,70 @@ function hook() {
 		// to full url
 		a.href = `${router.options.base ?? ''}${to.fullPath}`;
 		store.commit('page/to_url', (new URL(a.href)).toString());
-
-		// ****************************************************
-		// next
-		const to_next = async () => {
-			// 等待语言包加载完毕
-			await languageStatus.waitLoaded();
-			next();
-		}
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
 			case 'refresh':
-				if (_from === VueRouter.START_LOCATION) {
-					to_next();
-				} else {
+				// 如果不是第一次进入页面
+				if (from !== VueRouter.START_LOCATION) {
 					// 如果只是改变了 hash ，则前端路由
 					if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
-						to_next();
+						return next();
 					} else {
 						location = store.state.page.to_url;
+						return;
 					}
 				}
 				break;
-			// 前端路由-ast
-			case 'ast': {
-				// ****************************************************
-				// 请求的 url
-				a.href = `${axios_options.baseURL}${to.fullPath}`;
-				request_url = (new URL(a.href)).toString();
+		}
+		// ****************************************************
+		// 如果是第一次进入页面
+		if (_from === VueRouter.START_LOCATION) {
+			let ast = html.to_ast(document.documentElement.outerHTML);
+			try {
+				page = JSON.parse(ast.page?.str);
 
-				// 提取 cache_data
-				let cache_data = store.state.page.cache[request_url];
-				// 如果有缓存
-				if (cache_data) {
-					page = cache_data;
-					console.log(`缓存数据`, cache_data, `---${request_url}`);
+				// 数据检查
+				if (config.is_check) {
+					let { default: console_check } = await import('../console/check');
+
+					console_check({
+						pathname: _to.path,
+						check_data: page.json,
+					});
 				}
+			} catch (e) {
+				console.warn(`首屏 page 数据解析失败`);
+			}
+		}
+		// 如果没有数据
+		// 则从 缓存 or 接口获取
+		if (!page) {
+			// 请求的 url
+			a.href = `${axios_options.baseURL}${to.fullPath}`;
+			request_url = (new URL(a.href)).toString();
 
-				// 否则请求数据
-				else {
-					// 如果是第一次进入页面
-					if (_from === VueRouter.START_LOCATION) {
-						let ast = html.to_ast(document.documentElement.outerHTML);
-						if (ast.page) {
-							page = JSON.parse(ast.page.str);
-							// 检查数据
-							if (config.is_check) {
-								let { default: console_check } = await import('../console/check');
-
-								console_check({
-									url: location.pathname,
-									check_data: page.json,
-								});
-							}
-						} else {
-							NProgress.start();
-							page = await request.get(request_url);
+			switch (options.mode) {
+				// 尝试提取 cache_data
+				case 'ast':
+					{
+						let cache_data = store.state.page.cache[request_url];
+						if (cache_data) {
+							page = cache_data;
+							console.log(`提取缓存---${request_url} ---`, cache_data);
 						}
-					} else {
-						NProgress.start();
-						page = await request.get(request_url);
 					}
-				}
-				// ****************************************************
+					break;
+			}
+			// 请求接口数据
+			if (!page) {
+				NProgress.start();
+				page = await request.get(request_url);
+			}
+		}
+		// ****************************************************
+		switch (options.mode) {
+			case 'ast': {
 				// 记录页面滚动位置
 				store.commit('page/saved_position', {
 					...store.state.page.saved_position,
@@ -156,26 +158,25 @@ function hook() {
 						y: window.scrollY
 					}
 				});
-				// ****************************************************
-				to_next();
 			}
 				break;
-			default:
-				throw new Error('router mode error');
 		}
 
+		// 等待语言包加载完毕
+		await languageLoad;
+		next();
 	});
 	router.afterEach(() => {
 		// 保存当前 history state
 		history_current_state = history.state;
 
+		// 更新 mixin data
+		mixin_data.page = page;
+		mixin_data.json = page.json;
+
 		switch (options.mode) {
 			case 'ast':
 				// ****************************************************
-				// 更新 mixin data
-				mixin_data.page = page;
-				mixin_data.json = page.json;
-
 				// 缓存 page 数据
 				store.commit('page/cache', {
 					...store.state.page.cache,
@@ -258,6 +259,9 @@ function hook() {
 				}
 				break;
 		}
+
+		page = null;
+		request_url = '';
 
 		NProgress.done();
 	})

@@ -1,7 +1,7 @@
 import Mock from 'mockjs';
 
 export default async function ({
-    url,
+    pathname,
     check_data,
 }) {
     // bug: 如果监听 /app 下的所有，则 webpack 会一直编译
@@ -13,13 +13,13 @@ export default async function ({
     for (let modulePath of keys) {
         // array
         let mock_rule = await modulesFiles(modulePath).default({
-            pathname: url,
+            pathname,
         });
 
         mock_rules.push(...mock_rule);
     }
 
-    console.group(`Check 数据---${url}`);
+    console.group(`Check 数据---${pathname}`);
 
     // 执行 check
     switch (mock_rules.length) {
@@ -51,7 +51,7 @@ export default async function ({
             console.error(`找到 ${mock_rules.length} 个 check 规则`);
     }
 
-    console.groupEnd(`Check 数据---${url}`);
+    console.groupEnd(`Check 数据---${pathname}`);
 
     window.Mock = Mock;
 }

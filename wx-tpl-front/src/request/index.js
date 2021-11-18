@@ -40,7 +40,7 @@ axiosInstance.interceptors.response.use(async (response) => {
         let url = new URL(a.href);
 
         console_check({
-            url: url.pathname,
+            pathname: url.pathname,
             check_data,
         });
 
