@@ -1,6 +1,6 @@
 <template>
     <div class="kvjmvqxx_com">
-        <van-tabbar v-model="tabbar_index" :placeholder="true" route>
+        <van-tabbar v-model="tabbar_index" :placeholder="true">
             <van-tabbar-item
                 icon="wap-home-o"
                 :to="$store.state.views.Home.tabbar_to"
@@ -47,10 +47,17 @@
 
 <script>
 export default {
+    name: "jzm_tab_bar",
     data() {
         return {
             tabbar_index: 0,
         };
+    },
+    created() {
+        // 匹配路由，设置激活的 index
+        this.tabbar_index = ["home", "daysign", "type", "my"].findIndex((i) => {
+            return new RegExp(`^${i}`).test(this.$route.name);
+        });
     },
 };
 </script>
