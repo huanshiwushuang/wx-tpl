@@ -1,1 +1,127 @@
-[]
+[
+    {
+        "template": {
+            "list|10-20": [
+                {
+                    "head": "@image(80x80)",
+                    "name|1": [
+                        "@name",
+                        "@cname"
+                    ],
+                    "guanzhu|100-400": 1,
+                    "pic": "@image(690x380)",
+                    "content": "@cparagraph(2,4)",
+                    "author|1": [
+                        "@cname",
+                        "@name"
+                    ],
+                    "love|100-400": 1
+                }
+            ]
+        },
+        "data": {
+            "list": [
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "龙超",
+                    "guanzhu": 220,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "克间因引派江党据把取具十上其。省们织作来增号布选都动从立有劳严。量按求从变值便美毛改内条地所她安维。",
+                    "author": "Jose Jones",
+                    "love": 114
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Scott Miller",
+                    "guanzhu": 380,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "段近文质点得不深安队流族电王数。持细长低受明成道或年表青口般。",
+                    "author": "田芳",
+                    "love": 391
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "方洋",
+                    "guanzhu": 244,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "种里史合形共备走动利二她造入精近。王我史热步规边例马非斗值须。",
+                    "author": "Shirley White",
+                    "love": 256
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Jessica Allen",
+                    "guanzhu": 143,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "及中目务些连象有和历院道至高强具面。再术完等人报化法经知流受变。十目空委书在为斗却力代今系最这。据感权那业三技农高但现点布形备。",
+                    "author": "文军",
+                    "love": 344
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Jose Martinez",
+                    "guanzhu": 226,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "只军厂公政度速称本决往重从各光事。京青社政人问经劳间争下产者教组育。复则完色交题叫书划放复关几极回查。",
+                    "author": "Patricia Gonzalez",
+                    "love": 208
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "康明",
+                    "guanzhu": 305,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "电影了列长深联院人已你五须有。认参便更别而团风么基天他想置取因重自。识办了率何存派与当过备提第素种办学。",
+                    "author": "Sandra Hall",
+                    "love": 239
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "常磊",
+                    "guanzhu": 126,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "铁此速常提议得报给图平接。根太例步专有东少离研节那打片表。会接具政用指置研调向多时那。",
+                    "author": "Eric Johnson",
+                    "love": 174
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Lisa Walker",
+                    "guanzhu": 248,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "根资经们利低已总越才千命业百。活问被主根线长话实间般会。",
+                    "author": "Carol Gonzalez",
+                    "love": 218
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "蒋磊",
+                    "guanzhu": 200,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "市低受反原日清过例题界以干。六成文位正着市布何对矿织转起群组其情。四西克越起现器积支委合门装最。",
+                    "author": "Mark Thomas",
+                    "love": 241
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "叶勇",
+                    "guanzhu": 387,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "织张矿查情王断日商率布力长生族。先很族教史各达子信科值青斗群。化林目土界员广西些海参后联号电问备成。",
+                    "author": "Joseph Moore",
+                    "love": 294
+                },
+                {
+                    "head": "http://dummyimage.com/80x80",
+                    "name": "Sandra Johnson",
+                    "guanzhu": 300,
+                    "pic": "http://dummyimage.com/690x380",
+                    "content": "问接织龙很斗飞队快并维率你么。被两运温单通县队标圆管总维东。号性七办别转厂织矿土属多别并然具来。没想里七具之名八合统传花全。",
+                    "author": "锺静",
+                    "love": 296
+                }
+            ]
+        },
+        "rurl": "/index/newest"
+    }
+]
