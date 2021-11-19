@@ -8588,7 +8588,7 @@ vue-template-es2015-compiler@^1.9.0:
 
 vue-virtual-scroll-list@^2.3.3:
   version "2.3.3"
-  resolved "https://registry.nlark.com/vue-virtual-scroll-list/download/vue-virtual-scroll-list-2.3.3.tgz?cache=0&sync_timestamp=1630926653411&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue-virtual-scroll-list%2Fdownload%2Fvue-virtual-scroll-list-2.3.3.tgz#290f0d04be814b93585f2ef232097b671141e5b1"
+  resolved "https://registry.nlark.com/vue-virtual-scroll-list/download/vue-virtual-scroll-list-2.3.3.tgz#290f0d04be814b93585f2ef232097b671141e5b1"
   integrity sha1-KQ8NBL6BS5NYXy7yMgl7ZxFB5bE=
 
 vue@^2.6.11:

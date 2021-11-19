@@ -1,6 +1,5 @@
 <template>
     <div class="kvkh7nuy_com">
-        <!-- 句子列表 -->
         <van-pull-refresh v-model="refreshing" @refresh="on_refresh">
             <van-list
                 v-model="loading"
@@ -10,23 +9,27 @@
                 finished-text="没有更多了"
                 @load="on_load"
             >
-                <jzm-card-default
-                    v-for="(item, index) in json.list"
-                    :key="index"
-                    v-bind="item"
-                    class="kvl2074f"
-                >
-                </jzm-card-default>
+                <virtual-list
+                    data-key="id"
+                    item-class="kw6i8nt3"
+                    :page-mode="true"
+                    :data-sources="json.list"
+                    :data-component="ListItem"
+                />
             </van-list>
         </van-pull-refresh>
     </div>
 </template>
 
 <script>
+import ListItem from "./Nice/components/ListItem.vue";
+
 export default {
     name: "home_nice",
     data() {
         return {
+            ListItem,
+
             loading: false,
             finished: false,
             refreshing: false,
@@ -108,8 +111,7 @@ export default {
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
-
-.kvl2074f {
+.kw6i8nt3 {
     border-bottom: 20px solid #f5f5f5;
     &:first-child {
         border-top: 20px solid #f5f5f5;
