@@ -116,10 +116,10 @@ const router = new VueRouter({
 	routes,
 	scrollBehavior() {
 		const res = store.state.page.saved_position[
-			store.state.page.to_url
+			store.state.page.to_pathname
 		];
-		// 根据 to_url 取出记录的对应页面的历史滚动位置
-		console.log(`滚动页面---${store.state.page.to_url} ---到`, JSON.stringify(res));
+		// 根据 to_pathname 取出记录的对应页面的历史滚动位置
+		console.log(`滚动页面---${store.state.page.to_pathname} ---到`, JSON.stringify(res));
 		return res;
 	}
 })

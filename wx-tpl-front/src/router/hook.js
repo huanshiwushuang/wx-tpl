@@ -66,6 +66,7 @@ const options = {
 
 // ****************************************************
 let page = null;
+let from_pathname, to_pathname;
 let request_url = location.href;
 let _to, _from;
 
@@ -78,14 +79,16 @@ function hook() {
 		// ****************************************************
 		_to = to;
 		_from = from;
-		// from full url
+		// from pathname
 		let a = document.createElement('a');
-		a.href = from.fullPath;
-		store.commit('page/from_url', location.href);
+		a.href = from.path;
+		from_pathname = location.pathname;
+		store.commit('page/from_pathname', from_pathname);
 
-		// to full url
-		a.href = `${router.options.base ?? ''}${to.fullPath}`;
-		store.commit('page/to_url', (new URL(a.href)).toString());
+		// to pathname
+		a.href = `${router.options.base ?? ''}${to.path}`;
+		to_pathname = (new URL(a.href)).pathname;
+		store.commit('page/to_pathname', to_pathname);
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
@@ -96,7 +99,7 @@ function hook() {
 					if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
 						return next();
 					} else {
-						location = store.state.page.to_url;
+						location = to_pathname;
 						return;
 					}
 				}
@@ -129,18 +132,14 @@ function hook() {
 		// 如果没有数据
 		// 则从 缓存 or 接口获取
 		if (!page) {
-			// 请求的 url
-			a.href = `${axios_options.baseURL}${to.fullPath}`;
-			request_url = (new URL(a.href)).toString();
-
 			switch (options.mode) {
 				// 尝试提取 cache_data
 				case 'ast':
 					{
-						let cache_data = store.state.page.cache[request_url];
+						let cache_data = store.state.page.cache[to_pathname];
 						if (cache_data) {
 							page = cache_data;
-							console.log(`提取缓存---${request_url} ---`, cache_data);
+							console.log(`提取缓存---${to_pathname} ---`, cache_data);
 						}
 					}
 					break;
@@ -148,6 +147,10 @@ function hook() {
 			// 请求接口数据
 			if (!page) {
 				NProgress.start();
+
+				// 请求的 url
+				a.href = `${axios_options.baseURL}${to.fullPath}`;
+				request_url = (new URL(a.href)).toString();
 				page = await request.get(request_url);
 			}
 		}
@@ -157,9 +160,9 @@ function hook() {
 				// 记录页面滚动位置
 				store.commit('page/saved_position', {
 					...store.state.page.saved_position,
-					[store.state.page.from_url]: {
+					[from_pathname]: {
 						x: window.scrollX,
-						y: window.scrollY
+						y: window.scrollY,
 					}
 				});
 			}
@@ -175,11 +178,12 @@ function hook() {
 		history_current_state = history.state;
 
 		Object.assign(page, {
+			pathname: to_pathname,
 			request_url,
 		})
-		// 更新 mixin data
-		mixin_data.page = page;
-		mixin_data.json = page.json;
+		// 创建新的对象, 避免直接修改 vuex 中的数据
+		mixin_data.page = JSON.parse(JSON.stringify(page));
+		mixin_data.json = mixin_data.page.json;
 
 		switch (options.mode) {
 			case 'ast':
@@ -187,7 +191,7 @@ function hook() {
 				// 缓存 page 数据
 				store.commit('page/cache', {
 					...store.state.page.cache,
-					[request_url]: page,
+					[to_pathname]: page,
 				});
 
 				// 不是第一次进入页面
@@ -268,7 +272,6 @@ function hook() {
 		}
 
 		page = null;
-		request_url = '';
 
 		NProgress.done();
 	})
@@ -276,7 +279,7 @@ function hook() {
 		// 导航故障，结束加载
 		NProgress.done();
 		// 导航故障，保持 to url 不变
-		history.replaceState({}, '', store.state.page.to_url);
+		history.replaceState({}, '', to_pathname);
 	});
 }
 

@@ -1,26 +1,20 @@
-import mixin_data from '../data/mixin_data';
-
 const state = {
     // 页面数据缓存
     cache: {},
     // 页面滚动位置记录
     saved_position: {},
 
-    // from_url
-    from_url: '',
-    // to_url
-    to_url: ''
+    // from_pathname
+    from_pathname: '',
+    // to_pathname
+    to_pathname: ''
 }
 const getters = {
 }
 const mutations = {
     cache(state, payload) {
-        // 更新 store 的
-        state.cache = payload;
-
-        // 随即 更新 mixin_data
-        mixin_data.page = payload;
-        mixin_data.json = payload;
+        // 存储新的对象，防止被 mixin_data 直接修改
+        state.cache = JSON.parse(JSON.stringify(payload));
     }
 }
 const actions = {
