@@ -8,7 +8,6 @@ const tasks = [
         async task() {
             let res = {
                 template: {
-                    'total|20-60': 1,
                     'finished|4-1': false,
                     'list|10-20': [
                         {

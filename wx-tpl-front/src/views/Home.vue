@@ -19,15 +19,10 @@
                                 class="kw2wkwk3_item"
                                 :class="[
                                     {
-                                        active: new RegExp(
-                                            `^${v.href}/?$`,
-                                            'i'
-                                        ).test(
-                                            $store.state.views.Home.tabbar_to
-                                        ),
+                                        active: nav_index === k,
                                     },
                                 ]"
-                                @click="handle_nav_click(v)"
+                                @click="handle_nav_click(v, k)"
                             >
                                 {{ v.label }}
                             </div>
@@ -38,6 +33,7 @@
         </van-sticky>
 
         <!-- Body -->
+
         <keep-alive>
             <router-view></router-view>
         </keep-alive>
@@ -51,31 +47,50 @@ export default {
         return {
             nav: [
                 {
+                    name: "home_nice",
                     label: "精选",
                     href: "/",
                 },
                 {
+                    name: "home_newest",
                     label: "最新",
                     href: "/index/newest",
                 },
                 {
+                    name: "home_popular",
                     label: "热门",
                     href: "/index/popular",
                 },
                 {
+                    name: "home_rank",
                     label: "排行",
                     href: "/index/rank",
                 },
             ],
+            nav_index: 0,
         };
     },
     methods: {
-        handle_nav_click(nav_active) {
-            this.$store.commit("views/Home/tabbar_to", nav_active.href);
+        init() {
+            // 激活的 nav
+            this.nav_index = this.nav.findIndex(
+                (i) => i.name === this.$route.matched[2].name
+            );
+            // 同步 url 到匹配的导航
+            let item = this.nav.find((v) => {
+                return this.$route.matched[2].name === v.name;
+            });
+            item.href = this.$route.fullPath;
+            // 同步 url 到 tabbar
+            this.$store.commit("views/Home/tabbar_url", this.$route.fullPath);
+        },
+        handle_nav_click(v, k) {
+            this.nav_index = k;
+            this.$store.commit("views/Home/tabbar_url", v.href);
         },
     },
     created() {
-        this.$store.commit("views/Home/tabbar_to", this.$route.path);
+        this.init();
     },
 };
 </script>

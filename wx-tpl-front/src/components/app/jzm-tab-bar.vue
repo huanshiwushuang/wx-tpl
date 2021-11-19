@@ -3,7 +3,11 @@
         <van-tabbar v-model="tabbar_index" :placeholder="true">
             <van-tabbar-item
                 icon="wap-home-o"
-                :to="$store.state.views.Home.tabbar_to"
+                :to="
+                    ['pathname', 'search', 'hash']
+                        .map((v) => $store.state.views.Home.tabbar_url[v])
+                        .join('')
+                "
                 :replace="true"
             >
                 首页
@@ -53,11 +57,18 @@ export default {
             tabbar_index: 0,
         };
     },
+    methods: {
+        init() {
+            // 匹配路由，设置激活的 index
+            this.tabbar_index = ["home", "daysign", "type", "my"].findIndex(
+                (v) => {
+                    return v === this.$route.matched[1].name;
+                }
+            );
+        },
+    },
     created() {
-        // 匹配路由，设置激活的 index
-        this.tabbar_index = ["home", "daysign", "type", "my"].findIndex((i) => {
-            return new RegExp(`^${i}`).test(this.$route.name);
-        });
+        this.init();
     },
 };
 </script>

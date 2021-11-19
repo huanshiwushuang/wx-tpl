@@ -32,6 +32,7 @@ const routes = [
 			// 首页
 			{
 				path: '/',
+				name: 'home',
 				components: {
 					default: () => import('@/views/Home.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
