@@ -20,4 +20,6 @@ const res = {
     is_mobile_ua: env.is_mobile_ua(),
 };
 
+window.res = res;
+
 export default res;

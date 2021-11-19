@@ -4,11 +4,12 @@ import init from './utils/init.mjs';
 // 任务栈，url 匹配的才会执行
 const tasks = [
     {
-        rurl: /^\/$/,
+        rurl: '/',
         async task() {
             let res = {
                 template: {
                     'total|20-60': 1,
+                    'finished|4-1': false,
                     'list|10-20': [
                         {
                             'head': `@image(80x80)`,

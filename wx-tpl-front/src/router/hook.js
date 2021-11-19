@@ -67,7 +67,6 @@ const options = {
 // ****************************************************
 let page = null;
 let from_pathname, to_pathname;
-let request_url = location.href;
 let _to, _from;
 
 // ****************************************************
@@ -148,10 +147,7 @@ function hook() {
 			if (!page) {
 				NProgress.start();
 
-				// 请求的 url
-				a.href = `${axios_options.baseURL}${to.fullPath}`;
-				request_url = (new URL(a.href)).toString();
-				page = await request.get(request_url);
+				page = await request.get(to.fullPath);
 			}
 		}
 		// ****************************************************
@@ -177,12 +173,8 @@ function hook() {
 		// 保存当前 history state
 		history_current_state = history.state;
 
-		Object.assign(page, {
-			pathname: to_pathname,
-			request_url,
-		})
 		// 创建新的对象, 避免直接修改 vuex 中的数据
-		mixin_data.page = JSON.parse(JSON.stringify(page));
+		mixin_data.page = page;
 		mixin_data.json = mixin_data.page.json;
 
 		switch (options.mode) {
