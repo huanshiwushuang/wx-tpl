@@ -40,7 +40,7 @@ export default {
         // 初始化
         init() {
             this.loading = false;
-            this.finished = false;
+            this.finished = this.json.finished;
             this.refreshing = false;
             this.error = false;
 
