@@ -11,6 +11,7 @@ const tasks = [
                     'finished|4-1': false,
                     'list|10-20': [
                         {
+                            'id': '@id',
                             'head': `@image(80x80)`,
                             'name|1': [
                                 '@name',
