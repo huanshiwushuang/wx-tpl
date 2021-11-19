@@ -24,7 +24,7 @@
 
 <script>
 export default {
-    name: "home_nice",
+    name: "home_newest",
     data() {
         return {
             loading: false,
@@ -55,7 +55,7 @@ export default {
         },
         async on_load() {
             try {
-                let res = await this.$get(location.pathname, {
+                let res = await this.$get(this.$route.path, {
                     ...this.qs,
                     page: this.qs.page - 0 + 1,
                 });
@@ -65,7 +65,7 @@ export default {
                 // 同步到 store
                 this.$store.commit("page/cache", {
                     ...this.$store.state.page.cache,
-                    [location.pathname]: this.page,
+                    [this.$route.path]: this.page,
                 });
                 // 页码 +1
                 this.qs.page++;
@@ -80,7 +80,7 @@ export default {
         async on_refresh() {
             try {
                 let res = await this.$get(
-                    `${location.pathname}${location.search}`
+                    `${this.$route.path}${location.search}`
                 );
                 // 合并数据
                 Object.assign(this.json, res.json);
@@ -88,7 +88,7 @@ export default {
                 // 同步到 store
                 this.$store.commit("page/cache", {
                     ...this.$store.state.page.cache,
-                    [location.pathname]: this.page,
+                    [this.$route.path]: this.page,
                 });
 
                 // 重新初始化
