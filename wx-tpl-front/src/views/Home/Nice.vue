@@ -33,15 +33,25 @@ export default {
             error: false,
 
             // 查询参数
-            qs: {
-                page: 1,
-                pagesize: 10,
-            },
+            qs: {},
         };
     },
     methods: {
+        // 初始化
         init() {
-            Object.assign(this.qs, this.$route.query);
+            this.loading = false;
+            this.finished = false;
+            this.refreshing = false;
+            this.error = false;
+
+            Object.assign(
+                this.qs,
+                {
+                    page: 1,
+                    pagesize: 10,
+                },
+                this.$route.query
+            );
         },
         async on_load() {
             try {
@@ -72,7 +82,7 @@ export default {
                 let res = await this.$get(
                     `${location.pathname}${location.search}`
                 );
-                // 合并页面数据
+                // 合并数据
                 Object.assign(this.json, res.json);
 
                 // 同步到 store
@@ -80,6 +90,11 @@ export default {
                     ...this.$store.state.page.cache,
                     [location.pathname]: this.page,
                 });
+
+                // 重新初始化
+                this.init();
+                // 重置 finished
+                this.finished = res.json.finished;
             } finally {
                 this.refreshing = false;
             }
