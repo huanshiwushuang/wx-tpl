@@ -9,27 +9,23 @@
                 finished-text="没有更多了"
                 @load="on_load"
             >
-                <virtual-list
-                    data-key="id"
-                    item-class="kw6i8nt3"
-                    :page-mode="true"
-                    :data-sources="json.list"
-                    :data-component="ListItem"
-                />
+                <jzm-card-default
+                    v-for="(v, k) in json.list"
+                    v-bind="v"
+                    :key="k"
+                    class="kw6i8nt3"
+                >
+                </jzm-card-default>
             </van-list>
         </van-pull-refresh>
     </div>
 </template>
 
 <script>
-import ListItem from "./Nice/components/ListItem.vue";
-
 export default {
     name: "home_nice",
     data() {
         return {
-            ListItem,
-
             loading: false,
             finished: false,
             refreshing: false,

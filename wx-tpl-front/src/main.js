@@ -24,8 +24,6 @@ import router from './router'
 import './components'
 // i18n
 import i18n from './lang'
-// VirtualList
-import VirtualList from 'vue-virtual-scroll-list'
 // UI 组件
 import {
 	Button,
@@ -69,8 +67,6 @@ import {
 	}
 })
 
-// virtual-list
-Vue.component('virtual-list', VirtualList);
 // 设置组件
 Toast.setDefaultOptions({ duration: 3000 });
 // 设置 vue
