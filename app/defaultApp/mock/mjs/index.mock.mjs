@@ -24,7 +24,7 @@ const tasks = [
                                 `@cname`,
                                 `@name`,
                             ],
-                            'love|100-400': 1
+                            'love_count|100-400': 1
                         }
                     ]
                 }
@@ -55,7 +55,7 @@ const tasks = [
                                 `@cname`,
                                 `@name`,
                             ],
-                            'love|100-400': 1
+                            'love_count|100-400': 1
                         }
                     ]
                 }
@@ -104,7 +104,7 @@ const tasks = [
                         {
                             'id': '@id',
                             'rank|+1': 1,
-                            'love|100-400': 1,
+                            'love_count|100-400': 1,
                             'is_love|1': true,
                             'content': '@cparagraph(2,4)',
                             'author|1': [

@@ -1,5 +1,5 @@
 <template>
-    <div class="flg kw3gy252_com">
+    <div class="kw3gy252_com">
         <div class="kw3haws5_box">
             <!-- 卡片 -->
             <div
@@ -54,13 +54,18 @@ export default {
             });
         },
     },
+    activated() {
+        this.body_class.push("kw9b4hlh");
+    },
+    deactivated() {
+        this.body_class.splice(this.body_class.indexOf("kw9b4hlh"), 1);
+    },
 };
 </script>
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
 .kw3gy252_com {
-    background: #f4f4f4;
     padding: 30px;
 }
 .kw3haws5_box {
@@ -111,5 +116,9 @@ export default {
 .kw3k759k_id {
     transform: translate(3%, 9%);
     color: red;
+}
+
+.kw9b4hlh {
+    background: #f4f4f4;
 }
 </style>

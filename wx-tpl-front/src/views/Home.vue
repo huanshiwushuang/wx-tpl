@@ -1,5 +1,5 @@
 <template>
-    <div class="df fdc flg">
+    <div>
         <!-- Header -->
         <div class="kw0hjnhc pr tc">
             <h1 class="kw0h39r8">句子迷</h1>

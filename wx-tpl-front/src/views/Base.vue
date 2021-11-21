@@ -1,5 +1,5 @@
 <template>
-    <div id="base" class="df fdc">
+    <div id="base">
         <!-- 被拦截了, 比如 404 || 要求登录 -->
         <router-view v-if="$route.meta.intercept"></router-view>
         <template v-else>

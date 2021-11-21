@@ -1,0 +1,36 @@
+.kw4q8hp0 {
+  font-size: 0.32rem;
+  height: 0.84rem;
+  line-height: 0.84rem;
+  background: #f5f5f5;
+  padding-left: 0.4rem;
+}
+.kw9bbfh1 {
+  padding: 0.4rem 0.4rem 0.22667rem 0.4rem;
+}
+.kw9bbfh1 + .kw9bbfh1 {
+  border-top: 0.26667rem solid #f5f5f5;
+}
+.kw9bbfh1.rank_1 .kw9c6p5k_icon {
+  color: #ff515a;
+}
+.kw9bbfh1.rank_2 .kw9c6p5k_icon {
+  color: #fe9017;
+}
+.kw9bbfh1.rank_3 .kw9c6p5k_icon {
+  color: #f6c800;
+}
+.kw9bv0fn {
+  margin-left: 0.34667rem;
+}
+.kw9c6p5k_icon {
+  font-size: 1.06667rem;
+}
+.kw9c43zc {
+  font-size: 0.32rem;
+  left: 50%;
+  bottom: 0.14667rem;
+  color: #fff;
+  transform: translate(-50%, 0);
+}
+

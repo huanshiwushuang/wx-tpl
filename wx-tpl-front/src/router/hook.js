@@ -30,13 +30,37 @@ let history_current_state;
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
 	store.commit('history/action', 'replace');
-	return _replace.apply(this, arguments);
+	return _replace.apply(this, arguments).catch(err => {
+		NProgress.done();
+
+		switch (err.type) {
+			// Navigation cancelled
+			case 8:
+				return;
+			// NavigationDuplicated
+			case 16:
+				return;
+		}
+		console.error(err);
+	});
 };
 
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function () {
 	store.commit('history/action', 'push');
-	return _push.apply(this, arguments);
+	return _push.apply(this, arguments).catch(err => {
+		NProgress.done();
+
+		switch (err.type) {
+			// Navigation cancelled
+			case 8:
+				return;
+			// NavigationDuplicated
+			case 16:
+				return;
+		}
+		console.error(err);
+	});
 };
 
 window.addEventListener('popstate', (e) => {

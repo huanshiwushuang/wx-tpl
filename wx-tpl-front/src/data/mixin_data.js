@@ -12,7 +12,7 @@ const res = {
     // 异步加载的组件
     coms: [],
     // body 的 class
-    bodyClass: [],
+    body_class: [],
     // 颜色变量
     // c_theme: '255,121,4'
     c_theme: '#FF7904',

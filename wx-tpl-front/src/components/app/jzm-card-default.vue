@@ -67,7 +67,7 @@
                 @click="$emit('love')"
             />
             <span>
-                {{ love }}
+                {{ love_count }}
             </span>
             <!-- 收藏 -->
             <van-icon
@@ -120,7 +120,7 @@ export default {
             required: true,
         },
         // 喜欢数量
-        love: {
+        love_count: {
             type: Number,
             required: true,
         },
