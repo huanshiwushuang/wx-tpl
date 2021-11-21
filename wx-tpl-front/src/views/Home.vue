@@ -17,7 +17,7 @@
                 <!-- Body -->
                 <keep-alive>
                     <router-view
-                        v-show="v.name === $route.matched[2].name"
+                        v-if="v.name === $route.matched[2].name"
                     ></router-view>
                 </keep-alive>
             </van-tab>
@@ -69,8 +69,8 @@ export default {
             this.$store.commit("views/Home/tabbar_url", this.$route.fullPath);
         },
         on_tabs_change(index) {
-            let v = this.nav[index];
             // 网址跳转
+            let v = this.nav[index];
             this.$router.replace(v.href);
             this.$store.commit("views/Home/tabbar_url", v.href);
         },

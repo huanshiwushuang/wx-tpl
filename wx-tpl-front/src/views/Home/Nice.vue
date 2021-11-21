@@ -5,9 +5,10 @@
                 v-model="loading"
                 :finished="finished"
                 :error.sync="error"
+                offset="0"
                 error-text="请求失败，点击重新加载"
                 finished-text="没有更多了"
-                @load="on_load"
+                @load="on_load_next"
             >
                 <jzm-card-default
                     v-for="(v, k) in json.list"
@@ -52,15 +53,18 @@ export default {
                 this.$route.query
             );
         },
-        async on_load() {
+        async on_load_next() {
             try {
                 let res = await this.$get(this.$route.path, {
                     ...this.qs,
                     page: this.qs.page - 0 + 1,
                 });
 
-                // 追加数据
-                this.json.list.push(...res.json.list);
+                // 替换数据
+                this.json.list = [
+                    ...this.json.list.slice(-1),
+                    ...res.json.list,
+                ];
                 // 同步到 store
                 this.$store.commit("page/cache", {
                     ...this.$store.state.page.cache,
@@ -70,6 +74,8 @@ export default {
                 this.qs.page++;
                 // 判断是否有更多
                 this.finished = res.json.finished;
+
+                window.scrollTo(0, 0);
             } catch {
                 this.error = true;
             }
