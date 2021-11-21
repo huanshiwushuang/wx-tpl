@@ -62,7 +62,7 @@ export default {
 
                 // 替换数据
                 this.json.list = [
-                    ...this.json.list.slice(-2),
+                    ...this.json.list.slice(-1),
                     ...res.json.list,
                 ];
                 // 同步到 store
