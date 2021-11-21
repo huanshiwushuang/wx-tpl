@@ -99,21 +99,18 @@ const tasks = [
         async task() {
             let res = {
                 template: {
+                    'finished|4-1': false,
                     'list|10-20': [
                         {
-                            'head': `@image(80x80)`,
-                            'name|1': [
-                                '@name',
-                                '@cname',
-                            ],
-                            'guanzhu|100-400': 1,
-                            'pic': `@image(690x380)`,
-                            'content': `@cparagraph(2,4)`,
+                            'id': '@id',
+                            'rank|+1': 1,
+                            'love|100-400': 1,
+                            'is_love|1': true,
+                            'content': '@cparagraph(2,4)',
                             'author|1': [
                                 `@cname`,
                                 `@name`,
                             ],
-                            'love|100-400': 1
                         }
                     ]
                 }
