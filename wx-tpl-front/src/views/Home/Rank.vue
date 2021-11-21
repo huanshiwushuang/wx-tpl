@@ -7,6 +7,7 @@
                 v-model="loading"
                 :finished="finished"
                 :error.sync="error"
+                offset="0"
                 error-text="请求失败，点击重新加载"
                 finished-text="没有更多了"
                 @load="on_load"
@@ -75,8 +76,11 @@ export default {
                     page: this.qs.page - 0 + 1,
                 });
 
-                // 追加数据
-                this.json.list.push(...res.json.list);
+                // 替换数据
+                this.json.list = [
+                    ...this.json.list.slice(-2),
+                    ...res.json.list,
+                ];
                 // 同步到 store
                 this.$store.commit("page/cache", {
                     ...this.$store.state.page.cache,
