@@ -9,7 +9,6 @@
         <van-tabs
             v-model="nav_index"
             swipeable
-            animated
             sticky
             class="kw8wvuaw"
             @change="on_tabs_change"
@@ -88,7 +87,9 @@ export default {
 .kw0h39r8 {
     .fs36;
     margin: 0;
-    padding: 25px 0;
+    // padding: 25px 0;
+    height: 90px;
+    line-height: 90px;
     font-family: cursive;
 }
 
