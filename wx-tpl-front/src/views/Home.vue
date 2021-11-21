@@ -5,38 +5,24 @@
             <h1 class="kw0h39r8">句子迷</h1>
             <van-icon name="search" class="fr kw0i22hw cp" />
         </div>
-        <van-sticky :offset-top="0">
-            <div class="kw2w8g6k">
-                <nav>
-                    <div class="kw2wexke_box">
-                        <wx-router-link
-                            v-for="(v, k) in nav"
-                            :key="k"
-                            :href="v.href"
-                            replace
-                        >
-                            <div
-                                class="kw2wkwk3_item"
-                                :class="[
-                                    {
-                                        active: nav_index === k,
-                                    },
-                                ]"
-                                @click="handle_nav_click(v, k)"
-                            >
-                                {{ v.label }}
-                            </div>
-                        </wx-router-link>
-                    </div>
-                </nav>
-            </div>
-        </van-sticky>
-
-        <!-- Body -->
-
-        <keep-alive>
-            <router-view></router-view>
-        </keep-alive>
+        <!--Nav -->
+        <van-tabs
+            v-model="nav_index"
+            swipeable
+            animated
+            sticky
+            class="kw8wvuaw"
+            @change="on_tabs_change"
+        >
+            <van-tab v-for="v in nav" :title="v.label" :key="v.href">
+                <!-- Body -->
+                <keep-alive>
+                    <router-view
+                        v-show="v.name === $route.matched[2].name"
+                    ></router-view>
+                </keep-alive>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 
@@ -72,20 +58,21 @@ export default {
     },
     methods: {
         init() {
-            // 激活的 nav
-            this.nav_index = this.nav.findIndex(
-                (i) => i.name === this.$route.matched[2].name
-            );
-            // 同步 url 到匹配的导航
-            let item = this.nav.find((v) => {
+            // 激活的 nav index
+            this.nav_index = this.nav.findIndex((v) => {
                 return this.$route.matched[2].name === v.name;
             });
+            // 激活的 nav item
+            let item = this.nav[this.nav_index];
+            // 同步 url 到匹配的导航
             item.href = this.$route.fullPath;
             // 同步 url 到 tabbar
             this.$store.commit("views/Home/tabbar_url", this.$route.fullPath);
         },
-        handle_nav_click(v, k) {
-            this.nav_index = k;
+        on_tabs_change(index) {
+            let v = this.nav[index];
+            // 网址跳转
+            this.$router.replace(v.href);
             this.$store.commit("views/Home/tabbar_url", v.href);
         },
     },
@@ -118,22 +105,23 @@ export default {
     transform: scale(1.3) translate(0, -30%);
 }
 
-.kw2w8g6k {
-    .fs32;
-    height: 78px;
-    line-height: 78px;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
-}
-
-.kw2wexke_box {
-    .df;
-    justify-content: space-around;
-}
-.kw2wkwk3_item {
-    padding: 0 18px;
-    &.active {
-        box-shadow: 0 -6px 0 0 @c_theme inset;
+.kw8wvuaw {
+    // reset vant
+    .van-tab {
+        .fs32;
+    }
+    .van-tabs__wrap {
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
+        height: 78px;
+        line-height: 78px;
+    }
+    .van-tabs__nav {
+        padding: 0;
+    }
+    .van-tabs__line {
+        bottom: 0;
+        padding: 0 18px;
+        border-radius: 0;
     }
 }
 </style>
