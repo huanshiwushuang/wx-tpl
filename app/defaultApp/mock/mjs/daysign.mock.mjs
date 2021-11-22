@@ -9,9 +9,10 @@ const tasks = [
             let res = {
                 template: {
                     'pic|1': [
-                        `https://cdn.seovx.com/?mom=302&random=@id`,
-                        `https://cdn.seovx.com/d/?mom=302&random=@id`,
-                        `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                        // `https://cdn.seovx.com/?mom=302&random=@id`,
+                        // `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                        // `https://cdn.seovx.com/ha/?mom=302&random=@id`,
+                        `https://source.unsplash.com/690x380?&random=@id`
                     ],
                     'discuss_count|1000-10000': 1,
                     'list|10-20': [

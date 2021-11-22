@@ -19,9 +19,10 @@ const tasks = [
                             ],
 
                             'pic|1': [
-                                `https://cdn.seovx.com/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                                // `https://cdn.seovx.com/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/ha/?mom=302&random=@id`,
+                                `https://source.unsplash.com/690x380?&random=@id`
                             ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
@@ -61,9 +62,10 @@ const tasks = [
                             ],
                             // 690 * 380
                             'pic|1': [
-                                `https://cdn.seovx.com/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                                // `https://cdn.seovx.com/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/ha/?mom=302&random=@id`,
+                                `https://source.unsplash.com/690x380?&random=@id`
                             ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
@@ -102,9 +104,10 @@ const tasks = [
                                 '@cname',
                             ],
                             'pic|1': [
-                                `https://cdn.seovx.com/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
-                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                                // `https://cdn.seovx.com/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                // `https://cdn.seovx.com/ha/?mom=302&random=@id`,
+                                `https://source.unsplash.com/690x380?&random=@id`
                             ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
