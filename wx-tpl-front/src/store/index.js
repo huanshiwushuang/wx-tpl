@@ -104,7 +104,6 @@ export function process_module(module) {
     // 添加缓存
     module.state._cache = JSON.parse(JSON.stringify(module.state));
 }
-
 // 根节点
 const root = {
     // 开发环境，严格模式，禁止不通过 mutations 修改数据

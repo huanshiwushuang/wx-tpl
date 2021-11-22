@@ -1,5 +1,6 @@
 <template>
     <div class="kvkh7nuy_com">
+        <!-- Header -->
         <div class="kvmd2n2j">
             <!-- 背景图片 -->
             <div
@@ -22,8 +23,8 @@
                 </div>
             </div>
         </div>
+        <!-- Body -->
         <van-pull-refresh v-model="refreshing" @refresh="on_refresh">
-            <!-- 每日一句，人生即时词典 -->
             <div class="kwab9dm1 tc">每日一句，人生即时词典</div>
             <van-list
                 v-model="loading"
