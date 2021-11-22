@@ -12,19 +12,30 @@ const tasks = [
                     'list|10-20': [
                         {
                             'id': '@id',
-                            'head': `@image(80x80)`,
+                            'head': `https://api.prodless.com/avatar.png?size=80`,
                             'name|1': [
                                 '@name',
                                 '@cname',
                             ],
-                            'guanzhu|100-400': 1,
-                            'pic': `@image(690x380)`,
+
+                            'pic|1': [
+                                `https://cdn.seovx.com/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                            ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
                                 `@cname`,
                                 `@name`,
                             ],
-                            'love_count|100-400': 1
+                            // 关注
+                            'guanzhu|100-400': 1,
+                            'is_guanzhu|1': true,
+                            // 喜欢
+                            'love_count|100-400': 1,
+                            'is_love|1': true,
+                            // 收藏
+                            'is_shoucang|1': true,
                         }
                     ]
                 }
@@ -43,19 +54,31 @@ const tasks = [
                     'list|10-20': [
                         {
                             'id': '@id',
-                            'head': `@image(80x80)`,
+                            'head': `https://api.prodless.com/avatar.png?size=80`,
                             'name|1': [
                                 '@name',
                                 '@cname',
                             ],
-                            'guanzhu|100-400': 1,
-                            'pic': `@image(690x380)`,
+                            // 690 * 380
+                            'pic|1': [
+                                `https://cdn.seovx.com/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                            ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
                                 `@cname`,
                                 `@name`,
                             ],
-                            'love_count|100-400': 1
+
+                            // 关注
+                            'guanzhu|100-400': 1,
+                            'is_guanzhu|1': true,
+                            // 喜欢
+                            'love_count|100-400': 1,
+                            'is_love|1': true,
+                            // 收藏
+                            'is_shoucang|1': true,
                         }
                     ]
                 }
@@ -73,12 +96,16 @@ const tasks = [
                 template: {
                     'list|10-20': [
                         {
-                            'head': `@image(80x80)`,
+                            'head': `https://api.prodless.com/avatar.png?size=80`,
                             'name|1': [
                                 '@name',
                                 '@cname',
                             ],
-                            'pic': `@image(690x450)`,
+                            'pic|1': [
+                                `https://cdn.seovx.com/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/d/?mom=302&random=@id`,
+                                `https://cdn.seovx.com/ha/?mom=302&random=@id`
+                            ],
                             'content': `@cparagraph(2,4)`,
                             'author|1': [
                                 `@cname`,

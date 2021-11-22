@@ -1,0 +1,32 @@
+.kvmd2n2j {
+  position: relative;
+  height: 5.33333rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+.kwa7hvk0 .van-nav-bar {
+  background: transparent;
+}
+.kwa7hvk0 .van-nav-bar__title,
+.kwa7hvk0 .kwa74xo4_icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+.kwa7hvk0 .van-hairline--bottom:after {
+  display: none;
+}
+.kwa8al4v {
+  position: absolute;
+  left: 0.4rem;
+  top: 50%;
+  transform: translate(0, -50%);
+  filter: drop-shadow(0 0 0.05333rem black);
+}
+.kwa8c74f {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  filter: drop-shadow(0 0 0.05333rem black);
+}
+.kwa8f8bc {
+  transform: translate(0, 0.05333rem);
+}
+

@@ -12,22 +12,22 @@ const node_cache = {};
 const modules = modulesFiles.keys().filter(modulePath => {
     return !new RegExp('\\./index.js', 'i').test(modulePath);
 }).reduce((sum, modulePath) => {
-    // 分割成文件夹名字的数组
+    // 按照文件路径分割成-数组
     const path_array = modulePath
         .replace(/^\.[/\\]/, '')
         .replace(/\.js$/, '')
         .replace(/\\/, '/')
         .split('/');
 
-    path_array.forEach((item, index) => {
+    path_array.forEach((v, k) => {
         // 父节点的 key
-        const parent_key = path_array.slice(0, index).join('/');
+        const parent_key = path_array.slice(0, k).join('/');
         // 当前节点的 key
-        const current_key = path_array.slice(0, index + 1).join('/');
+        const current_key = path_array.slice(0, k + 1).join('/');
 
         // 如果是最后一级, 就是 js 文件
-        if (index === path_array.length - 1) {
-            const defa = {
+        if (k === path_array.length - 1) {
+            let module = {
                 state: {},
                 getters: {},
                 mutations: {},
@@ -35,10 +35,10 @@ const modules = modulesFiles.keys().filter(modulePath => {
                 modules: {},
                 ...modulesFiles(modulePath).default
             };
-            // 加工 module
-            process_module(defa);
-
-            node_cache[current_key] = defa;
+            // 处理 module
+            process_module(module);
+            // 附加
+            node_cache[current_key] = module;
         }
         // 文件夹
         else {
@@ -53,11 +53,11 @@ const modules = modulesFiles.keys().filter(modulePath => {
 
         // 第一级, 全是没有父节点的根节点, 放到 sum 中
         if (!node_cache[parent_key]) {
-            sum[item] = node_cache[current_key];
+            sum[v] = node_cache[current_key];
         }
         // 其他有父节点的, 放到父节点中
         else {
-            node_cache[parent_key].modules[item] = node_cache[current_key];
+            node_cache[parent_key].modules[v] = node_cache[current_key];
         }
     });
 
@@ -93,8 +93,8 @@ export function process_module(module) {
         }
 
     });
-    // 添加 reset_self 
-    module.actions.reset_self = function ({ dispatch }) {
+    // 添加 reset_module 
+    module.actions._reset_module = function ({ dispatch }) {
         // 循环重置每一个属性
         state_keys.forEach(key => {
             dispatch(`${key}_reset`);

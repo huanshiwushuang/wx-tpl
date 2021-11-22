@@ -15,7 +15,7 @@ class Daysign extends Base
             't' => '我是日签的 title',
             'k' => '我是日签的 keywords',
             'd' => '我是日签的 description',
-            'json' => (object)[],
+            'json' => View::__get('mock_data'),
         ];
 
         if (preg_match('/json/i', request()->header('accept'))) {

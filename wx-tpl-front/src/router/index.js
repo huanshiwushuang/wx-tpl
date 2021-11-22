@@ -66,7 +66,7 @@ const routes = [
 				path: '/daysign',
 				name: 'daysign',
 				components: {
-					default: () => import('@/views/DaySign/Index.vue'),
+					default: () => import('@/views/DaySign.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
 			},

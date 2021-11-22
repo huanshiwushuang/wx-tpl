@@ -53,17 +53,23 @@
                 <div class="kvl1xrv7">
                     {{ content }}
                 </div>
-                <div class="tr kvl120z0">——&ensp;{{ author }}</div>
+                <div class="tr kvl120z0">
+                    ——
+                    {{ author }}
+                </div>
             </div>
         </div>
         <!-- 操作 -->
         <div class="tr kvl1cref">
             <!-- 喜欢 -->
             <van-icon
-                class="kvl1t4cc"
-                class-prefix="icon"
-                name="xihuan"
-                color="#9c9c9c"
+                class="kvl1t4cc kwa2mwpr_id"
+                :class="[
+                    {
+                        is_love,
+                    },
+                ]"
+                :name="is_love ? 'like' : 'like-o'"
                 @click="$emit('love')"
             />
             <span>
@@ -74,7 +80,6 @@
                 class="kvl1t4cc kvuqtyqk_id"
                 class-prefix="icon"
                 name="wenjianjia"
-                color="#9c9c9c"
                 @click="$emit('collect')"
             />
             <!-- 分享 -->
@@ -82,7 +87,6 @@
                 class="kvl1t4cc kvuqw3j4_id"
                 class-prefix="icon"
                 name="fenxiang"
-                color="#9c9c9c"
                 @click="$emit('share')"
             />
         </div>
@@ -92,7 +96,7 @@
 <script>
 export default {
     inheritAttrs: false,
-    name: "jzm-jingxuan",
+    name: "jzm_card_default",
     props: {
         // 头像
         head: {
@@ -122,6 +126,11 @@ export default {
         // 喜欢数量
         love_count: {
             type: Number,
+            required: true,
+        },
+        // 是否喜欢
+        is_love: {
+            type: Boolean,
             required: true,
         },
     },
@@ -169,6 +178,7 @@ export default {
 }
 .kvl1t4cc {
     margin-left: 70px;
+    color: #9c9c9c;
 }
 .kvl0dnb6 {
     min-width: 120px;
@@ -188,5 +198,11 @@ export default {
 
 .kw350amm_error {
     font-size: 150px;
+}
+
+.kwa2mwpr_id {
+    &.is_love {
+        color: red;
+    }
 }
 </style>

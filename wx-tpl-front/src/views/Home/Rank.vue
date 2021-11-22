@@ -10,7 +10,7 @@
                 offset="0"
                 error-text="请求失败，点击重新加载"
                 finished-text="没有更多了"
-                @load="on_load"
+                @load="on_load_next"
             >
                 <div
                     v-for="v in json.list"
@@ -33,14 +33,15 @@
                                 {{ v.love_count }}人喜欢
                             </div>
                             <div class="kw9dyalr_is_love df aic">
-                                <i class="icon icon-xihuan"></i>
+                                <van-icon name="like-o" />
                                 <div class="ml6">喜欢</div>
                             </div>
                         </div>
                         <div>
                             {{ v.content }}
                         </div>
-                        <div>
+                        <div class="kwa1vumx">
+                            ——
                             {{ v.author }}
                         </div>
                     </div>
@@ -81,7 +82,7 @@ export default {
                 this.$route.query
             );
         },
-        async on_load() {
+        async on_load_next() {
             try {
                 let res = await this.$get(this.$route.path, {
                     ...this.qs,
@@ -191,6 +192,11 @@ export default {
     border: 1px solid #9a9a9a;
     padding: 8px 12px;
     color: #9a9a9a;
-    border-radius: 10px;
+    border-radius: 4px;
+}
+.kwa1vumx {
+    .tr;
+    .mt10;
+    color: #5fb344;
 }
 </style>

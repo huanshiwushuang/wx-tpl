@@ -1,10 +1,7 @@
 <template>
     <div>
-        <!-- Header -->
-        <div class="kw0hjnhc pr tc">
-            <h1 class="kw0h39r8">句子迷</h1>
-            <van-icon name="search" class="fr kw0i22hw cp" />
-        </div>
+        <!-- NavBar -->
+        <jzm-navbar title="句子迷"></jzm-navbar>
         <!--Nav -->
         <van-tabs
             v-model="nav_index"
@@ -17,7 +14,10 @@
                 <!-- Body -->
                 <keep-alive>
                     <router-view
-                        v-if="v.name === $route.matched[2].name"
+                        v-if="
+                            $route.matched[2] &&
+                            v.name === $route.matched[2].name
+                        "
                     ></router-view>
                 </keep-alive>
             </van-tab>
@@ -83,28 +83,6 @@ export default {
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
-
-.kw0h39r8 {
-    .fs36;
-    margin: 0;
-    // padding: 25px 0;
-    height: 90px;
-    line-height: 90px;
-    font-family: cursive;
-}
-
-.kw0hjnhc {
-    background: #fff;
-    border-bottom: 2px solid #f5f5f5;
-}
-
-.kw0i22hw {
-    .pa;
-    .fs36;
-    right: 30px;
-    top: 50%;
-    transform: scale(1.3) translate(0, -30%);
-}
 
 .kw8wvuaw {
     // reset vant
