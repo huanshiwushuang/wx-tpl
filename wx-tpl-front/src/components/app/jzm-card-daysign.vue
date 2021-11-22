@@ -17,11 +17,11 @@
                             </div>
                         </template>
                     </van-image>
+                    <!-- 名字 -->
                     <span class="ml20">
                         {{ name }}
                     </span>
                 </div>
-
                 <!-- 多久之前 -->
                 <div class="kwafdwqz">
                     {{ how_ago }}
@@ -38,21 +38,26 @@
                 </div>
                 <!-- 内容 -->
                 <div class="flg df aic jcc">
-                    {{ content }}
+                    <div class="kwah6980">
+                        {{ content }}
+                    </div>
                 </div>
                 <!-- 关键字 -->
                 <div class="kwacwgbc_kw fls">
-                    <div>
-                        <div v-for="(v, k) in words" :key="k">
-                            <span>
-                                {{ v.word }}
-                            </span>
-                            <span>
-                                {{ v.pinyin }}
-                            </span>
-                        </div>
+                    <div
+                        v-for="(v, k) in words"
+                        :key="k"
+                        class="kwai60bj df jcsb ma"
+                    >
+                        <span>
+                            {{ v.word }}
+                        </span>
+                        <span class="kwaifiie_py">
+                            {{ v.pinyin }}
+                        </span>
                     </div>
-                    <div>
+                    <!-- 作者说 -->
+                    <div class="kwaib6dd tr ma fs28">
                         {{ author_say }}
                     </div>
                 </div>
@@ -167,11 +172,12 @@ export default {
     .tc;
     padding: 20px 0;
     width: 66px;
-    border-right: 1px solid #000;
+    border-right: 1px solid #313131;
 }
 .kwacwgbc_kw {
     width: 140px;
-    border-left: 1px solid #000;
+    padding: 20px 0;
+    border-left: 1px solid #313131;
 }
 .kwadrawm {
     .tc;
@@ -180,12 +186,28 @@ export default {
     margin-top: 50px;
     color: @c_theme;
     padding: 6px;
-    border-radius: 2px;
 }
 .kwadx6j5,
 .kwadrawm {
     width: 1em;
     line-height: 1.2em;
+}
+.kwah6980 {
+    writing-mode: vertical-rl;
+    height: 450px;
+    line-height: 1.2em;
+    letter-spacing: 0.2em;
+}
+.kwai60bj {
+    .fs36;
+    width: 80%;
+}
+.kwaib6dd {
+    margin-top: 87px;
+    width: 80%;
+}
+.kwaifiie_py {
+    transform: translate(0, 4px);
 }
 // *************************************************
 .kvl1cref {
