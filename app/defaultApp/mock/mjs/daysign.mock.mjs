@@ -12,13 +12,15 @@ const tasks = [
                         // `https://cdn.seovx.com/?mom=302&random=@id`,
                         // `https://cdn.seovx.com/d/?mom=302&random=@id`,
                         // `https://cdn.seovx.com/ha/?mom=302&random=@id`,
-                        `https://source.unsplash.com/690x380?&random=@id`
+                        `https://source.unsplash.com/690x380?&random=@id`,
+                        `https://api.yimian.xyz/img?type=moe&size=1920x1080&random=@id`,
+                        `https://img.paulzzh.com/touhou/random?random=@id`,
                     ],
                     'discuss_count|1000-10000': 1,
                     'list|10-20': [
                         {
                             'id': '@id',
-                            'head': `https://api.prodless.com/avatar.png?size=80`,
+                            'head': `https://api.yimian.xyz/img?type=head&random=@id`,
                             'name|1': [
                                 '@name',
                                 '@cname',

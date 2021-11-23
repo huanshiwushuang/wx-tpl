@@ -60,35 +60,41 @@
             </div>
         </div>
         <!-- 操作 -->
-        <div class="tr kvl1cref">
+        <div class="kvl1cref df">
             <!-- 喜欢 -->
-            <van-icon
-                class="kvl1t4cc kwa2mwpr_id"
-                :class="[
-                    {
-                        is_love,
-                    },
-                ]"
-                :name="is_love ? 'like' : 'like-o'"
-                @click="$emit('love')"
-            />
-            <span>
-                {{ love_count }}
-            </span>
+            <div class="kwbfvmgp">
+                <van-icon
+                    class="kwa2mwpr_id"
+                    :class="[
+                        {
+                            is_love,
+                        },
+                    ]"
+                    :name="is_love ? 'like' : 'like-o'"
+                    @click="$emit('love')"
+                />
+                <span>
+                    {{ love_count }}
+                </span>
+            </div>
             <!-- 收藏 -->
-            <van-icon
-                class="kvl1t4cc kvuqtyqk_id"
-                class-prefix="icon"
-                name="wenjianjia"
-                @click="$emit('collect')"
-            />
+            <div class="kwbfvmgp">
+                <van-icon
+                    class="kvuqtyqk_id"
+                    class-prefix="icon"
+                    name="wenjianjia"
+                    @click="$emit('collect')"
+                />
+            </div>
             <!-- 分享 -->
-            <van-icon
-                class="kvl1t4cc kvuqw3j4_id"
-                class-prefix="icon"
-                name="fenxiang"
-                @click="$emit('share')"
-            />
+            <div class="kwbfvmgp">
+                <van-icon
+                    class="kvuqw3j4_id"
+                    class-prefix="icon"
+                    name="fenxiang"
+                    @click="$emit('share')"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -175,10 +181,7 @@ export default {
     line-height: 64px;
     padding: 0 30px 0;
     border-top: 1px solid #f4f4f4;
-}
-.kvl1t4cc {
-    margin-left: 70px;
-    color: #9c9c9c;
+    justify-content: flex-end;
 }
 .kvl0dnb6 {
     min-width: 120px;
@@ -204,5 +207,10 @@ export default {
     &.is_love {
         color: red;
     }
+}
+
+.kwbfvmgp {
+    color: #9c9c9c;
+    padding: 0 22px;
 }
 </style>
