@@ -190,7 +190,7 @@ export default {
 .kw9dyalr_is_love {
     .fs24;
     border: 1px solid #9a9a9a;
-    padding: 8px 12px;
+    padding: 6px 10px;
     color: #9a9a9a;
     border-radius: 4px;
 }
