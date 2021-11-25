@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\middleware;
 
 use app\helper;
+use Exception;
 use think\facade\View;
 
 /**
@@ -28,16 +29,7 @@ class MockData
      */
     public function handle($request, \Closure $next)
     {
-        $node_path = env('node_path');
-        $env_path = getenv('path');
-
-        if (!empty($node_path)) {
-            putenv('path=' . $env_path . PATH_SEPARATOR . $node_path);
-        }
-
-        // dump($node_path);
-        // dump(getenv());
-        // exit;
+        $node = NODE;
 
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         $params = $request->param();
@@ -61,23 +53,19 @@ class MockData
             // 循环执行 *.mock.mjs
             foreach ($mock_files_pathname as $file_pathname) {
                 // 执行 mjs 传入 baseUrl
-                $exec_result = `node ${file_pathname} $params 2>&1`;
+                $exec_result = `$node $file_pathname $params 2>&1`;
                 // dump($exec_result);
 
                 $result = json_decode($exec_result, true);
                 // dump($result);
 
                 if (!is_array($result)) {
-                    helper::print_exception([
-                        'nodejs 执行',
-                        '【',
-                        $file_pathname,
-                        '】',
-                        'json decode 错误',
-                        '【',
-                        $exec_result,
-                        '】',
-                    ]);
+                    dump($exec_result);
+
+                    $error = <<<EOF
+                        'nodejs 执行【'$file_pathname'】'错误
+                    EOF;
+                    throw new Exception($error);
                 }
                 // array
                 $exec_result = $result;
@@ -107,7 +95,7 @@ class MockData
             // exit;
             switch ($count) {
                 case 0:
-                    // helper::print_exception(['匹配到 0 个 mock rule']);
+                    throw new Exception('匹配到 0 个 mock rule');
                     break;
                 case 1:
                     // 合并默认数据 和 mock 数据
@@ -117,7 +105,7 @@ class MockData
                     ]));
                     break;
                 default:
-                    helper::print_exception(["匹配到 $count 个 mock rule"]);
+                    throw new Exception("匹配到 $count 个 mock rule");
             }
         }
 

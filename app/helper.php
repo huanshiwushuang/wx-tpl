@@ -155,18 +155,6 @@ class helper
         dump($e->getTraceAsString());
     }
     /**
-     * 抛出异常, 传入数组，每个内容一行
-     */
-    static function print_exception(array $data)
-    {
-        $str = '';
-        foreach ($data as $val) {
-            $str = $str . $val . PHP_EOL;
-        }
-        throw new Exception($str);
-    }
-
-    /**
      * https://blog.csdn.net/qq_26702065/article/details/52002615
      * 编码
      */
