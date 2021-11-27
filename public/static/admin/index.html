@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="app">
+		<v-chart option="asd"></v-chart>
+	</div>
+	<script type="module">
+		import  'http://192.168.100.5/static/admin/wxFast/config.js';
+	</script>
+
+	<script>
+	</script>
+	<!-- <script>
+		require(['vue'], (Vue) => {
+			window.Vue = Vue;
+			require(['@vue/composition-api'], () => {
+				require(['vue-echarts', () => {
+					new Vue({
+						el: '#app',
+						data() {
+							return {
+								asd: {
+									xAxis: {
+										type: 'category',
+										boundaryGap: false,
+										data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+									},
+									yAxis: {
+										type: 'value'
+									},
+									series: [
+										{
+											data: [820, 932, 901, 934, 1290, 1330, 1320],
+											type: 'line',
+											areaStyle: {}
+										}
+									]
+								}
+							}
+						}
+					})
+				}])
+			})
+		})
+	</> -->
+</body>
+
+</html>
