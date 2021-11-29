@@ -59,5 +59,5 @@ require(['init'], Init => {
 			window.app = app;
 		})()
 	})
-	
+
 })

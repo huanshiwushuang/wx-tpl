@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .kwk2oztz {
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <v-chart class="kwk2oztz" :option="asd"></v-chart>
+        <el-button type="primary" class="mt20">123</el-button>
+        <test></test>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
+    <script src="http://192.168.100.5/static/admin/wxFast/index.js"></script>
+
+    <script>
+        require(['wx-ELEMENT', 'wx-echarts'], (wxELEMENTPromise, wxEchartsPromise) => {
+            (async () => {
+                await wxELEMENTPromise;
+                await wxEchartsPromise;
+                window.asd = new Vue({
+                    el: '#app',
+                    components: {
+                        test: vueLoader('@/wxFast/test.vue'),
+                    },
+                    data() {
+                        return {
+                            asd: {
+                                xAxis: {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [
+                                    {
+                                        data: [820, 932, 901, 934, 1290, 1330, 1320],
+                                        type: 'line',
+                                        areaStyle: {}
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                })
+            })();
+        })
+    </script>
+</body>
+
+</html>
