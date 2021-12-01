@@ -5,7 +5,7 @@ require.config({
     baseUrl,
     paths: {
         vue: 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js?noext',
-        vueLoader: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min',
+        httpVueLoader: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min',
         lodash: 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js?noext',
         axios: 'https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js?noext',
         vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js?noext',
@@ -81,7 +81,7 @@ define('wx-axios', () => {
 // wx-vue
 define('wx-vue', () => {
     return new Promise(resolve => {
-        require(['vue', 'wx-axios', 'vueLoader', 'less'], (Vue, requestPromise, vueLoader, less) => {
+        require(['vue', 'wx-axios', 'httpVueLoader', 'less', 'lodash', 'utils/tools.js'], (Vue, requestPromise, httpVueLoader, less, _, tools) => {
             (async () => {
                 const request = await requestPromise;
 
@@ -112,14 +112,18 @@ define('wx-vue', () => {
                 });
                 // proto data
                 Object.assign(Vue.prototype, {
+                    $_: _,
+                    $utils: {
+                        tools,
+                    },
                     // 请求
                     ...Object.keys(request).reduce((sum, key) => {
                         sum[`$${key}`] = request[key];
                         return sum;
                     }, {})
                 })
-                // vueLoader
-                vueLoader.httpRequest = async url => {
+                // httpVueLoader
+                httpVueLoader.httpRequest = async url => {
                     // 替换 @
                     if (url.startsWith('@')) {
                         url = url.replace(/^@/, baseUrl);
@@ -127,14 +131,21 @@ define('wx-vue', () => {
                     return await request.get(url);
                 }
                 // less 处理
-                vueLoader.langProcessor.less = async (lessText) => {
+                httpVueLoader.langProcessor.less = async (lessText) => {
                     return (await less.render(lessText, {
                         globalVars: {
                             baseUrl,
                         }
                     })).css;
                 }
-                globalThis.vueLoader = vueLoader;
+                globalThis.httpVueLoader = httpVueLoader;
+                // 全局组件注册
+                [
+                    'wx-table-pagination',
+                    'wx-router-link',
+                ].forEach(v => {
+                    httpVueLoader.register(Vue, `@/wxFast/components/common/${v}.vue`);
+                });
 
                 resolve(Vue);
             })()

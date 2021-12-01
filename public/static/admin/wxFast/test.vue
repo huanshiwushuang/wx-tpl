@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="kwlnas0e">
         我是测试
         {{ asd }}
     </div>

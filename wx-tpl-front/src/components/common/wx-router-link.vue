@@ -1,5 +1,8 @@
 <template>
-    <a v-bind="attrs" v-on="listeners">
+    <a
+        v-bind="attrs"
+        v-on="listeners"
+    >
         <slot></slot>
     </a>
 </template>

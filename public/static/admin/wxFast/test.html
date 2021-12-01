@@ -18,6 +18,39 @@
         <v-chart class="kwk2oztz" :option="asd"></v-chart>
         <el-button type="primary" class="mt20">123</el-button>
         <test></test>
+        <wx-table-pagination
+            prop-url="http://yy.laowangsb.com/data/product.all/get_customer"
+            prop-tbody-path="data.list"
+            prop-total-path="data.count"
+            :prop-search-column="4"
+            :prop-thead="[
+                {
+                    vBind: {
+                        prop: 'id',
+                        label: 'ID',
+                    },
+                    search: {
+                        type: 'date-picker',
+                    }
+                },
+                {
+                    vBind: {
+                        prop: 'name',
+                        label: '名字',
+                    },
+                    search: {
+                        type: 'select',
+                        options: [
+                            {
+                                label: '123',
+                                value: '456'
+                            }
+                        ]
+                    }
+                }
+            ]"
+        >
+        </wx-table-pagination>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.js"></script>
     <script src="http://192.168.100.5/static/admin/wxFast/index.js"></script>
@@ -30,7 +63,7 @@
                 window.asd = new Vue({
                     el: '#app',
                     components: {
-                        test: vueLoader('@/wxFast/test.vue'),
+                        test: httpVueLoader('@/wxFast/test.vue'),
                     },
                     data() {
                         return {
