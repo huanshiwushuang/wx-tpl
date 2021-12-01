@@ -1,4 +1,4 @@
-const baseUrl = `http://192.168.100.5/static/admin`;
+const baseUrl = `/static/admin`;
 
 // require config
 require.config({

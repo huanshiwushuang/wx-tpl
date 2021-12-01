@@ -16,5 +16,5 @@ return [
     // 数据检查
     \app\middleware\CheckDataByJSONSchema::class,
     // 数据 Mock
-    // \app\middleware\MockData::class,
+    \app\middleware\MockData::class,
 ];
