@@ -191,23 +191,18 @@ module.exports = {
                     {
                         text: "今天",
                         onClick(picker) {
-                            const end = new Date();
                             const start = new Date();
-                            start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
-                            );
-                            picker.$emit("pick", [start, end]);
+                            picker.$emit("pick", [start, start]);
                         },
                     },
                     {
                         text: "昨天",
                         onClick(picker) {
-                            const end = new Date();
                             const start = new Date();
                             start.setTime(
-                                start.getTime() - 3600 * 1000 * 24 * 7
+                                start.getTime() - 3600 * 1000 * 24 * 1
                             );
-                            picker.$emit("pick", [start, end]);
+                            picker.$emit("pick", [start, start]);
                         },
                     },
                     {
@@ -273,8 +268,14 @@ module.exports = {
                     switch (v.search.type) {
                         case "date-picker":
                             if (v.search.value.length) {
-                                sum[v.vBind.prop] = v.search.value.map((v) =>
-                                    parseInt(v / 1000)
+                                sum[v.vBind.prop] = v.search.value.map(
+                                    (v, k) => {
+                                        // 结束时间需要 +1 天
+                                        if (k === 1) {
+                                            // v = new Date();
+                                        }
+                                        return parseInt(v / 1000);
+                                    }
                                 );
                             }
                             break;
@@ -416,7 +417,7 @@ module.exports = {
                             },
                             // 列-搜索
                             search: {
-                                can: false,
+                                can: true,
                                 type: "input",
                                 vBind: {},
                                 name: v,
