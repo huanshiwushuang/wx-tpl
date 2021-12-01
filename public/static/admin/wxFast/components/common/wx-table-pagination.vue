@@ -97,6 +97,7 @@
             </div>
             <div>
                 <el-button
+                    v-if="computedTheadCanSearch.length"
                     type="primary"
                     @click="showSearch = !showSearch"
                 >
@@ -247,16 +248,7 @@ module.exports = {
             // 表格相关
             // *******************************************************
             // 表头
-            dataThead: [
-                // {
-                //      search: {
-                //          can: true,
-                //          field: '',
-                //      },
-                //     vBind: {
-                //     }
-                // }
-            ],
+            dataThead: [],
             // 表体
             dataTbody: [],
             // 排序
@@ -424,7 +416,7 @@ module.exports = {
                             },
                             // 列-搜索
                             search: {
-                                can: true,
+                                can: false,
                                 type: "input",
                                 vBind: {},
                                 name: v,
