@@ -6,47 +6,7 @@
             prop-url="/admin/test"
             prop-tbody-path="json.data.list"
             prop-total-path="json.data.count"
-            :prop-thead="[
-                {
-                    vBind: {
-                        type: 'index',
-                        prop: 'index',
-                        label: '序号',
-                    },
-                    holdId: 'kwovslw2',
-                },
-                {
-                    vBind: {
-                        prop: 'id',
-                        label: 'ID',
-                    },
-                    search: {
-                        can: true,
-                        type: 'date-picker-daterange',
-                    },
-                },
-                {
-                    vBind: {
-                        prop: 'name',
-                        label: '名字',
-                    },
-                    search: {
-                        type: 'select',
-                        options: [
-                            {
-                                label: '123',
-                                value: '456',
-                            },
-                        ],
-                    },
-                },
-                {
-                    vBind: {
-                        prop: 'operate',
-                        label: '操作',
-                    },
-                },
-            ]"
+            :prop-thead="propThead"
         >
             <template slot="index" slot-scope="{ $index }">
                 {{ $index + 1 }}
@@ -86,6 +46,48 @@ module.exports = {
                     },
                 ],
             },
+            propThead: [
+                {
+                    vBind: {
+                        type: "index",
+                        prop: "index",
+                        label: "序号",
+                    },
+                    // 列状态持久化 ID
+                    holdId: "kwovslw2",
+                },
+                {
+                    vBind: {
+                        prop: "id",
+                        label: "ID",
+                    },
+                    search: {
+                        can: true,
+                        type: "date-picker-daterange",
+                    },
+                },
+                {
+                    vBind: {
+                        prop: "name",
+                        label: "名字",
+                    },
+                    search: {
+                        type: "select",
+                        options: [
+                            {
+                                label: "123",
+                                value: "456",
+                            },
+                        ],
+                    },
+                },
+                {
+                    vBind: {
+                        prop: "operate",
+                        label: "操作",
+                    },
+                },
+            ],
         };
     },
 };
