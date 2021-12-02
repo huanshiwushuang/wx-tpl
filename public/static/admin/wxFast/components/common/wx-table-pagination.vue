@@ -1,17 +1,8 @@
 <template>
-    <div
-        v-loading="isLoading"
-        class="kwn410tk_com"
-    >
+    <div v-loading="isLoading" class="kwn410tk_com">
         <!-- 列搜索 -->
-        <div
-            v-show="computedTheadCanSearch.length && showSearch"
-            class="mb10"
-        >
-            <el-descriptions
-                :column="computedSearchColumn"
-                border
-            >
+        <div v-show="computedTheadCanSearch.length && showSearch" class="mb10">
+            <el-descriptions :column="computedSearchColumn" border>
                 <el-descriptions-item
                     v-for="(v, k) in computedTheadCanSearch"
                     :key="k"
@@ -43,55 +34,38 @@
                             </el-option>
                         </el-select>
                     </template>
-                    <!-- date-picker -->
-                    <template v-else-if="v.search.type === 'date-picker'">
-                        {{ (function () {
-                            Object.assign(v.search.vBind, {
-                                type: "daterange",
-                                'range-separator': "至",
-                                'start-placeholder': "开始日期",
-                                'end-placeholder': "结束日期",
-                                class: "kwn40fqs",
-                                'value-format': "timestamp",
-                                'picker-options': pickerOptions,
-                                'unlink-panels': true,
-                                ...v.search.vBind,
-                            }, v.search.vBind);
-                        })() }}
-
+                    <!-- date-picker daterange -->
+                    <template
+                        v-else-if="v.search.type === 'date-picker-daterange'"
+                    >
                         <el-date-picker
                             v-model="v.search.value"
-                            v-bind="v.search.vBind"
+                            class="kwn40fqs"
+                            type="daterange"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期"
+                            :picker-options="dateRangePickerOptions"
+                            :unlink-panels="true"
+                            :default-time="['00:00:00', '23:59:59']"
                         >
                         </el-date-picker>
-
                     </template>
                 </el-descriptions-item>
             </el-descriptions>
             <!-- 按钮 -->
             <div class="tc mt10">
-                <el-button
-                    type="danger"
-                    @click="handleSearchReset"
-                >
+                <el-button type="danger" @click="handleSearchReset">
                     重置
                 </el-button>
-                <el-button
-                    type="primary"
-                    @click="handleLoad"
-                >
-                    搜索
-                </el-button>
+                <el-button type="primary" @click="init"> 搜索 </el-button>
             </div>
         </div>
 
         <!-- 操作行 -->
         <div class="df jcsb aic mt10 mb10">
             <div>
-                <el-button
-                    type="info"
-                    @click="init"
-                >
+                <el-button type="info" @click="init">
                     <i class="el-icon-refresh"></i>
                 </el-button>
             </div>
@@ -116,8 +90,11 @@
                 :key="v.id || k"
                 v-bind="v.vBind"
             >
-                <slot :name="v.vBind.prop">
-                </slot>
+                <template slot-scope="scope">
+                    <slot :name="v.vBind.prop" v-bind="scope">
+                        {{ scope.row[scope.column.property] }}
+                    </slot>
+                </template>
             </el-table-column>
         </el-table>
         <!-- 分页 -->
@@ -186,55 +163,101 @@ module.exports = {
             // 搜索相关
             // *******************************************************
             showSearch: false,
-            pickerOptions: {
+            dateRangePickerOptions: {
                 shortcuts: [
                     {
                         text: "今天",
                         onClick(picker) {
                             const start = new Date();
-                            picker.$emit("pick", [start, start]);
+                            const end = new Date();
+                            start.setHours(0);
+                            start.setMinutes(0);
+                            start.setSeconds(0);
+
+                            end.setHours(23);
+                            end.setMinutes(59);
+                            end.setSeconds(59);
+                            picker.$emit("pick", [start, end]);
                         },
                     },
                     {
                         text: "昨天",
                         onClick(picker) {
                             const start = new Date();
+                            const end = new Date();
+
+                            start.setHours(0);
+                            start.setMinutes(0);
+                            start.setSeconds(0);
                             start.setTime(
                                 start.getTime() - 3600 * 1000 * 24 * 1
                             );
-                            picker.$emit("pick", [start, start]);
+
+                            end.setTime(end.getTime() - 3600 * 1000 * 24 * 1);
+                            end.setHours(23);
+                            end.setMinutes(59);
+                            end.setSeconds(59);
+
+                            picker.$emit("pick", [start, end]);
                         },
                     },
                     {
                         text: "最近一周",
                         onClick(picker) {
-                            const end = new Date();
                             const start = new Date();
+                            const end = new Date();
+
+                            start.setHours(0);
+                            start.setMinutes(0);
+                            start.setSeconds(0);
                             start.setTime(
                                 start.getTime() - 3600 * 1000 * 24 * 7
                             );
+
+                            end.setHours(23);
+                            end.setMinutes(59);
+                            end.setSeconds(59);
+
                             picker.$emit("pick", [start, end]);
                         },
                     },
                     {
                         text: "最近一个月",
                         onClick(picker) {
-                            const end = new Date();
                             const start = new Date();
+                            const end = new Date();
+
+                            start.setHours(0);
+                            start.setMinutes(0);
+                            start.setSeconds(0);
                             start.setTime(
                                 start.getTime() - 3600 * 1000 * 24 * 30
                             );
+
+                            end.setHours(23);
+                            end.setMinutes(59);
+                            end.setSeconds(59);
+
                             picker.$emit("pick", [start, end]);
                         },
                     },
                     {
                         text: "最近三个月",
                         onClick(picker) {
-                            const end = new Date();
                             const start = new Date();
+                            const end = new Date();
+
+                            start.setHours(0);
+                            start.setMinutes(0);
+                            start.setSeconds(0);
                             start.setTime(
                                 start.getTime() - 3600 * 1000 * 24 * 90
                             );
+
+                            end.setHours(23);
+                            end.setMinutes(59);
+                            end.setSeconds(59);
+
                             picker.$emit("pick", [start, end]);
                         },
                     },
@@ -254,7 +277,11 @@ module.exports = {
             // 分页相关
             // *******************************************************
             // 分页
-            dataPagination: {},
+            dataPagination: {
+                "current-page": 1,
+                "page-size": 10,
+                total: 0,
+            },
         };
     },
     computed: {
@@ -263,20 +290,15 @@ module.exports = {
             return {
                 page: this.dataPagination["current-page"],
                 pagesize: this.dataPagination["page-size"],
-                // 搜索
+                // 列-搜索
                 ...this.computedTheadCanSearch.reduce((sum, v) => {
                     switch (v.search.type) {
-                        case "date-picker":
+                        case "date-picker-daterange":
+                            // 如果选择了时间
                             if (v.search.value.length) {
-                                sum[v.vBind.prop] = v.search.value.map(
-                                    (v, k) => {
-                                        // 结束时间需要 +1 天
-                                        if (k === 1) {
-                                            // v = new Date();
-                                        }
-                                        return parseInt(v / 1000);
-                                    }
-                                );
+                                sum[v.vBind.prop] = v.search.value.map((vv) => {
+                                    return parseInt(vv.getTime() / 1000);
+                                });
                             }
                             break;
                         default:
@@ -286,7 +308,7 @@ module.exports = {
                     }
                     return sum;
                 }, {}),
-                // 排序
+                // 列-排序
                 ...Object.keys(this.dataSort).reduce((sum, v) => {
                     if (this.dataSort[v]) {
                         sum[v] = this.dataSort[v];
@@ -314,17 +336,29 @@ module.exports = {
             const matched = [];
             const notMatched = [];
 
-            this.dataThead.forEach((v) => {
-                let res = this.propThead.find((vv) => {
-                    return v.vBind.prop === vv.vBind?.prop;
+            // 合并内外表头, 提取所有 prop
+            const allProps = [
+                ...[...this.propThead, ...this.dataThead].reduce((sum, v) => {
+                    sum.add(v.vBind.prop);
+                    return sum;
+                }, new Set()),
+            ];
+            allProps.forEach((v) => {
+                const propRes = this.propThead.find((vv) => {
+                    return v === vv.vBind?.prop;
+                });
+                const dataRes = this.dataThead.find((vv) => {
+                    return v === vv.vBind.prop;
                 });
 
-                if (res) {
-                    matched.push(this.$_.merge(v, res));
+                if (propRes && dataRes) {
+                    matched.push(this.$_.merge(propRes, dataRes));
                 } else {
-                    notMatched.push(v);
+                    notMatched.push(this.makeUpThead(propRes || dataRes));
                 }
             });
+
+            // makeUpThead
             return [...matched, ...notMatched];
         },
         computedTableVBind() {
@@ -349,7 +383,7 @@ module.exports = {
                         this.dataSort.sort = "";
                     }
 
-                    this.handleLoad();
+                    this.init();
                 },
             };
         },
@@ -374,6 +408,26 @@ module.exports = {
         initAction() {
             this.handleLoad();
         },
+        // 完善 thead 数据
+        makeUpThead(theadData) {
+            return this.$_.merge(
+                {
+                    // 列-绑定
+                    vBind: {
+                        prop: "default",
+                        label: "default",
+                        sortable: "custom",
+                    },
+                    // 列-搜索
+                    search: {
+                        can: true,
+                        type: "input",
+                        value: [],
+                    },
+                },
+                theadData
+            );
+        },
         // 搜索相关
         // *******************************************************
         handleSearchReset() {
@@ -388,12 +442,12 @@ module.exports = {
         // *******************************************************
         // pagesize
         async handleSizeChange(pagesize) {
-            this.pagination["page-size"] = pagesize;
+            this.dataPagination["page-size"] = pagesize;
             this.handleLoad();
         },
         // page
         async handleCurrentChange(page) {
-            this.pagination["current-page"] = page;
+            this.dataPagination["current-page"] = page;
             this.handleLoad();
         },
         // load
@@ -408,22 +462,14 @@ module.exports = {
                 // 表头
                 if (!this.dataThead.length && this.dataTbody.length) {
                     this.dataThead = Object.keys(this.dataTbody[0]).map((v) => {
-                        return {
+                        return this.makeUpThead({
                             // 列-绑定
                             vBind: {
                                 prop: v,
                                 label: v,
                                 sortable: "custom",
                             },
-                            // 列-搜索
-                            search: {
-                                can: true,
-                                type: "input",
-                                vBind: {},
-                                name: v,
-                                value: [],
-                            },
-                        };
+                        });
                     });
                 }
                 // 总数

@@ -1,14 +1,11 @@
 <template>
-    <a
-        v-bind="attrs"
-        v-on="listeners"
-    >
+    <a v-bind="attrs" v-on="listeners">
         <slot></slot>
     </a>
 </template>
 
 <script>
-export default {
+module.exports = {
     name: "wxRouterLink",
     props: {},
     computed: {
@@ -51,5 +48,4 @@ export default {
 </script>
 
 <style lang="less">
-@import (reference) "@/assets/less/index.less";
 </style>

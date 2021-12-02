@@ -1,15 +1,11 @@
 <template>
     <div class="kwlnas0e">
-        <v-chart
-            class="kwk2oztz"
-            :option="chart"
-        ></v-chart>
-        <hr>
+        <v-chart class="kwk2oztz" :option="chart"></v-chart>
+        <hr />
         <wx-table-pagination
             prop-url="/admin/test"
             prop-tbody-path="json.data.list"
             prop-total-path="json.data.count"
-            :prop-search-column="4"
             :prop-thead="[
                 {
                     vBind: {
@@ -18,8 +14,8 @@
                     },
                     search: {
                         can: true,
-                        type: 'date-picker',
-                    }
+                        type: 'date-picker-daterange',
+                    },
                 },
                 {
                     vBind: {
@@ -31,13 +27,29 @@
                         options: [
                             {
                                 label: '123',
-                                value: '456'
-                            }
-                        ]
-                    }
+                                value: '456',
+                            },
+                        ],
+                    },
+                },
+                {
+                    vBind: {
+                        prop: 'operate',
+                        label: '操作',
+                    },
                 }
             ]"
         >
+            <div slot="url" slot-scope="{ row, column }">
+                <wx-router-link :href="row[column.property]"
+                    target="_blank"
+                >
+                    {{ row[column.property] }}
+                </wx-router-link>
+            </div>
+            <div slot="operate" slot-scope="{ row, column }">
+                <el-button>操作</el-button>
+            </div>
         </wx-table-pagination>
     </div>
 </template>

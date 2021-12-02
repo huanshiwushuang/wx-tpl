@@ -16,6 +16,7 @@ const tasks = [
                                 cname: '@cname',
                                 'age|0-200': 1,
                                 address: '@cparagraph',
+                                url: 'http://@domain',
                             }
                         ],
                         'count|100-200': 1,
