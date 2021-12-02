@@ -381,8 +381,7 @@ module.exports = {
         // 合并表头
         // default + prop = use
         mergeThead() {
-            const matched = [];
-            const notMatched = [];
+            const res = [];
 
             // 合并内外表头, 提取所有 prop
             const allProps = [
@@ -402,19 +401,18 @@ module.exports = {
                     return v === vv.vBind.prop;
                 });
 
-                if (propRes && dataRes) {
-                    matched.push(this.$_.merge(dataRes, propRes));
-                } else {
-                    if (propRes) {
-                        notMatched.push(this.makeUpThead(propRes));
-                    }
+                if (propRes) {
                     if (dataRes) {
-                        notMatched.push(this.makeUpThead(dataRes));
+                        res.push(this.$_.merge(dataRes, propRes));
+                    } else {
+                        res.push(this.makeUpThead(propRes));
                     }
+                } else {
+                    res.push(this.makeUpThead(dataRes));
                 }
             });
 
-            this.dataTheadUse = [...matched, ...notMatched];
+            this.dataTheadUse = res;
         },
         // 完善 thead 数据
         makeUpThead(theadData) {

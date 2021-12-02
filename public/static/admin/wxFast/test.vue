@@ -9,6 +9,13 @@
             :prop-thead="[
                 {
                     vBind: {
+                        type: 'index',
+                        prop: 'index',
+                        label: '序号',
+                    },
+                },
+                {
+                    vBind: {
                         prop: 'id',
                         label: 'ID',
                     },
@@ -37,19 +44,23 @@
                         prop: 'operate',
                         label: '操作',
                     },
-                }
+                },
             ]"
         >
+            <template slot="index" slot-scope="{ $index }">
+                {{ $index + 1 }}
+            </template>
+
             <div slot="url" slot-scope="{ row, column }">
-                <wx-router-link :href="row[column.property]"
-                    target="_blank"
-                >
+                <wx-router-link :href="row[column.property]" target="_blank">
                     {{ row[column.property] }}
                 </wx-router-link>
             </div>
+
             <div slot="operate" slot-scope="{ row, column }">
                 <el-button type="primary">操作</el-button>
             </div>
+            
         </wx-table-pagination>
     </div>
 </template>
