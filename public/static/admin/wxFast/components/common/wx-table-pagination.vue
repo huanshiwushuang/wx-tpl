@@ -87,11 +87,11 @@
                     <el-button slot="reference">
                         自定义
                         {{
-                            `${computedTheadUse.length} / ${dataTheadUse.length}`
+                            `${computedTheadChecked.length} / ${dataThead.length}`
                         }}
                     </el-button>
                     <div>
-                        <div v-for="(v, k) in dataTheadUse" :key="k">
+                        <div v-for="(v, k) in dataThead" :key="k">
                             <el-checkbox
                                 v-model="v.hold.isChecked"
                                 class="w"
@@ -121,7 +121,7 @@
             v-on="computedTableVOn"
         >
             <el-table-column
-                v-for="(v, k) in computedTheadUse"
+                v-for="(v, k) in computedTheadChecked"
                 :key="v.id || k"
                 v-bind="v.vBind"
             >
@@ -304,8 +304,7 @@ module.exports = {
             // 表格相关
             // *******************************************************
             // 表头
-            dataTheadDefault: [],
-            dataTheadUse: [],
+            dataThead: [],
             // 表体
             dataTbody: [],
             // 排序
@@ -364,7 +363,7 @@ module.exports = {
         },
         // 表头-可搜索的
         computedTheadCanSearch() {
-            return this.dataTheadUse.filter((v) => {
+            return this.dataThead.filter((v) => {
                 return v.search.can;
             });
         },
@@ -396,8 +395,8 @@ module.exports = {
                 },
             };
         },
-        computedTheadUse() {
-            return this.dataTheadUse.filter((v) => v.hold.isChecked);
+        computedTheadChecked() {
+            return this.dataThead.filter((v) => v.hold.isChecked);
         },
     },
     methods: {
@@ -426,19 +425,16 @@ module.exports = {
 
             // 合并内外表头, 提取所有 prop
             const allProps = [
-                ...[...this.propThead, ...this.dataTheadDefault].reduce(
-                    (sum, v) => {
-                        sum.add(v.vBind.prop);
-                        return sum;
-                    },
-                    new Set()
-                ),
+                ...[...this.propThead, ...this.dataThead].reduce((sum, v) => {
+                    sum.add(v.vBind.prop);
+                    return sum;
+                }, new Set()),
             ];
             allProps.forEach((v) => {
                 const propRes = this.propThead.find((vv) => {
                     return v === vv.vBind?.prop;
                 });
-                const dataRes = this.dataTheadDefault.find((vv) => {
+                const dataRes = this.dataThead.find((vv) => {
                     return v === vv.vBind.prop;
                 });
 
@@ -453,7 +449,7 @@ module.exports = {
                 }
             });
 
-            this.dataTheadUse = res;
+            this.dataThead = res;
         },
         // 完善 thead 数据
         makeUpThead(theadData) {
@@ -519,20 +515,19 @@ module.exports = {
 
                 // 表体
                 this.dataTbody = this.$utils.tools._.v(res, this.propTbodyPath);
+                debugger
                 // 表头
-                if (!this.dataTheadDefault.length && this.dataTbody.length) {
-                    this.dataTheadDefault = Object.keys(this.dataTbody[0]).map(
-                        (v) => {
-                            return this.makeUpThead({
-                                // 列-绑定
-                                vBind: {
-                                    prop: v,
-                                    label: v,
-                                    sortable: "custom",
-                                },
-                            });
-                        }
-                    );
+                if (!this.dataThead.length && this.dataTbody.length) {
+                    this.dataThead = Object.keys(this.dataTbody[0]).map((v) => {
+                        return this.mergeThead({
+                            // 列-绑定
+                            vBind: {
+                                prop: v,
+                                label: v,
+                                sortable: "custom",
+                            },
+                        });
+                    });
                 }
                 // 总数
                 this.dataPagination.total = this.$utils.tools._.v(
