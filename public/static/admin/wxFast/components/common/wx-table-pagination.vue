@@ -65,7 +65,7 @@
         <!-- 操作行 -->
         <div class="df jcsb aic mt10 mb10">
             <div>
-                <el-button type="info" @click="init">
+                <el-button type="info" @click="handleLoad">
                     <i class="el-icon-refresh"></i>
                 </el-button>
             </div>
@@ -86,7 +86,7 @@
             v-on="computedTableVOn"
         >
             <el-table-column
-                v-for="(v, k) in computedThead"
+                v-for="(v, k) in dataTheadUse"
                 :key="v.id || k"
                 v-bind="v.vBind"
             >
@@ -266,7 +266,8 @@ module.exports = {
             // 表格相关
             // *******************************************************
             // 表头
-            dataThead: [],
+            dataTheadDefault: [],
+            dataTheadUse: [],
             // 表体
             dataTbody: [],
             // 排序
@@ -280,6 +281,7 @@ module.exports = {
             dataPagination: {
                 "current-page": 1,
                 "page-size": 10,
+                background: true,
                 total: 0,
             },
         };
@@ -324,43 +326,12 @@ module.exports = {
         },
         // 表头-可搜索的
         computedTheadCanSearch() {
-            return this.computedThead.filter((v) => {
+            return this.dataTheadUse.filter((v) => {
                 return v.search.can;
             });
         },
         // 表格相关
         // *******************************************************
-        // 表头
-        // 合并表头配置, props 优先
-        computedThead() {
-            const matched = [];
-            const notMatched = [];
-
-            // 合并内外表头, 提取所有 prop
-            const allProps = [
-                ...[...this.propThead, ...this.dataThead].reduce((sum, v) => {
-                    sum.add(v.vBind.prop);
-                    return sum;
-                }, new Set()),
-            ];
-            allProps.forEach((v) => {
-                const propRes = this.propThead.find((vv) => {
-                    return v === vv.vBind?.prop;
-                });
-                const dataRes = this.dataThead.find((vv) => {
-                    return v === vv.vBind.prop;
-                });
-
-                if (propRes && dataRes) {
-                    matched.push(this.$_.merge(propRes, dataRes));
-                } else {
-                    notMatched.push(this.makeUpThead(propRes || dataRes));
-                }
-            });
-
-            // makeUpThead
-            return [...matched, ...notMatched];
-        },
         computedTableVBind() {
             return {
                 border: true,
@@ -390,11 +361,13 @@ module.exports = {
     },
     methods: {
         // init
-        init() {
+        async init() {
             this.initData();
-            this.initAction();
+            // 获取数据
+            await this.handleLoad();
         },
         initData() {
+            // 分页
             Object.assign(
                 this.dataPagination,
                 {
@@ -405,12 +378,48 @@ module.exports = {
                 this.propPagination
             );
         },
-        initAction() {
-            this.handleLoad();
+        // 合并表头
+        // default + prop = use
+        mergeThead() {
+            const matched = [];
+            const notMatched = [];
+
+            // 合并内外表头, 提取所有 prop
+            const allProps = [
+                ...[...this.propThead, ...this.dataTheadDefault].reduce(
+                    (sum, v) => {
+                        sum.add(v.vBind.prop);
+                        return sum;
+                    },
+                    new Set()
+                ),
+            ];
+            allProps.forEach((v) => {
+                const propRes = this.propThead.find((vv) => {
+                    return v === vv.vBind?.prop;
+                });
+                const dataRes = this.dataTheadDefault.find((vv) => {
+                    return v === vv.vBind.prop;
+                });
+
+                if (propRes && dataRes) {
+                    matched.push(this.$_.merge(dataRes, propRes));
+                } else {
+                    if (propRes) {
+                        notMatched.push(this.makeUpThead(propRes));
+                    }
+                    if (dataRes) {
+                        notMatched.push(this.makeUpThead(dataRes));
+                    }
+                }
+            });
+
+            this.dataTheadUse = [...matched, ...notMatched];
         },
         // 完善 thead 数据
         makeUpThead(theadData) {
             return this.$_.merge(
+                theadData,
                 {
                     // 列-绑定
                     vBind: {
@@ -425,7 +434,7 @@ module.exports = {
                         value: [],
                     },
                 },
-                theadData
+                JSON.parse(JSON.stringify(theadData))
             );
         },
         // 搜索相关
@@ -460,17 +469,19 @@ module.exports = {
                 // 表体
                 this.dataTbody = this.$utils.tools._.v(res, this.propTbodyPath);
                 // 表头
-                if (!this.dataThead.length && this.dataTbody.length) {
-                    this.dataThead = Object.keys(this.dataTbody[0]).map((v) => {
-                        return this.makeUpThead({
-                            // 列-绑定
-                            vBind: {
-                                prop: v,
-                                label: v,
-                                sortable: "custom",
-                            },
-                        });
-                    });
+                if (!this.dataTheadDefault.length && this.dataTbody.length) {
+                    this.dataTheadDefault = Object.keys(this.dataTbody[0]).map(
+                        (v) => {
+                            return this.makeUpThead({
+                                // 列-绑定
+                                vBind: {
+                                    prop: v,
+                                    label: v,
+                                    sortable: "custom",
+                                },
+                            });
+                        }
+                    );
                 }
                 // 总数
                 this.dataPagination.total = this.$utils.tools._.v(
@@ -482,9 +493,12 @@ module.exports = {
             }
         },
     },
-    created() {
+    async created() {
         console.log(this);
-        this.init();
+
+        await this.init();
+        // 合并表头
+        this.mergeThead();
     },
 };
 </script>
