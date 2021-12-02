@@ -52,15 +52,14 @@
             </template>
 
             <div slot="url" slot-scope="{ row, column }">
-                <wx-router-link :href="row[column.property]" target="_blank">
+                <a :href="row[column.property]" target="_blank">
                     {{ row[column.property] }}
-                </wx-router-link>
+                </a>
             </div>
 
             <div slot="operate" slot-scope="{ row, column }">
                 <el-button type="primary">操作</el-button>
             </div>
-            
         </wx-table-pagination>
     </div>
 </template>

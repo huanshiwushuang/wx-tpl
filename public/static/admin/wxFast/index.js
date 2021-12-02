@@ -20,6 +20,8 @@ require.config({
         echarts: 'https://cdn.jsdelivr.net/npm/echarts@5.1.2?noext',
         'vue-echarts': 'https://cdn.jsdelivr.net/npm/vue-echarts@6.0.0/dist/index.umd.js?noext',
         // ******************************************************************
+        utils: 'wxFast/utils',
+        data: 'wxFast/data',
     },
     map: {
         '*': {
@@ -78,16 +80,25 @@ define('wx-axios', () => {
         })
     })
 })
+// wx-mixin-data
+define('wx-mixin-data', ['data/local.js'], (local) => {
+    return {
+        local,
+    }
+});
 // wx-vue
 define('wx-vue', () => {
     return new Promise(resolve => {
-        require(['vue', 'wx-axios', 'httpVueLoader', 'less', 'lodash', 'utils/tools.js'], (Vue, requestPromise, httpVueLoader, less, _, tools) => {
+        require(['vue', 'wx-axios', 'httpVueLoader', 'less', 'lodash', 'utils/tools.js', 'wx-mixin-data'], (Vue, requestPromise, httpVueLoader, less, _, tools, wxMixinData) => {
             (async () => {
                 const request = await requestPromise;
 
                 window.Vue = Vue;
                 // mixin data
                 Vue.mixin({
+                    data() {
+                        return wxMixinData;
+                    },
                     beforeCreate() {
                         let name = this.$options.name;
                         if (name) {

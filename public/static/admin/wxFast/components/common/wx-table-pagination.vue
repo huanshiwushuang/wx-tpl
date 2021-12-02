@@ -1,7 +1,10 @@
 <template>
     <div v-loading="isLoading" class="kwn410tk_com">
         <!-- 列搜索 -->
-        <div v-show="computedTheadCanSearch.length && showSearch" class="mb10">
+        <div
+            v-show="computedTheadCanSearch.length && config.showSearch"
+            class="mb10"
+        >
             <el-descriptions :column="computedSearchColumn" border>
                 <el-descriptions-item
                     v-for="(v, k) in computedTheadCanSearch"
@@ -65,15 +68,39 @@
         <!-- 操作行 -->
         <div class="df jcsb aic mt10 mb10">
             <div>
+                <!-- 刷新 -->
                 <el-button type="info" @click="handleLoad">
                     <i class="el-icon-refresh"></i>
                 </el-button>
             </div>
-            <div>
+            <div class="df">
+                <!-- 自定义列 -->
+                <el-popover
+                    trigger="click"
+                    placement="bottom-end"
+                    popper-class="kwou1hu6"
+                >
+                    <el-button slot="reference">
+                        自定义
+                        {{
+                            `${computedTheadUse.length} / ${dataTheadUse.length}`
+                        }}
+                    </el-button>
+                    <div>
+                        <div v-for="(v, k) in dataTheadUse" :key="k">
+                            <el-checkbox v-model="v.isChecked" class="w">
+                                {{ v.vBind.label }}
+                            </el-checkbox>
+                        </div>
+                    </div>
+                </el-popover>
+
+                <!-- 搜索 -->
                 <el-button
                     v-if="computedTheadCanSearch.length"
                     type="primary"
-                    @click="showSearch = !showSearch"
+                    @click="config.showSearch = !config.showSearch"
+                    class="ml10"
                 >
                     <i class="el-icon-search"></i>
                 </el-button>
@@ -86,7 +113,7 @@
             v-on="computedTableVOn"
         >
             <el-table-column
-                v-for="(v, k) in dataTheadUse"
+                v-for="(v, k) in computedTheadUse"
                 :key="v.id || k"
                 v-bind="v.vBind"
             >
@@ -160,9 +187,12 @@ module.exports = {
     data() {
         return {
             isLoading: false,
+            // config
+            config: {
+                showSearch: false,
+            },
             // 搜索相关
             // *******************************************************
-            showSearch: false,
             dateRangePickerOptions: {
                 shortcuts: [
                     {
@@ -358,6 +388,9 @@ module.exports = {
                 },
             };
         },
+        computedTheadUse() {
+            return this.dataTheadUse.filter((v) => v.isChecked);
+        },
     },
     methods: {
         // init
@@ -408,7 +441,7 @@ module.exports = {
                         res.push(this.makeUpThead(propRes));
                     }
                 } else {
-                    res.push(this.makeUpThead(dataRes));
+                    res.push(dataRes);
                 }
             });
 
@@ -431,6 +464,7 @@ module.exports = {
                         type: "input",
                         value: [],
                     },
+                    isChecked: true,
                 },
                 JSON.parse(JSON.stringify(theadData))
             );
@@ -506,5 +540,20 @@ module.exports = {
     .kwn40fqs {
         width: 100%;
     }
+    // reset elementui
+    .el-input__inner {
+        border: 0;
+    }
+    // .el-descriptions__table {
+    //     &.is-bordered {
+    //         .el-descriptions-item__content {
+    //             padding: 0;
+    //         }
+    //     }
+    // }
+}
+.kwou1hu6 {
+    box-sizing: border-box;
+    line-height: 1.8;
 }
 </style>
