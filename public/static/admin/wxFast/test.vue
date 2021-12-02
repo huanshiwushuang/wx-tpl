@@ -13,6 +13,7 @@
                         prop: 'index',
                         label: '序号',
                     },
+                    holdId: 'kwovslw2',
                 },
                 {
                     vBind: {

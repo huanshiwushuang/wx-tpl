@@ -1,4 +1,4 @@
-define(['utils/tools'], (tools) => {
+define(['utils/tools', 'lodash'], (tools, _) => {
     const str = tools.str;
     // localStorage 版本号
     const v = `kvc4regy`;
@@ -45,7 +45,7 @@ define(['utils/tools'], (tools) => {
         // 无参数-直接保存 value
         set(obj) {
             if (obj) {
-                this.value = Object.assign({}, this.value, obj)
+                this.value = _.merge({}, this.value, obj);
             }
             // 防止无写存储权限，导致 app 崩溃
             try {
@@ -55,9 +55,11 @@ define(['utils/tools'], (tools) => {
             }
         },
     };
-    Object.assign(local, {
+
+    _.merge(local, {
         value: local.get()
-    })
+    });
+
     return local;
 })
 

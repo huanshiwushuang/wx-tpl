@@ -5,7 +5,11 @@
             v-show="computedTheadCanSearch.length && config.showSearch"
             class="mb10"
         >
-            <el-descriptions :column="computedSearchColumn" border>
+            <el-descriptions
+                :column="computedSearchColumn"
+                border
+                class="kwovgs17"
+            >
                 <el-descriptions-item
                     v-for="(v, k) in computedTheadCanSearch"
                     :key="k"
@@ -88,7 +92,11 @@
                     </el-button>
                     <div>
                         <div v-for="(v, k) in dataTheadUse" :key="k">
-                            <el-checkbox v-model="v.isChecked" class="w">
+                            <el-checkbox
+                                v-model="v.hold.isChecked"
+                                class="w"
+                                @change="handleCustomColumnChange($event, v)"
+                            >
                                 {{ v.vBind.label }}
                             </el-checkbox>
                         </div>
@@ -389,7 +397,7 @@ module.exports = {
             };
         },
         computedTheadUse() {
-            return this.dataTheadUse.filter((v) => v.isChecked);
+            return this.dataTheadUse.filter((v) => v.hold.isChecked);
         },
     },
     methods: {
@@ -464,9 +472,20 @@ module.exports = {
                         type: "input",
                         value: [],
                     },
-                    isChecked: true,
+                    // 序列化 ID, 用于自定义列状态本地保持
+                    // holdId
+                    // 持久化数据
+                    hold: {
+                        isChecked: true,
+                    },
                 },
-                JSON.parse(JSON.stringify(theadData))
+                (() => {
+                    const res = JSON.parse(JSON.stringify(theadData));
+                    return {
+                        ...res,
+                        hold: this.local.value[res.holdId] || {},
+                    };
+                })()
             );
         },
         // 搜索相关
@@ -524,6 +543,17 @@ module.exports = {
                 this.isLoading = false;
             }
         },
+        // 自定义列切换
+        handleCustomColumnChange(e, v) {
+            // 如果有本地序列化 id
+            if (v.holdId) {
+                this.local.set({
+                    [v.holdId]: {
+                        isChecked: e,
+                    },
+                });
+            }
+        },
     },
     async created() {
         console.log(this);
@@ -540,17 +570,12 @@ module.exports = {
     .kwn40fqs {
         width: 100%;
     }
+}
+.kwovgs17 {
     // reset elementui
     .el-input__inner {
         border: 0;
     }
-    // .el-descriptions__table {
-    //     &.is-bordered {
-    //         .el-descriptions-item__content {
-    //             padding: 0;
-    //         }
-    //     }
-    // }
 }
 .kwou1hu6 {
     box-sizing: border-box;
