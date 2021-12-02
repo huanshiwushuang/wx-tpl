@@ -48,7 +48,7 @@
                 </wx-router-link>
             </div>
             <div slot="operate" slot-scope="{ row, column }">
-                <el-button>操作</el-button>
+                <el-button type="primary">操作</el-button>
             </div>
         </wx-table-pagination>
     </div>
