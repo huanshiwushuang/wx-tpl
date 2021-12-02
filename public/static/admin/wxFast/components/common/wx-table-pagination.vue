@@ -1,5 +1,8 @@
 <template>
-    <div v-loading="isLoading" class="kwn410tk_com">
+    <div
+        v-loading="isLoading"
+        class="kwn410tk_com"
+    >
         <!-- 列搜索 -->
         <div
             v-show="computedTheadCanSearch.length && config.showSearch"
@@ -42,9 +45,7 @@
                         </el-select>
                     </template>
                     <!-- date-picker daterange -->
-                    <template
-                        v-else-if="v.search.type === 'date-picker-daterange'"
-                    >
+                    <template v-else-if="v.search.type === 'date-picker-daterange'">
                         <el-date-picker
                             v-model="v.search.value"
                             class="kwn40fqs"
@@ -62,10 +63,16 @@
             </el-descriptions>
             <!-- 按钮 -->
             <div class="tc mt10">
-                <el-button type="danger" @click="handleSearchReset">
+                <el-button
+                    type="danger"
+                    @click="handleSearchReset"
+                >
                     重置
                 </el-button>
-                <el-button type="primary" @click="init"> 搜索 </el-button>
+                <el-button
+                    type="primary"
+                    @click="handleSearch"
+                > 搜索 </el-button>
             </div>
         </div>
 
@@ -73,7 +80,10 @@
         <div class="df jcsb aic mt10 mb10">
             <div>
                 <!-- 刷新 -->
-                <el-button type="info" @click="handleLoad">
+                <el-button
+                    type="info"
+                    @click="handleLoad"
+                >
                     <i class="el-icon-refresh"></i>
                 </el-button>
             </div>
@@ -91,7 +101,10 @@
                         }}
                     </el-button>
                     <div>
-                        <div v-for="(v, k) in dataThead" :key="k">
+                        <div
+                            v-for="(v, k) in dataThead"
+                            :key="k"
+                        >
                             <el-checkbox
                                 v-model="v.hold.isChecked"
                                 class="w"
@@ -126,7 +139,10 @@
                 v-bind="v.vBind"
             >
                 <template slot-scope="scope">
-                    <slot :name="v.vBind.prop" v-bind="scope">
+                    <slot
+                        :name="v.vBind.prop"
+                        v-bind="scope"
+                    >
                         {{ scope.row[scope.column.property] }}
                     </slot>
                 </template>
@@ -304,6 +320,7 @@ module.exports = {
             // 表格相关
             // *******************************************************
             // 表头
+            dataTheadDefault: [],
             dataThead: [],
             // 表体
             dataTbody: [],
@@ -391,7 +408,7 @@ module.exports = {
                         this.dataSort.sort = "";
                     }
 
-                    this.init();
+                    this.handleSearch();
                 },
             };
         },
@@ -400,13 +417,8 @@ module.exports = {
         },
     },
     methods: {
-        // init
-        async init() {
-            this.initData();
-            // 获取数据
-            await this.handleLoad();
-        },
-        initData() {
+        // 初始化组件-同步数据
+        initSyncData() {
             // 分页
             Object.assign(
                 this.dataPagination,
@@ -418,6 +430,15 @@ module.exports = {
                 this.propPagination
             );
         },
+        // 初始化组件-异步数据
+        async initAsyncData() {
+            // 获取数据
+            await this.handleLoad();
+        },
+        // 初始化组件-props数据
+        initPropData() {
+            this.mergeThead();
+        },
         // 合并表头
         // default + prop = use
         mergeThead() {
@@ -425,22 +446,25 @@ module.exports = {
 
             // 合并内外表头, 提取所有 prop
             const allProps = [
-                ...[...this.propThead, ...this.dataThead].reduce((sum, v) => {
-                    sum.add(v.vBind.prop);
-                    return sum;
-                }, new Set()),
+                ...[...this.propThead, ...this.dataTheadDefault].reduce(
+                    (sum, v) => {
+                        sum.add(v.vBind.prop);
+                        return sum;
+                    },
+                    new Set()
+                ),
             ];
             allProps.forEach((v) => {
                 const propRes = this.propThead.find((vv) => {
                     return v === vv.vBind?.prop;
                 });
-                const dataRes = this.dataThead.find((vv) => {
+                const dataRes = this.dataTheadDefault.find((vv) => {
                     return v === vv.vBind.prop;
                 });
 
                 if (propRes) {
                     if (dataRes) {
-                        res.push(this.$_.merge(dataRes, propRes));
+                        res.push(this.$_.merge({}, dataRes, propRes));
                     } else {
                         res.push(this.makeUpThead(propRes));
                     }
@@ -454,6 +478,7 @@ module.exports = {
         // 完善 thead 数据
         makeUpThead(theadData) {
             return this.$_.merge(
+                {},
                 theadData,
                 {
                     // 列-绑定
@@ -464,7 +489,7 @@ module.exports = {
                     },
                     // 列-搜索
                     search: {
-                        can: true,
+                        can: false,
                         type: "input",
                         value: [],
                     },
@@ -475,13 +500,10 @@ module.exports = {
                         isChecked: true,
                     },
                 },
-                (() => {
-                    const res = JSON.parse(JSON.stringify(theadData));
-                    return {
-                        ...res,
-                        hold: this.local.value[res.holdId] || {},
-                    };
-                })()
+                {
+                    ...theadData,
+                    hold: this.local.value[theadData.holdId] || {},
+                }
             );
         },
         // 搜索相关
@@ -492,7 +514,11 @@ module.exports = {
                 v.search.value = [];
             });
             // 重新初始化
-            this.initData();
+            this.initSyncData();
+        },
+        handleSearch() {
+            this.initSyncData();
+            this.initAsyncData();
         },
         // 表格相关
         // *******************************************************
@@ -515,19 +541,20 @@ module.exports = {
 
                 // 表体
                 this.dataTbody = this.$utils.tools._.v(res, this.propTbodyPath);
-                debugger
                 // 表头
                 if (!this.dataThead.length && this.dataTbody.length) {
-                    this.dataThead = Object.keys(this.dataTbody[0]).map((v) => {
-                        return this.mergeThead({
-                            // 列-绑定
-                            vBind: {
-                                prop: v,
-                                label: v,
-                                sortable: "custom",
-                            },
-                        });
-                    });
+                    this.dataTheadDefault = Object.keys(this.dataTbody[0]).map(
+                        (v) => {
+                            return this.makeUpThead({
+                                // 列-绑定
+                                vBind: {
+                                    prop: v,
+                                    label: v,
+                                    sortable: "custom",
+                                },
+                            });
+                        }
+                    );
                 }
                 // 总数
                 this.dataPagination.total = this.$utils.tools._.v(
@@ -551,11 +578,9 @@ module.exports = {
         },
     },
     async created() {
-        console.log(this);
-
-        await this.init();
-        // 合并表头
-        this.mergeThead();
+        this.initSyncData();
+        await this.initAsyncData();
+        this.initPropData();
     },
 };
 </script>
