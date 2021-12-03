@@ -1,7 +1,11 @@
 <template>
     <div class="kwlnas0e">
+        <wx-dialog></wx-dialog>
+        <hr />
+
         <v-chart class="kwk2oztz" :option="chart"></v-chart>
         <hr />
+
         <wx-table-pagination
             prop-url="/admin/test"
             prop-tbody-path="json.data.list"
@@ -23,6 +27,7 @@
                 <el-button type="primary">操作</el-button>
             </div>
         </wx-table-pagination>
+        <hr />
     </div>
 </template>
 <script>

@@ -22,6 +22,12 @@ require.config({
         // ******************************************************************
         utils: 'wxFast/utils',
         data: 'wxFast/data',
+        // 移动
+        // https://www.jsdelivr.com/package/npm/moveable?path=dist
+        moveable: 'https://cdn.jsdelivr.net/npm/moveable@0.27.2/dist/moveable.js?noext',
+        // 拖动
+        vuedraggable: 'https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.umd.min.js?noext',
+        sortablejs: 'https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js?noext',
     },
     map: {
         '*': {
@@ -44,6 +50,14 @@ require.config({
             ]
         },
     }
+});
+// wx-vuedraggable
+define('wx-vuedraggable', () => {
+    return new Promise(async resolve => {
+        require(['wx-vue', 'vuedraggable'], (Vue, vuedraggable) => {
+            resolve(vuedraggable);
+        })
+    })
 });
 // wx-axios
 define('wx-axios', () => {
@@ -121,6 +135,7 @@ define('wx-vue', () => {
                         }
                     }
                 });
+
                 // proto data
                 Object.assign(Vue.prototype, {
                     $_: _,
@@ -153,6 +168,7 @@ define('wx-vue', () => {
                 // 全局组件注册
                 [
                     'wx-table-pagination',
+                    'wx-dialog',
                 ].forEach(v => {
                     httpVueLoader.register(Vue, `@/wxFast/components/common/${v}.vue`);
                 });
