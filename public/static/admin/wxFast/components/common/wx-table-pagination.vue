@@ -1,8 +1,5 @@
 <template>
-    <div
-        v-loading="isLoading"
-        class="kwn410tk_com"
-    >
+    <div v-loading="isLoading" class="kwn410tk_com">
         <!-- 列搜索 -->
         <div
             v-show="computedTheadCanSearch.length && config.showSearch"
@@ -45,7 +42,9 @@
                         </el-select>
                     </template>
                     <!-- date-picker daterange -->
-                    <template v-else-if="v.search.type === 'date-picker-daterange'">
+                    <template
+                        v-else-if="v.search.type === 'date-picker-daterange'"
+                    >
                         <el-date-picker
                             v-model="v.search.value"
                             class="kwn40fqs"
@@ -63,16 +62,12 @@
             </el-descriptions>
             <!-- 按钮 -->
             <div class="tc mt10">
-                <el-button
-                    type="danger"
-                    @click="handleSearchReset"
-                >
+                <el-button type="danger" @click="handleSearchReset">
                     重置
                 </el-button>
-                <el-button
-                    type="primary"
-                    @click="handleSearch"
-                > 搜索 </el-button>
+                <el-button type="primary" @click="handleSearch">
+                    搜索
+                </el-button>
             </div>
         </div>
 
@@ -80,10 +75,7 @@
         <div class="df jcsb aic mt10 mb10">
             <div>
                 <!-- 刷新 -->
-                <el-button
-                    type="info"
-                    @click="handleLoad"
-                >
+                <el-button type="info" @click="handleLoad">
                     <i class="el-icon-refresh"></i>
                 </el-button>
             </div>
@@ -101,10 +93,7 @@
                         }}
                     </el-button>
                     <div>
-                        <div
-                            v-for="(v, k) in dataThead"
-                            :key="k"
-                        >
+                        <div v-for="(v, k) in dataThead" :key="k">
                             <el-checkbox
                                 v-model="v.hold.isChecked"
                                 class="w"
@@ -133,16 +122,16 @@
             v-bind="computedTableVBind"
             v-on="computedTableVOn"
         >
+            <!-- 最开始的列 -->
+            <slot name="el-table-column-before"> </slot>
+
             <el-table-column
                 v-for="(v, k) in computedTheadChecked"
                 :key="v.id || k"
                 v-bind="v.vBind"
             >
                 <template slot-scope="scope">
-                    <slot
-                        :name="v.vBind.prop"
-                        v-bind="scope"
-                    >
+                    <slot :name="v.vBind.prop" v-bind="scope">
                         {{ scope.row[scope.column.property] }}
                     </slot>
                 </template>
@@ -164,7 +153,7 @@
 
 <script>
 module.exports = {
-    name: "WxTablePagination",
+    name: "wxTablePagination",
     props: {
         // 搜索相关
         // *******************************************************

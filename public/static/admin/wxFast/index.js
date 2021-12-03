@@ -153,7 +153,6 @@ define('wx-vue', () => {
                 // 全局组件注册
                 [
                     'wx-table-pagination',
-                    'wx-router-link',
                 ].forEach(v => {
                     httpVueLoader.register(Vue, `@/wxFast/components/common/${v}.vue`);
                 });

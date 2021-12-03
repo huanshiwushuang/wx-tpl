@@ -8,8 +8,9 @@
             prop-total-path="json.data.count"
             :prop-thead="propThead"
         >
-            <template slot="index" slot-scope="{ $index }">
-                {{ $index + 1 }}
+            <template slot="el-table-column-before">
+                <el-table-column type="selection"> </el-table-column>
+                <el-table-column type="index" label="序号"> </el-table-column>
             </template>
 
             <div slot="url" slot-scope="{ row, column }">
@@ -47,15 +48,6 @@ module.exports = {
                 ],
             },
             propThead: [
-                {
-                    vBind: {
-                        type: "index",
-                        prop: "index",
-                        label: "序号",
-                    },
-                    // 列状态持久化 ID
-                    holdId: "kwovslw2",
-                },
                 {
                     vBind: {
                         prop: "id",
