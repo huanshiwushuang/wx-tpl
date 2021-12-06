@@ -2,30 +2,34 @@
     <el-dialog
         title="收货地址"
         :visible.sync="dialogTableVisible"
-        class="kwq8r7hr"
+        custom-class="kwqcgwcs"
     >
-        <el-table :data="gridData">
-            <el-table-column
-                property="date"
-                label="日期"
-                width="150"
-            ></el-table-column>
-            <el-table-column
-                property="name"
-                label="姓名"
-                width="200"
-            ></el-table-column>
-            <el-table-column property="address" label="地址"></el-table-column>
-        </el-table>
+        <div>
+            <el-table :data="gridData">
+                <el-table-column
+                    property="date"
+                    label="日期"
+                    width="150"
+                ></el-table-column>
+                <el-table-column
+                    property="name"
+                    label="姓名"
+                    width="200"
+                ></el-table-column>
+                <el-table-column
+                    property="address"
+                    label="地址"
+                ></el-table-column>
+            </el-table>
+        </div>
     </el-dialog>
 </template>
 
 <script>
+// 暂未完成
+// 考虑用 layer 替代
 module.exports = {
     name: "wxDialog",
-    components: {
-        // https://github.com/daybrush/moveable
-    },
     data() {
         return {
             gridData: [
@@ -50,7 +54,7 @@ module.exports = {
                     address: "上海市普陀区金沙江路 1518 弄",
                 },
             ],
-            dialogTableVisible: false,
+            dialogTableVisible: true,
             dialogFormVisible: false,
             form: {
                 name: "",
@@ -67,13 +71,33 @@ module.exports = {
     },
     created() {
         window.asd = this;
-        requirejs(["moveable"], (moveable) => {
-            debugger;
-            resolve(moveable());
+    },
+    mounted() {
+        // https://github.com/daybrush/moveable
+        requirejs(["moveable"], (Moveable) => {
+            const moveable = new Moveable(document.body, {
+                target: document.querySelector(".kwqcgwcs"),
+                draggable: true,
+            });
+            moveable.on("drag", (params) => {
+                params.target.style.transform = params.transform;
+            });
         });
     },
 };
 </script>
 
 <style lang="less">
+body {
+    // reset moveable
+    .moveable-control-box {
+        display: none !important;
+    }
+}
+.kwqcgwcs {
+    // reset elementui
+    .el-dialog__header {
+        display: none;
+    }
+}
 </style>
