@@ -1,6 +1,6 @@
 <template>
     <div class="kvkh7nuy_com">
-        <van-pull-refresh v-model="refreshing" @refresh="on_refresh">
+        <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
             <van-list
                 v-model="loading"
                 :finished="finished"
@@ -8,13 +8,14 @@
                 offset="0"
                 error-text="请求失败，点击重新加载"
                 finished-text="没有更多了"
-                @load="on_load_next"
+                @load="onLoadNext"
             >
                 <jzm-card-default
                     v-for="(v, k) in json.list"
                     v-bind="v"
                     :key="k"
                     class="kw6i8nt3"
+                    @click.native="onClickNice"
                 >
                 </jzm-card-default>
             </van-list>
@@ -53,7 +54,7 @@ export default {
                 this.$route.query
             );
         },
-        async on_load_next() {
+        async onLoadNext() {
             try {
                 let res = await this.$get(this.$route.path, {
                     ...this.qs,
@@ -61,10 +62,7 @@ export default {
                 });
 
                 // 替换数据
-                this.json.list = [
-                    ...this.json.list.slice(-1),
-                    ...res.json.list,
-                ];
+                this.json.list.push(...res.json.list);
                 // 同步到 store
                 this.$store.commit("page/cache", {
                     ...this.$store.state.page.cache,
@@ -74,15 +72,13 @@ export default {
                 this.qs.page++;
                 // 判断是否有更多
                 this.finished = res.json.finished;
-
-                window.scrollTo(0, 0);
             } catch {
                 this.error = true;
             }
             // 加载状态结束
             this.loading = false;
         },
-        async on_refresh() {
+        async onRefresh() {
             try {
                 let res = await this.$get(
                     `${this.$route.path}${location.search}`
@@ -103,6 +99,11 @@ export default {
             } finally {
                 this.refreshing = false;
             }
+        },
+        onClickNice() {
+            this.$router.push({
+                path: "/test",
+            });
         },
     },
     created() {

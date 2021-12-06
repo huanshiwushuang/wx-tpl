@@ -90,7 +90,7 @@ const options = {
 
 // ****************************************************
 let page = null;
-let from_pathname, to_pathname;
+let fromPathname, toPathname;
 let _to, _from;
 
 // ****************************************************
@@ -104,14 +104,14 @@ function hook() {
 		_from = from;
 		// from pathname
 		let a = document.createElement('a');
-		a.href = from.path;
-		from_pathname = location.pathname;
-		store.commit('page/from_pathname', from_pathname);
+		a.href = `${router.options.base ?? ''}${from.path}`;
+		fromPathname = (new URL(a.href)).pathname;
+		store.commit('page/fromPathname', fromPathname);
 
 		// to pathname
 		a.href = `${router.options.base ?? ''}${to.path}`;
-		to_pathname = (new URL(a.href)).pathname;
-		store.commit('page/to_pathname', to_pathname);
+		toPathname = (new URL(a.href)).pathname;
+		store.commit('page/toPathname', toPathname);
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
@@ -122,7 +122,7 @@ function hook() {
 					if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
 						return next();
 					} else {
-						location = to_pathname;
+						location = toPathname;
 						return;
 					}
 				}
@@ -159,10 +159,10 @@ function hook() {
 				// 尝试提取 cache_data
 				case 'ast':
 					{
-						let cache_data = store.state.page.cache[to_pathname];
+						let cache_data = store.state.page.cache[toPathname];
 						if (cache_data) {
 							page = cache_data;
-							console.log(`提取缓存---${to_pathname} ---`, cache_data);
+							console.log(`提取缓存---${toPathname} ---`, cache_data);
 						}
 					}
 					break;
@@ -178,9 +178,9 @@ function hook() {
 		switch (options.mode) {
 			case 'ast': {
 				// 记录页面滚动位置
-				store.commit('page/saved_position', {
-					...store.state.page.saved_position,
-					[from_pathname]: {
+				store.commit('page/savedPosition', {
+					...store.state.page.savedPosition,
+					[fromPathname]: {
 						x: window.scrollX,
 						y: window.scrollY,
 					}
@@ -207,7 +207,7 @@ function hook() {
 				// 缓存 page 数据
 				store.commit('page/cache', {
 					...store.state.page.cache,
-					[to_pathname]: page,
+					[toPathname]: page,
 				});
 
 				// 不是第一次进入页面
@@ -272,14 +272,16 @@ function hook() {
 							if ([...new Set(_to.meta.exclude)].length !== _to.meta.exclude.length) {
 								console.error(`组件名重复`, _to.meta.exclude);
 							}
+							const newPageCache = Object.keys(store.state.page.cache).filter(key => {
+								return key !== `${fromPathname}`;
+							}).reduce((sum, key) => {
+								sum[key] = store.state.page.cache[key];
+								return sum;
+							}, {});
+							
 							// 确认需要清除的 page 缓存
 							store.commit('page/cache', {
-								...Object.keys(store.state.page.cache).filter(key => {
-									return key !== `${axios_options.baseURL}${_from.fullPath}`;
-								}).reduce((sum, key) => {
-									sum[key] = store.state.page.cache[key];
-									return sum;
-								}, {}),
+								...newPageCache,
 							});
 						}
 						break;
@@ -295,7 +297,7 @@ function hook() {
 		// 导航故障，结束加载
 		NProgress.done();
 		// 导航故障，保持 to url 不变
-		history.replaceState({}, '', to_pathname);
+		history.replaceState({}, '', toPathname);
 	});
 }
 

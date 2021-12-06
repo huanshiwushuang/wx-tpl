@@ -68,15 +68,6 @@ const modules = modulesFiles.keys().filter(modulePath => {
 export function process_module(module) {
     const state_keys = Object.keys(module.state);
 
-    // 每个 module 都保留自己 state 的初始化数据
-    const keep_keywords = ['_cache'];
-
-    for (let i of keep_keywords) {
-        if (state_keys.includes(i)) {
-            return console.error(`state 中禁止使用保留字`, keep_keywords);
-        }
-    }
-
     state_keys.forEach(state_key => {
         // 添加默认的与 state 同名的 mutations
         if (!(state_key in module.mutations)) {
@@ -84,20 +75,22 @@ export function process_module(module) {
                 state[state_key] = payload;
             }
         }
-        // 添加默认的与 state 同名的 action reset
-        let reset_key = `${state_key}_reset`;
+        // 添加 state 的 action reset
+        let reset_key = `_reset${state_key.replace(/^(.)/, function () {
+            return arguments[1].toUpperCase()
+        })}`;
+
         if (!(reset_key in module.actions)) {
             module.actions[reset_key] = function ({ commit }) {
                 commit(state_key, JSON.parse(JSON.stringify(module.state._cache[state_key])));
             }
         }
-
     });
-    // 添加 reset_module 
-    module.actions._reset_module = function ({ dispatch }) {
+    // 添加 _resetModuleSelf
+    module.actions._resetModuleSelf = function ({ dispatch }) {
         // 循环重置每一个属性
         state_keys.forEach(key => {
-            dispatch(`${key}_reset`);
+            dispatch(`_${key}Reset`);
         });
     }
 

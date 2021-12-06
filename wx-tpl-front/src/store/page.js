@@ -2,12 +2,12 @@ const state = {
     // 页面数据缓存
     cache: {},
     // 页面滚动位置记录
-    saved_position: {},
+    savedPosition: {},
 
-    // from_pathname
-    from_pathname: '',
-    // to_pathname
-    to_pathname: ''
+    // fromPathname
+    fromPathname: '',
+    // toPathname
+    toPathname: ''
 }
 const getters = {
 }

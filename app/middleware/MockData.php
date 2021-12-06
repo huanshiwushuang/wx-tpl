@@ -95,7 +95,7 @@ class MockData
             // exit;
             switch ($count) {
                 case 0:
-                    throw new Exception('匹配到 0 个 mock rule');
+                    dump('匹配到 0 个 mock rule');
                     break;
                 case 1:
                     // 合并默认数据 和 mock 数据

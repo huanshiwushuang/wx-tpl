@@ -1,5 +1,5 @@
 <template>
-    <div class="kvki5240">
+    <div class="kvki5240_com">
         <div class="kvl1c2t4">
             <!-- 头部 -->
             <div class="df jcsb aic">
@@ -140,18 +140,13 @@ export default {
             required: true,
         },
     },
-    mounted() {
-        setTimeout(() => {
-            // window.document.write(`${devicePixelRatio}<br>`);
-        }, 1000);
-    },
 };
 </script>
 
 <style lang="less">
 @import (reference) "@/assets/less/index.less";
 
-.kvki5240 {
+.kvki5240_com {
     background: #fff;
 }
 .kvl0avoo {

@@ -100,7 +100,7 @@ const routes = [
 			},
 			{
 				path: '/test',
-				component: () => import('@/views/Settings'),
+				component: () => import('@/views/Test.vue'),
 			},
 			// 404
 			{
@@ -116,11 +116,11 @@ const router = new VueRouter({
 	mode: 'history',
 	routes,
 	scrollBehavior() {
-		const res = store.state.page.saved_position[
-			store.state.page.to_pathname
+		const res = store.state.page.savedPosition[
+			store.state.page.toPathname
 		] || { x: 0, y: 0 };
-		// 根据 to_pathname 取出记录的对应页面的历史滚动位置
-		console.log(`滚动页面---${store.state.page.to_pathname} ---到`, JSON.stringify(res));
+		// 根据 toPathname 取出记录的对应页面的历史滚动位置
+		console.log(`滚动页面---${store.state.page.toPathname} ---到`, JSON.stringify(res));
 		return res;
 	}
 })
