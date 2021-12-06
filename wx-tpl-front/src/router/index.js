@@ -46,7 +46,7 @@ const routes = [
 					{
 						path: 'index/newest',
 						name: 'home_newest',
-						component: () => import('@/views/Home/Newest.vue'),
+						component: () => import('@/views/Home/Nice.vue'),
 					},
 					{
 						path: 'index/popular',

@@ -137,7 +137,7 @@ function hook() {
 		) {
 			let ast = html.to_ast(document.documentElement.outerHTML);
 			try {
-				page = JSON.parse(ast.page?.str);
+				page = JSON.parse(ast.page.str);
 
 				// 数据检查
 				if (config.is_check) {
@@ -278,7 +278,7 @@ function hook() {
 								sum[key] = store.state.page.cache[key];
 								return sum;
 							}, {});
-							
+
 							// 确认需要清除的 page 缓存
 							store.commit('page/cache', {
 								...newPageCache,
