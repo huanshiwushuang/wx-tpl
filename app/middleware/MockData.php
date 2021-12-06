@@ -74,9 +74,7 @@ class MockData
                 $pathinfo = pathinfo($file_pathname);
                 $output_dir = $pathinfo['dirname'] . DS . '..' . DS . 'json';
                 
-                dump($output_dir);
                 if (!file_exists($output_dir)) {
-                    
                     mkdir($output_dir, 0777, true);
                 }
                 file_put_contents(
