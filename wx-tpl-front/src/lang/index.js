@@ -31,9 +31,9 @@ export function getLanguage() {
 	// cookie 保存的语言
 	const chooseLanguage = Cookie.get('think_lang')
 	if (chooseLanguage) {
-		return chooseLanguage.replace('-', '_');
+		return chooseLanguage;
 	}
-	return 'zh_cn';
+	return 'zh-cn';
 }
 
 // 设置语言
@@ -45,39 +45,38 @@ export function setLanguage(lang) {
 	let lang = getLanguage();
 
 	switch (lang) {
-		case 'en_us': {
+		case 'en-us': {
 			i18n.locale = lang;
 
-			let en_us = import('vant/es/locale/lang/en-US')
-			let en_us_custom = import('./en-us')
+			let enUS = import('vant/es/locale/lang/en-US')
+			let enUSCustom = import('./en-us')
 
-			en_us = await en_us
-			en_us_custom = await en_us_custom
-
+			enUS = await enUS
+			enUSCustom = await enUSCustom
 
 			i18n.setLocaleMessage(lang, {
-				...en_us_custom.default,
+				...enUSCustom.default,
 			});
 
-			Locale.use(i18n.locale, en_us.default);
+			Locale.use(i18n.locale, enUS.default);
 		}
 			break;
 		// 默认中文
 		default: {
 			i18n.locale = 'zh-cn';
 
-			let zh_cn = import('vant/es/locale/lang/zh-CN')
-			let zh_cn_custom = import('./zh-cn')
+			let zhCN = import('vant/es/locale/lang/zh-CN')
+			let zhCNCustom = import('./zh-cn')
 
-			zh_cn = await zh_cn
-			zh_cn_custom = await zh_cn_custom
+			zhCN = await zhCN
+			zhCNCustom = await zhCNCustom
 
 
 			i18n.setLocaleMessage(i18n.locale, {
-				...zh_cn_custom.default,
+				...zhCNCustom.default,
 			});
 
-			Locale.use(i18n.locale, zh_cn.default);
+			Locale.use(i18n.locale, zhCN.default);
 		}
 
 	}
