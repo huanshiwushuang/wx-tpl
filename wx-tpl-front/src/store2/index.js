@@ -72,9 +72,32 @@ _.walkTree([res], {
             parent[node._nodeName] = node;
         }
 
+        // 数据观察
         if (node.state) {
+            // 某些助手函数
+            Object.defineProperties(node, {
+                // 缓存 state 中的初始化数据
+                _cache: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: true,
+                    value: JSON.parse(JSON.stringify(node.state)),
+                },
+                // 重置 state 中的数据来自 _cache
+                _reset: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value() {
+                        node.state = Vue.observable(JSON.parse(JSON.stringify(node._cache)));
+                    }
+                }
+            })
+
             node.state = Vue.observable(node.state);
         }
+
+        // 数据依赖
         if (node.getters) {
             const newGetters = {};
             Object.keys(node.getters).forEach((v) => {
@@ -86,6 +109,16 @@ _.walkTree([res], {
             });
             node.getters = newGetters;
         }
+
+        // 某些通用的修改数据的方法
+        if (node.mutations) {
+            node.mutations = Object.keys(node.mutations).reduce((sum, v) => {
+                sum[v] = node.mutations[v].bind(node);
+                return sum;
+            }, {});
+        }
+
+        // 异步获取数据的方法
         if (node.actions) {
             node.actions = Object.keys(node.actions).reduce((sum, v) => {
                 sum[v] = node.actions[v].bind(node);
