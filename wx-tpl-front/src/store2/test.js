@@ -13,7 +13,6 @@ export default {
             this.state.name = '李四';
         },
         getNode() {
-            // return this.$getNode('HAHA');
             const asd = {
                 name: 'A',
                 age: 18,

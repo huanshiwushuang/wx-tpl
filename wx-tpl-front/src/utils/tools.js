@@ -16,21 +16,21 @@ export const _ = {
                 // 根节点
                 _root: {
                     enumerable: false,
-                    configurable: false,
+                    configurable: true,
                     writable: false,
                     value: tree,
                 },
                 // 父节点
                 _parent: {
                     enumerable: false,
-                    configurable: false,
+                    configurable: true,
                     writable: false,
                     value: parent,
                 },
                 // 祖先节点
                 _parents: {
                     enumerable: false,
-                    configurable: false,
+                    configurable: true,
                     get() {
                         const res = [];
                         let nodeCurrent = node;
@@ -44,7 +44,7 @@ export const _ = {
                 // 祖先节点 + 自己
                 _closest: {
                     enumerable: false,
-                    configurable: false,
+                    configurable: true,
                     get() {
                         return [
                             ...this._parents,
