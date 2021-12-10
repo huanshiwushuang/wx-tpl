@@ -6,7 +6,7 @@ const ENV = /window/i.test(globalThis.constructor.name) ? 'browser' : 'nodejs';
 let params = {};
 
 // 初始化参数
-async function init_params(p) {
+async function initParams(p) {
     Object.assign(params, p);
 }
 // 输出数据
@@ -33,8 +33,10 @@ function output() {
     return res;
 }
 // 匹配url，执行 tasks
-async function exec_tasks(tasks) {
+async function execTasks(tasks) {
     // 最终输出的是多任务执行后的数组
+    
+
     const filter = tasks.filter(item => {
         // 过滤 url
         if (item.rurl instanceof RegExp) {
@@ -61,9 +63,9 @@ async function exec_tasks(tasks) {
     return res;
 }
 // 编码
-function str_encode(val) {
-    const src = ['-', "\\+"];
-    const dist = ["__", "_"];
+function strEncode(val) {
+    const src = ["\\+"];
+    const dist = ["."];
 
     let res = LZString.compressToEncodedURIComponent(val);
     src.forEach((item, index) => {
@@ -73,9 +75,9 @@ function str_encode(val) {
     return res;
 }
 // 解码
-function str_decode(val) {
-    const src = ["__", "_"];
-    const dist = ['-', "+"];
+function strDecode(val) {
+    const src = ["\\."];
+    const dist = ["+"];
 
     let res = val;
     src.forEach((item, index) => {
@@ -87,11 +89,11 @@ function str_decode(val) {
     return res;
 }
 // 是否浏览器
-function is_browser() {
+function isBrowser() {
     return ENV === 'browser';
 }
 // 是否nodejs
-function is_nodejs() {
+function isNodejs() {
     return ENV === 'nodejs';
 }
 
@@ -100,14 +102,15 @@ switch (ENV) {
         // PHP 端必须传入 pathname，用于匹配
         // 传入一个json字符串参数
         const str = process.argv.slice(2)[0] || '{}';
-        Object.assign(params, JSON.parse(str_decode(str)));
+
+        Object.assign(params, JSON.parse(strDecode(str)));
         break;
 }
 
 export default {
     output,
-    exec_tasks,
-    init_params,
-    is_browser,
-    is_nodejs
+    execTasks,
+    initParams,
+    isBrowser,
+    isNodejs
 }

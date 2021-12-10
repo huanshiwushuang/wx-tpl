@@ -10,7 +10,7 @@ import { languageStatus } from '@/lang';
 // 配置
 import config from '../config';
 // ast
-import mixin_data from '../data/mixin_data';
+import mixinData from '../data/mixinData';
 // store
 import store from '../store';
 // VueRouter
@@ -135,7 +135,7 @@ function hook() {
 			_from === VueRouter.START_LOCATION &&
 			new URL(a.href).host === location.host
 		) {
-			let ast = html.to_ast(document.documentElement.outerHTML);
+			let ast = html.toAST(document.documentElement.outerHTML);
 			try {
 				page = JSON.parse(ast.page.str);
 
@@ -198,8 +198,8 @@ function hook() {
 		history_current_state = history.state;
 
 		// 创建新的对象, 避免直接修改 vuex 中的数据
-		mixin_data.page = page;
-		mixin_data.json = mixin_data.page.json;
+		mixinData.page = page;
+		mixinData.json = mixinData.page.json;
 
 		switch (options.mode) {
 			case 'ast':

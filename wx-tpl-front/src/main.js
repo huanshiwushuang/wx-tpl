@@ -7,23 +7,23 @@ import '@vant/touch-emulator';
 // config
 import config from './config';
 // mixin data
-import mixin_data from './data/mixin_data';
+import mixinData from './data/mixinData';
 // proto data
-import proto_data from './data/proto_data';
+import protoData from './data/protoData';
 // websocket
 // import websocket from './websocket';
 // vue
-import Vue from 'vue'
+import Vue from 'vue';
 // App
-import App from './App.vue'
+import App from './App.vue';
 // vuex
-import store from './store'
+import store from './store';
 // vue-router
-import router from './router'
+import router from './router';
 // 批量注册基础组件
-import './components'
+import './components';
 // i18n
-import i18n from './lang'
+import i18n from './lang';
 // UI 组件
 import {
 	Button,
@@ -76,7 +76,7 @@ Vue.config.productionTip = false
 
 Vue.mixin({
 	data() {
-		return mixin_data;
+		return mixinData;
 	},
 	beforeCreate() {
 		if (config.is_attach_com) {
@@ -103,7 +103,7 @@ Vue.mixin({
 	}
 })
 // 附加数据到原型
-Object.assign(Vue.prototype, proto_data);
+Object.assign(Vue.prototype, protoData);
 
 const app = new Vue({
 	router,

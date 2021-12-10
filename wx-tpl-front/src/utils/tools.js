@@ -6,11 +6,54 @@ import { parse, walk, SyntaxKind } from "html5parser";
 // 仿 loadsh 数据处理库
 export const _ = {
     // 遍历-树
-    walk_tree(tree, options) {
+    walkTree(tree, options = {}) {
         if (!Array.isArray(tree)) {
             throw new Error('please input array')
         }
         const visit = function (node, parent, index, options) {
+            // 每个节点添加属性
+            Object.defineProperties(node, {
+                // 根节点
+                _root: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value: tree,
+                },
+                // 父节点
+                _parent: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value: parent,
+                },
+                // 祖先节点
+                _parents: {
+                    enumerable: false,
+                    configurable: false,
+                    get() {
+                        const res = [];
+                        let nodeCurrent = node;
+                        while (nodeCurrent._parent) {
+                            res.push(nodeCurrent._parent);
+                            nodeCurrent = nodeCurrent._parent
+                        }
+                        return res.reverse();
+                    }
+                },
+                // 祖先节点 + 自己
+                _closest: {
+                    enumerable: false,
+                    configurable: false,
+                    get() {
+                        return [
+                            ...this._parents,
+                            this,
+                        ];
+                    }
+                },
+            })
+
             // 进入此节点
             options.enter && options.enter(node, parent, index)
 
@@ -31,40 +74,11 @@ export const _ = {
             visit(tree[i], null, i, options)
         }
     },
-    // 通过字符串参数，访问深层次对象数据
-    v(data, deep_key) {
-        const arr = deep_key.split('.');
-
-        try {
-            let res = data;
-            for (let i of arr) {
-                res = res[i];
-            }
-            if ([undefined, null].includes(res)) {
-                console.error(`_.v 访问返回 ${res}`)
-                console.error(`访问数据`, data);
-                console.error(`访问路径`, deep_key);
-            }
-            return res;
-        } catch (e) {
-            console.error(`访问数据: `, data);
-            console.error(`访问路径: `, deep_key);
-            console.error(`错误: `, e);
-        }
-    },
-    // https://www.runoob.com/w3cnote/js-random.html
-    // 生成指定范围随机数
-    random_num(min, max) {
-        var range = max - min;
-        var random = Math.random();
-        var num = min + Math.round(random * (range + 1));
-        return num;
-    }
 }
 
 // html 处理
 export const html = {
-    to_ast(html_str) {
+    toAST(html_str) {
         // 记录遍历中, 待删除的无用节点
         const waitRemove = [];
         // 解析 html
@@ -139,8 +153,8 @@ export const html = {
                                     key: item.name.value,
                                     // 对所有 value 进行解码，统一处理 & 被转义的情况
                                     // 此处三元运算，是为了防止，value 无值
-                                    val: item.value ? html.get_text(item.value.value) : item.value,
-                                    // 单双引号，便于之后 ast.to_html
+                                    val: item.value ? html.getText(item.value.value) : item.value,
+                                    // 单双引号，便于之后 ast.toHTML
                                     quote: item.value ? item.value.quote : null,
                                 }
                             })
@@ -173,7 +187,7 @@ export const html = {
 
                             // 重写 node 的 toString
                             node.toString = function () {
-                                return html.get_text(this.html());
+                                return html.getText(this.html());
                             }
                             Object.defineProperties(node, {
                                 str: {
@@ -232,7 +246,7 @@ export const html = {
 
         return ast;
     },
-    get_text(str) {
+    getText(str) {
         let div = document.createElement('div');
         div.innerHTML = str;
         return div.innerText.trim();
@@ -241,7 +255,7 @@ export const html = {
 
 // 处理 ast
 export const ast = {
-    to_html(ast) {
+    toHTML(ast) {
         if (!Array.isArray(ast)) {
             throw new Error('please input array');
         }
@@ -287,12 +301,14 @@ export const ast = {
 export const str = {
     // 编码
     encode(val) {
-        const src = ['-', "\\+"];
-        const dist = ["__", "_"];
+        // const src = ['-', "\\+"];
+        // const dist = ["__", "_"];
+        const src = ["\\+"];
+        const dist = ["."];
 
         let res = LZString.compressToEncodedURIComponent(val);
         src.forEach((item, index) => {
-            res = res.replaceAll(new RegExp(item, 'g'), dist[index]);
+            res = res.replace(new RegExp(item, 'g'), dist[index]);
         })
 
         return res;
@@ -313,21 +329,12 @@ export const str = {
     }
 }
 
-// json 处理
-export const json = {
-    // 针对一些可能 单双引号 混用的不合法的json，处理，使用场景很少
-    normalize(str) {
-        return str
-            .replace(/'/g, '"').replace(/[\s\r\n]*([\][{},"])[\s\r\n]*/g, '$1').replace(/,([}\]])/g, '$1').replace(/([{,])([^:{"]+?):/g, '$1"$2":');
-    }
-}
-
 // 环境信息检测
 export const env = {
-    is_mobile_ua() {
+    isMobileUA() {
         return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     },
-    is_mobile() {
+    isMobile() {
         return /Android|Linux|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.platform);
     }
 }

@@ -76,12 +76,12 @@ const start = function (params = {}) {
     const output = init.output();
 
     // 浏览器需要接收参数
-    init.init_params(params);
+    init.initParams(params);
     // 执行任务
-    init.exec_tasks(tasks).then(result => {
+    init.execTasks(tasks).then(result => {
         output.resolve(result);
     })
     return output;
 };
-init.is_nodejs() && start();
+init.isNodejs() && start();
 export default start;

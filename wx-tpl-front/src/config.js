@@ -1,4 +1,4 @@
-import local from './data/local_storage';
+import local from './data/local';
 
 const res = {
     // 路由模式

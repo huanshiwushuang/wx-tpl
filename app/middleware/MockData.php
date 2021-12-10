@@ -34,10 +34,9 @@ class MockData
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         $params = $request->param();
         if (
-            // isset($params['mock']) &&
-            // $params['mock'] == 1 &&
-            // ENV === 'development'
-            1
+            isset($params['mock']) &&
+            $params['mock'] == 1 &&
+            ENV === 'development'
         ) {
             // 默认数据
             $data_default = [];
@@ -73,7 +72,7 @@ class MockData
                 // 执行结果，写入 json 文件
                 $pathinfo = pathinfo($file_pathname);
                 $output_dir = $pathinfo['dirname'] . DS . '..' . DS . 'json';
-                
+
                 if (!file_exists($output_dir)) {
                     mkdir($output_dir, 0777, true);
                 }

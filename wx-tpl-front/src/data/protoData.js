@@ -4,7 +4,9 @@ import Cookie from "js-cookie";
 // 请求
 import request from '../request';
 // 通用工具
-import { str as tools_str } from '../utils/tools'
+import { str as toolsStr } from '../utils/tools'
+// 自定义访 vuex store
+import store2 from '../store2';
 // vant
 import {
     Toast,
@@ -18,7 +20,8 @@ export default {
     $cookie: Cookie,
     $get: request.get,
     $post: request.post,
-    $str_encode: tools_str.encode,
-    $str_decode: tools_str.decode,
+    $strEncode: toolsStr.encode,
+    $strDecode: toolsStr.decode,
     $toast: Toast,
+    $store2: store2,
 }

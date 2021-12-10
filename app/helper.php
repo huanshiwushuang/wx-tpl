@@ -161,8 +161,8 @@ class helper
     static function str_encode($input)
     {
         // + 比 - 出现更频繁
-        $src   =  ['-', "+"];
-        $dist  =  ["__", "_"];
+        $src   =  ["+"];
+        $dist  =  ["."];
 
         $res = LZString::compressToEncodedURIComponent($input);
         $res = str_replace($src, $dist, $res);
@@ -175,8 +175,8 @@ class helper
     static function str_decode($input)
     {
         // + 比 - 出现更频繁
-        $src   =  ["__", "_"];
-        $dist  =  ['-', "+"];
+        $src   =  ["."];
+        $dist  =  ["+"];
 
         $res = str_replace($src, $dist, $input);
         $res = LZString::decompressFromEncodedURIComponent($res);

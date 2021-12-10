@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import hook from './hook';
-import mixin_data from '../data/mixin_data';
+import mixinData from '../data/mixinData';
 import store from '../store';
 
 Vue.use(VueRouter);
@@ -13,7 +13,7 @@ const routes = [
 		children: [
 			(() => {
 				// 404 页面
-				if (mixin_data.page?.kvpcjcl7_404) {
+				if (mixinData.page?.kvpcjcl7_404) {
 					return {
 						path: '*',
 						component: async () => {

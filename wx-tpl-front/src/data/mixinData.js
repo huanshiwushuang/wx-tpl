@@ -1,5 +1,5 @@
 // localStorage
-import local from './local_storage';
+import local from './local';
 // tools
 import { env } from '../utils/tools';
 
@@ -17,9 +17,7 @@ const res = {
     // c_theme: '255,121,4'
     c_theme: '#FF7904',
     // 是否移动端
-    is_mobile_ua: env.is_mobile_ua(),
+    isMobileUA: env.isMobileUA(),
 };
-
-window.res = res;
 
 export default res;
