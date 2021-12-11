@@ -12,7 +12,7 @@ const state = {
 const getters = {
 }
 const mutations = {
-    cache(state, payload) {
+    cache(payload) {
         // 存储新的对象，防止被 mixin_data 直接修改
         state.cache = JSON.parse(JSON.stringify(payload));
     }

@@ -1,107 +1,152 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import { _ } from '../utils/tools';
 
-Vue.use(Vuex)
+// 读取当前文件夹内所有 js 文件
+const nodeFiles = require.context('.', true, /.js$/);
 
-const modulesFiles = require.context('.', true, /.js$/);
+// 排除入口 index.js 文件
+const nodePaths = nodeFiles.keys().filter(nodePath => {
+    return !new RegExp('\\./index.js', 'i').test(nodePath);
+})
 
-// 按照 path 为 key, 缓存所有节点到扁平化对象
-const node_cache = {};
-
-// webpack 读取当前目录下的所有除了 index.js 的模块，将导出合并为一个 tree
-const modules = modulesFiles.keys().filter(modulePath => {
-    return !new RegExp('\\./index.js', 'i').test(modulePath);
-}).reduce((sum, modulePath) => {
-    // 按照文件路径分割成-数组
-    const path_array = modulePath
-        .replace(/^\.[/\\]/, '')
-        .replace(/\.js$/, '')
-        .replace(/\\/, '/')
-        .split('/');
-
-    path_array.forEach((v, k) => {
-        // 父节点的 key
-        const parent_key = path_array.slice(0, k).join('/');
-        // 当前节点的 key
-        const current_key = path_array.slice(0, k + 1).join('/');
-
-        // 如果是最后一级, 就是 js 文件
-        if (k === path_array.length - 1) {
-            let module = {
-                state: {},
-                getters: {},
-                mutations: {},
-                actions: {},
-                modules: {},
-                ...modulesFiles(modulePath).default
-            };
-            // 处理 module
-            process_module(module);
-            // 附加
-            node_cache[current_key] = module;
-        }
-        // 文件夹
-        else {
-            node_cache[current_key] = node_cache[current_key] || {
-                modules: {
-                }
-            }
-        }
-
-        // 添加命名空间
-        node_cache[current_key].namespaced = true;
-
-        // 第一级, 全是没有父节点的根节点, 放到 sum 中
-        if (!node_cache[parent_key]) {
-            sum[v] = node_cache[current_key];
-        }
-        // 其他有父节点的, 放到父节点中
-        else {
-            node_cache[parent_key].modules[v] = node_cache[current_key];
-        }
-    });
-
-    return sum;
-}, {});
-
-// 处理最后的 有数据的 module
-export function process_module(module) {
-    const state_keys = Object.keys(module.state);
-
-    state_keys.forEach(state_key => {
-        // 添加默认的与 state 同名的 mutations
-        if (!(state_key in module.mutations)) {
-            module.mutations[state_key] = function (state, payload) {
-                state[state_key] = payload;
-            }
-        }
-        // 添加 state 的 action reset
-        let reset_key = `_reset${state_key.replace(/^(.)/, function () {
-            return arguments[1].toUpperCase()
-        })}`;
-
-        if (!(reset_key in module.actions)) {
-            module.actions[reset_key] = function ({ commit }) {
-                commit(state_key, JSON.parse(JSON.stringify(module.state._cache[state_key])));
-            }
-        }
-    });
-    // 添加 _resetModuleSelf
-    module.actions._resetModuleSelf = function ({ dispatch }) {
-        // 循环重置每一个属性
-        state_keys.forEach(key => {
-            dispatch(`_${key}Reset`);
-        });
-    }
-
-    // 添加缓存
-    module.state._cache = JSON.parse(JSON.stringify(module.state));
+// 处理 node
+const createNode = (node, properties = {}) => {
+    Object.defineProperties(node, {
+        _children: {
+            enumerable: false,
+            configurable: false,
+            writable: false,
+            value: [],
+        },
+        ...properties,
+    })
+    return node;
 }
-// 根节点
-const root = {
-    // 开发环境，严格模式，禁止不通过 mutations 修改数据
-    strict: process.env.NODE_ENV === 'development',
-    modules: modules,
-};
+const res = nodePaths.reduce((tree, nodePath) => {
+    // 文件路径解析
+    const nodeNameArray = nodePath.replace(/^\.\//, '').replace(/\.\w+$/, '').split('/');
 
-export default new Vuex.Store(root);
+    let nodeParent = tree;
+    // 遍历当前文件 path 表示的每一个节点, 构建一颗 tree
+    nodeNameArray.forEach((nodeName, index) => {
+        let nodeCurrent = nodeParent._children.find(v => v._nodeName === nodeName);
+
+        // 如果-不存在下一个节点
+        if (!nodeCurrent) {
+            nodeCurrent = createNode({}, {
+                // 节点名
+                _nodeName: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value: nodeName,
+                },
+            })
+            nodeParent._children.push(nodeCurrent);
+        }
+        // 如果是最后一个 node, 为文件
+        if (index === nodeNameArray.length - 1) {
+            const nodeContent = nodeFiles(nodePath).default;
+            Object.assign(nodeCurrent, nodeContent);
+        }
+
+        // 指向下一次循环使用的 node
+        nodeParent = nodeCurrent;
+    })
+
+    return tree;
+}, createNode({}, {
+    _nodeName: {
+        enumerable: false,
+        configurable: true,
+        writable: false,
+        value: 'root',
+    }
+}));
+
+// 遍历 tree
+_.walkTree([res], {
+    childrenProp: '_children',
+    enter(node, parent) {
+        if (parent) {
+            parent[node._nodeName] = node;
+        }
+
+        // 数据观察
+        if (node.state) {
+            // 某些助手函数
+            Object.defineProperties(node, {
+                // 缓存 state 中的初始化数据
+                _cache: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: true,
+                    value: JSON.parse(JSON.stringify(node.state)),
+                },
+                // 重置自己
+                _reset: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value() {
+                        node.state = Vue.observable(JSON.parse(JSON.stringify(node._cache)));
+                    }
+                },
+                // 重置子节点
+                _resetChildren: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value() {
+                        node._children.forEach(v => {
+                            v._reset();
+                        })
+                    }
+                },
+                // 重置自己和子节点
+                _resetWithChildren: {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value() {
+                        node._reset();
+                        node._resetChildren();
+                    }
+                }
+            })
+
+            node.state = Vue.observable(node.state);
+        }
+
+        // 数据依赖
+        if (node.getters) {
+            const newGetters = {};
+            Object.keys(node.getters).forEach((v) => {
+                Object.defineProperty(newGetters, [v], {
+                    enumerable: false,
+                    configurable: false,
+                    get: node.getters[v].bind(node)
+                })
+            });
+            node.getters = newGetters;
+        }
+
+        // 某些通用的修改数据的方法
+        if (node.mutations) {
+            node.mutations = Object.keys(node.mutations).reduce((sum, v) => {
+                sum[v] = node.mutations[v].bind(node);
+                return sum;
+            }, {});
+        }
+
+        // 异步获取数据的方法
+        if (node.actions) {
+            node.actions = Object.keys(node.actions).reduce((sum, v) => {
+                sum[v] = node.actions[v].bind(node);
+                return sum;
+            }, {});
+        }
+    }
+})
+
+export default res;

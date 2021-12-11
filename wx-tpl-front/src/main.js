@@ -16,8 +16,6 @@ import protoData from './data/protoData';
 import Vue from 'vue';
 // App
 import App from './App.vue';
-// vuex
-import store from './store';
 // vue-router
 import router from './router';
 // 批量注册基础组件
@@ -107,7 +105,6 @@ Object.assign(Vue.prototype, protoData);
 
 const app = new Vue({
 	router,
-	store,
 	i18n,
 	render: h => h(App)
 }).$mount('#app');

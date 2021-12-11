@@ -24,12 +24,13 @@ NProgress.configure({ showSpinner: false });
 
 // ****************************************************
 // 当前路由的 state
-let history_current_state;
+let historyCurrentState;
 
 // 重写方法, 获取当前路由 action
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
-	store.commit('history/action', 'replace');
+	store.history.state.action = 'replace';
+
 	return _replace.apply(this, arguments).catch(err => {
 		NProgress.done();
 
@@ -47,7 +48,8 @@ VueRouter.prototype.replace = function () {
 
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function () {
-	store.commit('history/action', 'push');
+	store.history.state.action = 'push';
+
 	return _push.apply(this, arguments).catch(err => {
 		NProgress.done();
 
@@ -67,16 +69,16 @@ window.addEventListener('popstate', (e) => {
 	// 根据 state 中的 key 判断是前进 or 后退
 	// key 是 vue-router 路由时自动添加的
 	// 非首屏的 state 为 {key: 时间戳}
-	const to_key = e.state?.key ?? -1;
-	const from_key = history_current_state?.key ?? -1;
+	const toKey = e.state?.key ?? -1;
+	const fromKey = historyCurrentState?.key ?? -1;
 
 	// 后退
-	if (parseFloat(from_key) > parseFloat(to_key)) {
-		store.commit('history/action', 'back');
+	if (parseFloat(fromKey) > parseFloat(toKey)) {
+		store.history.state.action = 'back';
 	}
 	// 前进
 	else {
-		store.commit('history/action', 'forward');
+		store.history.state.action = 'forward';
 	}
 });
 
@@ -106,12 +108,12 @@ function hook() {
 		let a = document.createElement('a');
 		a.href = `${router.options.base ?? ''}${from.path}`;
 		fromPathname = (new URL(a.href)).pathname;
-		store.commit('page/fromPathname', fromPathname);
+		store.page.state.fromPathname = fromPathname
 
 		// to pathname
 		a.href = `${router.options.base ?? ''}${to.path}`;
 		toPathname = (new URL(a.href)).pathname;
-		store.commit('page/toPathname', toPathname);
+		store.page.state.toPathname = toPathname
 		// ****************************************************
 		switch (options.mode) {
 			// 后端路由-refresh
@@ -159,7 +161,7 @@ function hook() {
 				// 尝试提取 cache_data
 				case 'ast':
 					{
-						let cache_data = store.state.page.cache[toPathname];
+						let cache_data = store.page.state.cache[toPathname];
 						if (cache_data) {
 							page = cache_data;
 							console.log(`提取缓存---${toPathname} ---`, cache_data);
@@ -178,13 +180,13 @@ function hook() {
 		switch (options.mode) {
 			case 'ast': {
 				// 记录页面滚动位置
-				store.commit('page/savedPosition', {
-					...store.state.page.savedPosition,
+				store.page.state.savedPosition = {
+					...store.page.state.savedPosition,
 					[fromPathname]: {
 						x: window.scrollX,
 						y: window.scrollY,
 					}
-				});
+				};
 			}
 				break;
 		}
@@ -195,7 +197,7 @@ function hook() {
 	});
 	router.afterEach(() => {
 		// 保存当前 history state
-		history_current_state = history.state;
+		historyCurrentState = history.state;
 
 		// 创建新的对象, 避免直接修改 vuex 中的数据
 		mixinData.page = page;
@@ -205,10 +207,10 @@ function hook() {
 			case 'ast':
 				// ****************************************************
 				// 缓存 page 数据
-				store.commit('page/cache', {
-					...store.state.page.cache,
+				store.page.state.cache = {
+					...store.page.state.cache,
 					[toPathname]: page,
-				});
+				}
 
 				// 不是第一次进入页面
 				if (_from !== VueRouter.START_LOCATION) {
@@ -225,41 +227,36 @@ function hook() {
 				}
 				// ****************************************************
 				// 维护历史栈
-				switch (store.state.history.action) {
+				switch (store.history.state.action) {
 					case 'replace':
-						store.commit('history/stack', [
-							...[
-								...store.state.history.stack,
-							].slice(0, -1),
+						store.history.state.stack = [
+							...store.history.state.stack.slice(0, -1),
 							{
 								to: _to,
 								from: _from,
 							}
-						])
+						]
 						break;
 					case 'back':
-						store.commit('history/stack', [
-							...store.state.history.stack,
-						].slice(0, -1));
-
-						store.commit('history/pointer', store.state.history.pointer - 1);
+						store.history.state.stack = store.history.state.stack.slice(0, -1);
+						store.history.state.pointer--;
 						break;
 					case 'forward':
 					case 'push':
 					default:
-						store.commit('history/stack', [
-							...store.state.history.stack,
+						store.history.state.stack = [
+							...store.history.state.stack,
 							{
 								to: _to,
 								from: _from,
 							}
-						])
-						store.commit('history/pointer', store.state.history.pointer + 1);
+						];
+						store.history.state.pointer++;
 				}
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
-				switch (store.state.history.action) {
+				switch (store.history.state.action) {
 					case 'back':
 						{
 							// 确认需要排除的组件
@@ -272,17 +269,15 @@ function hook() {
 							if ([...new Set(_to.meta.exclude)].length !== _to.meta.exclude.length) {
 								console.error(`组件名重复`, _to.meta.exclude);
 							}
-							const newPageCache = Object.keys(store.state.page.cache).filter(key => {
+							const newPageCache = Object.keys(store.page.state.cache).filter(key => {
 								return key !== `${fromPathname}`;
 							}).reduce((sum, key) => {
-								sum[key] = store.state.page.cache[key];
+								sum[key] = store.page.state.cache[key];
 								return sum;
 							}, {});
 
 							// 确认需要清除的 page 缓存
-							store.commit('page/cache', {
-								...newPageCache,
-							});
+							store.page.state.cache = newPageCache;
 						}
 						break;
 				}

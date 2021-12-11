@@ -5,7 +5,7 @@
                 icon="wap-home-o"
                 :to="
                     ['pathname', 'search', 'hash']
-                        .map((v) => $store.state.views.Home.tabbar_url[v])
+                        .map((v) => $store.views.Home.state.tabbarUrl[v])
                         .join('')
                 "
                 :replace="true"

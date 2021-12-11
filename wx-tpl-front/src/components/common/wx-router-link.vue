@@ -30,13 +30,13 @@ export default {
             // 区分 is
             switch (options.is) {
                 case "router-link":
-                    options.to = this.$attrs.href;
+                    options.to = this.$attrs.href || this.$attrs.to;
                     delete options.href;
                     break;
                 case "a":
+                    options.href = this.$attrs.href || this.$attrs.to;
+                    delete options.to;
                     break;
-                default:
-                    delete options.href;
             }
 
             return options;

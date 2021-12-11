@@ -10,11 +10,11 @@ const state = {
 }
 const getters = {
     // 当前历史
-    current(state) {
+    current() {
         return state.stack[state.pointer];
     },
     // 最后一个历史
-    last(state) {
+    last() {
         return state.stack.slice(-1)[0];
     }
 }

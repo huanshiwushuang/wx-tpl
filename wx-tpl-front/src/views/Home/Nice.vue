@@ -63,11 +63,6 @@ export default {
 
                 // 替换数据
                 this.json.list.push(...res.json.list);
-                // 同步到 store
-                this.$store.commit("page/cache", {
-                    ...this.$store.state.page.cache,
-                    [this.$route.path]: this.page,
-                });
                 // 页码 +1
                 this.qs.page++;
                 // 判断是否有更多
@@ -85,12 +80,6 @@ export default {
                 );
                 // 合并数据
                 Object.assign(this.json, res.json);
-
-                // 同步到 store
-                this.$store.commit("page/cache", {
-                    ...this.$store.state.page.cache,
-                    [this.$route.path]: this.page,
-                });
 
                 // 重新初始化
                 this.init();

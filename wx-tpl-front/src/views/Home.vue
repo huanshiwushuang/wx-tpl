@@ -66,13 +66,13 @@ export default {
             // 同步 url 到匹配的导航
             item.href = this.$route.fullPath;
             // 同步 url 到 tabbar
-            this.$store.commit("views/Home/tabbar_url", this.$route.fullPath);
+            this.$store.views.Home.mutations.tabbarUrl(this.$route.fullPath);
         },
         on_tabs_change(index) {
             // 网址跳转
             let v = this.nav[index];
             this.$router.replace(v.href);
-            this.$store.commit("views/Home/tabbar_url", v.href);
+            this.$store.views.Home.state.tabbarUrl = v.href;
         },
     },
     created() {
