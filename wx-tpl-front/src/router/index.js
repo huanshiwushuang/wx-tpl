@@ -92,10 +92,7 @@ const routes = [
 			{
 				path: '/settings',
 				component: async () => {
-					if (new URLSearchParams(location.search).has('jzm')) {
-						return await import('@/views/Settings.vue');
-					}
-					return await import('@/views/404.vue');
+					return await import('@/views/Settings.vue');
 				},
 			},
 			{
@@ -117,10 +114,10 @@ const router = new VueRouter({
 	routes,
 	scrollBehavior() {
 		const res = store.page.state.savedPosition[
-			store.page.state.toPathname
+			store.page.state.to.path
 		] || { x: 0, y: 0 };
-		// 根据 toPathname 取出记录的对应页面的历史滚动位置
-		console.log(`滚动页面---${store.page.state.toPathname} ---到`, JSON.stringify(res));
+		// 根据 to 取出记录的对应页面的历史滚动位置
+		console.log(`滚动页面---${store.page.state.to.path} ---到`, JSON.stringify(res));
 		return res;
 	}
 })

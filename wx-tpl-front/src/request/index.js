@@ -33,13 +33,13 @@ axiosInstance.interceptors.response.use(async (response) => {
         // 需要被校验的 JSON 数据
         let check_data = response.data.json;
 
-        let { default: console_check } = await import('../console/check');
+        let { default: consoleCheck } = await import('../console/check');
 
         let a = document.createElement('a');
         a.href = response.config.url;
         let url = new URL(a.href);
 
-        console_check({
+        consoleCheck({
             pathname: url.pathname,
             check_data,
         });

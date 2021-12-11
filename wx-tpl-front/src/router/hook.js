@@ -92,52 +92,55 @@ const options = {
 
 // ****************************************************
 let page = null;
-let fromPathname, toPathname;
 let _to, _from;
 
 // ****************************************************
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
-		// 历史模式下
-		if (router.mode === 'history') {
-			// 如果只是改变了 hash ，则前端路由
-			if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
-				alert(`from: ${from.fullPath} ${from.hash}`);
-				alert(`to: ${to.fullPath} ${to.hash}`);
-				return next();
-			}
-		}
 		// ****************************************************
-		// 加载语言包
-		const languageLoad = languageStatus.waitLoaded();
-		// ****************************************************
+		// 保存 to from
 		_to = to;
 		_from = from;
-		// from pathname
-		let a = document.createElement('a');
-		a.href = `${router.options.base ?? ''}${from.path}`;
-		fromPathname = (new URL(a.href)).pathname;
-		store.page.state.fromPathname = fromPathname
-
-		// to pathname
-		a.href = `${router.options.base ?? ''}${to.path}`;
-		toPathname = (new URL(a.href)).pathname;
-		store.page.state.toPathname = toPathname
+		store.page.state.to = to
+		store.page.state.from = from
 		// ****************************************************
+		switch (options.mode) {
+			case 'ast': {
+				// 记录页面滚动位置
+				// 放上面-同步记录-防止被 await 影响到
+				store.page.state.savedPosition = {
+					...store.page.state.savedPosition,
+					[_from.path]: {
+						x: window.scrollX,
+						y: window.scrollY,
+					}
+				};
+			}
+				break;
+		}
+		// ****************************************************
+		// 等待语言包加载完毕
+		const languageLoad = languageStatus.waitLoaded();
+		await languageLoad;
+		// ****************************************************
+		// 判断 options 的 mode
 		switch (options.mode) {
 			// 后端路由-refresh
 			case 'refresh':
 				// 如果不是第一次进入页面
 				if (from !== VueRouter.START_LOCATION) {
-					location = toPathname;
-					return;
+					// 如果只是改变了 hash ，则前端路由
+					if ((from.fullPath.replace(from.hash, '') !== to.fullPath.replace(to.hash, ''))) {
+						location = to.fullPath;
+						return;
+					}
 				}
 				break;
-
 		}
 		// ****************************************************
 		// 如果是第一次进入页面 && axios baseURL 是当前域名
+		let a = document.createElement('a');
 		a.href = axios_options.baseURL;
 		if (
 			_from === VueRouter.START_LOCATION &&
@@ -149,9 +152,9 @@ function hook() {
 
 				// 数据检查
 				if (config.is_check) {
-					let { default: console_check } = await import('../console/check');
+					let { default: consoleCheck } = await import('../console/check');
 
-					console_check({
+					consoleCheck({
 						pathname: _to.path,
 						check_data: page.json,
 					});
@@ -167,10 +170,10 @@ function hook() {
 				// 尝试提取 cache_data
 				case 'ast':
 					{
-						let cache_data = store.page.state.cache[toPathname];
+						let cache_data = store.page.state.cache[_to.path];
 						if (cache_data) {
 							page = cache_data;
-							console.log(`提取缓存---${toPathname} ---`, cache_data);
+							console.log(`提取缓存---${_to.path} ---`, cache_data);
 						}
 					}
 					break;
@@ -182,30 +185,13 @@ function hook() {
 				page = await request.get(to.fullPath);
 			}
 		}
-		// ****************************************************
-		switch (options.mode) {
-			case 'ast': {
-				// 记录页面滚动位置
-				store.page.state.savedPosition = {
-					...store.page.state.savedPosition,
-					[fromPathname]: {
-						x: window.scrollX,
-						y: window.scrollY,
-					}
-				};
-			}
-				break;
-		}
 
-		// 等待语言包加载完毕
-		await languageLoad;
 		next();
 	});
 	router.afterEach(() => {
 		// 保存当前 history state
 		historyCurrentState = history.state;
 
-		// 创建新的对象, 避免直接修改 vuex 中的数据
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
 
@@ -215,7 +201,7 @@ function hook() {
 				// 缓存 page 数据
 				store.page.state.cache = {
 					...store.page.state.cache,
-					[toPathname]: page,
+					[_to.path]: page,
 				}
 
 				// 不是第一次进入页面
@@ -233,32 +219,32 @@ function hook() {
 				}
 				// ****************************************************
 				// 维护历史栈
-				switch (store.history.state.action) {
-					case 'replace':
-						store.history.state.stack = [
-							...store.history.state.stack.slice(0, -1),
-							{
-								to: _to,
-								from: _from,
-							}
-						]
-						break;
-					case 'back':
-						store.history.state.stack = store.history.state.stack.slice(0, -1);
-						store.history.state.pointer--;
-						break;
-					case 'forward':
-					case 'push':
-					default:
-						store.history.state.stack = [
-							...store.history.state.stack,
-							{
-								to: _to,
-								from: _from,
-							}
-						];
-						store.history.state.pointer++;
-				}
+				// switch (store.history.state.action) {
+				// 	case 'replace':
+				// 		store.history.state.stack = [
+				// 			...store.history.state.stack.slice(0, -1),
+				// 			{
+				// 				to: _to,
+				// 				from: _from,
+				// 			}
+				// 		]
+				// 		break;
+				// 	case 'back':
+				// 		store.history.state.stack = store.history.state.stack.slice(0, -1);
+				// 		store.history.state.pointer--;
+				// 		break;
+				// 	case 'forward':
+				// 	case 'push':
+				// 	default:
+				// 		store.history.state.stack = [
+				// 			...store.history.state.stack,
+				// 			{
+				// 				to: _to,
+				// 				from: _from,
+				// 			}
+				// 		];
+				// 		store.history.state.pointer++;
+				// }
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
@@ -276,7 +262,7 @@ function hook() {
 								console.error(`组件名重复`, _to.meta.exclude);
 							}
 							const newPageCache = Object.keys(store.page.state.cache).filter(key => {
-								return key !== `${fromPathname}`;
+								return key !== `${_from.path}`;
 							}).reduce((sum, key) => {
 								sum[key] = store.page.state.cache[key];
 								return sum;
@@ -298,7 +284,7 @@ function hook() {
 		// 导航故障，结束加载
 		NProgress.done();
 		// 导航故障，保持 to url 不变
-		history.replaceState({}, '', toPathname);
+		history.replaceState({}, '', `${router.options.base ?? ''}${_to.path}`);
 	});
 }
 

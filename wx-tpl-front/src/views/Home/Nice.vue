@@ -1,6 +1,8 @@
 <template>
     <div class="kvkh7nuy_com">
-        {{ $store.uniapp.state.hashData }}
+        <div>
+            {{ $store.uniapp.state.hashData }}
+        </div>
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
             <van-list
                 v-model="loading"

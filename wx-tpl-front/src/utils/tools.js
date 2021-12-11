@@ -301,8 +301,6 @@ export const ast = {
 export const str = {
     // 编码
     encode(val) {
-        // const src = ['-', "\\+"];
-        // const dist = ["__", "_"];
         const src = ["\\+"];
         const dist = ["."];
 
@@ -315,8 +313,8 @@ export const str = {
     },
     // 解码
     decode(val) {
-        const src = ["__", "_"];
-        const dist = ['-', "+"];
+        const src = ["\\."];
+        const dist = ["+"];
 
         let res = val;
         src.forEach((item, index) => {

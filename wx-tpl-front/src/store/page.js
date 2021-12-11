@@ -4,10 +4,10 @@ const state = {
     // 页面滚动位置记录
     savedPosition: {},
 
-    // fromPathname
-    fromPathname: '',
-    // toPathname
-    toPathname: ''
+    // from
+    from: '',
+    // to
+    to: ''
 }
 const getters = {
 }
