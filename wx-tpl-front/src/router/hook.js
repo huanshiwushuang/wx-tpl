@@ -99,6 +99,16 @@ let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		// 历史模式下
+		if (router.mode === 'history') {
+			// 如果只是改变了 hash ，则前端路由
+			if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
+				alert(`from: ${from.fullPath} ${from.hash}`);
+				alert(`to: ${to.fullPath} ${to.hash}`);
+				return next();
+			}
+		}
+		// ****************************************************
 		// 加载语言包
 		const languageLoad = languageStatus.waitLoaded();
 		// ****************************************************
@@ -120,15 +130,11 @@ function hook() {
 			case 'refresh':
 				// 如果不是第一次进入页面
 				if (from !== VueRouter.START_LOCATION) {
-					// 如果只是改变了 hash ，则前端路由
-					if ((from.fullPath.replace(from.hash, '') === to.fullPath.replace(to.hash, ''))) {
-						return next();
-					} else {
-						location = toPathname;
-						return;
-					}
+					location = toPathname;
+					return;
 				}
 				break;
+
 		}
 		// ****************************************************
 		// 如果是第一次进入页面 && axios baseURL 是当前域名

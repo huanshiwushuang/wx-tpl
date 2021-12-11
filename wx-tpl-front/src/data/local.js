@@ -28,7 +28,7 @@ const local = {
                 return local.get();
             }
         } catch (e) {
-            console.error('local get JSON.parse error');
+            console.warn('local get JSON.parse error');
             local.reset();
             return local.get();
         }
