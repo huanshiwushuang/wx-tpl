@@ -32,7 +32,7 @@ const routes = [
 			// 首页
 			{
 				path: '/',
-				name: 'home',
+				name: 'Home',
 				components: {
 					default: () => import('@/views/Home.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
@@ -40,22 +40,22 @@ const routes = [
 				children: [
 					{
 						path: '',
-						name: 'home_nice',
+						name: 'HomeNice',
 						component: () => import('@/views/Home/Nice.vue'),
 					},
 					{
 						path: 'index/newest',
-						name: 'home_newest',
+						name: 'HomeNewest',
 						component: () => import('@/views/Home/Nice.vue'),
 					},
 					{
 						path: 'index/popular',
-						name: 'home_popular',
+						name: 'HomePopular',
 						component: () => import('@/views/Home/Popular.vue'),
 					},
 					{
 						path: 'index/rank',
-						name: 'home_rank',
+						name: 'HomeRank',
 						component: () => import('@/views/Home/Rank.vue'),
 					},
 				]
@@ -64,7 +64,7 @@ const routes = [
 			// 日签
 			{
 				path: '/daysign',
-				name: 'daysign',
+				name: 'Daysign',
 				components: {
 					default: () => import('@/views/DaySign.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
@@ -73,7 +73,7 @@ const routes = [
 			// 分类
 			{
 				path: '/type',
-				name: 'type',
+				name: 'Dype',
 				components: {
 					default: () => import('@/views/Type/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
@@ -82,7 +82,7 @@ const routes = [
 			// 我的
 			{
 				path: '/my',
-				name: 'my',
+				name: 'My',
 				components: {
 					default: () => import('@/views/My/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),

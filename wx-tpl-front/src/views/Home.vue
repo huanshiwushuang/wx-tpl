@@ -4,13 +4,13 @@
         <jzm-navbar title="句子迷"></jzm-navbar>
         <!--Nav -->
         <van-tabs
-            v-model="nav_index"
+            v-model="navIndex"
             swipeable
             sticky
             class="kw8wvuaw"
             @change="onTabsChange"
         >
-            <van-tab v-for="v in nav" :title="v.label" :key="v.href">
+            <van-tab v-for="v in navs" :title="v.label" :key="v.href">
                 <!-- Body -->
                 <keep-alive>
                     <router-view
@@ -30,49 +30,50 @@ export default {
     name: "home",
     data() {
         return {
-            nav: [
+            navs: [
                 {
-                    name: "home_nice",
+                    name: "HomeNice",
                     label: "精选",
                     href: "/",
                 },
                 {
-                    name: "home_newest",
+                    name: "HomeNewest",
                     label: "最新",
                     href: "/index/newest",
                 },
                 {
-                    name: "home_popular",
+                    name: "HomePopular",
                     label: "热门",
                     href: "/index/popular",
                 },
                 {
-                    name: "home_rank",
+                    name: "HomeRank",
                     label: "排行",
                     href: "/index/rank",
                 },
             ],
-            nav_index: 0,
+            navIndex: 0,
         };
     },
     methods: {
         init() {
             // 激活的 nav index
-            this.nav_index = this.nav.findIndex((v) => {
+            this.navIndex = this.navs.findIndex((v) => {
                 return this.$route.matched[2].name === v.name;
             });
-            // 激活的 nav item
-            let item = this.nav[this.nav_index];
+
+            let currentNav = this.navs[this.navIndex];
             // 同步 url 到匹配的导航
-            item.href = this.$route.fullPath;
+            currentNav.href = this.$route.fullPath;
             // 同步 url 到 tabbar
-            this.$store.views.Home.mutations.tabbarUrl(this.$route.fullPath);
+            this.$store.views.Home.state.currentNav = currentNav;
         },
         onTabsChange(index) {
             // 网址跳转
-            let v = this.nav[index];
+            let v = this.navs[index];
             this.$router.replace(v.href);
-            this.$store.views.Home.mutations.tabbarUrl(v.href);
+
+            this.$store.views.Home.state.currentNav = this.navs[index];
         },
     },
     created() {

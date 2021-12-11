@@ -35,6 +35,8 @@ export default {
 
             // 查询参数
             qs: {},
+
+            hash: "",
         };
     },
     methods: {

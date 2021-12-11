@@ -3,11 +3,7 @@
         <van-tabbar v-model="tabbar_index" :placeholder="true">
             <van-tabbar-item
                 icon="wap-home-o"
-                :to="
-                    ['pathname', 'search', 'hash']
-                        .map((v) => $store.views.Home.state.tabbarUrl[v])
-                        .join('')
-                "
+                :to="$store.views.Home.state.currentNav.href"
                 :replace="true"
             >
                 首页
