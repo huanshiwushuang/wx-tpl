@@ -17,7 +17,7 @@
                         <van-image :src="v.pic" class="kw3ikkah">
                             <template v-slot:loading>
                                 <div class="kvurdces_loading">
-                                    <van-loading :color="c_theme" />
+                                    <van-loading :color="cTheme" />
                                 </div>
                             </template>
                             <template v-slot:error>
@@ -118,10 +118,10 @@ export default {
         });
     },
     activated() {
-        this.body_class.push("kw9b4hlh");
+        this.bodyClass.push("kw9b4hlh");
     },
     deactivated() {
-        this.body_class.splice(this.body_class.indexOf("kw9b4hlh"), 1);
+        this.bodyClass.splice(this.bodyClass.indexOf("kw9b4hlh"), 1);
     },
 };
 </script>

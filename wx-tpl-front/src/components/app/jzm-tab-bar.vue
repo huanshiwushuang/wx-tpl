@@ -80,7 +80,7 @@ export default {
     width: 80px;
     height: 80px;
     line-height: 80px;
-    background: @c_theme;
+    background: @c-theme;
     border-radius: 100%;
     align-self: center;
     font-size: 44px;

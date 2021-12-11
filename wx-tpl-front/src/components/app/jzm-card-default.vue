@@ -8,7 +8,7 @@
                     <van-image :src="head" lazy-load round class="kvl0avoo">
                         <template v-slot:loading>
                             <div class="kvurdces_loading fs14">
-                                <van-loading :color="c_theme" />
+                                <van-loading :color="cTheme" />
                             </div>
                         </template>
                         <template v-slot:error>
@@ -38,7 +38,7 @@
                 <van-image :src="pic" lazy-load class="kvl0hpfv">
                     <template v-slot:loading>
                         <div class="kvurdces_loading">
-                            <van-loading :color="c_theme" />
+                            <van-loading :color="cTheme" />
                         </div>
                     </template>
                     <template v-slot:error>

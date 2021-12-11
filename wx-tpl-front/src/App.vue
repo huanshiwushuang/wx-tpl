@@ -20,7 +20,7 @@
         </component>
 
         <!-- 临时 div，用于生成并获取 class，应用到 body 上 -->
-        <div id="ksh34m2s" :class="body_class" style="display: none"></div>
+        <div id="ksh34m2s" :class="bodyClass" style="display: none"></div>
     </div>
 </template>
 
@@ -28,8 +28,8 @@
 export default {
     name: "App",
     watch: {
-        // 绑定 body_class 到 body 上
-        body_class() {
+        // 绑定 bodyClass 到 body 上
+        bodyClass() {
             this.$nextTick(() => {
                 document.body.classList =
                     document.querySelector("#ksh34m2s").classList;

@@ -8,7 +8,7 @@
                 <van-image :src="head" lazy-load round class="kvl0avoo">
                     <template v-slot:loading>
                         <div class="kvurdces_loading fs14">
-                            <van-loading :color="c_theme" />
+                            <van-loading :color="cTheme" />
                         </div>
                     </template>
                     <template v-slot:error>
@@ -179,9 +179,9 @@ export default {
 .kwadrawm {
     .tc;
     .fs24;
-    border: 1px solid @c_theme;
+    border: 1px solid @c-theme;
     margin-top: 50px;
-    color: @c_theme;
+    color: @c-theme;
     padding: 6px;
 }
 .kwadx6j5,

@@ -8,7 +8,7 @@
             swipeable
             sticky
             class="kw8wvuaw"
-            @change="on_tabs_change"
+            @change="onTabsChange"
         >
             <van-tab v-for="v in nav" :title="v.label" :key="v.href">
                 <!-- Body -->
@@ -68,11 +68,11 @@ export default {
             // 同步 url 到 tabbar
             this.$store.views.Home.mutations.tabbarUrl(this.$route.fullPath);
         },
-        on_tabs_change(index) {
+        onTabsChange(index) {
             // 网址跳转
             let v = this.nav[index];
             this.$router.replace(v.href);
-            this.$store.views.Home.state.tabbarUrl = v.href;
+            this.$store.views.Home.mutations.tabbarUrl(v.href);
         },
     },
     created() {
