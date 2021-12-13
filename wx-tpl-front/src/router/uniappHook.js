@@ -12,13 +12,17 @@ let isHistoryBack = false;
 
 export default function () {
     router.beforeEach(async (to, from, next) => {
+        // 历史回退之后-或许继续路由
         if (isHistoryBack) {
             isHistoryBack = false;
-            return next(store.page.state.to);
+
+            if (store.page.state.isRouteing) {
+                return next(store.page.state.to);
+            }
+            return next(false);
         }
 
         const newTransfer = to.query.transfer;
-        console.log(`beforeEach---${to.fullPath}`);
 
         // 如果没有数据传递
         if (!newTransfer) {
