@@ -3,12 +3,20 @@ import VueRouter from 'vue-router';
 import store from '../store';
 import router from './index';
 import { str } from '../utils/tools';
+// import app from '../main';
 
 // 初始化时间戳
 let lastTimestamp = Date.now();
+// 是否是历史回退
+let isHistoryBack = false;
 
 export default function () {
     router.beforeEach(async (to, from, next) => {
+        if (isHistoryBack) {
+            isHistoryBack = false;
+            return next(store.page.state.to);
+        }
+
         const newTransfer = to.query.transfer;
         console.log(`beforeEach---${to.fullPath}`);
 
@@ -47,12 +55,10 @@ export default function () {
             return next();
         }
 
-
-        // 阻止 transfer 导致的路由
-        router.go(-1);
+        // 阻止本次路由
         next(false);
-        // 如果此时 transfer 传递时-正处于路由中-则重新进行路由
-        router.replace(store.page.state.to);
-
+        // 历史回退
+        isHistoryBack = true;
+        router.go(-1);
     })
 }

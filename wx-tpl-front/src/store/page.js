@@ -8,7 +8,7 @@ const state = {
     from: '',
     // to
     to: '',
-    // 是否正在导航
+    // 是否正在路由
     isRouteing: false,
 }
 const getters = {
