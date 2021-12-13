@@ -1,0 +1,62 @@
+.kw3gy252_com {
+  padding: 0.4rem;
+}
+.kw3haws5_box {
+  position: relative;
+  height: 11.53333rem;
+}
+.kw3hzwom_card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  left: 50%;
+  border-radius: 0.13333rem;
+  background: #fff;
+  box-shadow: 0 0.01333rem 0.22667rem 0 rgba(0, 0, 0, 0.19);
+  transition: all 0.3s;
+}
+.kw3ikkah {
+  width: 9.2rem;
+  height: 6rem;
+}
+.kvurdces_loading,
+.kvurf9qz_error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.kw350amm_error {
+  font-size: 2rem;
+}
+.kw3jjoux {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.93333rem;
+}
+.kw3k0r9b_icon {
+  text-align: center;
+  border: 0.01333rem solid #949494;
+  border-radius: 100%;
+  width: 1.33333rem;
+  height: 1.33333rem;
+  line-height: 1.33333rem;
+  color: #949494;
+  font-size: 0.69333rem;
+  background: transparent;
+}
+.kw3k759k_id {
+  position: relative;
+  top: 0.05333rem;
+  left: 0.01333rem;
+  color: red;
+}
+.kw9b4hlh {
+  background: #f4f4f4;
+}
+.kwbjxzv7 {
+  padding: 0.26667rem;
+  line-height: 2em;
+}
+

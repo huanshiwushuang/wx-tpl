@@ -1,5 +1,3 @@
-// 导入 uniapp 逻辑
-import './uniapp';
 // style
 import '@/assets/less/index.less';
 // flexible
