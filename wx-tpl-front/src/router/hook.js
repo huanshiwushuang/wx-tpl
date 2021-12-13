@@ -98,6 +98,7 @@ let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		store.page.state.isRouteing = true;
 		// ****************************************************
 		// 保存 to from
 		_to = to;
@@ -189,6 +190,7 @@ function hook() {
 		next();
 	});
 	router.afterEach(() => {
+		console.log(`afterEach---${_to.fullPath}`);
 		// 保存当前 history state
 		historyCurrentState = history.state;
 
@@ -279,6 +281,7 @@ function hook() {
 		page = null;
 
 		NProgress.done();
+		store.page.state.isRouteing = false;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载

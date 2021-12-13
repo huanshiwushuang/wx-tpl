@@ -10,6 +10,7 @@ let lastTimestamp = Date.now();
 export default function () {
     router.beforeEach(async (to, from, next) => {
         const newTransfer = to.query.transfer;
+        console.log(`beforeEach---${to.fullPath}`);
 
         // 如果没有数据传递
         if (!newTransfer) {
@@ -46,8 +47,12 @@ export default function () {
             return next();
         }
 
+
+        // 阻止 transfer 导致的路由
         router.go(-1);
         next(false);
+        // 如果此时 transfer 传递时-正处于路由中-则重新进行路由
+        router.replace(store.page.state.to);
 
     })
 }
