@@ -23,8 +23,6 @@ import { html } from '../utils/tools';
 NProgress.configure({ showSpinner: false });
 
 // ****************************************************
-// 当前路由的 state
-let historyCurrentState;
 
 // 重写方法, 获取当前路由 action
 const _replace = VueRouter.prototype.replace;
@@ -66,19 +64,22 @@ VueRouter.prototype.push = function () {
 };
 
 window.addEventListener('popstate', (e) => {
-	// 根据 state 中的 key 判断是前进 or 后退
-	// key 是 vue-router 路由时自动添加的
-	// 非首屏的 state 为 {key: 时间戳}
-	const toKey = e.state?.key ?? -1;
-	const fromKey = historyCurrentState?.key ?? -1;
+	//  不是首次进入页面
+	if (VueRouter.START_LOCATION !== _from) {
+		// 根据 state 中的 key 判断是前进 or 后退
+		// key 是 vue-router 路由时自动添加的
+		// 非首屏的 state 为 {key: 时间戳}
+		const toKey = e.state?.key ?? -1;
+		const fromKey = store.history.state.currentState?.key ?? -1;
 
-	// 后退
-	if (parseFloat(fromKey) > parseFloat(toKey)) {
-		store.history.state.action = 'back';
-	}
-	// 前进
-	else {
-		store.history.state.action = 'forward';
+		// 后退
+		if (parseFloat(fromKey) > parseFloat(toKey)) {
+			store.history.state.action = 'back';
+		}
+		// 前进
+		else {
+			store.history.state.action = 'forward';
+		}
 	}
 });
 
@@ -98,13 +99,18 @@ let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		// ****************************************************
+		// 标识-开始路由
 		store.page.state.isRouteing = true;
+		// ****************************************************
+		// 进入的时候-清空 page
+		page = null;
 		// ****************************************************
 		// 保存 to from
 		_to = to;
 		_from = from;
-		store.page.state.to = to
-		store.page.state.from = from
+		store.page.state.to = to;
+		store.page.state.from = from;
 		// ****************************************************
 		switch (options.mode) {
 			case 'ast': {
@@ -130,10 +136,10 @@ function hook() {
 			// 后端路由-refresh
 			case 'refresh':
 				// 如果不是第一次进入页面
-				if (from !== VueRouter.START_LOCATION) {
+				if (_from !== VueRouter.START_LOCATION) {
 					// 如果只是改变了 hash ，则前端路由
-					if ((from.fullPath.replace(from.hash, '') !== to.fullPath.replace(to.hash, ''))) {
-						location = to.fullPath;
+					if ((_from.fullPath.replace(_from.hash, '') !== _to.fullPath.replace(_to.hash, ''))) {
+						location = _to.fullPath;
 						return;
 					}
 				}
@@ -183,17 +189,13 @@ function hook() {
 			if (!page) {
 				NProgress.start();
 
-				page = await request.get(to.fullPath);
+				page = await request.get(_to.fullPath);
 			}
 		}
 
 		next();
 	});
 	router.afterEach(() => {
-		console.log(`afterEach---${_to.fullPath}`);
-		// 保存当前 history state
-		historyCurrentState = history.state;
-
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
 
@@ -201,6 +203,7 @@ function hook() {
 			case 'ast':
 				// ****************************************************
 				// 缓存 page 数据
+				console.error(`缓存数据---${_to.path}`);
 				store.page.state.cache = {
 					...store.page.state.cache,
 					[_to.path]: page,
@@ -270,6 +273,8 @@ function hook() {
 								return sum;
 							}, {});
 
+							console.error(`清除缓存`);
+
 							// 确认需要清除的 page 缓存
 							store.page.state.cache = newPageCache;
 						}
@@ -278,10 +283,11 @@ function hook() {
 				break;
 		}
 
-		page = null;
-
 		NProgress.done();
+		// 标识-结束路由
 		store.page.state.isRouteing = false;
+		// 存储-当前历史 state
+		store.history.state.currentState = history.state;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载

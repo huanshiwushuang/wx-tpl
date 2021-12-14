@@ -6,6 +6,8 @@ const state = {
     // 进入当前页面的 action
     // push || replace || back || forward
     action: '',
+    // currentState
+    currentState: null,
 
 }
 const getters = {

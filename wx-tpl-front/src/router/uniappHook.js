@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import store from '../store';
 import router from './index';
 import { str } from '../utils/tools';
-// import app from '../main';
 
 // 初始化时间戳
 let lastTimestamp = Date.now();
@@ -19,6 +18,7 @@ export default function () {
             if (store.page.state.isRouteing) {
                 return next(store.page.state.to);
             }
+
             return next(false);
         }
 
