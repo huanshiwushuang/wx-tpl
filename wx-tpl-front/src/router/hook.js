@@ -64,13 +64,13 @@ VueRouter.prototype.push = function () {
 };
 
 window.addEventListener('popstate', (e) => {
-	//  不是首次进入页面
-	if (VueRouter.START_LOCATION !== _from) {
+	//  必须有 key-才说明 popstate 对应的页面是经过了 vue-router 产生的
+	if (e.state?.key) {
 		// 根据 state 中的 key 判断是前进 or 后退
 		// key 是 vue-router 路由时自动添加的
 		// 非首屏的 state 为 {key: 时间戳}
-		const toKey = e.state?.key ?? -1;
-		const fromKey = store.history.state.currentState?.key ?? -1;
+		const toKey = e.state.key;
+		const fromKey = store.history.state.currentState.key;
 
 		// 后退
 		if (parseFloat(fromKey) > parseFloat(toKey)) {
@@ -100,11 +100,10 @@ let _to, _from;
 function hook() {
 	router.beforeEach(async (to, from, next) => {
 		// ****************************************************
-		// 标识-开始路由
-		store.page.state.isRouteing = true;
-		// ****************************************************
-		// 进入的时候-清空 page
+		// 进入的时候-初始化一些数据
 		page = null;
+		NProgress.done();
+		store.page.state.isRouteing = true;
 		// ****************************************************
 		// 保存 to from
 		_to = to;
@@ -203,7 +202,6 @@ function hook() {
 			case 'ast':
 				// ****************************************************
 				// 缓存 page 数据
-				console.error(`缓存数据---${_to.path}`);
 				store.page.state.cache = {
 					...store.page.state.cache,
 					[_to.path]: page,
@@ -272,8 +270,6 @@ function hook() {
 								sum[key] = store.page.state.cache[key];
 								return sum;
 							}, {});
-
-							console.error(`清除缓存`);
 
 							// 确认需要清除的 page 缓存
 							store.page.state.cache = newPageCache;

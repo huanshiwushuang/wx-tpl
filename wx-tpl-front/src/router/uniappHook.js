@@ -18,7 +18,6 @@ export default function () {
             if (store.page.state.isRouteing) {
                 return next(store.page.state.to);
             }
-
             return next(false);
         }
 
