@@ -42,7 +42,7 @@ function hook() {
 		NProgress.done();
 		store.router.state.to = to;
 		store.router.state.from = from;
-		store.page.state.isRouteing = true;
+		store.router.state.isRouteing = true;
 		store.history.state.lastState = store.history.state.currentState;
 		// ****************************************************
 		switch (options.mode) {
@@ -135,6 +135,12 @@ function hook() {
 		store.history.state.currentState = history.state;
 
 		// 计算进入页面的 action
+		// alert(`isNewRoute:${isNewRoute}---store.history.state.lastState:${JSON.stringify(store.history.state.lastState)}---store.history.state.currentState.key：${JSON.stringify(store.history.state.currentState)}`);
+
+		// setTimeout(() => {
+		// 	alert(`setTimeout---${JSON.stringify(store.history.state.currentState)}`);
+		// }, 0)
+		debugger
 		if (store.history.state.lastState && !isNewRoute) {
 			const lastKey = store.history.state.lastState.key;
 			const currentKey = store.history.state.currentState.key;
@@ -233,7 +239,7 @@ function hook() {
 		NProgress.done();
 		isNewRoute = false;
 		// 标识-结束路由
-		store.page.state.isRouteing = false;
+		store.router.state.isRouteing = false;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载

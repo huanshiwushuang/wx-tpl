@@ -15,7 +15,7 @@ export default function () {
         if (isHistoryBack) {
             isHistoryBack = false;
 
-            if (store.page.state.isRouteing) {
+            if (store.router.state.isRouteing) {
                 return next(store.router.state.to);
             }
 
