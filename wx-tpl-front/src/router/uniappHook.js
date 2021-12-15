@@ -38,18 +38,18 @@ export default function () {
         }
 
         // 如果没有时间戳
-        if (!jsonObj.timestamp) {
+        if (!jsonObj._timestamp) {
             alert('数据没有时间戳');
             return next();
         }
 
         // 如果时间戳不合适
-        if (jsonObj.timestamp <= lastTimestamp) {
+        if (jsonObj._timestamp <= lastTimestamp) {
             return next();
         }
 
         // 保存时间戳
-        lastTimestamp = jsonObj.timestamp;
+        lastTimestamp = jsonObj._timestamp;
         // 保存数据
         store.uniapp.state.hashData = jsonObj;
 
