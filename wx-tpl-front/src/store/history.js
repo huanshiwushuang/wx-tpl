@@ -3,12 +3,10 @@ const state = {
     stack: [],
     // 历史栈-指针
     pointer: -1,
-    // 进入当前页面的 action
-    // push || replace || back || forward
-    action: '',
+    // lastState
+    lastState: null,
     // currentState
     currentState: null,
-
 }
 const getters = {
     // 当前历史

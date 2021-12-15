@@ -21,95 +21,29 @@ import { html } from '../utils/tools';
 // ****************************************************
 // 配置进度条
 NProgress.configure({ showSpinner: false });
-
-// ****************************************************
-
-// 重写方法, 获取当前路由 action
-const _replace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function () {
-	store.history.state.action = 'replace';
-
-	return _replace.apply(this, arguments).catch(err => {
-		NProgress.done();
-
-		switch (err.type) {
-			// Navigation cancelled
-			case 8:
-				return;
-			// NavigationDuplicated
-			case 16:
-				return;
-		}
-		console.error(err);
-	});
-};
-
-const _push = VueRouter.prototype.push;
-VueRouter.prototype.push = function () {
-	store.history.state.action = 'push';
-
-	return _push.apply(this, arguments).catch(err => {
-		NProgress.done();
-
-		switch (err.type) {
-			// Navigation cancelled
-			case 8:
-				return;
-			// NavigationDuplicated
-			case 16:
-				return;
-		}
-		console.error(err);
-	});
-};
-
-window.addEventListener('popstate', (e) => {
-	//  必须有 key-才说明 popstate 对应的页面是经过了 vue-router 产生的
-	if (e.state?.key) {
-		// 根据 state 中的 key 判断是前进 or 后退
-		// key 是 vue-router 路由时自动添加的
-		// 非首屏的 state 为 {key: 时间戳}
-		const toKey = e.state.key;
-		const fromKey = store.history.state.currentState.key;
-
-		// 后退
-		if (parseFloat(fromKey) > parseFloat(toKey)) {
-			store.history.state.action = 'back';
-		}
-		// 前进
-		else {
-			store.history.state.action = 'forward';
-		}
-	}
-});
-
-// ****************************************************
 // 路由模式
 const options = {
 	// ast: 前端路由-请求页面
 	// refresh：后端路由-刷新页面
 	mode: config.router_mode || 'ast',
 };
-
 // ****************************************************
+// 是否新的路由
+let isNewRoute = false;
 let page = null;
 let _to, _from;
-
-// ****************************************************
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
 		// ****************************************************
-		// 进入的时候-初始化一些数据
-		page = null;
-		NProgress.done();
-		store.page.state.isRouteing = true;
-		// ****************************************************
-		// 保存 to from
 		_to = to;
 		_from = from;
-		store.page.state.to = to;
-		store.page.state.from = from;
+		page = null;
+		NProgress.done();
+		store.router.state.to = to;
+		store.router.state.from = from;
+		store.page.state.isRouteing = true;
+		store.history.state.lastState = store.history.state.currentState;
 		// ****************************************************
 		switch (options.mode) {
 			case 'ast': {
@@ -197,6 +131,22 @@ function hook() {
 	router.afterEach(() => {
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
+		// 存储-当前 state
+		store.history.state.currentState = history.state;
+
+		// 计算进入页面的 action
+		if (store.history.state.lastState && !isNewRoute) {
+			const lastKey = store.history.state.lastState.key;
+			const currentKey = store.history.state.currentState.key;
+			// 后退
+			if (parseFloat(currentKey) < parseFloat(lastKey)) {
+				store.page.state.action = 'back';
+			}
+			// 前进
+			else {
+				store.page.state.action = 'forward';
+			}
+		}
 
 		switch (options.mode) {
 			case 'ast':
@@ -222,7 +172,7 @@ function hook() {
 				}
 				// ****************************************************
 				// 维护历史栈
-				// switch (store.history.state.action) {
+				// switch (store.page.state.action) {
 				// 	case 'replace':
 				// 		store.history.state.stack = [
 				// 			...store.history.state.stack.slice(0, -1),
@@ -251,7 +201,7 @@ function hook() {
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
-				switch (store.history.state.action) {
+				switch (store.page.state.action) {
 					case 'back':
 						{
 							// 确认需要排除的组件
@@ -277,13 +227,13 @@ function hook() {
 						break;
 				}
 				break;
+
 		}
 
 		NProgress.done();
+		isNewRoute = false;
 		// 标识-结束路由
 		store.page.state.isRouteing = false;
-		// 存储-当前历史 state
-		store.history.state.currentState = history.state;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载
@@ -292,5 +242,47 @@ function hook() {
 		history.replaceState({}, '', `${router.options.base ?? ''}${_to.path}`);
 	});
 }
+
+// ****************************************************
+// 重写方法, 获取当前路由 action
+const _replace = VueRouter.prototype.replace;
+VueRouter.prototype.replace = function () {
+	store.page.state.action = 'replace';
+	isNewRoute = true;
+
+	return _replace.apply(this, arguments).catch(err => {
+		NProgress.done();
+
+		switch (err.type) {
+			// Navigation cancelled
+			case 8:
+				return;
+			// NavigationDuplicated
+			case 16:
+				return;
+		}
+		console.error(err);
+	});
+};
+
+const _push = VueRouter.prototype.push;
+VueRouter.prototype.push = function () {
+	store.page.state.action = 'push';
+	isNewRoute = true;
+
+	return _push.apply(this, arguments).catch(err => {
+		NProgress.done();
+
+		switch (err.type) {
+			// Navigation cancelled
+			case 8:
+				return;
+			// NavigationDuplicated
+			case 16:
+				return;
+		}
+		console.error(err);
+	});
+};
 
 export default hook

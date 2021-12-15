@@ -3,21 +3,13 @@ const state = {
     cache: {},
     // 页面滚动位置记录
     savedPosition: {},
-
-    // from
-    from: '',
-    // to
-    to: '',
-    // 是否正在路由
-    isRouteing: false,
+    // 进入当前页面的 action
+    // push || replace || back || forward
+    action: '',
 }
 const getters = {
 }
 const mutations = {
-    cache(payload) {
-        // 存储新的对象，防止被 mixin_data 直接修改
-        state.cache = JSON.parse(JSON.stringify(payload));
-    }
 }
 const actions = {
 }
