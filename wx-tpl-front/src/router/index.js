@@ -1,7 +1,7 @@
+import './uniappHook';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import hook from './hook';
-import uniappHook from './uniappHook';
 import mixinData from '../data/mixinData';
 import store from '../store';
 
@@ -125,7 +125,5 @@ const router = new VueRouter({
 
 export default router
 
-// 执行 uniappHook
-uniappHook();
 // 执行 hook
 hook();

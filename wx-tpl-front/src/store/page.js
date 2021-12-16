@@ -3,9 +3,7 @@ const state = {
     cache: {},
     // 页面滚动位置记录
     savedPosition: {},
-    // 进入当前页面的 action
-    // push || replace || back || forward
-    action: '',
+    
 }
 const getters = {
 }

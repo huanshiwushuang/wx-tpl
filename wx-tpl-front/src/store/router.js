@@ -5,6 +5,9 @@ const state = {
     to: '',
     // 是否正在路由
     isRouteing: false,
+    // 进入当前页面的 action
+    // push || replace || back || forward
+    action: '',
 }
 const getters = {
 }

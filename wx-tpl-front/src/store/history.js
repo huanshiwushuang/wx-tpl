@@ -3,10 +3,6 @@ const state = {
     stack: [],
     // 历史栈-指针
     pointer: -1,
-    // lastState
-    lastState: null,
-    // currentState
-    currentState: null,
 }
 const getters = {
     // 当前历史

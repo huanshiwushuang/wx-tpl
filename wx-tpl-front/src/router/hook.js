@@ -1,6 +1,6 @@
 // 进度条
-import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import NProgress from 'nprogress';
 // 路由
 import router from './index';
 // request
@@ -31,7 +31,10 @@ const options = {
 // 是否新的路由
 let isNewRoute = false;
 let page = null;
+let lastState = null;
+let currentState = null;
 let _to, _from;
+
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
@@ -42,8 +45,7 @@ function hook() {
 		NProgress.done();
 		store.router.state.to = to;
 		store.router.state.from = from;
-		store.router.state.isRouteing = true;
-		store.history.state.lastState = store.history.state.currentState;
+		lastState = currentState;
 		// ****************************************************
 		switch (options.mode) {
 			case 'ast': {
@@ -125,32 +127,25 @@ function hook() {
 				page = await request.get(_to.fullPath);
 			}
 		}
-
 		next();
 	});
 	router.afterEach(() => {
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
 		// 存储-当前 state
-		store.history.state.currentState = history.state;
+		currentState = history.state;
 
 		// 计算进入页面的 action
-		// alert(`isNewRoute:${isNewRoute}---store.history.state.lastState:${JSON.stringify(store.history.state.lastState)}---store.history.state.currentState.key：${JSON.stringify(store.history.state.currentState)}`);
-
-		// setTimeout(() => {
-		// 	alert(`setTimeout---${JSON.stringify(store.history.state.currentState)}`);
-		// }, 0)
-		debugger
-		if (store.history.state.lastState && !isNewRoute) {
-			const lastKey = store.history.state.lastState.key;
-			const currentKey = store.history.state.currentState.key;
+		if (lastState && !isNewRoute) {
+			const lastKey = lastState.key;
+			const currentKey = currentState.key;
 			// 后退
 			if (parseFloat(currentKey) < parseFloat(lastKey)) {
-				store.page.state.action = 'back';
+				store.router.state.action = 'back';
 			}
 			// 前进
 			else {
-				store.page.state.action = 'forward';
+				store.router.state.action = 'forward';
 			}
 		}
 
@@ -178,7 +173,7 @@ function hook() {
 				}
 				// ****************************************************
 				// 维护历史栈
-				// switch (store.page.state.action) {
+				// switch (store.router.state.action) {
 				// 	case 'replace':
 				// 		store.history.state.stack = [
 				// 			...store.history.state.stack.slice(0, -1),
@@ -207,7 +202,7 @@ function hook() {
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
-				switch (store.page.state.action) {
+				switch (store.router.state.action) {
 					case 'back':
 						{
 							// 确认需要排除的组件
@@ -239,7 +234,6 @@ function hook() {
 		NProgress.done();
 		isNewRoute = false;
 		// 标识-结束路由
-		store.router.state.isRouteing = false;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载
@@ -253,7 +247,7 @@ function hook() {
 // 重写方法, 获取当前路由 action
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
-	store.page.state.action = 'replace';
+	store.router.state.action = 'replace';
 	isNewRoute = true;
 
 	return _replace.apply(this, arguments).catch(err => {
@@ -273,7 +267,7 @@ VueRouter.prototype.replace = function () {
 
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function () {
-	store.page.state.action = 'push';
+	store.router.state.action = 'push';
 	isNewRoute = true;
 
 	return _push.apply(this, arguments).catch(err => {
