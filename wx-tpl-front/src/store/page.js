@@ -3,6 +3,8 @@ const state = {
     cache: {},
     // 页面滚动位置记录
     savedPosition: {},
+    // request source
+    cancelTokenSource: null,
     
 }
 const getters = {

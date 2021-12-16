@@ -17,6 +17,8 @@ import store from '../store';
 import VueRouter from 'vue-router';
 // tools
 import { html } from '../utils/tools';
+// Axios
+import Axios from 'axios';
 
 // ****************************************************
 // 配置进度条
@@ -105,6 +107,10 @@ function hook() {
 				console.warn(`首屏 page 数据解析失败`);
 			}
 		}
+		// 取消已有的请求
+		if (store.page.state.cancelTokenSource) {
+			store.page.state.cancelTokenSource.cancel();
+		}
 		// 如果没有数据
 		// 则从 缓存 or 接口获取
 		if (!page) {
@@ -123,8 +129,17 @@ function hook() {
 			// 请求接口数据
 			if (!page) {
 				NProgress.start();
-
-				page = await request.get(_to.fullPath);
+				// 新的请求
+				store.page.state.cancelTokenSource = Axios.CancelToken.source();
+				try {
+					page = await request.get(_to.fullPath, null, {
+						cancelToken: store.page.state.cancelTokenSource.token,
+					});
+				} catch (e) {
+					if (Axios.isCancel(e)) {
+						console.log('Request canceled');
+					}
+				}
 			}
 		}
 		next();
@@ -233,11 +248,14 @@ function hook() {
 
 		NProgress.done();
 		isNewRoute = false;
-		// 标识-结束路由
 	})
 	router.onError(() => {
 		// 导航故障，结束加载
 		NProgress.done();
+		// 取消请求
+		if (store.page.state.cancelTokenSource) {
+			store.page.state.cancelTokenSource.cancel();
+		}
 		// 导航故障，保持 to url 不变
 		history.replaceState({}, '', `${router.options.base ?? ''}${_to.path}`);
 	});
@@ -245,44 +263,34 @@ function hook() {
 
 // ****************************************************
 // 重写方法, 获取当前路由 action
+const handleError = err => {
+	NProgress.done();
+	// 取消请求
+	if (store.page.state.cancelTokenSource) {
+		store.page.state.cancelTokenSource.cancel();
+	}
+	switch (err.type) {
+		// Navigation cancelled
+		case 8:
+			return;
+		// NavigationDuplicated
+		case 16:
+			return;
+	}
+	console.error(err);
+}
+
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
 	store.router.state.action = 'replace';
 	isNewRoute = true;
-
-	return _replace.apply(this, arguments).catch(err => {
-		NProgress.done();
-
-		switch (err.type) {
-			// Navigation cancelled
-			case 8:
-				return;
-			// NavigationDuplicated
-			case 16:
-				return;
-		}
-		console.error(err);
-	});
+	return _replace.apply(this, arguments).catch(handleError);
 };
-
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function () {
 	store.router.state.action = 'push';
 	isNewRoute = true;
-
-	return _push.apply(this, arguments).catch(err => {
-		NProgress.done();
-
-		switch (err.type) {
-			// Navigation cancelled
-			case 8:
-				return;
-			// NavigationDuplicated
-			case 16:
-				return;
-		}
-		console.error(err);
-	});
+	return _push.apply(this, arguments).catch(handleError);
 };
 
 export default hook
