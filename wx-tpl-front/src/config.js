@@ -2,57 +2,57 @@ import local from './data/local';
 
 const res = {
     // 路由模式
-    router_mode: (() => {
-        if (['ast', 'refresh', 'api'].includes(local.value.router_mode)) {
-            return local.value.router_mode;
+    routerMode: (() => {
+        if (['ast', 'refresh', 'api'].includes(local.value.routerMode)) {
+            return local.value.routerMode;
         }
         return 'ast';
     })(),
     // 是否 检查 数据
-    is_check: (() => {
-        if ([true, false].includes(local.value.is_check)) {
-            return local.value.is_check;
+    isCheck: (() => {
+        if ([true, false].includes(local.value.isCheck)) {
+            return local.value.isCheck;
         }
         return false;
     })(),
     // 是否 mock 数据
-    is_mock: (() => {
-        if ([true, false].includes(local.value.is_mock)) {
-            return local.value.is_mock;
+    isMock: (() => {
+        if ([true, false].includes(local.value.isMock)) {
+            return local.value.isMock;
         }
         return false;
     })(),
     // 是否打印配置信息
-    is_print_config: (() => {
-        if ([true, false].includes(local.value.is_print_config)) {
-            return local.value.is_print_config;
+    isPrintConfig: (() => {
+        if ([true, false].includes(local.value.isPrintConfig)) {
+            return local.value.isPrintConfig;
         }
         return false;
     })(),
     // 是否移除 dom
-    is_remove_dom: (() => {
-        if ([true, false].includes(local.value.is_remove_dom)) {
-            return local.value.is_remove_dom;
+    isRemoveDom: (() => {
+        if ([true, false].includes(local.value.isRemoveDom)) {
+            return local.value.isRemoveDom;
         }
         return true;
     })(),
     // 是否附加组件到 app 上
-    is_attach_com: (() => {
-        if ([true, false].includes(local.value.is_attach_com)) {
-            return local.value.is_attach_com;
+    isAttachCom: (() => {
+        if ([true, false].includes(local.value.isAttachCom)) {
+            return local.value.isAttachCom;
         }
         return false;
     })(),
     // 是否附加 app 到 window 上
-    is_attach_app: (() => {
-        if ([true, false].includes(local.value.is_attach_app)) {
-            return local.value.is_attach_app;
+    isAttachApp: (() => {
+        if ([true, false].includes(local.value.isAttachApp)) {
+            return local.value.isAttachApp;
         }
         return false;
     })(),
-    // axios_base_url
-    axios_base_url: (() => {
-        return local.value.axios_base_url || location.origin;
+    // axiosBaseUrl
+    axiosBaseUrl: (() => {
+        return local.value.axiosBaseUrl || location.origin;
     })(),
 }
 // 保存配置
@@ -60,7 +60,7 @@ local.set(res);
 
 export default res;
 
-if (res.is_print_config) {
+if (res.isPrintConfig) {
     const settings_url = new URL(location.href);
 
     settings_url.pathname = '/settings';

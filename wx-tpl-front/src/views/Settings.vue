@@ -25,7 +25,7 @@
                     <td>
                         <label>
                             <input
-                                v-model="router_mode"
+                                v-model="routerMode"
                                 type="radio"
                                 value="ast"
                                 class="vm"
@@ -34,7 +34,7 @@
                         </label>
                         <label>
                             <input
-                                v-model="router_mode"
+                                v-model="routerMode"
                                 type="radio"
                                 value="refresh"
                                 class="vm"
@@ -46,7 +46,7 @@
                 <tr>
                     <td>是否模拟数据</td>
                     <td>
-                        <input type="checkbox" v-model="is_mock" />
+                        <input type="checkbox" v-model="isMock" />
                     </td>
                 </tr>
                 <tr>
@@ -54,37 +54,37 @@
                         是否校验数据
                     </td>
                     <td>
-                        <input type="checkbox" v-model="is_check" />
+                        <input type="checkbox" v-model="isCheck" />
                     </td>
                 </tr>
                 <tr>
                     <td>是否打印配置</td>
                     <td>
-                        <input type="checkbox" v-model="is_print_config" />
+                        <input type="checkbox" v-model="isPrintConfig" />
                     </td>
                 </tr>
                 <tr>
                     <td>是否移除数据 dom</td>
                     <td>
-                        <input type="checkbox" v-model="is_remove_dom" />
+                        <input type="checkbox" v-model="isRemoveDom" />
                     </td>
                 </tr>
                 <tr>
                     <td>是否附件组件 this 到 app</td>
                     <td>
-                        <input type="checkbox" v-model="is_attach_com" />
+                        <input type="checkbox" v-model="isAttachCom" />
                     </td>
                 </tr>
                 <tr>
                     <td>是否附加 app 到 window 上</td>
                     <td>
-                        <input type="checkbox" v-model="is_attach_app" />
+                        <input type="checkbox" v-model="isAttachApp" />
                     </td>
                 </tr>
                 <tr>
                     <td>数据 API baseURL</td>
                     <td>
-                        <input type="text" v-model="axios_base_url" />
+                        <input type="text" v-model="axiosBaseUrl" />
                     </td>
                 </tr>
             </tbody>

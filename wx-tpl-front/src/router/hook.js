@@ -19,7 +19,6 @@ import VueRouter from 'vue-router';
 import { html } from '../utils/tools';
 // Axios
 import Axios from 'axios';
-
 // ****************************************************
 // 配置进度条
 NProgress.configure({ showSpinner: false });
@@ -27,24 +26,23 @@ NProgress.configure({ showSpinner: false });
 const options = {
 	// ast: 前端路由-请求页面
 	// refresh：后端路由-刷新页面
-	mode: config.router_mode || 'ast',
+	mode: config.routerMode || 'ast',
 };
 // ****************************************************
-// 是否新的路由
 let isNewRoute = false;
 let page = null;
 let lastState = null;
 let currentState = null;
 let _to, _from;
-
+// ****************************************************
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
 		// ****************************************************
+		NProgress.done();
 		_to = to;
 		_from = from;
 		page = null;
-		NProgress.done();
 		store.router.state.to = to;
 		store.router.state.from = from;
 		lastState = currentState;
@@ -83,7 +81,11 @@ function hook() {
 				break;
 		}
 		// ****************************************************
-		// 如果是第一次进入页面 && axios baseURL 是当前域名
+		// 取消已有的请求
+		if (store.page.state.cancelTokenSource) {
+			store.page.state.cancelTokenSource.cancel(`new page`);
+		}
+		// 尝试-首屏-从源码中获取数据
 		let a = document.createElement('a');
 		a.href = axios_options.baseURL;
 		if (
@@ -95,9 +97,8 @@ function hook() {
 				page = JSON.parse(ast.page.str);
 
 				// 数据检查
-				if (config.is_check) {
+				if (config.isCheck) {
 					let { default: consoleCheck } = await import('../console/check');
-
 					consoleCheck({
 						pathname: _to.path,
 						check_data: page.json,
@@ -107,48 +108,39 @@ function hook() {
 				console.warn(`首屏 page 数据解析失败`);
 			}
 		}
-		// 取消已有的请求
-		if (store.page.state.cancelTokenSource) {
-			store.page.state.cancelTokenSource.cancel();
-		}
-		// 如果没有数据
-		// 则从 缓存 or 接口获取
+		// 尝试-从缓存获取数据
 		if (!page) {
-			switch (options.mode) {
-				// 尝试提取 cache_data
-				case 'ast':
-					{
-						let cache_data = store.page.state.cache[_to.path];
-						if (cache_data) {
-							page = cache_data;
-							console.log(`提取缓存---${_to.path} ---`, cache_data);
-						}
-					}
-					break;
+			let cache_data = store.page.state.cache[_to.path];
+			if (cache_data) {
+				page = cache_data;
+				console.log(`提取缓存---${_to.path} ---`, cache_data);
 			}
-			// 请求接口数据
-			if (!page) {
-				NProgress.start();
-				// 新的请求
-				store.page.state.cancelTokenSource = Axios.CancelToken.source();
-				try {
-					page = await request.get(_to.fullPath, null, {
-						cancelToken: store.page.state.cancelTokenSource.token,
-					});
-				} catch (e) {
-					if (Axios.isCancel(e)) {
-						console.log('Request canceled');
-					}
+		}
+		// 尝试-请求接口数据
+		if (!page) {
+			NProgress.start();
+			// 新的请求
+			store.page.state.cancelTokenSource = Axios.CancelToken.source();
+			try {
+				page = await request.get(_to.fullPath, null, {
+					cancelToken: store.page.state.cancelTokenSource.token,
+				});
+			} catch (e) {
+				if (Axios.isCancel(e)) {
+					console.log(`Request canceled---${e.message}`);
 				}
 			}
+		}
+		if (!page) {
+			return console.error(`数据获取失败，路由无法继续`);
 		}
 		next();
 	});
 	router.afterEach(() => {
-		mixinData.page = page;
-		mixinData.json = mixinData.page.json;
 		// 存储-当前 state
 		currentState = history.state;
+		mixinData.page = page;
+		mixinData.json = mixinData.page.json;
 
 		// 计算进入页面的 action
 		if (lastState && !isNewRoute) {
@@ -163,7 +155,6 @@ function hook() {
 				store.router.state.action = 'forward';
 			}
 		}
-
 		switch (options.mode) {
 			case 'ast':
 				// ****************************************************
@@ -172,7 +163,7 @@ function hook() {
 					...store.page.state.cache,
 					[_to.path]: page,
 				}
-
+				// ****************************************************
 				// 不是第一次进入页面
 				if (_from !== VueRouter.START_LOCATION) {
 					// 更新-TKD
@@ -186,34 +177,6 @@ function hook() {
 						document.querySelector('#d').setAttribute('content', page.d);
 					}
 				}
-				// ****************************************************
-				// 维护历史栈
-				// switch (store.router.state.action) {
-				// 	case 'replace':
-				// 		store.history.state.stack = [
-				// 			...store.history.state.stack.slice(0, -1),
-				// 			{
-				// 				to: _to,
-				// 				from: _from,
-				// 			}
-				// 		]
-				// 		break;
-				// 	case 'back':
-				// 		store.history.state.stack = store.history.state.stack.slice(0, -1);
-				// 		store.history.state.pointer--;
-				// 		break;
-				// 	case 'forward':
-				// 	case 'push':
-				// 	default:
-				// 		store.history.state.stack = [
-				// 			...store.history.state.stack,
-				// 			{
-				// 				to: _to,
-				// 				from: _from,
-				// 			}
-				// 		];
-				// 		store.history.state.pointer++;
-				// }
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
@@ -254,21 +217,16 @@ function hook() {
 		NProgress.done();
 		// 取消请求
 		if (store.page.state.cancelTokenSource) {
-			store.page.state.cancelTokenSource.cancel();
+			store.page.state.cancelTokenSource.cancel(`router.onError`);
 		}
 		// 导航故障，保持 to url 不变
 		history.replaceState({}, '', `${router.options.base ?? ''}${_to.path}`);
 	});
 }
-
+export default hook;
 // ****************************************************
 // 重写方法, 获取当前路由 action
 const handleError = err => {
-	NProgress.done();
-	// 取消请求
-	if (store.page.state.cancelTokenSource) {
-		store.page.state.cancelTokenSource.cancel();
-	}
 	switch (err.type) {
 		// Navigation cancelled
 		case 8:
@@ -279,18 +237,19 @@ const handleError = err => {
 	}
 	console.error(err);
 }
-
 const _replace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function () {
-	store.router.state.action = 'replace';
+	NProgress.done();
 	isNewRoute = true;
+	store.router.state.action = 'replace';
+
 	return _replace.apply(this, arguments).catch(handleError);
 };
 const _push = VueRouter.prototype.push;
 VueRouter.prototype.push = function () {
-	store.router.state.action = 'push';
+	NProgress.done();
 	isNewRoute = true;
+	store.router.state.action = 'push';
+
 	return _push.apply(this, arguments).catch(handleError);
 };
-
-export default hook

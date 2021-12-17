@@ -77,7 +77,7 @@ Vue.mixin({
 		return mixinData;
 	},
 	beforeCreate() {
-		if (config.is_attach_com) {
+		if (config.isAttachCom) {
 			let name = this.$options.name;
 			if (name) {
 				if (this.$root[name] && Array.isArray(this.$root[name])) {
@@ -90,7 +90,7 @@ Vue.mixin({
 	},
 	beforeDestroy() {
 		let name = this.$options.name;
-		if (config.is_attach_com && name) {
+		if (config.isAttachCom && name) {
 			if (Array.isArray(this.$root[name])) {
 				let index = this.$root[name].indexOf(this);
 				if (index != -1) {
@@ -112,11 +112,11 @@ const app = new Vue({
 export default app;
 
 // 是否附加 app 到 window
-if (config.is_attach_app) {
+if (config.isAttachApp) {
 	window.app = app;
 }
 // 是否移除 DOM
-if (config.is_remove_dom) {
+if (config.isRemoveDom) {
 	var n = document.querySelectorAll(".data,.node_remove");
 	for (var i = 0; i < n.length; i++) {
 		n[i].parentNode.removeChild(n[i]);

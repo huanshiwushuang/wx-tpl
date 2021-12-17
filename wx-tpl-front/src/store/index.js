@@ -112,7 +112,20 @@ _.walkTree([res], {
                         node._reset();
                         node._resetChildren();
                     }
-                }
+                },
+                // 所有的 state 属性添加重置方法
+                ...Object.keys(node.state).reduce((sum, v) => {
+                    sum[`_${v}Reset`] = {
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                        value() {
+                            node.state[v] = node._cache[v];
+                        }
+                    }
+                    return sum;
+                }, {})
+
             })
 
             node.state = Vue.observable(node.state);

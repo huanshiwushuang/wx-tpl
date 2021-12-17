@@ -3,7 +3,7 @@ import config from '../config';
 
 // Axios
 export const axios_options = {
-    baseURL: config.axios_base_url,
+    baseURL: config.axiosBaseUrl,
 };
 const axiosInstance = Axios.create(axios_options);
 
@@ -13,9 +13,9 @@ axiosInstance.interceptors.request.use(async (request_config) => {
     let a = document.createElement('a');
     a.href = request_config.url;
     let url = new URL(a.href);
-    // 如果 url 没有 mock, 就使用 config 的 is_mock 配置
+    // 如果 url 没有 mock, 就使用 config 的 isMock 配置
     if (!url.searchParams.has('mock')) {
-        if (config.is_mock) {
+        if (config.isMock) {
             url.searchParams.set('mock', 1);
         }
     }
@@ -29,7 +29,7 @@ axiosInstance.interceptors.request.use(async (request_config) => {
 // 响应拦截
 axiosInstance.interceptors.response.use(async (response) => {
     // 检查数据
-    if (config.is_check) {
+    if (config.isCheck) {
         // 需要被校验的 JSON 数据
         let check_data = response.data.json;
 
