@@ -1,7 +1,7 @@
 <template>
     <div class="kvkh7nuy_com">
         <div>
-            {{ $store.uniapp.state.hashData }}
+            {{ $store.uniapp.state.receiveData }}
         </div>
         <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
             <van-list
