@@ -27,67 +27,35 @@ const parseTransferString = function (newTransferString) {
     return jsonObj;
 }
 
-// 初始化 transfer-便于在页面回退之时-和其做对比
-const initTransferString = getTransferString();
-// 初始化时间戳
 let lastTimestamp = Date.now();
-let isHistoryBack = false;
-// 监听器的数量
-let listenerCount = 0;
-// 监听器本轮触发次数
-let triggerCount = 0;
 // 初始化接收到的数据
+const initTransferString = getTransferString();
 if (initTransferString) {
     store.uniapp.state.receiveData = parseTransferString(initTransferString);
+    lastTimestamp = store.uniapp.state.receiveData._timestamp;
 }
 
 const _addEventListener = window.addEventListener;
 
 window.addEventListener = function (eventType, handler, options) {
     if (['popstate', 'hashchange'].includes(eventType)) {
-        // 记录事件总数量
-        listenerCount++;
 
         const _handler = handler;
+
         handler = function () {
-            // 记录触发次数
-            triggerCount++;
-
-            // 如果是历史返回
-            if (isHistoryBack) {
-                // 如果本轮事件最后一次触发
-                if (triggerCount % listenerCount === 0) {
-                    isHistoryBack = false;
-                }
-                return;
-            }
-
             const newTransferString = getTransferString();
 
             // 如果存在 transfer string && 不等于首次进入页面的 transfer string
-            if (newTransferString && newTransferString !== initTransferString) {
-                // 如果不是最后一个监听器被触发
-                if (triggerCount % listenerCount !== 0) {
-                    return;
-                }
-
+            if (newTransferString) {
                 const jsonObj = parseTransferString(newTransferString);
-                // 解析失败
-                if (!jsonObj) {
-                    return;
-                }
-                // 如果时间戳不合适
-                if (jsonObj._timestamp <= lastTimestamp) {
-                    return;
-                }
 
-                // 保存时间戳
-                lastTimestamp = jsonObj._timestamp;
-                // 保存数据
-                store.uniapp.state.receiveData = jsonObj;
-                // 返回
-                isHistoryBack = true;
-                history.back();
+                // 如果时间戳不合适
+                if (jsonObj._timestamp > lastTimestamp) {
+                    // 保存时间戳
+                    lastTimestamp = jsonObj._timestamp;
+                    // 保存数据
+                    store.uniapp.state.receiveData = jsonObj;
+                }
                 return;
             }
             return _handler.apply(this, arguments);

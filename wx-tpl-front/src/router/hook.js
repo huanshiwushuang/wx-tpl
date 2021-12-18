@@ -131,9 +131,6 @@ function hook() {
 				}
 			}
 		}
-		if (!page) {
-			return console.error(`数据获取失败，路由无法继续`);
-		}
 		next();
 	});
 	router.afterEach(() => {
@@ -153,6 +150,17 @@ function hook() {
 			// 前进
 			else {
 				store.router.state.action = 'forward';
+			}
+		}
+		// 计算是否应该继续 back || forward
+		if (!currentState) {
+			switch (store.router.state.action) {
+				case 'back':
+					// ????????????????????????????????????????????
+					break;
+				case 'forward':
+
+					break;
 			}
 		}
 		switch (options.mode) {
