@@ -45,6 +45,7 @@ function hook() {
 		page = null;
 		store.router.state.to = to;
 		store.router.state.from = from;
+		store.router.state.isRouting = true;
 		lastState = currentState;
 		// ****************************************************
 		switch (options.mode) {
@@ -152,17 +153,6 @@ function hook() {
 				store.router.state.action = 'forward';
 			}
 		}
-		// 计算是否应该继续 back || forward
-		if (!currentState) {
-			switch (store.router.state.action) {
-				case 'back':
-					// ????????????????????????????????????????????
-					break;
-				case 'forward':
-
-					break;
-			}
-		}
 		switch (options.mode) {
 			case 'ast':
 				// ****************************************************
@@ -219,16 +209,18 @@ function hook() {
 
 		NProgress.done();
 		isNewRoute = false;
+		store.router.state.isRouting = false;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载
 		NProgress.done();
+		store.router.state.isRouting = false;
 		// 取消请求
 		if (store.page.state.cancelTokenSource) {
 			store.page.state.cancelTokenSource.cancel(`router.onError`);
 		}
 		// 导航故障，保持 to url 不变
-		history.replaceState({}, '', `${router.options.base ?? ''}${_to.path}`);
+		history.replaceState(history.state, '', `${router.options.base ?? ''}${_to.path}`);
 	});
 }
 export default hook;
@@ -245,19 +237,23 @@ const handleError = err => {
 	}
 	console.error(err);
 }
-const _replace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function () {
-	NProgress.done();
-	isNewRoute = true;
-	store.router.state.action = 'replace';
+// 原型替换
+[
+	{
+		name: 'push',
+		func: VueRouter.prototype.push,
+	},
+	{
+		name: 'replace',
+		func: VueRouter.prototype.replace,
+	},
+].forEach(v => {
+	VueRouter.prototype[v.name] = function () {
+		NProgress.done();
+		isNewRoute = true;
+		store.router.state.isRouting = false;
+		store.router.state.action = v.name;
 
-	return _replace.apply(this, arguments).catch(handleError);
-};
-const _push = VueRouter.prototype.push;
-VueRouter.prototype.push = function () {
-	NProgress.done();
-	isNewRoute = true;
-	store.router.state.action = 'push';
-
-	return _push.apply(this, arguments).catch(handleError);
-};
+		return v.func.apply(this, arguments).catch(handleError);
+	}
+})

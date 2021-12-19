@@ -1,5 +1,14 @@
+import router from '.';
 import store from '../store';
 import { str } from '../utils/tools';
+
+const Time = window.performance && window.performance.now
+    ? window.performance
+    : Date
+
+export function genStateKey() {
+    return Time.now().toFixed(3)
+}
 
 // 获取 transfer 字符串
 const getTransferString = function () {
@@ -28,6 +37,7 @@ const parseTransferString = function (newTransferString) {
 }
 
 let lastTimestamp = Date.now();
+
 // 初始化接收到的数据
 const initTransferString = getTransferString();
 if (initTransferString) {
@@ -45,8 +55,16 @@ window.addEventListener = function (eventType, handler, options) {
         handler = function () {
             const newTransferString = getTransferString();
 
-            // 如果存在 transfer string && 不等于首次进入页面的 transfer string
+            // 如果存在 transfer string
             if (newTransferString) {
+                // 如果没有 key
+                if (!history.state?.key) {
+                    // 生成 key - replace
+                    history.replaceState({
+                        key: genStateKey(),
+                    }, null, location.href);
+                }
+
                 const jsonObj = parseTransferString(newTransferString);
 
                 // 如果时间戳不合适
@@ -55,6 +73,21 @@ window.addEventListener = function (eventType, handler, options) {
                     lastTimestamp = jsonObj._timestamp;
                     // 保存数据
                     store.uniapp.state.receiveData = jsonObj;
+                    // 历史返回
+                    history.back();
+                }
+                // 如果正在路由
+                if (store.router.state.isRouting) {
+                    switch (store.router.state.action) {
+                        case 'push':
+                            router.push(store.router.state.to);
+                            break;
+                        case 'replace':
+                            router.replace(store.router.state.to);
+                            break;
+                        default:
+                            console.error(`store.router.state.action 错误`);
+                    }
                 }
                 return;
             }
