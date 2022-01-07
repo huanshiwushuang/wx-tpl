@@ -2,14 +2,6 @@ import router from '.';
 import store from '../store';
 import { str } from '../utils/tools';
 
-const Time = window.performance && window.performance.now
-    ? window.performance
-    : Date
-
-export function genStateKey() {
-    return Time.now().toFixed(3)
-}
-
 // 获取 transfer 字符串
 const getTransferString = function () {
     let res = location.href.match(/_transfer=([^&#]+)/);
@@ -37,8 +29,12 @@ const parseTransferString = function (newTransferString) {
 }
 
 let lastTimestamp = Date.now();
+// 监听器的数量
 let listenerCount = 0;
+// 调用的数量
 let calledCount = 0;
+// 是否是返回
+let isBack = false;
 
 // 初始化接收到的数据
 const initTransferString = getTransferString();
@@ -58,20 +54,21 @@ window.addEventListener = function (eventType, handler, options) {
         handler = function () {
             calledCount++;
 
+            // 如果是返回触发的
+            if (isBack) {
+                // 如果是本轮触发的最后一次
+                if (calledCount % listenerCount === 0) {
+                    isBack = false;
+                }
+                return;
+            }
+
             const newTransferString = getTransferString();
 
             // 如果存在 transfer string
             if (newTransferString) {
                 // 如果是本轮触发的最后一次
                 if (calledCount % listenerCount === 0) {
-                    // 如果没有 key
-                    if (!history.state?.key) {
-                        // 生成 key - replace
-                        history.replaceState({
-                            key: genStateKey(),
-                        }, null, location.href);
-                    }
-
                     const jsonObj = parseTransferString(newTransferString);
 
                     // 如果时间戳不合适
@@ -81,21 +78,24 @@ window.addEventListener = function (eventType, handler, options) {
                         // 保存数据
                         store.uniapp.state.receiveData = jsonObj;
                         // 历史返回
+                        isBack = true;
                         history.back();
 
-                        // 如果正在路由
-                        if (store.router.state.isRouting) {
-                            switch (store.router.state.action) {
-                                case 'push':
-                                    router.push(store.router.state.to);
-                                    break;
-                                case 'replace':
-                                    router.replace(store.router.state.to);
-                                    break;
-                                default:
-                                    console.error(`store.router.state.action 错误`);
+                        setTimeout(() => {
+                            // 如果正在路由
+                            if (store.router.state.isRouting) {
+                                switch (store.router.state.action) {
+                                    case 'push':
+                                        router.push(store.router.state.to);
+                                        break;
+                                    case 'replace':
+                                        router.replace(store.router.state.to);
+                                        break;
+                                    default:
+                                        console.error(`store.router.state.action 错误`);
+                                }
                             }
-                        }
+                        }, 0);
                     }
                 }
                 return;

@@ -124,8 +124,19 @@ _.walkTree([res], {
                         }
                     }
                     return sum;
-                }, {})
-
+                }, {}),
+                // 所有的 state 属性添加更新缓存的方法
+                ...Object.keys(node.state).reduce((sum, v) => {
+                    sum[`_${v}Cache`] = {
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                        value() {
+                            node._cache[v] = node.state[v];
+                        }
+                    }
+                    return sum;
+                }, {}),
             })
 
             node.state = Vue.observable(node.state);

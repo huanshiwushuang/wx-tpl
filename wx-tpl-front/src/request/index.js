@@ -2,10 +2,10 @@ import Axios from 'axios';
 import config from '../config';
 
 // Axios
-export const axios_options = {
+export const axiosOptions = {
     baseURL: config.axiosBaseUrl,
 };
-const axiosInstance = Axios.create(axios_options);
+const axiosInstance = Axios.create(axiosOptions);
 
 // 请求拦截
 axiosInstance.interceptors.request.use(async (request_config) => {

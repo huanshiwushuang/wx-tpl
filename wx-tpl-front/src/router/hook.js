@@ -4,7 +4,7 @@ import NProgress from 'nprogress';
 // 路由
 import router from './index';
 // request
-import request, { axios_options } from '../request';
+import request, { axiosOptions } from '../request';
 // 语言包
 import { languageStatus } from '@/lang';
 // 配置
@@ -38,6 +38,24 @@ let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
+		// 加载语言包
+		const langLoadWait = languageStatus.waitLoaded();
+		// ****************************************************
+		// 如果-后端路由
+		switch (options.mode) {
+			// 后端路由-refresh
+			case 'refresh':
+				// 如果不是第一次进入页面
+				if (_from !== VueRouter.START_LOCATION) {
+					// 如果只是改变了 hash ，则前端路由
+					if ((_from.fullPath.replace(_from.hash, '') !== _to.fullPath.replace(_to.hash, ''))) {
+						location = _to.fullPath;
+						return;
+					}
+				}
+				break;
+		}
+		// 数据保存
 		// ****************************************************
 		NProgress.done();
 		_to = to;
@@ -63,32 +81,13 @@ function hook() {
 				break;
 		}
 		// ****************************************************
-		// 等待语言包加载完毕
-		const languageLoad = languageStatus.waitLoaded();
-		await languageLoad;
-		// ****************************************************
-		// 判断 options 的 mode
-		switch (options.mode) {
-			// 后端路由-refresh
-			case 'refresh':
-				// 如果不是第一次进入页面
-				if (_from !== VueRouter.START_LOCATION) {
-					// 如果只是改变了 hash ，则前端路由
-					if ((_from.fullPath.replace(_from.hash, '') !== _to.fullPath.replace(_to.hash, ''))) {
-						location = _to.fullPath;
-						return;
-					}
-				}
-				break;
-		}
-		// ****************************************************
 		// 取消已有的请求
 		if (store.page.state.cancelTokenSource) {
 			store.page.state.cancelTokenSource.cancel(`new page`);
 		}
 		// 尝试-首屏-从源码中获取数据
 		let a = document.createElement('a');
-		a.href = axios_options.baseURL;
+		a.href = axiosOptions.baseURL;
 		if (
 			_from === VueRouter.START_LOCATION &&
 			new URL(a.href).host === location.host
@@ -111,10 +110,10 @@ function hook() {
 		}
 		// 尝试-从缓存获取数据
 		if (!page) {
-			let cache_data = store.page.state.cache[_to.path];
-			if (cache_data) {
-				page = cache_data;
-				console.log(`提取缓存---${_to.path} ---`, cache_data);
+			let cacheData = store.page.state.cache[_to.path];
+			if (cacheData) {
+				page = cacheData;
+				console.log(`提取缓存---${_to.path} ---`, cacheData);
 			}
 		}
 		// 尝试-请求接口数据
@@ -132,6 +131,8 @@ function hook() {
 				}
 			}
 		}
+		// ****************************************************
+		await langLoadWait;
 		next();
 	});
 	router.afterEach(() => {
