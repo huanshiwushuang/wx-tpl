@@ -71,7 +71,7 @@ window.addEventListener = function (eventType, handler, options) {
                 if (calledCount % listenerCount === 0) {
                     const jsonObj = parseTransferString(newTransferString);
 
-                    // 如果时间戳不合适
+                    // 如果时间戳合适
                     if (jsonObj._timestamp > lastTimestamp) {
                         // 保存时间戳
                         lastTimestamp = jsonObj._timestamp;
