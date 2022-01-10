@@ -79,7 +79,7 @@ window.addEventListener = function (eventType, handler, options) {
                         isBack = true;
                         history.back();
                     }
-                    return;
+                    // return;
                 }
             }
             return _handler.apply(this, arguments);
