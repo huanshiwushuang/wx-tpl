@@ -1,7 +1,6 @@
+// import router from '.';
 import store from '../store';
 import { str } from '../utils/tools';
-import router from './index';
-import VueRouter from 'vue-router';
 
 // 获取 transfer 字符串
 const getTransferString = function () {
@@ -29,36 +28,80 @@ const parseTransferString = function (newTransferString) {
     return jsonObj;
 }
 
-// 初始化时间戳
 let lastTimestamp = Date.now();
+// 监听器的数量
+let listenerCount = 0;
+// 调用的数量
+let calledCount = 0;
+// 是否是返回
+let isBack = false;
 
-export default function () {
-    router.beforeEach((to, from, next) => {
-        let newTransferString = getTransferString();
+// 初始化接收到的数据
+const initTransferString = getTransferString();
+if (initTransferString) {
+    store.uniapp.state.receiveData = parseTransferString(initTransferString);
+    lastTimestamp = store.uniapp.state.receiveData._timestamp;
+}
 
-        if (newTransferString) {
-            switch (from) {
-                // 第一次进入页面
-                case VueRouter.START_LOCATION:
-                    store.uniapp.state.receiveData = parseTransferString(newTransferString);
-                    break;
-                default:
-                    {
-                        const jsonObj = parseTransferString(newTransferString);
+const _addEventListener = window.addEventListener;
 
-                        // 如果时间戳合适
-                        if (jsonObj._timestamp > lastTimestamp) {
-                            // 保存时间戳
-                            lastTimestamp = jsonObj._timestamp;
-                            // 保存数据
-                            store.uniapp.state.receiveData = jsonObj;
-                            next(false);
-                            return;
-                        }
-                    }
+window.addEventListener = function (eventType, handler, options) {
+    if (['popstate', 'hashchange'].includes(eventType)) {
+        listenerCount++;
+
+        const _handler = handler;
+
+        handler = function () {
+            calledCount++;
+
+            // 如果是返回触发的
+            if (isBack) {
+                // 如果是本轮触发的最后一次
+                if (calledCount % listenerCount === 0) {
+                    isBack = false;
+                }
+                return;
             }
-        }
 
-        next();
-    })
+            const newTransferString = getTransferString();
+
+            // 如果存在 transfer string && 不等于首次进入页面的 transfer string
+            if (newTransferString && newTransferString !== initTransferString) {
+                // 如果是本轮触发的最后一次
+                if (calledCount % listenerCount === 0) {
+                    const jsonObj = parseTransferString(newTransferString);
+
+                    // 如果时间戳合适
+                    if (jsonObj._timestamp > lastTimestamp) {
+                        // 保存时间戳
+                        lastTimestamp = jsonObj._timestamp;
+                        // 保存数据
+                        store.uniapp.state.receiveData = jsonObj;
+                        // 历史返回
+                        isBack = true;
+                        history.back();
+
+                        // setTimeout(() => {
+                        //     // 如果正在路由
+                        //     if (store.router.state.isRouting) {
+                        //         switch (store.router.state.action) {
+                        //             case 'push':
+                        //                 router.push(store.router.state.to);
+                        //                 break;
+                        //             case 'replace':
+                        //                 router.replace(store.router.state.to);
+                        //                 break;
+                        //             default:
+                        //                 console.error(`store.router.state.action 错误`);
+                        //         }
+                        //     }
+                        // }, 0);
+                    }
+                }
+                return;
+            }
+            return _handler.apply(this, arguments);
+        }
+    }
+    return _addEventListener.call(this, eventType, handler, options)
 }

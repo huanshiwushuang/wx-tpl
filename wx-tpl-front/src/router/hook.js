@@ -63,9 +63,9 @@ function hook() {
 		page = null;
 		store.router.state.to = to;
 		store.router.state.from = from;
-		store.router.state.isRouting = true;
 		lastState = currentState;
 		// ****************************************************
+		// 记录-页面滚动位置
 		switch (options.mode) {
 			case 'ast': {
 				// 记录页面滚动位置
@@ -210,12 +210,10 @@ function hook() {
 
 		NProgress.done();
 		isNewRoute = false;
-		store.router.state.isRouting = false;
 	})
 	router.onError(() => {
 		// 导航故障，结束加载
 		NProgress.done();
-		store.router.state.isRouting = false;
 		// 取消请求
 		if (store.page.state.cancelTokenSource) {
 			store.page.state.cancelTokenSource.cancel(`router.onError`);
@@ -252,7 +250,6 @@ const handleError = err => {
 	VueRouter.prototype[v.name] = function () {
 		NProgress.done();
 		isNewRoute = true;
-		store.router.state.isRouting = false;
 		store.router.state.action = v.name;
 
 		return v.func.apply(this, arguments).catch(handleError);
