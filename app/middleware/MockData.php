@@ -42,7 +42,7 @@ class MockData
             
             file_put_contents(
                 APP_ROOT . DS . 'defaultApp' . DS . 'mock' . DS . 'json' . DS . 'request.log',
-                json_encode($request),
+                ($request),
                 FILE_APPEND
             );
 
