@@ -64,14 +64,13 @@ window.addEventListener = function (eventType, handler, options) {
 
             const newTransferString = getTransferString();
 
-            // 如果存在 transfer string && 不等于首次进入页面的 transfer string
-            if (newTransferString && newTransferString !== initTransferString) {
-                // 如果是本轮触发的最后一次
-                if (calledCount % listenerCount === 0) {
-                    const jsonObj = parseTransferString(newTransferString);
-
-                    // 如果时间戳合适
-                    if (jsonObj._timestamp > lastTimestamp) {
+            // 如果存在 transfer string
+            if (newTransferString) {
+                const jsonObj = parseTransferString(newTransferString);
+                // 如果时间戳合适
+                if (jsonObj._timestamp > lastTimestamp) {
+                    // 如果是本轮触发的最后一次
+                    if (calledCount % listenerCount === 0) {
                         // 保存时间戳
                         lastTimestamp = jsonObj._timestamp;
                         // 保存数据
@@ -80,8 +79,8 @@ window.addEventListener = function (eventType, handler, options) {
                         isBack = true;
                         history.back();
                     }
+                    return;
                 }
-                return;
             }
             return _handler.apply(this, arguments);
         }
