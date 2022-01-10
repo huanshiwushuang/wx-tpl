@@ -61,12 +61,12 @@ local.set(res);
 export default res;
 
 if (res.isPrintConfig) {
-    const settings_url = new URL(location.href);
+    const settingsUrl = new URL(location.href);
 
-    settings_url.pathname = '/settings';
-    settings_url.searchParams.set('jzm', '1');
+    settingsUrl.pathname = '/settings';
+    settingsUrl.searchParams.set('jzm', '1');
 
-    console.group(`配置信息---${settings_url.toString()}`);
+    console.group(`配置信息---${settingsUrl.toString()}`);
 
     console.table(Object.keys(res).map(key => {
         return {

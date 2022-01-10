@@ -142,7 +142,7 @@ function hook() {
 		mixinData.json = mixinData.page.json;
 
 		// 计算进入页面的 action
-		if (lastState && !isNewRoute) {
+		if (lastState && currentState && !isNewRoute) {
 			const lastKey = lastState.key;
 			const currentKey = currentState.key;
 			// 后退
