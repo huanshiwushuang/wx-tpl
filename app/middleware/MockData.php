@@ -34,11 +34,17 @@ class MockData
         // 请求模拟数据, 当然, 控制器中的同名变量会覆盖 mock 的变量
         $params = $request->param();
         if (
-            isset($params['mock'])
-            && $params['mock'] == 1
+            // isset($params['mock'])
+            // && $params['mock'] == 1
             // && ENV === 'development'
-            // 1
+            1
         ) {
+            
+            file_put_contents(
+                APP_ROOT . DS . 'defaultApp' . DS . 'mock' . DS . 'json' . DS . 'request.log',
+                json_encode($request),
+            );
+
             // 默认数据
             $data_default = [];
 
