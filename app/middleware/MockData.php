@@ -40,11 +40,11 @@ class MockData
             1
         ) {
 
-            // file_put_contents(
-            //     APP_ROOT . DS . 'defaultApp' . DS . 'mock' . DS . 'json' . DS . 'request.log',
-            //     $request->pathinfo() . PHP_EOL,
-            //     FILE_APPEND
-            // );
+            file_put_contents(
+                APP_ROOT . DS . 'defaultApp' . DS . 'mock' . DS . 'json' . DS . 'request.log',
+                $request->pathinfo() . PHP_EOL,
+                FILE_APPEND
+            );
 
             // 默认数据
             $data_default = [];
