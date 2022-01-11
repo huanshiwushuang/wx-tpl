@@ -30,10 +30,8 @@ const parseTransferString = function (newTransferString) {
 let lastTimestamp = Date.now();
 // 监听器的数量
 let listenerCount = 0;
-// 正常调用的数量
+// 调用的数量
 let calledCount = 0;
-// 返回调用的数量
-let backCalledCount = 0;
 // 是否是返回
 let isBack = false;
 
@@ -53,17 +51,16 @@ window.addEventListener = function (eventType, handler, options) {
         const _handler = handler;
 
         handler = function () {
+            calledCount++;
+
             // 如果是返回触发的
             if (isBack) {
-                backCalledCount++;
                 // 如果是本轮触发的最后一次
-                if (backCalledCount % listenerCount === 0) {
+                if (calledCount % listenerCount === 0) {
                     isBack = false;
                 }
                 return;
             }
-
-            calledCount++;
 
             const newTransferString = getTransferString();
 
@@ -85,7 +82,6 @@ window.addEventListener = function (eventType, handler, options) {
                     }
                     return;
                 }
-
             }
             return _handler.apply(this, arguments);
         }

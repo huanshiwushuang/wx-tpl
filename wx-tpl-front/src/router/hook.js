@@ -142,6 +142,10 @@ function hook() {
 		mixinData.json = mixinData.page.json;
 
 		// 计算进入页面的 action
+
+		// alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState));
+		// alert();
+
 		if (lastState && currentState && !isNewRoute) {
 			const lastKey = lastState.key;
 			const currentKey = currentState.key;
@@ -150,7 +154,7 @@ function hook() {
 				store.router.state.action = 'back';
 			}
 			// 前进
-			else {
+			else if (parseFloat(currentKey) > parseFloat(lastKey)) {
 				store.router.state.action = 'forward';
 			}
 		}
@@ -179,6 +183,7 @@ function hook() {
 				// ****************************************************
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
+
 				switch (store.router.state.action) {
 					case 'back':
 						{

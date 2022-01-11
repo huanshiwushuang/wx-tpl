@@ -17,10 +17,11 @@ const res = {
     })(),
     // 是否 mock 数据
     isMock: (() => {
-        if ([true, false].includes(local.value.isMock)) {
-            return local.value.isMock;
-        }
-        return false;
+        // if ([true, false].includes(local.value.isMock)) {
+        //     return local.value.isMock;
+        // }
+        // return false;
+        return true;
     })(),
     // 是否打印配置信息
     isPrintConfig: (() => {

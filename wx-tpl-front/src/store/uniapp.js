@@ -11,9 +11,9 @@ const initSendData = (sendData = {}) => {
 export default {
     state: {
         // 发送的数据
-        sendData: null,
+        sendData: {},
         // 接收的数据
-        receiveData: null,
+        receiveData: {},
     },
     getters: {
         // 编码后的数据
@@ -23,9 +23,9 @@ export default {
     },
     mutations: {
         // 设置 sendData
-        postMessage(data) {
+        postData(sendData) {
             this.state.sendData = {
-                ...initSendData(data),
+                ...initSendData(sendData),
             }
         }
     },
