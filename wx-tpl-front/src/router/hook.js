@@ -141,6 +141,17 @@ function hook() {
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
 
+		// alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState) + `
+		// 	__【${Object.keys(store.history.getters.stackMap)}】__【${_to.path}】
+		// `);
+
+		if (!currentState) {
+			alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState) + `
+				__【${Object.keys(store.history.getters.stackMap)}】__【${_to.path}】
+			`);
+		}
+
+
 		// ****************************************************
 		// 计算进入页面的 action
 		if (lastState && currentState && !isNewRoute) {
