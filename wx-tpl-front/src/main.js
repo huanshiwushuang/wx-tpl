@@ -37,7 +37,6 @@ import {
 	Sticky,
 	List,
 	NavBar,
-	Overlay,
 } from 'vant';
 
 // 注册组件
@@ -60,7 +59,6 @@ import {
 	Sticky,
 	List,
 	NavBar,
-	Overlay,
 ].forEach(com => {
 	if (com.options) {
 		Vue.use(com.com, com.options);

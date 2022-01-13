@@ -18,7 +18,6 @@
                 <router-view name="footer"></router-view>
             </keep-alive>
         </template>
-
     </div>
 </template>
 
@@ -28,6 +27,19 @@ export default {
     data() {
         return {};
     },
+    created() {
+        const that = this;
+
+        // 确保 onload 触发之后-才允许用户操作-否则在小程序端历史记录会有异常
+        this.$toast.loading({
+            message: "加载中...",
+            forbidClick: true,
+            duration: 0,
+        });
+        window.addEventListener("load", function () {
+            that.$toast.clear();
+        });
+    },
 };
 </script>
 
@@ -35,5 +47,11 @@ export default {
 @import (reference) "@/assets/less/index.less";
 #base {
     min-height: 100vh;
+}
+
+.kycpnyr4 {
+    position: fixed;
+    right: 0;
+    top: 50%;
 }
 </style>

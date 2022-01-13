@@ -136,16 +136,13 @@ function hook() {
 		next();
 	});
 	router.afterEach(() => {
-		// 存储-当前 state
-		currentState = history.state;
+		// 当前 state = 缓存的 state || 当前历史的 state
+		currentState = store.history.getters.stackMap[_to.path]?.state || history.state;
 		mixinData.page = page;
 		mixinData.json = mixinData.page.json;
 
+		// ****************************************************
 		// 计算进入页面的 action
-
-		// alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState));
-		// alert();
-
 		if (lastState && currentState && !isNewRoute) {
 			const lastKey = lastState.key;
 			const currentKey = currentState.key;
@@ -181,10 +178,31 @@ function hook() {
 					}
 				}
 				// ****************************************************
+				// 如果是第一次进入页面
+				if (_from === VueRouter.START_LOCATION) {
+					store.router.state.action = 'push';
+				}
 				// 维护页面 和 数据缓存
 				_to.meta.exclude = [];
-
 				switch (store.router.state.action) {
+					case 'push':
+						// 维护历史记录-主要是为了维护 history.state 的正确性
+						// fullPath 和 state 一一对应
+						store.history.state.stack.push({
+							..._to,
+							state: history.state,
+						});
+						break;
+					case 'replace':
+						// 维护历史记录-主要是为了维护 history.state 的正确性
+						// fullPath 和 state 一一对应
+						store.history.state.stack.splice(-1, 1, {
+							..._to,
+							state: history.state,
+						});
+						break;
+					case 'forward':
+						break;
 					case 'back':
 						{
 							// 确认需要排除的组件
@@ -210,7 +228,6 @@ function hook() {
 						break;
 				}
 				break;
-
 		}
 
 		NProgress.done();
@@ -228,6 +245,7 @@ function hook() {
 	});
 }
 export default hook;
+
 // ****************************************************
 // 重写方法, 获取当前路由 action
 const handleError = err => {

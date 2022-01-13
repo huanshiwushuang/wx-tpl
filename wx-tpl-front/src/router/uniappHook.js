@@ -63,9 +63,9 @@ window.addEventListener = function (eventType, handler, options) {
                 return;
             }
 
-            calledCount++;
-
             const newTransferString = getTransferString();
+
+            calledCount++;
 
             // 如果存在 transfer string
             if (newTransferString) {
@@ -85,7 +85,6 @@ window.addEventListener = function (eventType, handler, options) {
                     }
                     return;
                 }
-
             }
             return _handler.apply(this, arguments);
         }
