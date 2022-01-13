@@ -108,12 +108,15 @@ function hook() {
 				console.warn(`首屏 page 数据解析失败`);
 			}
 		}
-		// 尝试-从缓存获取数据
-		if (!page) {
-			let cacheData = store.page.state.cache[_to.path];
-			if (cacheData) {
-				page = cacheData;
-				console.log(`提取缓存---${_to.path} ---`, cacheData);
+		// 如果不是 push
+		if (!(isNewRoute && store.router.state.action === 'push')) {
+			// 尝试-从缓存获取数据
+			if (!page) {
+				let cacheData = store.page.state.cache[_to.path];
+				if (cacheData) {
+					page = cacheData;
+					console.log(`提取缓存---${_to.path} ---`, cacheData);
+				}
 			}
 		}
 		// 尝试-请求接口数据
@@ -145,12 +148,11 @@ function hook() {
 		// 	__【${Object.keys(store.history.getters.stackMap)}】__【${_to.path}】
 		// `);
 
-		if (!currentState) {
-			alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState) + `
-				__【${Object.keys(store.history.getters.stackMap)}】__【${_to.path}】
-			`);
-		}
-
+		// if (!currentState) {
+		// 	alert(JSON.stringify(lastState) + '____' + JSON.stringify(currentState) + `
+		// 		__【${Object.keys(store.history.getters.stackMap)}】__【${_to.path}】
+		// 	`);
+		// }
 
 		// ****************************************************
 		// 计算进入页面的 action
@@ -201,7 +203,7 @@ function hook() {
 						// fullPath 和 state 一一对应
 						store.history.state.stack.push({
 							..._to,
-							state: history.state,
+							state: currentState,
 						});
 						break;
 					case 'replace':
@@ -209,10 +211,16 @@ function hook() {
 						// fullPath 和 state 一一对应
 						store.history.state.stack.splice(-1, 1, {
 							..._to,
-							state: history.state,
+							state: currentState,
 						});
 						break;
 					case 'forward':
+						// 维护历史记录-主要是为了维护 history.state 的正确性
+						// fullPath 和 state 一一对应
+						store.history.state.stack.push({
+							..._to,
+							state: currentState,
+						});
 						break;
 					case 'back':
 						{
@@ -235,6 +243,9 @@ function hook() {
 
 							// 确认需要清除的 page 缓存
 							store.page.state.cache = newPageCache;
+
+							// 同步历史栈
+							store.history.state.stack.pop();
 						}
 						break;
 				}
