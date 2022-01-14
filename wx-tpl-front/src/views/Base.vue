@@ -39,6 +39,7 @@ export default {
         window.addEventListener("load", function () {
             that.$toast.clear();
         });
+
     },
 };
 </script>
