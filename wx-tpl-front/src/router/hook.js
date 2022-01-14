@@ -38,10 +38,6 @@ let _to, _from;
 // 开始 hook
 function hook() {
 	router.beforeEach(async (to, from, next) => {
-		// 加载语言包
-		const langLoadWait = languageStatus.waitLoaded();
-		// ****************************************************
-		// 如果-后端路由
 		switch (options.mode) {
 			// 后端路由-refresh
 			case 'refresh':
@@ -55,6 +51,10 @@ function hook() {
 				}
 				break;
 		}
+		// ****************************************************
+		// 加载语言包
+		const langLoadWait = languageStatus.waitLoaded();
+		// ****************************************************
 		// 数据保存
 		// ****************************************************
 		NProgress.done();
@@ -65,11 +65,9 @@ function hook() {
 		store.router.state.from = from;
 		lastState = currentState;
 		// ****************************************************
-		// 记录-页面滚动位置
 		switch (options.mode) {
 			case 'ast': {
 				// 记录页面滚动位置
-				// 放上面-同步记录-防止被 await 影响到
 				store.page.state.savedPosition = {
 					...store.page.state.savedPosition,
 					[_from.path]: {
@@ -109,16 +107,16 @@ function hook() {
 			}
 		}
 		// 如果不是 push
-		if (!(isNewRoute && store.router.state.action === 'push')) {
-			// 尝试-从缓存获取数据
-			if (!page) {
-				let cacheData = store.page.state.cache[_to.path];
-				if (cacheData) {
-					page = cacheData;
-					console.log(`提取缓存---${_to.path} ---`, cacheData);
-				}
+		// if (!(isNewRoute && store.router.state.action === 'push')) {
+		// 尝试-从缓存获取数据
+		if (!page) {
+			let cacheData = store.page.state.cache[_to.path];
+			if (cacheData) {
+				page = cacheData;
+				console.log(`提取缓存---${_to.path} ---`, cacheData);
 			}
 		}
+		// }
 		// 尝试-请求接口数据
 		if (!page) {
 			NProgress.start();

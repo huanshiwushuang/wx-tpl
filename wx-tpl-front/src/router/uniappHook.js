@@ -68,7 +68,7 @@ window.addEventListener = function (eventType, handler, options) {
             calledCount++;
 
             // 如果存在 transfer string
-            if (newTransferString) {
+            if (newTransferString && newTransferString !== initTransferString) {
                 const jsonObj = parseTransferString(newTransferString);
 
                 // 如果时间戳合适
@@ -83,8 +83,8 @@ window.addEventListener = function (eventType, handler, options) {
                         isBack = true;
                         history.back();
                     }
-                    return;
                 }
+                return;
             }
             return _handler.apply(this, arguments);
         }
