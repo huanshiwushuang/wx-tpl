@@ -50,11 +50,11 @@
 module.exports = {
     name: "Home",
     async created() {
-        let res = await import(
-            "/static/admin/lib/module_httpVueLoader/config.js"
-        );
+        // let res = await import(
+        //     "/static/admin/lib/module_httpVueLoader/config.js"
+        // );
 
-        debugger;
+        // debugger;
     },
 };
 </script>

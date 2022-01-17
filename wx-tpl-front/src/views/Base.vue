@@ -32,14 +32,54 @@ export default {
 
         // 确保 onload 触发之后-才允许用户操作-否则在小程序端历史记录会有异常
         this.$toast.loading({
-            message: "加载中...",
+            message: "加载中",
             forbidClick: true,
             duration: 0,
         });
-        window.addEventListener("load", function () {
-            that.$toast.clear();
-        });
 
+        Promise.all([
+            new Promise((resolve, reject) => {
+                // 如果是小程序
+                if (/miniProgram/i.test(navigator.userAgent)) {
+                    // 如果是微信小程序
+                    if (/micromessenger/i.test(navigator.userAgent)) {
+                        // 导入微信依赖库
+                        requirejs(["jweixin"], function (wx) {
+                            window.wx = wx;
+                            // 导入 uniapp 依赖库
+                            requirejs(["uniWebview"], function (uni) {
+                                window.uni = uni;
+                                // 可以进行 uniapp 通信了
+                                document.addEventListener(
+                                    "UniAppJSBridgeReady",
+                                    function () {
+                                        resolve();
+                                    }
+                                );
+                            });
+                        });
+                    } else {
+                        reject(`没有匹配的小程序`);
+                    }
+                } else {
+                    resolve();
+                }
+            }),
+            new Promise((resolve) => {
+                window.addEventListener("load", function () {
+                    that.$toast.clear();
+                    resolve();
+                });
+            }),
+        ]).then(() => {
+            if (window.uni) {
+                // 向 uniapp 发送数据
+                this.$store.uniapp.mutations.postData({
+                    event: "load",
+                    title: "同步状态",
+                });
+            }
+        });
     },
 };
 </script>
@@ -48,11 +88,5 @@ export default {
 @import (reference) "@/assets/less/index.less";
 #base {
     min-height: 100vh;
-}
-
-.kycpnyr4 {
-    position: fixed;
-    right: 0;
-    top: 50%;
 }
 </style>

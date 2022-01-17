@@ -1,5 +1,14 @@
 import local from './data/local';
 
+// requirejs 配置
+window.requirejs.config({
+    paths: {
+        jweixin: 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js?noext',
+        uniWebview: 'https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js?noext',
+    }
+})
+
+
 const res = {
     // 路由模式
     routerMode: (() => {

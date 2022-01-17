@@ -4,6 +4,7 @@ const initSendData = (sendData = {}) => {
     return {
         ...sendData,
         _from: 'h5',
+        _toPage: 'indexIndex',
         _timestamp: Date.now(),
     }
 }
@@ -27,6 +28,10 @@ export default {
             this.state.sendData = {
                 ...initSendData(sendData),
             }
+            // 页面跳转-传输数据
+            uni.webView.navigateTo({
+                url: `/pages/index/transfer?_transfer=${this.getters.sendDataEncoded}`,
+            });
         }
     },
     actions: {

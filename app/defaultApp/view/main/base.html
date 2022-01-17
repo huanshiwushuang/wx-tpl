@@ -53,6 +53,7 @@
 			如果多种浏览器都无法显示，请联系客服: gh9694@foxmail.com
 		</div>
 	</div>
+	
 	<script>
 		// 如果报错导致 DOM 未正确渲染，则给出友好提示
 		setTimeout(function() {
@@ -62,6 +63,7 @@
 			}
 		}, 2000)
 	</script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/require.js/2.3.6/require.min.js"></script>
 
 	<!-- 导入 script 模板 -->
 	{if ENV == 'development'}
@@ -70,5 +72,7 @@
 		{include file="main/include_body_production"}
 	{/if}
 </body>
+
+
 
 </html>

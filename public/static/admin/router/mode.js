@@ -82,7 +82,6 @@ define(['router/index', 'nprogress', 'init'], (router, NProgress, Init) => {
 				case 'ast':
 					// 不是第一次进入页面
 					if (!isInitPage) {
-
 						// 更新-TKD
 						document.title = newAst.krjziyjz_title.toString();
 						document.querySelector('#krjzik3i_keywords').setAttribute('content', newAst.krjzik3i_keywords.attrMap.content)

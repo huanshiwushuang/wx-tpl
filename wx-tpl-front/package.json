@@ -59,6 +59,11 @@
     "rules": {
       "no-debugger": "off",
       "no-console": "off"
+    },
+    "globals": {
+      "uni": true,
+      "require": true,
+      "requirejs": true
     }
   },
   "browserslist": [
