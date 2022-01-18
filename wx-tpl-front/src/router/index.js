@@ -30,62 +30,13 @@ const routes = [
 					path: 'kvdgktrh',
 				}
 			})(),
-			// 首页
+			// 日签
 			{
-				path: '/',
+				alias: '/',
+				path: '/home',
 				name: 'Home',
 				components: {
 					default: () => import('@/views/Home.vue'),
-					footer: () => import('@/components/app/jzm-tab-bar.vue'),
-				},
-				children: [
-					{
-						path: '',
-						name: 'HomeNice',
-						component: () => import('@/views/Home/Nice.vue'),
-					},
-					{
-						path: 'index/newest',
-						name: 'HomeNewest',
-						component: () => import('@/views/Home/Nice.vue'),
-					},
-					{
-						path: 'index/popular',
-						name: 'HomePopular',
-						component: () => import('@/views/Home/Popular.vue'),
-					},
-					{
-						path: 'index/rank',
-						name: 'HomeRank',
-						component: () => import('@/views/Home/Rank.vue'),
-					},
-				]
-
-			},
-			// 日签
-			{
-				path: '/daysign',
-				name: 'Daysign',
-				components: {
-					default: () => import('@/views/DaySign.vue'),
-					footer: () => import('@/components/app/jzm-tab-bar.vue'),
-				},
-			},
-			// 分类
-			{
-				path: '/type',
-				name: 'Dype',
-				components: {
-					default: () => import('@/views/Type/Index.vue'),
-					footer: () => import('@/components/app/jzm-tab-bar.vue'),
-				},
-			},
-			// 我的
-			{
-				path: '/my',
-				name: 'My',
-				components: {
-					default: () => import('@/views/My/Index.vue'),
 					footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
 			},

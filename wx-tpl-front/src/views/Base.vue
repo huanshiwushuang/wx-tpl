@@ -27,16 +27,13 @@ export default {
     data() {
         return {};
     },
+    watch: {
+        "$store.uniapp.state.receiveData"() {
+            // switch (newValue.event) {
+            // }
+        },
+    },
     created() {
-        const that = this;
-
-        // 确保 onload 触发之后-才允许用户操作-否则在小程序端历史记录会有异常
-        this.$toast.loading({
-            message: "加载中",
-            forbidClick: true,
-            duration: 0,
-        });
-
         Promise.all([
             new Promise((resolve, reject) => {
                 // 如果是小程序
@@ -67,7 +64,6 @@ export default {
             }),
             new Promise((resolve) => {
                 window.addEventListener("load", function () {
-                    that.$toast.clear();
                     resolve();
                 });
             }),
@@ -75,8 +71,19 @@ export default {
             if (window.uni) {
                 // 向 uniapp 发送数据
                 this.$store.uniapp.mutations.postData({
-                    event: "load",
-                    title: "同步状态",
+                    // 只能用 ES5 语法-函数的 this 和底层对象都是 uniapp 的 globalThis
+                    // uni 和 vm 是 globalThis 的属性
+                    eval: function () {
+                        uni.showLoading({
+                            mask: true,
+                            title: "同步数据",
+                        });
+
+                        setTimeout(function () {
+                            uni.navigateBack({});
+                            uni.hideLoading();
+                        }, 1000);
+                    }.toString(),
                 });
             }
         });

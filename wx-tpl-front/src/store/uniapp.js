@@ -28,10 +28,12 @@ export default {
             this.state.sendData = {
                 ...initSendData(sendData),
             }
-            // 页面跳转-传输数据
-            uni.webView.navigateTo({
-                url: `/pages/index/transfer?_transfer=${this.getters.sendDataEncoded}`,
-            });
+            if (window.uni) {
+                // 页面跳转-传输数据
+                uni.webView.navigateTo({
+                    url: `/pages/index/transfer?_transfer=${this.getters.sendDataEncoded}`,
+                });
+            }
         }
     },
     actions: {

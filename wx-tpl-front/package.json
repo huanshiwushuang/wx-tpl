@@ -63,7 +63,8 @@
     "globals": {
       "uni": true,
       "require": true,
-      "requirejs": true
+      "requirejs": true,
+      "globalThis": true
     }
   },
   "browserslist": [
