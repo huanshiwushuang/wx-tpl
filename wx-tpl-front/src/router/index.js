@@ -30,14 +30,14 @@ const routes = [
 					path: 'kvdgktrh',
 				}
 			})(),
-			// 日签
+			// 首页
 			{
 				alias: '/',
 				path: '/home',
 				name: 'Home',
 				components: {
 					default: () => import('@/views/Home.vue'),
-					footer: () => import('@/components/app/jzm-tab-bar.vue'),
+					// footer: () => import('@/components/app/jzm-tab-bar.vue'),
 				},
 			},
 			// 设置

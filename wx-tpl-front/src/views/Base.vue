@@ -34,6 +34,11 @@ export default {
         },
     },
     created() {
+        this.$toast.loading({
+            message: "加载中",
+            forbidClick: true,
+        });
+
         Promise.all([
             new Promise((resolve, reject) => {
                 // 如果是小程序
@@ -68,24 +73,27 @@ export default {
                 });
             }),
         ]).then(() => {
-            if (window.uni) {
-                // 向 uniapp 发送数据
-                this.$store.uniapp.mutations.postData({
-                    // 只能用 ES5 语法-函数的 this 和底层对象都是 uniapp 的 globalThis
-                    // uni 和 vm 是 globalThis 的属性
-                    eval: function () {
-                        uni.showLoading({
-                            mask: true,
-                            title: "同步数据",
-                        });
+            this.$toast.clear();
+            // 可以通信了-与 uniapp
+            this.$store.uniapp.state.canPostData = true;
+            // if (window.uni) {
+            //     // 向 uniapp 发送数据
+            //     this.$store.uniapp.mutations.postData({
+            //         // 只能用 ES5 语法-函数的 this 和底层对象都是 uniapp 的 globalThis
+            //         // uni 和 vm 是 globalThis 的属性
+            //         eval: function () {
+            //             uni.showLoading({
+            //                 mask: true,
+            //                 title: "同步数据",
+            //             });
 
-                        setTimeout(function () {
-                            uni.navigateBack({});
-                            uni.hideLoading();
-                        }, 1000);
-                    }.toString(),
-                });
-            }
+            //             setTimeout(function () {
+            //                 uni.navigateBack({});
+            //                 uni.hideLoading();
+            //             }, 1000);
+            //         }.toString(),
+            //     });
+            // }
         });
     },
 };

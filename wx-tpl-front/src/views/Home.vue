@@ -1,8 +1,6 @@
 <template>
     <div class="kyjt107e">
-        <button @click="$router.push('/test')">
-            阿斯顿
-        </button>
+        <button @click="$router.push('/test')">阿斯顿</button>
         <div class="h" ref="kyjt0jve_ref"></div>
     </div>
 </template>
@@ -13,12 +11,33 @@ export default {
     data() {
         return {};
     },
+    computed: {
+        uniappStore() {
+            return this.$store.uniapp;
+        },
+    },
+    watch: {
+        "uniappStore.state.canPostData"(newValue) {
+            if (newValue) {
+                this.uniappStore.mutations.postData({
+                    eval: function () {
+                        uni.getLocation({
+                            type: "wgs84",
+                            success: function () {
+                                console.log(arguments);
+                            },
+                        });
+                    }.toString(),
+                });
+            }
+        },
+    },
     methods: {},
     created() {},
     mounted() {
         const map = new window.BMapGL.Map(this.$refs.kyjt0jve_ref);
         const point = new window.BMapGL.Point(116.404, 39.915);
-        map.centerAndZoom(point, 15); 
+        map.centerAndZoom(point, 15);
     },
 };
 </script>

@@ -15,6 +15,8 @@ export default {
         sendData: {},
         // 接收的数据
         receiveData: {},
+        // 是否可以通信了
+        canPostData: false,
     },
     getters: {
         // 编码后的数据
