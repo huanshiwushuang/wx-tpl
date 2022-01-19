@@ -53,6 +53,7 @@ window.addEventListener = function (eventType, handler, options) {
         const _handler = handler;
 
         handler = function () {
+            
             // 如果是返回触发的
             if (isBack) {
                 backCalledCount++;
@@ -66,7 +67,7 @@ window.addEventListener = function (eventType, handler, options) {
             const newTransferString = getTransferString();
 
             calledCount++;
-
+            
             // 如果存在 transfer string
             if (newTransferString && newTransferString !== initTransferString) {
                 const jsonObj = parseTransferString(newTransferString);

@@ -49,7 +49,7 @@ export function setLanguage(lang) {
 			i18n.locale = lang;
 
 			let enUS = import('vant/es/locale/lang/en-US')
-			let enUSCustom = import('./en-us')
+			let enUSCustom = import('./en-US')
 
 			enUS = await enUS
 			enUSCustom = await enUSCustom
@@ -66,7 +66,7 @@ export function setLanguage(lang) {
 			i18n.locale = 'zh-cn';
 
 			let zhCN = import('vant/es/locale/lang/zh-CN')
-			let zhCNCustom = import('./zh-cn')
+			let zhCNCustom = import('./zh-CN')
 
 			zhCN = await zhCN
 			zhCNCustom = await zhCNCustom

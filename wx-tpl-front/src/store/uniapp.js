@@ -15,7 +15,7 @@ export default {
         sendData: {},
         // 接收的数据
         receiveData: {},
-        // 是否可以通信了
+        // 是否可以与 uniapp 通信了
         canPostData: false,
     },
     getters: {

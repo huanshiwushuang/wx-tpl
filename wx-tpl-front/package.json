@@ -64,6 +64,7 @@
       "uni": true,
       "require": true,
       "requirejs": true,
+      "define": true,
       "globalThis": true
     }
   },

@@ -112,9 +112,9 @@ const app = new Vue({
 export default app;
 
 // 是否附加 app 到 window
-if (config.isAttachApp) {
+// if (config.isAttachApp) {
 	window.app = app;
-}
+// }
 // 是否移除 DOM
 if (config.isRemoveDom) {
 	var n = document.querySelectorAll(".data,.node_remove");
