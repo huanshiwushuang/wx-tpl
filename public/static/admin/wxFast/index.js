@@ -4,45 +4,44 @@ const baseUrl = `/static/admin`;
 require.config({
     baseUrl,
     paths: {
-        vue: 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js?noext',
-        httpVueLoader: 'https://cdn.jsdelivr.net/npm/http-vue-loader@1.4.2/src/httpVueLoader.min',
-        lodash: 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js?noext',
-        axios: 'https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js?noext',
-        vuex: 'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js?noext',
-        html5parser: 'https://cdn.jsdelivr.net/npm/html5parser@2.0.2/dist/html5parser.umd',
-        'js-cookie': 'https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js?noext',
-        less: 'https://cdn.jsdelivr.net/npm/less@4.1.1/dist/less.min.js?noext',
-        ELEMENT: 'wxFast/modules/element-ui/index.js?noext',
-        'lz-string': 'https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js?noext',
+        vue: `wxFast/assets/js/vue.min.js?noext`,
+        httpVueLoader: `wxFast/assets/js/httpVueLoader.min.js?noext`,
+        lodash: `wxFast/assets/js/lodash.min.js?noext`,
+        axios: `wxFast/assets/js/axios.min.js?noext`,
+        vuex: `wxFast/assets/js/vuex.min.js?noext`,
+        html5parser: `wxFast/assets/js/html5parser.umd.js?noext`,
+        'js-cookie': `wxFast/assets/js/js.cookie.min.js?noext`,
+        less: `wxFast/assets/js/less.min.js?noext`,
+        ELEMENT: `wxFast/modules/element-ui/index.js?noext`,
+        'lz-string': `wxFast/assets/js/lz-string.min.js?noext`,
         // ******************************************************************
-        '@vue/composition-api': 'https://cdn.jsdelivr.net/npm/@vue/composition-api@1.0.5?noext',
-        'vue-demi': 'https://cdn.jsdelivr.net/npm/vue-demi@0.12.1/lib/index.iife.min.js?noext',
-        echarts: 'https://cdn.jsdelivr.net/npm/echarts@5.1.2?noext',
-        'vue-echarts': 'https://cdn.jsdelivr.net/npm/vue-echarts@6.0.0/dist/index.umd.js?noext',
+        '@vue/composition-api': `wxFast/assets/js/composition-api.js?noext`,
+        'vue-demi': `wxFast/assets/js/vue-demi.js?noext`,
+        echarts: `wxFast/assets/js/echarts.min.js?noext`,
+        'vue-echarts': `wxFast/assets/js/vue-echarts/index.umd.js?noext`,
         // ******************************************************************
-        utils: 'wxFast/utils',
-        data: 'wxFast/data',
+        utils: `wxFast/utils`,
+        data: `wxFast/data`,
         // 移动
-        // https://www.jsdelivr.com/package/npm/moveable?path=dist
-        moveable: 'https://cdn.jsdelivr.net/npm/moveable@0.27.2/dist/moveable.js?noext',
+        moveable: `wxFast/assets/js/moveable.js?noext`,
         // 拖动
-        vuedraggable: 'https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.umd.min.js?noext',
-        sortablejs: 'https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js?noext',
+        vuedraggable: `wxFast/assets/js/vuedraggable.umd.min.js?noext`,
+        sortablejs: `wxFast/assets/js/Sortable.min.js?noext`,
     },
     map: {
         '*': {
-            'css': 'https://cdn.jsdelivr.net/npm/require-css@0.1.10/css.min.js',
+            'css': `assets/js/css.min.js`,
         }
     },
     shim: {
         'vue': {
-            exports: 'Vue',
+            exports: `Vue`,
             deps: [
                 'css!wxFast/assets/css/class.css',
             ]
         },
         'vue-demi': {
-            exports: 'VueDemi',
+            exports: `VueDemi`,
         },
         'ELEMENT': {
             deps: [
@@ -204,7 +203,7 @@ define('wx-ELEMENT', () => {
             (async () => {
                 let Vue = await VuePromise;
                 ELEMENT.install(Vue, {
-                    size: 'mini',
+                    size: `mini`,
                     zIndex: 2000,
                 });
                 resolve();
