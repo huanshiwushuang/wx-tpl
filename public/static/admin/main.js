@@ -19,13 +19,13 @@ require.config({
 	},
 	map: {
 		'*': {
-			'css': 'https://cdn.jsdelivr.net/npm/require-css@0.1.10/css.min.js'
+			'css': '/static/admin/assets/js/css.min.js'
 		}
 	},
 	shim: {
 		nprogress: {
 			deps: [
-				'css!https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css',
+				'css!/static/admin/assets/css/nprogress.css',
 			]
 		},
 		chemdraw: {
