@@ -1,6 +1,7 @@
 <template>
     <div class="kyjt107e">
         <button @click="getUserProfile">获取用户信息</button>
+        <button @click="getUserPhone">获取用户手机号</button>
         <div class="h" ref="kymbm93t_ref"></div>
     </div>
 </template>
@@ -55,6 +56,14 @@ export default {
                 {
                     event: "kymmuxrn_getUserProfileFail",
                     callback: this.getUserProfileFail,
+                },
+                {
+                    event: "kymo40x4_getUserPhoneSuccess",
+                    callback: this.getUserPhoneSuccess,
+                },
+                {
+                    event: "kymo42n8_getUserPhoneFail",
+                    callback: this.getUserPhoneFail,
                 },
             ].forEach((v) => {
                 this.$root.$on(v.event, v.callback);
@@ -167,6 +176,56 @@ export default {
         },
         getUserProfileFail() {
             this.$toast.fail("获取用户信息失败");
+        },
+        // 获取用户手机号
+        getUserPhone() {
+            this.$store.uniapp.mutations.postData({
+                eval: function () {
+                    var window = this;
+                    var vm = window.vm;
+                    // var uni = window.uni;
+
+                    vm.$refs.modal.showModal() // 显示
+
+                    // uni.showModal({
+                    //     content: "应用将获取您的手机号",
+                    //     showCancel: false,
+                    //     success: function (res) {
+                    //         if (res.confirm) {
+                    //             uni.getUserProfile({
+                    //                 desc: "仅用于本应用功能实现",
+                    //                 success: function (data) {
+                    //                     console.log(data);
+
+                    //                     vm.$store.pages.index.index.mutations.postData(
+                    //                         {
+                    //                             event: "kymo40x4_getUserPhoneSuccess",
+                    //                             data,
+                    //                         }
+                    //                     );
+                    //                 },
+                    //                 fail: function () {
+                    //                     vm.$store.pages.index.index.mutations.postData(
+                    //                         {
+                    //                             event: "kymo42n8_getUserPhoneFail",
+                    //                         }
+                    //                     );
+                    //                 },
+                    //             });
+                    //         }
+                    //     },
+                    //     complete: function () {
+                    //         // uni.navigateBack({});
+                    //     },
+                    // });
+                }.toString(),
+            });
+        },
+        getUserPhoneSuccess() {
+            this.$toast.success("获取用户手机号成功");
+        },
+        getUserPhoneFail() {
+            this.$toast.fail("获取用户手机号失败");
         },
     },
     created() {
