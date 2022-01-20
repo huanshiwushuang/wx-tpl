@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d229be6"],{df6d:function(n,c,d){"use strict";d.r(c),c["default"]={kv1s0cif:"我是中文"}}}]);
-//# sourceMappingURL=chunk-2d229be6.e37bf015.js.map

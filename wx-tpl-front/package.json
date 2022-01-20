@@ -65,7 +65,8 @@
       "require": true,
       "requirejs": true,
       "define": true,
-      "globalThis": true
+      "globalThis": true,
+      "BMapGL": true
     }
   },
   "browserslist": [

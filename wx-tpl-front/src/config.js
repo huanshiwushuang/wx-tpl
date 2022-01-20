@@ -5,23 +5,21 @@ window.requirejs.config({
     paths: {
         jweixin: 'https://res.wx.qq.com/open/js/jweixin-1.4.0.js?noext',
         uniWebview: 'https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js?noext',
-        amap: 'https://webapi.amap.com/loader.js?noext',
     }
 })
-// 
-const _amd = window.define.amd;
-
-Object.defineProperties(window.define, {
-    amd: {
-        get() {
-            // 防止与高德冲突
-            if (/amap\.com/.test(document.currentScript.src)) {
-                return false;
-            }
-            return _amd;
-        }
-    }
-})
+// 防止某些库与 requirejs 冲突
+// const _amd = window.define.amd;
+// Object.defineProperties(window.define, {
+//     amd: {
+//         get() {
+//             // 防止与高德 jssdk 冲突
+//             if (/amap\.com\/maps/.test(document.currentScript.src)) {
+//                 return false;
+//             }
+//             return _amd;
+//         }
+//     }
+// })
 
 
 const res = {

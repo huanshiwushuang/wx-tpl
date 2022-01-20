@@ -1,11 +1,13 @@
 <template>
     <div class="kyjt107e">
         <button @click="$router.push('/test')">阿斯顿</button>
-        <div class="h" id="container"></div>
+        <div class="h" ref="kymbm93t_ref"></div>
     </div>
 </template>
 
 <script>
+import helper from "@/utils/helper";
+
 export default {
     name: "Home",
     data() {
@@ -22,11 +24,13 @@ export default {
                         var vm = window.vm;
                         var uni = window.uni;
 
+                        uni.showLoading({
+                            title: "正在定位",
+                        });
+
                         uni.getLocation({
                             type: "wgs84",
                             success: function (data) {
-                                uni.navigateBack({});
-
                                 vm.$store.pages.index.index.mutations.postData({
                                     event: "kyl4kfu0_getLocationSuccess",
                                     data,
@@ -38,9 +42,7 @@ export default {
                                 });
                             },
                             complete: function () {
-                                // vm.$store.pages.index.index.mutations.postData({
-                                //     event: "kyl79jfm_getLocationComplete",
-                                // });
+                                uni.navigateBack({});
                             },
                         });
                     }.toString(),
@@ -68,12 +70,22 @@ export default {
                 this.$root.$once(v.event, v.callback);
             });
         },
-        getLocationSuccess({ data }) {
-            alert(JSON.stringify(data));
+        async getLocationSuccess({ data }) {
+            // 创建地图
+            this.map = new BMapGL.Map(this.$refs.kymbm93t_ref);
+            // 坐标转换
+            helper.wgs84ToBd09Point(
+                [[data.longitude, data.latitude]],
+                (points) => {
+                    // 初始化地图中心
+                    this.map.centerAndZoom(points[0], 18);
+                    // 创建标注
+                    this.map.addOverlay(new BMapGL.Marker(points[0]));
+                }
+            );
         },
         getLocationFail() {
-            // this.$toast.fail(`定位获取失败`);
-            alert("失败");
+            this.$toast.fail(`定位获取失败，你个 SB`);
         },
         getLocationComplete() {
             alert("完成");
@@ -83,38 +95,12 @@ export default {
         this.initTransferCallback();
     },
     mounted() {
-        requirejs(["amap"], function (AMapLoader) {
-            // 防止与高德地图的 define 函数冲突
-            const _define = window.define;
-            window.define = undefined;
-
-            // 初始化地图
-            AMapLoader.load({
-                key: "a5bd8925749b18a59ac2fab361ae0fa5",
-                version: "2.0",
-                plugins: ["AMap.ToolBar", "AMap.Driving"],
-                AMapUI: {
-                    version: "1.1",
-                    plugins: [],
-                },
-                Loca: {
-                    version: "2.0",
-                },
-            })
-                .then((AMap) => {
-                    this.map = new AMap.Map("container", {
-                        viewMode: "3D",
-                        zoom: 5,
-                        zooms: [2, 22],
-                        center: [116.397428, 39.90923],
-                    });
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-
-            window.define = _define;
-        });
+        // this.getLocationSuccess({
+        //     data: {
+        //         longitude: 116.404,
+        //         latitude: 39.915,
+        //     },
+        // });
     },
 };
 </script>
