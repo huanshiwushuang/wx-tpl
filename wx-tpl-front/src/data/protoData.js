@@ -7,10 +7,6 @@ import request from '../request';
 import { str as toolsStr } from '../utils/tools'
 // 自定义访 vuex store
 import store from '../store';
-// vant
-import {
-    Toast,
-} from 'vant';
 
 export default {
     $vue: Vue,
@@ -22,6 +18,5 @@ export default {
     $post: request.post,
     $strEncode: toolsStr.encode,
     $strDecode: toolsStr.decode,
-    $toast: Toast,
     $store: store,
 }
