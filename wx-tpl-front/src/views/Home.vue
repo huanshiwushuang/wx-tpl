@@ -140,7 +140,9 @@ export default {
                     vm.showModal({
                         content: "应用将获取您的个人信息",
                         confirm: function () {
-                            uni.showLoading();
+                            uni.showLoading({
+                                title: '请求中'
+                            });
 
                             uni.getUserProfile({
                                 desc: "仅用于本应用功能实现",
@@ -199,7 +201,9 @@ export default {
                     vm.showModal({
                         content: "应用将获取您的手机号",
                         confirm: function () {
-                            uni.showLoading();
+                            uni.showLoading({
+                                title: '请求中'
+                            });
                         },
                     });
                 }.toString(),
