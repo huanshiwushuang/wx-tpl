@@ -59,10 +59,6 @@ export default {
                     callback: this.getUserProfileFail,
                 },
                 {
-                    event: "kymo40x4_getUserPhoneComplete",
-                    callback: this.getUserPhoneComplete,
-                },
-                {
                     event: "kyo61uq2_getWeRunDataSuccess",
                     callback: this.getWeRunDataSuccess,
                 },
@@ -185,6 +181,10 @@ export default {
         },
         // 获取用户手机号
         getUserPhone() {
+            this.$root.$once("kymo40x4", () => {
+                this.$toast(`获取手机号的回调触发`);
+            });
+
             this.$store.uniapp.mutations.postData({
                 eval: function () {
                     var window = this;
@@ -195,10 +195,9 @@ export default {
                         "open-type": "getPhoneNumber",
                         getphonenumber: function (data) {
                             vm.$store.pages.index.index.mutations.postData({
-                                event: "kymo40x4_getUserPhoneComplete",
+                                event: "kymo40x4",
                                 data,
                             });
-
                             uni.navigateBack();
                         },
                     });
@@ -213,9 +212,6 @@ export default {
                     });
                 }.toString(),
             });
-        },
-        getUserPhoneComplete() {
-            this.$toast(`获取手机号的回调触发`);
         },
         // 获取微信运动数据
         getWeRunData() {
