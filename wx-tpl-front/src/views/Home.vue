@@ -61,10 +61,6 @@ export default {
                     event: "kymo40x4_getUserPhoneComplete",
                     callback: this.getUserPhoneComplete,
                 },
-                {
-                    event: "kymo42n8_getUserPhoneFail",
-                    callback: this.getUserPhoneFail,
-                },
             ].forEach((v) => {
                 this.$root.$on(v.event, v.callback);
             });
