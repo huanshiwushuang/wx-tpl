@@ -58,8 +58,8 @@ export default {
                     callback: this.getUserProfileFail,
                 },
                 {
-                    event: "kymo40x4_getUserPhoneSuccess",
-                    callback: this.getUserPhoneSuccess,
+                    event: "kymo40x4_getUserPhoneComplete",
+                    callback: this.getUserPhoneComplete,
                 },
                 {
                     event: "kymo42n8_getUserPhoneFail",
@@ -137,35 +137,34 @@ export default {
                     var vm = window.vm;
                     var uni = window.uni;
 
-                    uni.showModal({
+                    vm.showModal({
                         content: "应用将获取您的个人信息",
-                        showCancel: false,
-                        success: function (res) {
-                            if (res.confirm) {
-                                uni.getUserProfile({
-                                    desc: "仅用于本应用功能实现",
-                                    success: function (data) {
-                                        console.log(data);
+                        confirm: function () {
+                            uni.showLoading();
 
-                                        vm.$store.pages.index.index.mutations.postData(
-                                            {
-                                                event: "kymmu4hc_getUserProfileSuccess",
-                                                data,
-                                            }
-                                        );
-                                    },
-                                    fail: function () {
-                                        vm.$store.pages.index.index.mutations.postData(
-                                            {
-                                                event: "kymmuxrn_getUserProfileFail",
-                                            }
-                                        );
-                                    },
-                                });
-                            }
-                        },
-                        complete: function () {
-                            uni.navigateBack({});
+                            uni.getUserProfile({
+                                desc: "仅用于本应用功能实现",
+                                success: function (data) {
+                                    console.log(data);
+
+                                    vm.$store.pages.index.index.mutations.postData(
+                                        {
+                                            event: "kymmu4hc_getUserProfileSuccess",
+                                            data,
+                                        }
+                                    );
+                                },
+                                fail: function () {
+                                    vm.$store.pages.index.index.mutations.postData(
+                                        {
+                                            event: "kymmuxrn_getUserProfileFail",
+                                        }
+                                    );
+                                },
+                                complete: function () {
+                                    uni.navigateBack();
+                                },
+                            });
                         },
                     });
                 }.toString(),
@@ -183,49 +182,31 @@ export default {
                 eval: function () {
                     var window = this;
                     var vm = window.vm;
-                    // var uni = window.uni;
+                    var uni = window.uni;
 
-                    vm.$refs.modal.showModal() // 显示
+                    vm.setOKButton({
+                        "open-type": "getPhoneNumber",
+                        getphonenumber: function (data) {
+                            vm.$store.pages.index.index.mutations.postData({
+                                event: "kymo40x4_getUserPhoneComplete",
+                                data,
+                            });
 
-                    // uni.showModal({
-                    //     content: "应用将获取您的手机号",
-                    //     showCancel: false,
-                    //     success: function (res) {
-                    //         if (res.confirm) {
-                    //             uni.getUserProfile({
-                    //                 desc: "仅用于本应用功能实现",
-                    //                 success: function (data) {
-                    //                     console.log(data);
+                            uni.navigateBack();
+                        },
+                    });
 
-                    //                     vm.$store.pages.index.index.mutations.postData(
-                    //                         {
-                    //                             event: "kymo40x4_getUserPhoneSuccess",
-                    //                             data,
-                    //                         }
-                    //                     );
-                    //                 },
-                    //                 fail: function () {
-                    //                     vm.$store.pages.index.index.mutations.postData(
-                    //                         {
-                    //                             event: "kymo42n8_getUserPhoneFail",
-                    //                         }
-                    //                     );
-                    //                 },
-                    //             });
-                    //         }
-                    //     },
-                    //     complete: function () {
-                    //         // uni.navigateBack({});
-                    //     },
-                    // });
+                    vm.showModal({
+                        content: "应用将获取您的手机号",
+                        confirm: function () {
+                            uni.showLoading();
+                        },
+                    });
                 }.toString(),
             });
         },
-        getUserPhoneSuccess() {
-            this.$toast.success("获取用户手机号成功");
-        },
-        getUserPhoneFail() {
-            this.$toast.fail("获取用户手机号失败");
+        getUserPhoneComplete() {
+            this.$toast(`获取手机号的回调触发`);
         },
     },
     created() {
