@@ -2,6 +2,7 @@
     <div class="kyjt107e">
         <button @click="getUserProfile">获取用户信息</button>
         <button @click="getUserPhone">获取用户手机号</button>
+        <button @click="getWeRunData">获取微信运动步数</button>
         <div class="h" ref="kymbm93t_ref"></div>
     </div>
 </template>
@@ -60,6 +61,14 @@ export default {
                 {
                     event: "kymo40x4_getUserPhoneComplete",
                     callback: this.getUserPhoneComplete,
+                },
+                {
+                    event: "kyo61uq2_getWeRunDataSuccess",
+                    callback: this.getWeRunDataSuccess,
+                },
+                {
+                    event: "kyo63epl_getWeRunDataFail",
+                    callback: this.getWeRunDataFail,
                 },
             ].forEach((v) => {
                 this.$root.$on(v.event, v.callback);
@@ -137,7 +146,7 @@ export default {
                         content: "应用将获取您的个人信息",
                         confirm: function () {
                             uni.showLoading({
-                                title: '请求中'
+                                title: "请求中",
                             });
 
                             uni.getUserProfile({
@@ -198,7 +207,7 @@ export default {
                         content: "应用将获取您的手机号",
                         confirm: function () {
                             uni.showLoading({
-                                title: '请求中'
+                                title: "请求中",
                             });
                         },
                     });
@@ -207,6 +216,46 @@ export default {
         },
         getUserPhoneComplete() {
             this.$toast(`获取手机号的回调触发`);
+        },
+        // 获取微信运动数据
+        getWeRunData() {
+            this.$store.uniapp.mutations.postData({
+                eval: function () {
+                    var window = this;
+                    var uni = window.uni;
+                    var vm = window.vm;
+                    var wx = window.wx;
+
+                    uni.showLoading({
+                        title: "加载中",
+                    });
+
+                    wx.getWeRunData({
+                        success: function (data) {
+                            console.log(data);
+                            vm.$store.pages.index.index.mutations.postData({
+                                event: "kyo61uq2_getWeRunDataSuccess",
+                                data,
+                            });
+                        },
+                        fail: function () {
+                            vm.$store.pages.index.index.mutations.postData({
+                                event: "kyo63epl_getWeRunDataFail",
+                            });
+                        },
+                        complete: function () {
+                            uni.navigateBack();
+                        },
+                    });
+                }.toString(),
+            });
+        },
+        getWeRunDataSuccess({ data }) {
+            this.$toast(`获取微信运动数据成功`);
+            console.log(data);
+        },
+        getWeRunDataFail() {
+            this.$toast(`获取微信运动数据失败`);
         },
     },
     created() {
